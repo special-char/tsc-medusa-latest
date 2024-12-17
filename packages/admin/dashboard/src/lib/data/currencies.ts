@@ -449,7 +449,7 @@ export const currencies: Record<string, CurrencyInfo> = {
     code: "MUR",
     name: "Mauritian Rupee",
     symbol_native: "MURs",
-    decimal_digits: 0,
+    decimal_digits: 2,
   },
   MXN: {
     code: "MXN",

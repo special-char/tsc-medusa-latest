@@ -3069,6 +3069,9 @@
         },
         "recipient": {
           "type": "string"
+        },
+        "giftTemplates": {
+          "type": "string"
         }
       },
       "required": [
@@ -3087,7 +3090,8 @@
         "currentBalance",
         "initialBalance",
         "personalMessage",
-        "recipient"
+        "recipient",
+        "giftTemplates"
       ],
       "additionalProperties": false
     },

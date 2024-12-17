@@ -817,8 +817,10 @@
     "currentBalance": "Current balance",
     "initialBalance": "Initial balance",
     "personalMessage": "Personal message",
-    "recipient": "Recipient"
+    "recipient": "Recipient",
+    "giftTemplates": "Gift Templates"
   },
+
   "customers": {
     "domain": "Customers",
     "list": {
