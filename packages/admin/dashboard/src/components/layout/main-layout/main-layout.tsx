@@ -5,6 +5,9 @@ import {
   CogSixTooth,
   CurrencyDollar,
   EllipsisHorizontal,
+  Gift,
+  ListBullet,
+  ListCheckbox,
   MagnifyingGlass,
   MinusMini,
   OpenRectArrowOut,
@@ -249,6 +252,16 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <CurrencyDollar />,
       label: t("priceLists.domain"),
       to: "/price-lists",
+    },
+    {
+      icon: <Gift />,
+      label: t("giftCards.domain"),
+      to: "/gift-cards",
+    },
+    {
+      icon: <ListCheckbox />,
+      label: t("giftCards.giftTemplates"),
+      to: "/gift-templates",
     },
   ]
 }
