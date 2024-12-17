@@ -123,7 +123,7 @@ export const GiftTemplateTable = () => {
   return (
     <Container className="overflow-scroll p-0">
       <div className="flex items-center justify-between px-6 py-4">
-        <Heading level="h2">{t("giftTemplates.label")}</Heading>
+        <Heading level="h2">{t("giftCards.giftTemplates")}</Heading>
         <div className="flex items-center justify-center gap-x-2">
           <Button size="small" variant="primary" asChild>
             <Link to="create">Add Template</Link>
