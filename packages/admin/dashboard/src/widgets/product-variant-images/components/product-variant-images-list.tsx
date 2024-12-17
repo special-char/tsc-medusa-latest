@@ -1,0 +1,125 @@
+import { useState } from "react"
+import { Button, DropdownMenu } from "@medusajs/ui"
+import {
+  EllipsisHorizontal,
+  PencilSquare,
+  ThumbnailBadge,
+} from "@medusajs/icons"
+import VariantsImagesModal from "./variants-images-modal"
+import { CustomProduct, CustomProductVariant } from "../../../types/custom"
+
+const EmptyImage = ({ text = "No images..." }) => {
+  return (
+    <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px] grid justify-center items-center">
+      <span className="font-sans txt-compact-small">{text}</span>
+    </div>
+  )
+}
+
+const ProductVariantImagesList = ({
+  product,
+  refetchData,
+}: {
+  product: CustomProduct
+  refetchData: () => void
+}) => {
+  const [openedVariant, setOpenedVariant] =
+    useState<CustomProductVariant | null>(null)
+  const [openedDialogType, setOpenedDialogType] = useState<
+    "media" | "thumbnail" | null
+  >(null)
+
+  const handleClose = () => {
+    setOpenedVariant(null)
+    setOpenedDialogType(null)
+    refetchData()
+  }
+
+  return (
+    <div className="divide-y">
+      {product?.variants?.map((variant) => {
+        return (
+          <div key={variant.id} className="mt-3 w-full py-2 px-6">
+            <div className="flex items-center">
+              <div className="inter-base-semibold flex-1">{variant.title}</div>
+              <DropdownMenu>
+                <DropdownMenu.Trigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="small"
+                    className="w-6 h-6 p-0"
+                  >
+                    <EllipsisHorizontal />
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Item
+                    onClick={() => {
+                      setOpenedVariant(variant)
+                      setOpenedDialogType("thumbnail")
+                    }}
+                    className="gap-x-2"
+                  >
+                    <PencilSquare className="text-ui-fg-subtle" />
+                    Edit Thumbnail
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item
+                    onClick={() => {
+                      setOpenedVariant(variant)
+                      setOpenedDialogType("media")
+                    }}
+                    className="gap-x-2"
+                  >
+                    <PencilSquare className="text-ui-fg-subtle" />
+                    Edit Media
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu>
+            </div>
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-4 py-2">
+              {variant?.variant_images?.thumbnail ? (
+                <div className="relative shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]">
+                  <ThumbnailBadge className="absolute top-2 left-2" />
+                  <img
+                    src={variant?.variant_images?.thumbnail}
+                    alt="thumbnail"
+                    className="size-full object-cover"
+                  />
+                </div>
+              ) : (
+                <EmptyImage text="No thumbnail" />
+              )}
+              {variant?.variant_images?.images?.length
+                ? variant?.variant_images?.images.map(
+                    (image: string, index: number) => (
+                      <div
+                        key={image}
+                        className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]"
+                      >
+                        <img
+                          src={image}
+                          alt={`image-${index}`}
+                          className="size-full object-cover"
+                        />
+                      </div>
+                    )
+                  )
+                : [1, 2, 3].map((_, index) => <EmptyImage key={index} />)}
+            </div>
+          </div>
+        )
+      })}
+      {openedDialogType && openedVariant && (
+        <VariantsImagesModal
+          product={product}
+          variant={openedVariant}
+          open={!!openedVariant}
+          onClose={handleClose}
+          type={openedDialogType}
+        />
+      )}
+    </div>
+  )
+}
+
+export default ProductVariantImagesList
