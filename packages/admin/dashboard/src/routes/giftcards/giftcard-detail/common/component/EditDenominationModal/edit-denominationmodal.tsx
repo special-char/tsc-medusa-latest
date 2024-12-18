@@ -143,11 +143,16 @@ export const EditDenominationModal = () => {
         },
         { title: "", values: [] } as { title: string; values: string[] }
       )
-      // if (optionsData) {
-      //   optionsData.values = optionsData?.values.filter(
-      //     (value) => !amounts.includes(value)
-      //   )
-      // }
+      if (
+        amounts[0] !==
+          (data.denominations.defaultDenomination.amount / 100).toString() &&
+        optionsData
+      ) {
+        optionsData.values = optionsData?.values.filter(
+          (value) => !amounts.includes(value)
+        )
+      }
+
       const variantsData = {
         options: {},
         prices: [] as Record<string, any>,
@@ -176,6 +181,7 @@ export const EditDenominationModal = () => {
           })
         }
       })
+
       if (product?.id && product?.options?.[0]?.id && optionsData) {
         await mutateAsync({
           id: product?.options?.[0]?.id,

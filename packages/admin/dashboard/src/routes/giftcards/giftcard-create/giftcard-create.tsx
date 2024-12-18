@@ -93,20 +93,22 @@ export const GiftCardCreate = () => {
 
   const onSubmit = async (data: FormValues) => {
     const formData = new FormData()
-    formData.append("files", data.thumbnail.file)
     let thumbnailUrl: string | null = null
-    const response = await fetch(`${__BACKEND_URL__}/admin/uploads`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
+    if (data.thumbnail) {
+      formData.append("files", data.thumbnail.file)
+      const response = await fetch(`${__BACKEND_URL__}/admin/uploads`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      })
 
-    if (!response.ok) {
-      throw new Error("Failed to upload images")
+      if (!response.ok) {
+        throw new Error("Failed to upload images")
+      }
+
+      const uploadData = await response.json()
+      thumbnailUrl = uploadData.files[0].url
     }
-
-    const uploadData = await response.json()
-    thumbnailUrl = uploadData.files[0].url
 
     const variants = data.denominations.map(
       (denomination: any, index: number) => ({
