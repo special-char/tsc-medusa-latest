@@ -982,6 +982,40 @@ export const RouteMap: RouteObject[] = [
             //   },
             // ],
           },
+          {
+            path: "/blogs",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "Blogs",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/blogs/blog-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("../../routes/blogs/blog-create"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                errorElement: <ErrorBoundary />,
+                lazy: () => import("../../routes/blogs/blog-edit"),
+                children: [
+                  {
+                    children: [
+                      {
+                        path: "blog-edit",
+                        lazy: () => import("../../routes/blogs/blog-edit"),
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
           ...RouteExtensions,
         ],
       },

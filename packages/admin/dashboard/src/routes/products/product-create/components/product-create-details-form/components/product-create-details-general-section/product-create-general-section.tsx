@@ -1,10 +1,11 @@
-import { Input, Textarea } from "@medusajs/ui"
+import { Input } from "@medusajs/ui"
 import { UseFormReturn } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
 import { Form } from "../../../../../../../components/common/form"
 import { HandleInput } from "../../../../../../../components/inputs/handle-input"
 import { ProductCreateSchemaType } from "../../../../types"
+import CustomMarkdownEdit from "../../../../../../../components/custom/components/form/CustomMarkdownEdit"
 
 type ProductCreateGeneralSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
@@ -73,14 +74,19 @@ export const ProductCreateGeneralSection = ({
       <Form.Field
         control={form.control}
         name="description"
-        render={({ field }) => {
+        render={({ field: { value, onChange, onBlur } }) => {
           return (
             <Form.Item>
               <Form.Label optional>
                 {t("products.fields.description.label")}
               </Form.Label>
               <Form.Control>
-                <Textarea {...field} placeholder="A warm and cozy jacket" />
+                <CustomMarkdownEdit
+                  value={value}
+                  onChange={onChange}
+                  name="description"
+                  onBlur={onBlur}
+                />
               </Form.Control>
             </Form.Item>
           )

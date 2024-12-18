@@ -6,10 +6,10 @@ import {
   CurrencyDollar,
   EllipsisHorizontal,
   Gift,
-  ListBullet,
   ListCheckbox,
   MagnifyingGlass,
   MinusMini,
+  Newspaper,
   OpenRectArrowOut,
   ReceiptPercent,
   ShoppingCart,
@@ -262,6 +262,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ListCheckbox />,
       label: t("giftCards.giftTemplates"),
       to: "/gift-templates",
+    },
+    {
+      icon: <Newspaper />,
+      label: "Blogs",
+      to: "/blogs",
     },
   ]
 }
