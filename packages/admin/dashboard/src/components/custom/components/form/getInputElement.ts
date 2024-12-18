@@ -7,6 +7,7 @@ import CustomColorField from "./CustomColorField"
 import ImageUpload from "./ImageUpload"
 import AddDenomination from "./AddDenomination"
 import SelectSalesChannel from "./SelectSalesChannel"
+import RichTextInput from "../../../../routes/faqs/components/rich-text-input"
 
 type InputElementType = React.ComponentType<any>
 
@@ -20,6 +21,8 @@ const getInputElement = (type: string): InputElementType => {
       return Checkbox
     case "markdown-editor":
       return CustomMarkdownEdit
+    case "richText-editor":
+      return RichTextInput
     case "toggle":
       return CustomToggleButton
     case "file-upload":

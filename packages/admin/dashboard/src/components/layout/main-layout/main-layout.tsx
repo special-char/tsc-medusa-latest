@@ -11,6 +11,7 @@ import {
   MinusMini,
   Newspaper,
   OpenRectArrowOut,
+  QuestionMark,
   ReceiptPercent,
   ShoppingCart,
   SquaresPlus,
@@ -267,6 +268,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <Newspaper />,
       label: "Blogs",
       to: "/blogs",
+    },
+    {
+      icon: <QuestionMark />,
+      label: "Faqs",
+      to: "/faqs",
     },
   ]
 }
