@@ -6,6 +6,7 @@ import DynamicForm from "../../../components/custom/components/form/DynamicForm"
 import { backendUrl } from "../../../lib/client"
 import "react-quill/dist/quill.snow.css"
 import { useEffect, useState } from "react"
+import { MetadataField } from "../../../components/custom/components/form/CustomMetaData"
 
 export const FaqCreate = () => {
   const [categories, setCategories] = useState([])
@@ -100,11 +101,24 @@ export const FaqCreate = () => {
       fieldType: "toggle",
       validation: {},
     },
+    metadata: {
+      label: "Metadata",
+      fieldType: "metadata",
+      validation: {},
+    },
   }
 
   const navigate = useNavigate()
 
   const onSubmit = async (data: FieldValues) => {
+    const metadataObject = data.metadata.reduce(
+      (acc: Record<string, string>, item: MetadataField) => {
+        acc[item.key] = item.value
+        return acc
+      },
+      {}
+    )
+
     const raw = {
       title: data.faqTitle,
       content: data.faqContent,
@@ -115,6 +129,7 @@ export const FaqCreate = () => {
       category: {
         title: data.faqCategoryTitle,
       },
+      metadata: metadataObject,
     }
 
     console.log("====================================")
@@ -147,6 +162,7 @@ export const FaqCreate = () => {
       faqCategoryTitle: "",
       faqType: "",
       display_status: false,
+      metadata: [],
     },
   })
 

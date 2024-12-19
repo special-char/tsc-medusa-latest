@@ -9,6 +9,7 @@ import AddDenomination from "./AddDenomination"
 import SelectSalesChannel from "./SelectSalesChannel"
 import CustomCombobox from "./CustomCombobox"
 import CustomRichTextInput from "./CustomRichTextInput"
+import CustomMetaData from "./CustomMetaData"
 
 type InputElementType = React.ComponentType<any>
 
@@ -26,6 +27,8 @@ const getInputElement = (type: string): InputElementType => {
       return CustomRichTextInput
     case "combobox":
       return CustomCombobox
+    case "metadata":
+      return CustomMetaData
     case "toggle":
       return CustomToggleButton
     case "file-upload":
