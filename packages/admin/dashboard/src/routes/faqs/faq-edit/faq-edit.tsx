@@ -3,49 +3,8 @@ import { RouteFocusModal } from "../../../components/modals"
 import { useNavigate, useParams } from "react-router-dom"
 import { FieldValues, useForm } from "react-hook-form"
 import { backendUrl } from "../../../lib/client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-export const faqUpdateSchema = {
-  faqTitle: {
-    label: "Faq Title",
-    fieldType: "input",
-    validation: {
-      required: {
-        value: true,
-        message: "Title is required",
-      },
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Title should not contain only numbers",
-      },
-    },
-  },
-  faqContent: {
-    label: "Faq Content",
-    fieldType: "richText-editor",
-    validation: {
-      required: {
-        value: true,
-        message: "Content is required",
-      },
-    },
-  },
-  faqType: {
-    label: "Faq Type",
-    fieldType: "input",
-    validation: {},
-  },
-  faqCategoryTitle: {
-    label: "Faq Category",
-    fieldType: "input",
-    validation: {
-      required: {
-        value: true,
-        message: "Faq Category is required",
-      },
-    },
-  },
-}
 
 const fetchFaqById = async (id: string) => {
   const response = await fetch(`${backendUrl}/admin/faqs/${id}`, {
@@ -70,7 +29,74 @@ export const FaqEdit = () => {
       faqType: "",
     },
   })
+  const [categories, setCategories] = useState([])
 
+  const LoadFaqCategoriesData = async () => {
+    try {
+      const faqCategoriesResponse = await fetch(
+        `${backendUrl}/admin/faqs/categories`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      )
+      const faqResponseJson = await faqCategoriesResponse.json()
+      setCategories(faqResponseJson?.faqCategories)
+    } catch (error: any) {
+      console.log(`Failed to fetch faq data : ${error}`)
+    }
+  }
+  useEffect(() => {
+    LoadFaqCategoriesData()
+  }, [])
+
+  const optionsForCategory = categories.map((x: any) => {
+    return { value: x.title, label: x.title }
+  })
+  const faqUpdateSchema = {
+    faqTitle: {
+      label: "Faq Title",
+      fieldType: "input",
+      validation: {
+        required: {
+          value: true,
+          message: "Title is required",
+        },
+        pattern: {
+          value: /^(?!^\d+$)^.+$/,
+          message: "Title should not contain only numbers",
+        },
+      },
+    },
+    faqContent: {
+      label: "Faq Content",
+      fieldType: "richText-editor",
+      validation: {
+        required: {
+          value: true,
+          message: "Content is required",
+        },
+      },
+    },
+    faqType: {
+      label: "Faq Type",
+      fieldType: "input",
+      validation: {},
+    },
+    faqCategoryTitle: {
+      label: "Faq Category",
+      fieldType: "combobox",
+      props: {
+        options: optionsForCategory,
+      },
+      validation: {
+        required: {
+          value: true,
+          message: "Faq Category is required",
+        },
+      },
+    },
+  }
   useEffect(() => {
     const loadFaq = async () => {
       try {

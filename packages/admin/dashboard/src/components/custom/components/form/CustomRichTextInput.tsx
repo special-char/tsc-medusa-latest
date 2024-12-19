@@ -7,7 +7,7 @@ interface RichTextProps {
   onChange: (content: string) => void
 }
 
-const RichTextInput: React.FC<RichTextProps> = ({
+const CustomRichTextInput: React.FC<RichTextProps> = ({
   value,
   onChange,
   ...props
@@ -66,4 +66,4 @@ const RichTextInput: React.FC<RichTextProps> = ({
   )
 }
 
-export default RichTextInput
+export default CustomRichTextInput
