@@ -95,6 +95,11 @@ export const FaqCreate = () => {
         },
       },
     },
+    faqDisplayStatus: {
+      label: "Faq Display Status",
+      fieldType: "toggle",
+      validation: {},
+    },
   }
 
   const navigate = useNavigate()
@@ -105,6 +110,7 @@ export const FaqCreate = () => {
       content: data.faqContent,
       type: data.faqType,
       by_admin: true,
+      display_status: data.faqDisplayStatus === true ? "published" : "draft",
       email: data.email,
       category: {
         title: data.faqCategoryTitle,
@@ -140,6 +146,7 @@ export const FaqCreate = () => {
       email: "",
       faqCategoryTitle: "",
       faqType: "",
+      display_status: false,
     },
   })
 
@@ -147,7 +154,7 @@ export const FaqCreate = () => {
     <RouteFocusModal>
       <Toaster />
       <RouteFocusModal.Header />
-      <RouteFocusModal.Body>
+      <RouteFocusModal.Body className="overflow-scroll">
         <div className="w-full p-5">
           <DynamicForm
             form={form}

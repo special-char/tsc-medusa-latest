@@ -6,6 +6,7 @@ import { DateCell } from "../../../../../components/table/table-cells/common/dat
 import { Link, Outlet } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import FaqActions from "../faq.actions/faq.actions"
+import { SquareGreenSolid, SquareGreySolid } from "@medusajs/icons"
 
 export type faqCategoryProps = {
   id: string
@@ -23,6 +24,7 @@ export type FaqProps = {
   content: string
   type: string
   by_admin: boolean
+  display_status: "published" | "draft"
   email: string
   customer_name: string
   metadata: Record<string, any>
@@ -59,50 +61,77 @@ export const FaqListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Sr. No</Table.HeaderCell>
-            <Table.HeaderCell>Title</Table.HeaderCell>
-            <Table.HeaderCell>Type</Table.HeaderCell>
-            <Table.HeaderCell>category</Table.HeaderCell>
-            <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>By Admin</Table.HeaderCell>
-            <Table.HeaderCell>Customer Name</Table.HeaderCell>
-            <Table.HeaderCell>Last Updated</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {faqs
-            ?.sort(
-              (a: FaqProps, b: FaqProps) =>
-                new Date(b.updated_at).getTime() -
-                new Date(a.updated_at).getTime()
-            )
-            .map((faq: FaqProps, index) => {
-              return (
-                <Table.Row
-                  key={faq.id}
-                  className="[&_td:last-child]:w-[1%] [&_td:last-child]:whitespace-nowrap"
-                >
-                  <Table.Cell>{index + 1}</Table.Cell>
-                  <Table.Cell>{faq.title}</Table.Cell>
-                  <Table.Cell>{faq.type}</Table.Cell>
-                  <Table.Cell>{faq.category?.title}</Table.Cell>
-                  <Table.Cell>{faq.email}</Table.Cell>
-                  <Table.Cell>{faq.by_admin.toString()}</Table.Cell>
-                  <Table.Cell>{faq.customer_name}</Table.Cell>
-                  <Table.Cell>
-                    <DateCell date={faq.updated_at} />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <FaqActions faqId={faq.id} />
-                  </Table.Cell>
-                </Table.Row>
+
+      {faqs.length === 0 ? (
+        <div className="flex w-full flex-col items-center justify-center gap-4 py-12 text-center">
+          <h3 className="text-xl font-semibold tracking-tight">
+            No FAQs found
+          </h3>
+          <p className="text-muted-foreground text-sm">
+            Get started by creating your first FAQ to help your users.
+          </p>
+          <Button size="small" variant="secondary" asChild>
+            <Link to="create">{t("actions.create")}</Link>
+          </Button>
+        </div>
+      ) : (
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Sr. No</Table.HeaderCell>
+              <Table.HeaderCell>Title</Table.HeaderCell>
+              <Table.HeaderCell>Type</Table.HeaderCell>
+              <Table.HeaderCell>category</Table.HeaderCell>
+              <Table.HeaderCell>Email</Table.HeaderCell>
+              <Table.HeaderCell>Display Status</Table.HeaderCell>
+              <Table.HeaderCell>Customer Name</Table.HeaderCell>
+              <Table.HeaderCell>Last Updated</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {faqs
+              ?.sort(
+                (a: FaqProps, b: FaqProps) =>
+                  new Date(b.updated_at).getTime() -
+                  new Date(a.updated_at).getTime()
               )
-            })}
-        </Table.Body>
-      </Table>
+              .map((faq: FaqProps, index) => {
+                return (
+                  <Table.Row
+                    key={faq.id}
+                    className="[&_td:last-child]:w-[1%] [&_td:last-child]:whitespace-nowrap"
+                  >
+                    <Table.Cell>{index + 1}</Table.Cell>
+                    <Table.Cell>{faq.title}</Table.Cell>
+                    <Table.Cell>{faq.type}</Table.Cell>
+                    <Table.Cell>{faq.category?.title}</Table.Cell>
+                    <Table.Cell>{faq.email}</Table.Cell>
+                    <Table.Cell>
+                      {faq.display_status === "published" ? (
+                        <div className="flex items-center">
+                          <SquareGreenSolid />
+                          Published
+                        </div>
+                      ) : (
+                        <div className="flex items-center">
+                          <SquareGreySolid />
+                          Draft
+                        </div>
+                      )}
+                    </Table.Cell>
+                    <Table.Cell>{faq.customer_name ?? "-"}</Table.Cell>
+                    <Table.Cell>
+                      <DateCell date={faq.updated_at} />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <FaqActions faqId={faq.id} />
+                    </Table.Cell>
+                  </Table.Row>
+                )
+              })}
+          </Table.Body>
+        </Table>
+      )}
       <Outlet />
     </Container>
   )

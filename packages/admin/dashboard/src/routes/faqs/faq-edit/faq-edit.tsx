@@ -27,6 +27,7 @@ export const FaqEdit = () => {
       faqContent: "",
       faqCategoryTitle: "",
       faqType: "",
+      faqDisplayStatus: false,
     },
   })
   const [categories, setCategories] = useState([])
@@ -96,6 +97,11 @@ export const FaqEdit = () => {
         },
       },
     },
+    faqDisplayStatus: {
+      label: "Faq Display Status",
+      fieldType: "toggle",
+      validation: {},
+    },
   }
   useEffect(() => {
     const loadFaq = async () => {
@@ -106,6 +112,8 @@ export const FaqEdit = () => {
           faqContent: faqData.content || "",
           faqCategoryTitle: faqData.category.title || "",
           faqType: faqData.type || "",
+          faqDisplayStatus:
+            faqData.display_status === "published" ? true : false,
         })
       } catch (error) {
         console.error("Error loading faq:", error)
@@ -120,6 +128,7 @@ export const FaqEdit = () => {
       content: data.faqContent,
       type: data.faqType,
       by_admin: true,
+      display_status: data.faqDisplayStatus === true ? "published" : "draft",
       email: data.email,
       category: {
         title: data.faqCategoryTitle,
@@ -149,7 +158,7 @@ export const FaqEdit = () => {
     <RouteFocusModal>
       <Toaster />
       <RouteFocusModal.Header />
-      <RouteFocusModal.Body>
+      <RouteFocusModal.Body className="overflow-scroll">
         <div className="w-full p-5">
           <DynamicForm
             form={form}
