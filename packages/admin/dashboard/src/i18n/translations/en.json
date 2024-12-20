@@ -1525,7 +1525,8 @@
           "hint": "Whether customers can use this option during checkout."
         },
         "provider": "Fulfillment provider",
-        "profile": "Shipping profile"
+        "profile": "Shipping profile",
+        "fulfillmentOption": "Fulfillment option"
       }
     },
     "serviceZones": {
