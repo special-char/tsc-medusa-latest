@@ -1541,6 +1541,24 @@
       ],
       "additionalProperties": false
     },
+    "notification": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+        "list": {
+          "type": "object",
+          "properties": {
+            "noRecordsMessage": {
+              "type": "string"
+            }
+          },
+          "required": ["noRecordsMessage"],
+          "additionalProperties": false
+        }
+      }
+    },
     "products": {
       "type": "object",
       "properties": {

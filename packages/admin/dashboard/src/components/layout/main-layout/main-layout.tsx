@@ -17,6 +17,7 @@ import {
   SquaresPlus,
   Tag,
   Users,
+  Envelope,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import * as Collapsible from "@radix-ui/react-collapsible"
@@ -273,6 +274,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <QuestionMark />,
       label: "Faqs",
       to: "/faqs",
+    },
+    {
+      icon: <Envelope />,
+      label: t("notification.domain"),
+      to: "/notification",
     },
   ]
 }
