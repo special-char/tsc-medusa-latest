@@ -9,7 +9,9 @@ import {
   ListCheckbox,
   MagnifyingGlass,
   MinusMini,
+  Newspaper,
   OpenRectArrowOut,
+  QuestionMark,
   ReceiptPercent,
   ShoppingCart,
   SquaresPlus,
@@ -262,6 +264,16 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ListCheckbox />,
       label: t("giftCards.giftTemplates"),
       to: "/gift-templates",
+    },
+    {
+      icon: <Newspaper />,
+      label: "Blogs",
+      to: "/blogs",
+    },
+    {
+      icon: <QuestionMark />,
+      label: "Faqs",
+      to: "/faqs",
     },
     {
       icon: <Envelope />,

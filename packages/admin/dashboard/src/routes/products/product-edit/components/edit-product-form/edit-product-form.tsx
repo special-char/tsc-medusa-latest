@@ -1,4 +1,4 @@
-import { Button, Input, Select, Text, Textarea, toast } from "@medusajs/ui"
+import { Button, Input, Select, Text, toast } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 
@@ -15,6 +15,7 @@ import {
   FormExtensionZone,
   useDashboardExtension,
 } from "../../../../../extensions"
+import CustomMarkdownEdit from "../../../../../components/custom/components/form/CustomMarkdownEdit"
 
 type EditProductFormProps = {
   product: HttpTypes.AdminProduct
@@ -201,14 +202,19 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
               <Form.Field
                 control={form.control}
                 name="description"
-                render={({ field }) => {
+                render={({ field: { value, onChange, onBlur } }) => {
                   return (
                     <Form.Item>
                       <Form.Label optional>
                         {t("fields.description")}
                       </Form.Label>
                       <Form.Control>
-                        <Textarea {...field} />
+                        <CustomMarkdownEdit
+                          value={value}
+                          onChange={onChange}
+                          name="description"
+                          onBlur={onBlur}
+                        />
                       </Form.Control>
                       <Form.ErrorMessage />
                     </Form.Item>

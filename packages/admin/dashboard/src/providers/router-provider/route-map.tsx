@@ -1003,6 +1003,74 @@ export const RouteMap: RouteObject[] = [
               },
             ],
           },
+          {
+            path: "/blogs",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "Blogs",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/blogs/blog-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("../../routes/blogs/blog-create"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                errorElement: <ErrorBoundary />,
+                lazy: () => import("../../routes/blogs/blog-edit"),
+                children: [
+                  {
+                    children: [
+                      {
+                        path: "blog-edit",
+                        lazy: () => import("../../routes/blogs/blog-edit"),
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: "/faqs",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "Faqs",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/faqs/faq-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("../../routes/faqs/faq-create"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                errorElement: <ErrorBoundary />,
+                lazy: () => import("../../routes/faqs/faq-edit"),
+                children: [
+                  {
+                    children: [
+                      {
+                        path: "faq-edit",
+                        lazy: () => import("../../routes/faqs/faq-edit"),
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
           ...RouteExtensions,
         ],
       },
