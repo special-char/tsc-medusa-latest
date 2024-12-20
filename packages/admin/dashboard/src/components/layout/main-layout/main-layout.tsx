@@ -6,7 +6,6 @@ import {
   CurrencyDollar,
   EllipsisHorizontal,
   Gift,
-  ListBullet,
   ListCheckbox,
   MagnifyingGlass,
   MinusMini,
@@ -16,6 +15,7 @@ import {
   SquaresPlus,
   Tag,
   Users,
+  Envelope,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import * as Collapsible from "@radix-ui/react-collapsible"
@@ -262,6 +262,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <ListCheckbox />,
       label: t("giftCards.giftTemplates"),
       to: "/gift-templates",
+    },
+    {
+      icon: <Envelope />,
+      label: t("notification.domain"),
+      to: "/notification",
     },
   ]
 }

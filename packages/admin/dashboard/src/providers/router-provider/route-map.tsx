@@ -982,6 +982,27 @@ export const RouteMap: RouteObject[] = [
             //   },
             // ],
           },
+          {
+            path: "/notification",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => t("notification.domain"),
+            },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("../../routes/notification/notification-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () =>
+                      import("../../routes/notification/notification-create"),
+                  },
+                ],
+              },
+            ],
+          },
           ...RouteExtensions,
         ],
       },
