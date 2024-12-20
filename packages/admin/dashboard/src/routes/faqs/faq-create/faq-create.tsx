@@ -101,11 +101,16 @@ export const FaqCreate = () => {
       fieldType: "toggle",
       validation: {},
     },
-    metadata: {
-      label: "Metadata",
-      fieldType: "metadata",
+    faqDefaultOpen: {
+      label: "Default Open",
+      fieldType: "toggle",
       validation: {},
     },
+    // metadata: {
+    //   label: "Metadata",
+    //   fieldType: "metadata",
+    //   validation: {},
+    // },
   }
 
   const navigate = useNavigate()
@@ -123,7 +128,7 @@ export const FaqCreate = () => {
       title: data.faqTitle,
       content: data.faqContent,
       type: data.faqType,
-      by_admin: true,
+      by_admin: data.faqDefaultOpen,
       display_status: data.faqDisplayStatus === true ? "published" : "draft",
       email: data.email,
       category: {
@@ -162,7 +167,8 @@ export const FaqCreate = () => {
       faqCategoryTitle: "",
       faqType: "",
       display_status: false,
-      metadata: [],
+      faqDefaultOpen: false,
+      // metadata: [],
     },
   })
 
