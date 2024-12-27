@@ -11,15 +11,57 @@ import { useComboboxData } from "../../../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../../../lib/client"
 import { CategoryCombobox } from "../../../../../common/components/category-combobox"
 import { ProductCreateSchemaType } from "../../../../types"
+import { useEffect, useState } from "react"
 
 type ProductCreateOrganizationSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
+}
+
+const fetchBrands = async () => {
+  try {
+    const response = await fetch(`${__BACKEND_URL__}/admin/brand`, {
+      method: "GET",
+
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // "x-publishable-api-key": __PUBLISHABLE_KEY__,
+      },
+    })
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || "Failed to fetch brands")
+    }
+    const result = await response.json()
+    return { brands: result.brands }
+  } catch (error) {
+    console.error(error)
+    throw error // Rethrow the error for handling in the component
+  }
 }
 
 export const ProductCreateOrganizationSection = ({
   form,
 }: ProductCreateOrganizationSectionProps) => {
   const { t } = useTranslation()
+  const [brands, setBrands] = useState<{ brands: any[] }>({ brands: [] }) // State for brands
+  const [loadingBrands, setLoadingBrands] = useState(true) // State for loading brands
+
+  useEffect(() => {
+    const fetchBrandsData = async () => {
+      try {
+        const fetchedBrands = await fetchBrands()
+        setBrands(fetchedBrands)
+      } catch (error) {
+        console.error("Failed to fetch brands:", error)
+      } finally {
+        setLoadingBrands(false) // Set loading to false after fetching
+      }
+    }
+
+    fetchBrandsData() // Call the fetch function
+  }, [])
 
   const collections = useComboboxData({
     queryKey: ["product_collections"],
@@ -198,6 +240,30 @@ export const ProductCreateOrganizationSection = ({
                     </ChipGroup>
                   )}
                 </Form.Control>
+              </Form.Item>
+            )
+          }}
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Form.Field
+          control={form.control}
+          name="brand_id"
+          render={({ field }) => {
+            return (
+              <Form.Item>
+                <Form.Label optional>{"Brand"}</Form.Label>
+                <Form.Control>
+                  <Combobox
+                    {...field}
+                    multiple={false}
+                    options={brands.brands.map((brand: any) => ({
+                      label: brand.name,
+                      value: brand.id,
+                    }))}
+                  />
+                </Form.Control>
+                <Form.ErrorMessage />
               </Form.Item>
             )
           }}

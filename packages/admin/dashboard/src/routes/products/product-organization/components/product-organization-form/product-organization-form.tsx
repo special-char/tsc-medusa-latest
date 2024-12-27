@@ -16,9 +16,34 @@ import { useUpdateProduct } from "../../../../../hooks/api/products"
 import { useComboboxData } from "../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../lib/client"
 import { CategoryCombobox } from "../../../common/components/category-combobox"
+import { useEffect, useState } from "react"
 
 type ProductOrganizationFormProps = {
-  product: HttpTypes.AdminProduct
+  product: HttpTypes.AdminProduct | any
+}
+
+const fetchBrands = async () => {
+  try {
+    const response = await fetch(`${__BACKEND_URL__}/admin/brand`, {
+      method: "GET",
+
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // "x-publishable-api-key": __PUBLISHABLE_KEY__,
+      },
+    })
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || "Failed to fetch brands")
+    }
+    const result = await response.json()
+    return { brands: result.brands }
+  } catch (error) {
+    console.error(error)
+    throw error // Rethrow the error for handling in the component
+  }
 }
 
 const ProductOrganizationSchema = zod.object({
@@ -26,6 +51,7 @@ const ProductOrganizationSchema = zod.object({
   collection_id: zod.string().nullable(),
   category_ids: zod.array(zod.string()),
   tag_ids: zod.array(zod.string()),
+  brand_id: zod.string().nullable(),
 })
 
 export const ProductOrganizationForm = ({
@@ -34,6 +60,23 @@ export const ProductOrganizationForm = ({
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const { getFormConfigs, getFormFields } = useDashboardExtension()
+  const [brands, setBrands] = useState<{ brands: any[] }>({ brands: [] }) // State for brands
+  const [loadingBrands, setLoadingBrands] = useState(true) // State for loading brands
+
+  useEffect(() => {
+    const fetchBrandsData = async () => {
+      try {
+        const fetchedBrands = await fetchBrands()
+        setBrands(fetchedBrands)
+      } catch (error) {
+        console.error("Failed to fetch brands:", error)
+      } finally {
+        setLoadingBrands(false) // Set loading to false after fetching
+      }
+    }
+
+    fetchBrandsData() // Call the fetch function
+  }, [])
 
   const configs = getFormConfigs("product", "organize")
   const fields = getFormFields("product", "organize")
@@ -74,6 +117,7 @@ export const ProductOrganizationForm = ({
       collection_id: product.collection_id ?? "",
       category_ids: product.categories?.map((c) => c.id) || [],
       tag_ids: product.tags?.map((t) => t.id) || [],
+      brand_id: product.brand?.id ?? null,
     },
     schema: ProductOrganizationSchema,
     configs: configs,
@@ -87,6 +131,7 @@ export const ProductOrganizationForm = ({
       {
         type_id: data.type_id || null,
         collection_id: data.collection_id || null,
+        brand_id: data.brand_id || null,
         categories: data.category_ids.map((c) => ({ id: c })),
         tags: data.tag_ids?.map((t) => ({ id: t })),
       },
@@ -190,6 +235,28 @@ export const ProductOrganizationForm = ({
                         options={tags.options}
                         onSearchValueChange={tags.onSearchValueChange}
                         searchValue={tags.searchValue}
+                      />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="brand_id"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>{"Brand"}</Form.Label>
+                    <Form.Control>
+                      <Combobox
+                        {...field}
+                        multiple={false}
+                        options={brands.brands.map((brand: any) => ({
+                          label: brand.name,
+                          value: brand.id,
+                        }))}
                       />
                     </Form.Control>
                     <Form.ErrorMessage />
