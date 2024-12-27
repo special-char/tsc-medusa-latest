@@ -16,6 +16,7 @@ import { productLoader } from "./loader"
 import { useDashboardExtension } from "../../../extensions"
 import ProductVariantImagesWidget from "../../../widgets/product-variant-images/product-variant-images"
 import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-details/product-additional-details"
+import ProductSeoWidget from "./components/product-seo"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -77,6 +78,7 @@ export const ProductDetail = () => {
         <ProductSalesChannelSection product={product} />
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
+        <ProductSeoWidget product={product} />
       </TwoColumnPage.Sidebar>
     </TwoColumnPage>
   )
