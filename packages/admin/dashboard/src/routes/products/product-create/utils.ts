@@ -7,7 +7,7 @@ export const normalizeProductFormValues = (
     status: HttpTypes.AdminProductStatus
     regionsCurrencyMap: Record<string, string>
   }
-): HttpTypes.AdminCreateProduct => {
+): HttpTypes.AdminCreateProduct | any => {
   const thumbnail = values.media?.find((media) => media.isThumbnail)?.url
   const images = values.media
     ?.filter((media) => !media.isThumbnail)
@@ -26,6 +26,7 @@ export const normalizeProductFormValues = (
     collection_id: values.collection_id || undefined,
     categories: values.categories.map((id) => ({ id })),
     type_id: values.type_id || undefined,
+    brand_id: values.brand_id || undefined,
     handle: values.handle || undefined,
     origin_country: values.origin_country || undefined,
     material: values.material || undefined,

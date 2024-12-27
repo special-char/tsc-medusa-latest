@@ -250,7 +250,12 @@ export const useProduct = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.product.retrieve(id, query),
+    queryFn: () => {
+      return sdk.admin.product.retrieve(id, {
+        ...query,
+        fields: "brand.*",
+      })
+    },
     queryKey: productsQueryKeys.detail(id, query),
     ...options,
   })
@@ -281,13 +286,22 @@ export const useProducts = (
 
 export const useCreateProduct = (
   options?: UseMutationOptions<
-    HttpTypes.AdminProductResponse,
+    HttpTypes.AdminProductResponse | any,
     FetchError,
-    HttpTypes.AdminCreateProduct
+    HttpTypes.AdminCreateProduct | any
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.create(payload),
+    mutationFn: (payload) => {
+      const { brand_id, ...rest } = payload
+      console.log("🚀 ~ brand_id:", brand_id)
+      return sdk.admin.product.create({
+        ...rest,
+        additional_data: {
+          brand_id,
+        },
+      })
+    },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: productsQueryKeys.lists() })
       // if `manage_inventory` is true on created variants that will create inventory items automatically
@@ -303,13 +317,22 @@ export const useCreateProduct = (
 export const useUpdateProduct = (
   id: string,
   options?: UseMutationOptions<
-    HttpTypes.AdminProductResponse,
+    HttpTypes.AdminProductResponse | any,
     FetchError,
-    HttpTypes.AdminUpdateProduct
+    HttpTypes.AdminUpdateProduct | any
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.admin.product.update(id, payload),
+    mutationFn: (payload) => {
+      console.log("id", id)
+      const { brand_id, ...rest } = payload
+      return sdk.admin.product.update(id, {
+        ...rest,
+        additional_data: {
+          brand_id,
+        },
+      })
+    },
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
         queryKey: productsQueryKeys.lists(),

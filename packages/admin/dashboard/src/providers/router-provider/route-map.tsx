@@ -1591,6 +1591,50 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
+            path: "brand",
+            errorElement: <ErrorBoundary />,
+            element: <Outlet />,
+            handle: {
+              breadcrumb: () => "Brand",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/brand/brand-list"),
+                children: [
+                  {
+                    path: "create",
+                    lazy: () => import("../../routes/brand/brand-create"),
+                  },
+                ],
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component, Breadcrumb, loader } = await import(
+                    "../../routes/brand/brand-detail"
+                  )
+
+                  return {
+                    Component,
+                    loader,
+                    handle: {
+                      breadcrumb: (
+                        match: UIMatch<HttpTypes.AdminProductTypeResponse>
+                      ) => <Breadcrumb {...match} />,
+                    },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("../../routes/brand/brand-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             path: "publishable-api-keys",
             element: <Outlet />,
             handle: {

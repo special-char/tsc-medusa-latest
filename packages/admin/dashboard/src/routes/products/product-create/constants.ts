@@ -32,6 +32,7 @@ const ProductCreateVariantSchema = z.object({
   options: z.record(z.string(), z.string()),
   variant_rank: z.number(),
   prices: z.record(z.string(), optionalFloat).optional(),
+  brand_id: z.string().optional(),
   inventory: z
     .array(
       z.object({
@@ -64,6 +65,7 @@ export const ProductCreateSchema = z
     discountable: z.boolean(),
     type_id: z.string().optional(),
     collection_id: z.string().optional(),
+    brand_id: z.string().optional(),
     categories: z.array(z.string()),
     tags: z.array(z.string()).optional(),
     sales_channels: z
@@ -141,6 +143,7 @@ export const PRODUCT_CREATE_FORM_DEFAULTS: Partial<
       is_default: true,
     },
   ]),
+  brand_id: "",
   enable_variants: false,
   media: [],
   categories: [],
