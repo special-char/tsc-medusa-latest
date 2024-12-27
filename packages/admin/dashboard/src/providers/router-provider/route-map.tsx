@@ -1635,6 +1635,39 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
+            path: "subscription",
+            errorElement: <ErrorBoundary />,
+            element: <Outlet />,
+            handle: {
+              breadcrumb: () => "Subscription",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("../../routes/subscription/subscription-list"),
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component } = await import(
+                    "../../routes/subscription/subscription-detail"
+                  )
+
+                  return {
+                    Component,
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("../../routes/brand/brand-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
             path: "publishable-api-keys",
             element: <Outlet />,
             handle: {
