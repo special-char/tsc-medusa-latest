@@ -8,7 +8,7 @@ import { SectionRow } from "../../../../../components/common/section"
 import { useDashboardExtension } from "../../../../../extensions"
 
 type ProductOrganizationSectionProps = {
-  product: HttpTypes.AdminProduct
+  product: HttpTypes.AdminProduct | any
 }
 
 export const ProductOrganizationSection = ({
@@ -16,6 +16,7 @@ export const ProductOrganizationSection = ({
 }: ProductOrganizationSectionProps) => {
   const { t } = useTranslation()
   const { getDisplays } = useDashboardExtension()
+  console.log({ product })
 
   return (
     <Container className="divide-y p-0">
@@ -88,7 +89,17 @@ export const ProductOrganizationSection = ({
             : undefined
         }
       />
-
+      <SectionRow
+        title={"Brand"}
+        value={
+          product.brand?.name ? (
+            <OrganizationTag
+              label={product.brand.name}
+              to={`/brands/${product.brand.id}`}
+            />
+          ) : undefined
+        }
+      />
       {getDisplays("product", "organize").map((Component, i) => {
         return <Component key={i} data={product} />
       })}
