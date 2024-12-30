@@ -188,6 +188,19 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
+            path: "/digital-products",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "Digital Products",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/digital-products"),
+              },
+            ],
+          },
+          {
             path: "/categories",
             errorElement: <ErrorBoundary />,
             handle: {

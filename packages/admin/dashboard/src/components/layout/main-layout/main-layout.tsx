@@ -18,6 +18,7 @@ import {
   Tag,
   Users,
   Envelope,
+  PhotoSolid,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import * as Collapsible from "@radix-ui/react-collapsible"
@@ -216,6 +217,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
         //   to: "/gift-cards",
         // },
       ],
+    },
+    {
+      icon: <PhotoSolid />,
+      label: "Digital Products",
+      to: "/digital-products",
     },
     {
       icon: <Buildings />,
