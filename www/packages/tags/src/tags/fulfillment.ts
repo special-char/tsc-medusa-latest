@@ -1,7 +1,7 @@
 export const fulfillment = [
   {
     "title": "Checkout Step 3: Choose Shipping Method",
-    "path": "/app/storefront-development/checkout/shipping"
+    "path": "/storefront-development/checkout/shipping"
   },
   {
     "title": "validateCartShippingOptionsStep",
@@ -186,5 +186,29 @@ export const fulfillment = [
   {
     "title": "createLocationFulfillmentSetWorkflow",
     "path": "/references/medusa-workflows/createLocationFulfillmentSetWorkflow"
+  },
+  {
+    "title": "fulfillment",
+    "path": "/references/js-sdk/admin/fulfillment"
+  },
+  {
+    "title": "fulfillmentProvider",
+    "path": "/references/js-sdk/admin/fulfillmentProvider"
+  },
+  {
+    "title": "fulfillmentSet",
+    "path": "/references/js-sdk/admin/fulfillmentSet"
+  },
+  {
+    "title": "shippingOption",
+    "path": "/references/js-sdk/admin/shippingOption"
+  },
+  {
+    "title": "shippingProfile",
+    "path": "/references/js-sdk/admin/shippingProfile"
+  },
+  {
+    "title": "fulfillment",
+    "path": "/references/js-sdk/store/fulfillment"
   }
 ]

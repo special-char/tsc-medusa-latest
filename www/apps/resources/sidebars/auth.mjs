@@ -16,13 +16,12 @@ export const authSidebar = [
         title: "Module Options",
       },
       {
-        type: "link",
-        path: "/commerce-modules/auth/examples",
-        title: "Examples",
+        type: "separator",
       },
       {
-        type: "sub-category",
+        type: "category",
         title: "Concepts",
+        initialOpen: false,
         children: [
           {
             type: "link",
@@ -47,8 +46,13 @@ export const authSidebar = [
         ],
       },
       {
-        type: "sub-category",
-        title: "Guides",
+        type: "category",
+        title: "Server Guides",
+        autogenerate_tags: "server+auth",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to use the Auth Module in your customizations on the Medusa application server.",
         children: [
           {
             type: "link",
@@ -68,8 +72,50 @@ export const authSidebar = [
         ],
       },
       {
-        type: "sub-category",
+        type: "category",
+        title: "Storefront Guides",
+        autogenerate_tags: "storefront+auth,-jsSdk",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to integrate the Auth Module's features into your storefront.",
+      },
+      {
+        type: "category",
+        title: "Admin Guides",
+        autogenerate_tags: "admin+auth,-jsSdk",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to utilize administative features of the Auth Module.",
+      },
+      {
+        type: "category",
+        title: "User Guides",
+        autogenerate_tags: "userGuides+auth",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to utilize and manage Auth features in the Medusa Admin dashboard.",
+      },
+      {
+        type: "category",
+        title: "Workflows",
+        autogenerate_tags: "workflow+auth",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+      },
+      {
+        type: "category",
+        title: "Steps",
+        autogenerate_tags: "step+auth",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+      },
+      {
+        type: "category",
         title: "Providers",
+        initialOpen: false,
         children: [
           {
             type: "link",
@@ -89,8 +135,20 @@ export const authSidebar = [
         ],
       },
       {
-        type: "sub-category",
+        type: "category",
+        title: "JS SDK",
+        initialOpen: false,
+        autogenerate_tags: "jsSdk+auth",
+        autogenerate_as_ref: true,
+        description:
+          "The [JS SDK](/js-sdk) allows you to send requests to the Medusa server application from your client applications, such as a storefront or the Medusa Admin dashboard.",
+      },
+      {
+        type: "category",
         title: "References",
+        initialOpen: false,
+        description:
+          "Find references for data models, methods, and more. These are useful for your customizations.",
         children: [
           {
             type: "link",

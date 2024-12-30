@@ -1,7 +1,7 @@
 export const order = [
   {
     "title": "Checkout Step 5: Complete Cart",
-    "path": "/app/storefront-development/checkout/complete-cart"
+    "path": "/storefront-development/checkout/complete-cart"
   },
   {
     "title": "addOrderTransactionStep",
@@ -490,5 +490,37 @@ export const order = [
   {
     "title": "updateReturnReasonsWorkflow",
     "path": "/references/medusa-workflows/updateReturnReasonsWorkflow"
+  },
+  {
+    "title": "claim",
+    "path": "/references/js-sdk/admin/claim"
+  },
+  {
+    "title": "exchange",
+    "path": "/references/js-sdk/admin/exchange"
+  },
+  {
+    "title": "order",
+    "path": "/references/js-sdk/admin/order"
+  },
+  {
+    "title": "orderEdit",
+    "path": "/references/js-sdk/admin/orderEdit"
+  },
+  {
+    "title": "refundReason",
+    "path": "/references/js-sdk/admin/refundReason"
+  },
+  {
+    "title": "return",
+    "path": "/references/js-sdk/admin/return"
+  },
+  {
+    "title": "returnReason",
+    "path": "/references/js-sdk/admin/returnReason"
+  },
+  {
+    "title": "order",
+    "path": "/references/js-sdk/store/order"
   }
 ]

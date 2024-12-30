@@ -1,7 +1,7 @@
 export const apiKey = [
   {
     "title": "Use a Publishable API Key in the Storefront",
-    "path": "/app/storefront-development/publishable-api-keys"
+    "path": "/storefront-development/publishable-api-keys"
   },
   {
     "title": "createApiKeysStep",
@@ -34,5 +34,9 @@ export const apiKey = [
   {
     "title": "updateApiKeysWorkflow",
     "path": "/references/medusa-workflows/updateApiKeysWorkflow"
+  },
+  {
+    "title": "apiKey",
+    "path": "/references/js-sdk/admin/apiKey"
   }
 ]
