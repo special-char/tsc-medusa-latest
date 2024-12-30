@@ -257,6 +257,12 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <Gift />,
       label: t("giftCards.domain"),
       to: "/gift-cards",
+      items: [
+        {
+          label: "Bulk-Buy",
+          to: "/bulk-buy",
+        },
+      ],
     },
     {
       icon: <ListCheckbox />,

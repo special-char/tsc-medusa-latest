@@ -889,6 +889,65 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
+            path: "/bulk-buy",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => t("categories.domain"),
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/giftcards/bulk-buy"),
+                children: [
+                  {
+                    path: "import",
+                    lazy: () =>
+                      import("../../routes/giftcards/giftcard-import"),
+                  },
+                ],
+              },
+              // {
+              //   path: ":id",
+              //   lazy: async () => {
+              //     const { Component, Breadcrumb, loader } = await import(
+              //       "../../routes/categories/category-detail"
+              //     )
+
+              //     return {
+              //       Component,
+              //       loader,
+              //       handle: {
+              //         breadcrumb: (
+              //           match: UIMatch<HttpTypes.AdminProductCategoryResponse>
+              //         ) => <Breadcrumb {...match} />,
+              //       },
+              //     }
+              //   },
+              //   children: [
+              //     {
+              //       path: "edit",
+              //       lazy: () => import("../../routes/categories/category-edit"),
+              //     },
+              //     {
+              //       path: "products",
+              //       lazy: () =>
+              //         import("../../routes/categories/category-products"),
+              //     },
+              //     {
+              //       path: "organize",
+              //       lazy: () =>
+              //         import("../../routes/categories/category-organize"),
+              //     },
+              //     {
+              //       path: "metadata/edit",
+              //       lazy: () =>
+              //         import("../../routes/categories/categories-metadata"),
+              //     },
+              //   ],
+              // },
+            ],
+          },
+          {
             path: "/gift-templates",
             errorElement: <ErrorBoundary />,
             children: [
