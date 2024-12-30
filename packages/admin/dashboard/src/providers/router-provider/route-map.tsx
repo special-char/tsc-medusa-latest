@@ -188,6 +188,19 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
+            path: "/digital-products",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "Digital Products",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/digital-products"),
+              },
+            ],
+          },
+          {
             path: "/categories",
             errorElement: <ErrorBoundary />,
             handle: {
@@ -1623,6 +1636,39 @@ export const RouteMap: RouteObject[] = [
                         match: UIMatch<HttpTypes.AdminProductTypeResponse>
                       ) => <Breadcrumb {...match} />,
                     },
+                  }
+                },
+                children: [
+                  {
+                    path: "edit",
+                    lazy: () => import("../../routes/brand/brand-edit"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: "subscription",
+            errorElement: <ErrorBoundary />,
+            element: <Outlet />,
+            handle: {
+              breadcrumb: () => "Subscription",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () =>
+                  import("../../routes/subscription/subscription-list"),
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component } = await import(
+                    "../../routes/subscription/subscription-detail"
+                  )
+
+                  return {
+                    Component,
                   }
                 },
                 children: [
