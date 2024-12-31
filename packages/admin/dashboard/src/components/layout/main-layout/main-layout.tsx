@@ -36,6 +36,7 @@ import { useLogout } from "../../../hooks/api"
 import { queryClient } from "../../../lib/query-client"
 import { useSearch } from "../../../providers/search-provider"
 import { UserMenu } from "../user-menu"
+import dashboardConfig from "../../../../dashboard.config"
 
 export const MainLayout = () => {
   return (
@@ -185,6 +186,63 @@ const Header = () => {
 const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
   const { t } = useTranslation()
 
+  const customCoreRoutes = [
+    ...(dashboardConfig?.featureFlags?.digitalProducts
+      ? [
+          {
+            icon: <PhotoSolid />,
+            label: "Digital Products",
+            to: "/digital-products",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.giftCards
+      ? [
+          {
+            icon: <Gift />,
+            label: t("giftCards.domain"),
+            to: "/gift-cards",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.giftTemplates
+      ? [
+          {
+            icon: <ListCheckbox />,
+            label: t("giftCards.giftTemplates"),
+            to: "/gift-templates",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.blogs
+      ? [
+          {
+            icon: <Newspaper />,
+            label: "Blogs",
+            to: "/blogs",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.faqs
+      ? [
+          {
+            icon: <QuestionMark />,
+            label: "Faqs",
+            to: "/faqs",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.notifications
+      ? [
+          {
+            icon: <Envelope />,
+            label: t("notification.domain"),
+            to: "/notification",
+          },
+        ]
+      : []),
+  ]
+
   return [
     {
       icon: <ShoppingCart />,
@@ -217,11 +275,6 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
         //   to: "/gift-cards",
         // },
       ],
-    },
-    {
-      icon: <PhotoSolid />,
-      label: "Digital Products",
-      to: "/digital-products",
     },
     {
       icon: <Buildings />,
@@ -261,31 +314,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       label: t("priceLists.domain"),
       to: "/price-lists",
     },
-    {
-      icon: <Gift />,
-      label: t("giftCards.domain"),
-      to: "/gift-cards",
-    },
-    {
-      icon: <ListCheckbox />,
-      label: t("giftCards.giftTemplates"),
-      to: "/gift-templates",
-    },
-    {
-      icon: <Newspaper />,
-      label: "Blogs",
-      to: "/blogs",
-    },
-    {
-      icon: <QuestionMark />,
-      label: "Faqs",
-      to: "/faqs",
-    },
-    {
-      icon: <Envelope />,
-      label: t("notification.domain"),
-      to: "/notification",
-    },
+    ...customCoreRoutes,
   ]
 }
 

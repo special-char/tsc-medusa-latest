@@ -11,6 +11,7 @@ import { Shell } from "../shell"
 
 import { useDashboardExtension } from "../../../extensions"
 import { UserMenu } from "../user-menu"
+import dashboardConfig from "../../../../dashboard.config"
 
 export const SettingsLayout = () => {
   return (
@@ -22,6 +23,25 @@ export const SettingsLayout = () => {
 
 const useSettingRoutes = (): INavItem[] => {
   const { t } = useTranslation()
+
+  const customSettingRoutes = [
+    ...(dashboardConfig?.featureFlags?.brand
+      ? [
+          {
+            label: "Brand",
+            to: "/settings/brand",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.subscriptions
+      ? [
+          {
+            label: "Subscription",
+            to: "/settings/subscription",
+          },
+        ]
+      : []),
+  ]
 
   return useMemo(
     () => [
@@ -54,14 +74,6 @@ const useSettingRoutes = (): INavItem[] => {
         to: "/settings/product-types",
       },
       {
-        label: "Brand",
-        to: "/settings/brand",
-      },
-      {
-        label: "Subscription",
-        to: "/settings/subscription",
-      },
-      {
         label: t("productTags.domain"),
         to: "/settings/product-tags",
       },
@@ -69,6 +81,7 @@ const useSettingRoutes = (): INavItem[] => {
         label: t("stockLocations.domain"),
         to: "/settings/locations",
       },
+      ...customSettingRoutes,
     ],
     [t]
   )
