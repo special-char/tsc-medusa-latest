@@ -145,7 +145,7 @@ export const GiftCardList = () => {
           <Heading level="h2" className="font-bold">
             Are you ready to sell your first Gift Card?
           </Heading>
-          {!giftcards.length && (
+          {!giftcards?.length && (
             <p className="text-sm">No Gift Card has been added yet.</p>
           )}
         </div>

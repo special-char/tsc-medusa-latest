@@ -29,6 +29,8 @@ export const OrderListTable = () => {
     }
   )
 
+  console.log({ orders })
+
   const filters = useOrderTableFilters()
   const columns = useOrderTableColumns({})
 

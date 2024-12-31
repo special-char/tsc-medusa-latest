@@ -29,10 +29,6 @@ const ProductImportContent = () => {
   const [file, setFile] = useState<File>()
   console.log(file?.name, "uploaded file")
 
-  // const { mutateAsync: importProducts, isPending, data } = useImportProducts()
-  // const { mutateAsync: confirm } = useConfirmImportProducts()
-  // const { handleSuccess } = useRouteModal()
-
   const productImportTemplateContent = useMemo(() => {
     return getProductImportCsvTemplate()
   }, [])
@@ -50,16 +46,38 @@ const ProductImportContent = () => {
       return []
     }
 
-    return lines.slice(1).map((line) => {
-      const values = line.split(",")
-      return headers.reduce(
-        (acc, header, index) => {
-          acc[header] = values[index] || ""
-          return acc
-        },
-        {} as Record<string, string>
-      )
+    const requiredFields = [
+      "product_handle",
+      "title",
+      "unit_price",
+      "quantity",
+      "email",
+    ]
+    const result = [] as any
+
+    lines.slice(1).forEach((line, rowIndex) => {
+      if (line && line.split(",").some((value) => value.trim() !== "")) {
+        const values = line.split(",")
+        const record = headers.reduce(
+          (acc, header, index) => {
+            acc[header] = values[index]?.trim() || ""
+            return acc
+          },
+          {} as Record<string, string>
+        )
+
+        const missingFields = requiredFields.filter((field) => !record[field])
+        if (missingFields.length > 0) {
+          throw new Error(
+            `Row ${rowIndex + 2}: Missing fields: ${missingFields.join(", ")}`
+          )
+        } else {
+          result.push(record)
+        }
+      }
     })
+
+    return result
   }
 
   const handleConfirm = async () => {
@@ -85,16 +103,32 @@ const ProductImportContent = () => {
         return
       }
 
-      const convertedjson = csvToJson(fileContent)
-      console.log(convertedjson, "Converted JSON")
+      const convertedJson = csvToJson(fileContent)
+      console.log(convertedJson, "Converted JSON")
+
+      const transformedItems = convertedJson?.map((item) => ({
+        product_handle: item?.product_handle,
+        title: item?.title,
+        quantity: parseInt(item?.quantity, 10),
+        unit_price: parseFloat(item?.unit_price),
+        metadata: {
+          firstname: item?.firstname,
+          lastname: item?.lastname,
+          email: item?.email,
+          phone: item?.phone,
+        },
+      }))
+
+      console.log(transformedItems, "Transformed Items")
 
       const payload = {
-        items: convertedjson,
+        items: transformedItems,
         orderData: { currency_code: "mur" },
       }
 
       console.log({ payload })
 
+      // Uncomment to send the payload
       const res = await fetch(`${__BACKEND_URL__}/admin/bulk-order`, {
         method: "POST",
         credentials: "include",
@@ -106,7 +140,11 @@ const ProductImportContent = () => {
       console.log({ res })
     } catch (error) {
       console.error("Error processing file:", error)
-      toast.error("Failed to process the uploaded file")
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to process the uploaded file"
+      )
     }
   }
 

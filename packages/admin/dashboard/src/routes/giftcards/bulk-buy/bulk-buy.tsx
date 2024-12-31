@@ -26,6 +26,7 @@ export const Bulkbuy = () => {
       placeholderData: keepPreviousData,
     }
   )
+  // console.log(orders, "orders")
 
   const filters = useOrderTableFilters()
   const columns = useOrderTableColumns({})
