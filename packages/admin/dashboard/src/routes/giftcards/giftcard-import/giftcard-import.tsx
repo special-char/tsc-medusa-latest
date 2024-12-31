@@ -26,8 +26,8 @@ export const GiftCardImport = () => {
 
 const ProductImportContent = () => {
   const { t } = useTranslation()
-  const [filename, setFilename] = useState<string>()
-  console.log(filename, "uploaded file")
+  const [file, setFile] = useState<File>()
+  console.log(file?.name, "uploaded file")
 
   // const { mutateAsync: importProducts, isPending, data } = useImportProducts()
   // const { mutateAsync: confirm } = useConfirmImportProducts()
@@ -38,36 +38,76 @@ const ProductImportContent = () => {
   }, [])
 
   const handleUploaded = async (file: File) => {
-    console.log(file, "file")
-    setFilename(file.name)
+    setFile(file)
+  }
 
-    // await importProducts(
-    //   { file },
-    //   {
-    //     onError: (err) => {
-    //       toast.error(err.message)
-    //       setFilename(undefined)
-    //     },
-    //   }
-    // )
+  const csvToJson = (csv: string): any[] => {
+    const lines = csv.split("\n").map((line) => line.trim())
+    const headers = lines[0]?.split(",")
+
+    if (!headers) {
+      toast.error("Invalid CSV format")
+      return []
+    }
+
+    return lines.slice(1).map((line) => {
+      const values = line.split(",")
+      return headers.reduce(
+        (acc, header, index) => {
+          acc[header] = values[index] || ""
+          return acc
+        },
+        {} as Record<string, string>
+      )
+    })
   }
 
   const handleConfirm = async () => {
-    // console.log(data)
-    // if (!data?.transaction_id) {
-    //   return
-    // }
-    // await confirm(data.transaction_id, {
-    //   onSuccess: () => {
-    //     toast.info(t("products.import.success.title"), {
-    //       description: t("products.import.success.description"),
-    //     })
-    //     handleSuccess()
-    //   },
-    //   onError: (err) => {
-    //     toast.error(err.message)
-    //   },
-    // })
+    try {
+      if (!file) {
+        toast.error("No file uploaded")
+        return
+      }
+
+      const readFile = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = (event) => resolve(event.target?.result as string)
+          reader.onerror = (error) => reject(error)
+          reader.readAsText(file)
+        })
+      }
+
+      const fileContent = await readFile(file)
+
+      if (file.type !== "text/csv") {
+        toast.error("Please upload a valid CSV file")
+        return
+      }
+
+      const convertedjson = csvToJson(fileContent)
+      console.log(convertedjson, "Converted JSON")
+
+      const payload = {
+        items: convertedjson,
+        orderData: { currency_code: "mur" },
+      }
+
+      console.log({ payload })
+
+      const res = await fetch(`${__BACKEND_URL__}/admin/bulk-order`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+      console.log({ res })
+    } catch (error) {
+      console.error("Error processing file:", error)
+      toast.error("Failed to process the uploaded file")
+    }
   }
 
   const uploadedFileActions = [
@@ -76,7 +116,7 @@ const ProductImportContent = () => {
         {
           label: t("actions.delete"),
           icon: <Trash />,
-          onClick: () => setFilename(undefined),
+          onClick: () => setFile(undefined),
         },
       ],
     },
@@ -91,9 +131,9 @@ const ProductImportContent = () => {
         </Text>
 
         <div className="mt-4">
-          {filename ? (
+          {file?.name ? (
             <FilePreview
-              filename={filename}
+              filename={file?.name}
               // loading={isPending}
               activity={t("giftCards.import.upload.preprocessing")}
               actions={uploadedFileActions}
@@ -129,11 +169,7 @@ const ProductImportContent = () => {
               {t("actions.cancel")}
             </Button>
           </RouteDrawer.Close>
-          <Button
-            onClick={handleConfirm}
-            size="small"
-            // disabled={!data?.transaction_id || !filename}
-          >
+          <Button onClick={handleConfirm} size="small" disabled={!file?.name}>
             {t("actions.import")}
           </Button>
         </div>
