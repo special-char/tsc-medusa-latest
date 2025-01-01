@@ -7,6 +7,7 @@ import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
 import { getProductImportCsvTemplate } from "./helpers/import-template"
 import { useStore } from "../../../hooks/api"
+import { useNavigate } from "react-router-dom"
 
 type ProductImportItem = {
   email: string
@@ -40,6 +41,7 @@ const ProductImportContent = () => {
   const [file, setFile] = useState<File>()
   const { store } = useStore()
   const { handleSuccess } = useRouteModal()
+  const navigate = useNavigate()
 
   const supportedCurrencies = store?.supported_currencies?.reduce(
     (acc: string[], item) => {
@@ -146,6 +148,7 @@ const ProductImportContent = () => {
           region_id: store?.default_region_id,
         },
       }
+
       const res = await fetch(`${__BACKEND_URL__}/admin/bulk-order`, {
         method: "POST",
         credentials: "include",
@@ -156,6 +159,7 @@ const ProductImportContent = () => {
       })
       console.log({ res })
       handleSuccess()
+      navigate(0)
     } catch (error) {
       console.error("Error processing file:", error)
       toast.error(
