@@ -56,6 +56,7 @@ import { getReturnableQuantity } from "../../../../../lib/rma"
 import { CopyPaymentLink } from "../copy-payment-link/copy-payment-link"
 import ReturnInfoPopover from "./return-info-popover"
 import ShippingInfoPopover from "./shipping-info-popover"
+import { OrderNoteSection } from "../order-note-section"
 
 type OrderSummarySectionProps = {
   order: AdminOrder
@@ -175,6 +176,7 @@ export const OrderSummarySection = ({ order }: OrderSummarySectionProps) => {
       <ItemBreakdown order={order} reservations={reservations!} />
       <CostBreakdown order={order} />
       <Total order={order} />
+      <OrderNoteSection order={order} />
 
       {(showAllocateButton || showReturns || showPayment || showRefund) && (
         <div className="bg-ui-bg-subtle flex items-center justify-end gap-x-2 rounded-b-xl px-4 py-4">
