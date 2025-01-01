@@ -130,7 +130,8 @@ export interface AdminOrderItem {
 }
 
 export interface AdminOrderLineItem
-  extends Omit<BaseOrderLineItem, "variant" | "product"> {
+  // extends Omit<BaseOrderLineItem, "variant" | "product"> {
+  extends BaseOrderLineItem {
   /**
    * The associated variant's details.
    */

@@ -16,6 +16,7 @@ import { OrderPaymentSection } from "./components/order-payment-section"
 import { OrderSummarySection } from "./components/order-summary-section"
 import { DEFAULT_FIELDS } from "./constants"
 import { orderLoader } from "./loader"
+import OrderResendNotificationSection from "./components/order-resend-notification-section/order-resend-notification-section"
 
 export const OrderDetail = () => {
   const initialData = useLoaderData() as Awaited<ReturnType<typeof orderLoader>>
@@ -81,6 +82,7 @@ export const OrderDetail = () => {
         <ActiveOrderReturnSection orderPreview={orderPreview!} />
         <OrderGeneralSection order={order} />
         <OrderSummarySection order={order} />
+        <OrderResendNotificationSection order={order} />
         <OrderPaymentSection order={order} />
         <OrderFulfillmentSection order={order} />
       </TwoColumnPage.Main>
