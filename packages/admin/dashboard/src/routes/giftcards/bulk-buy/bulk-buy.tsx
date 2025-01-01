@@ -1,17 +1,19 @@
 import { Button, Container, Heading } from "@medusajs/ui"
 import { Link, Outlet } from "react-router-dom"
-import { DataTable } from "../../../components/table/data-table"
-import { useOrderTableQuery } from "../../../hooks/table/query"
+import { BulkBuyProvider } from "../../../providers/bulkbuy-provider"
 import { useOrders } from "../../../hooks/api"
-import { DEFAULT_FIELDS } from "../../orders/order-list/const"
+import { useOrderTableQuery } from "../../../hooks/table/query"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useOrderTableFilters } from "../../../hooks/table/filters"
 import { useOrderTableColumns } from "../../../hooks/table/columns"
 import { useDataTable } from "../../../hooks/use-data-table"
+import { DEFAULT_FIELDS } from "../../orders/order-list/const"
+import { DataTable } from "../../../components/table/data-table"
 import { useTranslation } from "react-i18next"
+
 const PAGE_SIZE = 20
-export const Bulkbuy = () => {
-  const { t } = useTranslation()
+
+export const BulkbuyComponent = () => {
   const { searchParams, raw } = useOrderTableQuery({
     pageSize: PAGE_SIZE,
   })
@@ -26,10 +28,10 @@ export const Bulkbuy = () => {
       placeholderData: keepPreviousData,
     }
   )
-  // console.log(orders, "orders")
 
   const filters = useOrderTableFilters()
   const columns = useOrderTableColumns({})
+  const { t } = useTranslation()
 
   const { table } = useDataTable({
     data: orders ?? [],
@@ -44,18 +46,8 @@ export const Bulkbuy = () => {
   }
   return (
     <div className="flex flex-col gap-4 p-0">
-      {/* <Container className="flex justify-between gap-6 p-8">
-        <Heading level="h2" className="font-bold">
-          Are you ready to Buy Bulk Gift Cards?
-        </Heading>
-        <Button size="small" variant="secondary" asChild>
-          <Link to="import">Import</Link>
-        </Button>
-
-        <Outlet />
-      </Container> */}
-      <Container className="divide-y p-0">
-        <div className="flex items-center justify-between px-6 py-4">
+      <Container className="p-0">
+        <div className="flex items-center justify-between px-6 py-4 ">
           <Heading>Bulk Orders</Heading>
           <Button size="small" variant="secondary" asChild>
             <Link to="import">Import</Link>
@@ -86,3 +78,9 @@ export const Bulkbuy = () => {
     </div>
   )
 }
+
+export const Bulkbuy = () => (
+  <BulkBuyProvider>
+    <BulkbuyComponent />
+  </BulkBuyProvider>
+)
