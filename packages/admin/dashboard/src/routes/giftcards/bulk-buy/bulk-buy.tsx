@@ -20,7 +20,6 @@ export const BulkbuyComponent = () => {
 
   const { orders, count, isError, error, isLoading } = useOrders(
     {
-      status: "draft",
       fields: DEFAULT_FIELDS,
       ...searchParams,
     },
