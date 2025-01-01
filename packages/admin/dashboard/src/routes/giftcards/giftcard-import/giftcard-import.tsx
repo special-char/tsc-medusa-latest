@@ -1,5 +1,5 @@
 import { Button, Heading, Text, toast } from "@medusajs/ui"
-import { RouteDrawer } from "../../../components/modals"
+import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useTranslation } from "react-i18next"
 import { useMemo, useState } from "react"
 import { UploadImport } from "./components/upload-import"
@@ -39,6 +39,7 @@ const ProductImportContent = () => {
   const { t } = useTranslation()
   const [file, setFile] = useState<File>()
   const { store } = useStore()
+  const { handleSuccess } = useRouteModal()
 
   const supportedCurrencies = store?.supported_currencies?.reduce(
     (acc: string[], item) => {
@@ -154,6 +155,7 @@ const ProductImportContent = () => {
         body: JSON.stringify(payload),
       })
       console.log({ res })
+      handleSuccess()
     } catch (error) {
       console.error("Error processing file:", error)
       toast.error(
