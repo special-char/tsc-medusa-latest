@@ -88,6 +88,29 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.bulkBuy
+    ? [
+        {
+          path: "/bulk-buy",
+          errorElement: <ErrorBoundary />,
+          handle: {
+            breadcrumb: () => t("categories.domain"),
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/giftcards/bulk-buy"),
+              children: [
+                {
+                  path: "import",
+                  lazy: () => import("../../routes/giftcards/giftcard-import"),
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    : []),
   ...(dashboardConfig?.featureFlags?.giftTemplates
     ? [
         {

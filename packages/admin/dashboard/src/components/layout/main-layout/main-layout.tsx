@@ -198,10 +198,21 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       : []),
     ...(dashboardConfig?.featureFlags?.giftCards
       ? [
+          // {
+          //   icon: <Gift />,
+          //   label: t("giftCards.domain"),
+          //   to: "/gift-cards",
+          // },
           {
             icon: <Gift />,
             label: t("giftCards.domain"),
             to: "/gift-cards",
+            items: [
+              {
+                label: "Bulk-Buy",
+                to: "/bulk-buy",
+              },
+            ],
           },
         ]
       : []),
