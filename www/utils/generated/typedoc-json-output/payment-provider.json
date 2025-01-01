@@ -110,7 +110,7 @@
 					"signatures": [
 						{
 							"id": 14,
-							"name": "new AbstractPaymentProvider",
+							"name": "AbstractPaymentProvider",
 							"variant": "signature",
 							"kind": 16384,
 							"flags": {},
@@ -118,15 +118,7 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "You can use the "
-									},
-									{
-										"kind": "code",
-										"text": "`constructor`"
-									},
-									{
-										"kind": "text",
-										"text": " of the provider's service to access resources in your module's container.\n\nYou can also use the constructor to initialize your integration with the third-party provider. For example, if you use a client to connect to the third-party provider’s APIs,\nyou can initialize it in the constructor and use it in other methods in the service.\n\nThe provider can also access the module's options as a second parameter."
+										"text": "The constructor allows you to access resources from the [module's container](https://docs.medusajs.com/learn/fundamentals/modules/container) \nusing the first parameter, and the module's options using the second parameter.\n\n:::note\n\nA module's options are passed when you register it in the Medusa application.\n\n:::"
 									}
 								],
 								"blockTags": [
@@ -135,7 +127,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\nimport {\n  AbstractPaymentProvider\n} from \"@medusajs/framework/utils\"\nimport { Logger } from \"@medusajs/framework/types\"\n\ntype InjectedDependencies = {\n  logger: Logger\n}\n\ntype Options = {\n  apiKey: string\n}\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  static identifier = \"my-payment\"\n  protected logger_: Logger\n  protected options_: Options\n  // Assuming you're using a client to integrate\n  // with a third-party service\n  protected client\n\n  constructor(\n    { logger }: InjectedDependencies,\n    options: Options\n  ) {\n    // @ts-ignore\n    super(...arguments)\n\n    this.logger_ = logger\n    this.options_ = options\n\n    // Assuming you're initializing a client\n    this.client = new Client(options)\n  }\n\n  // ...\n}\n\nexport default MyPaymentProviderService\n```"
+												"text": "```ts\nimport { AbstractPaymentProvider } from \"@medusajs/framework/utils\"\nimport { Logger } from \"@medusajs/framework/types\"\n\ntype Options = {\n  apiKey: string\n}\n\ntype InjectedDependencies = {\n  logger: Logger\n}\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<Options> {\n  protected logger_: Logger\n  protected options_: Options\n  // assuming you're initializing a client\n  protected client\n\n  constructor(\n    container: InjectedDependencies,\n    options: Options\n  ) {\n    super(container, options)\n\n    this.logger_ = container.logger\n    this.options_ = options\n\n    // TODO initialize your client\n  }\n  // ...\n}\n\nexport default MyPaymentProviderService\n```"
 											}
 										]
 									}
@@ -148,6 +140,14 @@
 									"variant": "typeParam",
 									"kind": 131072,
 									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "The type of the provider's options passed as a second parameter."
+											}
+										]
+									},
 									"default": {
 										"type": "reference",
 										"target": {
@@ -314,8 +314,7 @@
 										"kind": "inline-tag",
 										"tag": "@link",
 										"text": "authorizePayment",
-										"target": 25,
-										"tsLinkText": ""
+										"target": 25
 									},
 									{
 										"kind": "text",
@@ -353,7 +352,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async capturePayment(\n    paymentData: Record<string, unknown>\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse[\"data\"]> {\n    const externalId = paymentData.id\n\n    try {\n      const newData = await this.client.capturePayment(externalId)\n\n      return {\n        ...newData,\n        id: externalId\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async capturePayment(\n    paymentData: Record<string, unknown>\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse[\"data\"]> {\n    const externalId = paymentData.id\n\n    try {\n      // assuming you have a client that captures the payment\n      const newData = await this.client.capturePayment(externalId)\n\n      return {\n        ...newData,\n        id: externalId\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -485,8 +484,7 @@
 										"kind": "inline-tag",
 										"tag": "@link",
 										"text": "capturePayment",
-										"target": 22,
-										"tsLinkText": ""
+										"target": 22
 									},
 									{
 										"kind": "text",
@@ -532,7 +530,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n  PaymentSessionStatus\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async authorizePayment(\n    paymentSessionData: Record<string, unknown>,\n    context: Record<string, unknown>\n  ): Promise<\n    PaymentProviderError | {\n      status: PaymentSessionStatus\n      data: PaymentProviderSessionResponse[\"data\"]\n    }\n  > {\n    const externalId = paymentSessionData.id\n\n    try {\n      const paymentData = await this.client.authorizePayment(externalId)\n\n      return {\n        data: {\n          ...paymentData,\n          id: externalId\n        },\n        status: \"authorized\"\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n  PaymentSessionStatus\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async authorizePayment(\n    paymentSessionData: Record<string, unknown>,\n    context: Record<string, unknown>\n  ): Promise<\n    PaymentProviderError | {\n      status: PaymentSessionStatus\n      data: PaymentProviderSessionResponse[\"data\"]\n    }\n  > {\n    const externalId = paymentSessionData.id\n\n    try {\n      // assuming you have a client that authorizes the payment\n      const paymentData = await this.client.authorizePayment(externalId)\n\n      return {\n        data: {\n          ...paymentData,\n          id: externalId\n        },\n        status: \"authorized\"\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -786,7 +784,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async cancelPayment(\n    paymentData: Record<string, unknown>\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse[\"data\"]> {\n    const externalId = paymentData.id\n\n    try {\n      const paymentData = await this.client.cancelPayment(externalId)\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async cancelPayment(\n    paymentData: Record<string, unknown>\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse[\"data\"]> {\n    const externalId = paymentData.id\n\n    try {\n      // assuming you have a client that cancels the payment\n      const paymentData = await this.client.cancelPayment(externalId)\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -946,7 +944,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async initiatePayment(\n    context: CreatePaymentProviderSession\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse> {\n    const {\n      amount,\n      currency_code,\n      context: customerDetails\n    } = context\n\n    try {\n      const response = await this.client.init(\n        amount, currency_code, customerDetails\n      )\n\n      return {\n        ...response,\n        data: {\n          id: response.id\n        }\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async initiatePayment(\n    context: CreatePaymentProviderSession\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse> {\n    const {\n      amount,\n      currency_code,\n      context: customerDetails\n    } = context\n\n    try {\n      // assuming you have a client that initializes the payment\n      const response = await this.client.init(\n        amount, currency_code, customerDetails\n      )\n\n      return {\n        ...response,\n        data: {\n          id: response.id\n        }\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -1062,7 +1060,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async deletePayment(\n    paymentSessionData: Record<string, unknown>\n  ): Promise<\n    PaymentProviderError | PaymentProviderSessionResponse[\"data\"]\n  > {\n    const externalId = paymentSessionData.id\n\n    try {\n      await this.client.cancelPayment(externalId)\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async deletePayment(\n    paymentSessionData: Record<string, unknown>\n  ): Promise<\n    PaymentProviderError | PaymentProviderSessionResponse[\"data\"]\n  > {\n    const externalId = paymentSessionData.id\n\n    try {\n      // assuming you have a client that cancels the payment\n      await this.client.cancelPayment(externalId)\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -1206,7 +1204,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentSessionStatus\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async getPaymentStatus(\n    paymentSessionData: Record<string, unknown>\n  ): Promise<PaymentSessionStatus> {\n    const externalId = paymentSessionData.id\n\n    try {\n      const status = await this.client.getStatus(externalId)\n\n      switch (status) {\n        case \"requires_capture\":\n          return \"authorized\"\n        case \"success\":\n          return \"captured\"\n        case \"canceled\":\n          return \"canceled\"\n        default:\n          return \"pending\"\n      }\n    } catch (e) {\n      return \"error\"\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentSessionStatus\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async getPaymentStatus(\n    paymentSessionData: Record<string, unknown>\n  ): Promise<PaymentSessionStatus> {\n    const externalId = paymentSessionData.id\n\n    try {\n      // assuming you have a client that retrieves the payment status\n      const status = await this.client.getStatus(externalId)\n\n      switch (status) {\n        case \"requires_capture\":\n          return \"authorized\"\n        case \"success\":\n          return \"captured\"\n        case \"canceled\":\n          return \"canceled\"\n        default:\n          return \"pending\"\n      }\n    } catch (e) {\n      return \"error\"\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -1334,7 +1332,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async refundPayment(\n    paymentData: Record<string, unknown>,\n    refundAmount: number\n  ): Promise<\n    PaymentProviderError | PaymentProviderSessionResponse[\"data\"]\n  > {\n    const externalId = paymentData.id\n\n    try {\n      const newData = await this.client.refund(\n        externalId,\n        refundAmount\n      )\n\n      return {\n        ...newData,\n        id: externalId\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async refundPayment(\n    paymentData: Record<string, unknown>,\n    refundAmount: number\n  ): Promise<\n    PaymentProviderError | PaymentProviderSessionResponse[\"data\"]\n  > {\n    const externalId = paymentData.id\n\n    try {\n      // assuming you have a client that refunds the payment\n      const newData = await this.client.refund(\n        externalId,\n        refundAmount\n      )\n\n      return {\n        ...newData,\n        id: externalId\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -1505,7 +1503,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async retrievePayment(\n    paymentSessionData: Record<string, unknown>\n  ): Promise<\n    PaymentProviderError | PaymentProviderSessionResponse[\"data\"]\n  > {\n    const externalId = paymentSessionData.id\n\n    try {\n      return await this.client.retrieve(externalId)\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async retrievePayment(\n    paymentSessionData: Record<string, unknown>\n  ): Promise<\n    PaymentProviderError | PaymentProviderSessionResponse[\"data\"]\n  > {\n    const externalId = paymentSessionData.id\n\n    try {\n      // assuming you have a client that retrieves the payment\n      return await this.client.retrieve(externalId)\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}
@@ -1637,8 +1635,7 @@
 										"kind": "inline-tag",
 										"tag": "@link",
 										"text": "initiatePayment",
-										"target": 35,
-										"tsLinkText": ""
+										"target": 35
 									},
 									{
 										"kind": "text",
@@ -1676,7 +1673,7 @@
 										"content": [
 											{
 												"kind": "code",
-												"text": "```ts\n// other imports...\nimport {\n  UpdatePaymentProviderSession,\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async updatePayment(\n    context: UpdatePaymentProviderSession\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse> {\n    const {\n      amount,\n      currency_code,\n      context: customerDetails,\n      data\n    } = context\n    const externalId = data.id\n\n    try {\n      const response = await this.client.update(\n        externalId,\n        {\n          amount,\n          currency_code,\n          customerDetails\n        }\n      )\n\n      return {\n        ...response,\n        data: {\n          id: response.id\n        }\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
+												"text": "```ts\n// other imports...\nimport {\n  UpdatePaymentProviderSession,\n  PaymentProviderError,\n  PaymentProviderSessionResponse,\n} from \"@medusajs/framework/types\"\n\n\nclass MyPaymentProviderService extends AbstractPaymentProvider<\n  Options\n> {\n  async updatePayment(\n    context: UpdatePaymentProviderSession\n  ): Promise<PaymentProviderError | PaymentProviderSessionResponse> {\n    const {\n      amount,\n      currency_code,\n      context: customerDetails,\n      data\n    } = context\n    const externalId = data.id\n\n    try {\n      // assuming you have a client that updates the payment\n      const response = await this.client.update(\n        externalId,\n        {\n          amount,\n          currency_code,\n          customerDetails\n        }\n      )\n\n      return {\n        ...response,\n        data: {\n          id: response.id\n        }\n      }\n    } catch (e) {\n      return {\n        error: e,\n        code: \"unknown\",\n        detail: e\n      }\n    }\n  }\n\n  // ...\n}\n```"
 											}
 										]
 									}

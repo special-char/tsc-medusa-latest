@@ -6,16 +6,19 @@ import {
   CurrencyDollar,
   EllipsisHorizontal,
   Gift,
-  ListBullet,
   ListCheckbox,
   MagnifyingGlass,
   MinusMini,
+  Newspaper,
   OpenRectArrowOut,
+  QuestionMark,
   ReceiptPercent,
   ShoppingCart,
   SquaresPlus,
   Tag,
   Users,
+  Envelope,
+  PhotoSolid,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import * as Collapsible from "@radix-ui/react-collapsible"
@@ -33,6 +36,7 @@ import { useLogout } from "../../../hooks/api"
 import { queryClient } from "../../../lib/query-client"
 import { useSearch } from "../../../providers/search-provider"
 import { UserMenu } from "../user-menu"
+import dashboardConfig from "../../../../dashboard.config"
 
 export const MainLayout = () => {
   return (
@@ -182,6 +186,74 @@ const Header = () => {
 const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
   const { t } = useTranslation()
 
+  const customCoreRoutes = [
+    ...(dashboardConfig?.featureFlags?.digitalProducts
+      ? [
+          {
+            icon: <PhotoSolid />,
+            label: "Digital Products",
+            to: "/digital-products",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.giftCards
+      ? [
+          // {
+          //   icon: <Gift />,
+          //   label: t("giftCards.domain"),
+          //   to: "/gift-cards",
+          // },
+          {
+            icon: <Gift />,
+            label: t("giftCards.domain"),
+            to: "/gift-cards",
+            items: [
+              {
+                label: "Bulk-Buy",
+                to: "/bulk-buy",
+              },
+            ],
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.giftTemplates
+      ? [
+          {
+            icon: <ListCheckbox />,
+            label: t("giftCards.giftTemplates"),
+            to: "/gift-templates",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.blogs
+      ? [
+          {
+            icon: <Newspaper />,
+            label: "Blogs",
+            to: "/blogs",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.faqs
+      ? [
+          {
+            icon: <QuestionMark />,
+            label: "Faqs",
+            to: "/faqs",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.notifications
+      ? [
+          {
+            icon: <Envelope />,
+            label: t("notification.domain"),
+            to: "/notification",
+          },
+        ]
+      : []),
+  ]
+
   return [
     {
       icon: <ShoppingCart />,
@@ -253,22 +325,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       label: t("priceLists.domain"),
       to: "/price-lists",
     },
-    {
-      icon: <Gift />,
-      label: t("giftCards.domain"),
-      to: "/gift-cards",
-      items: [
-        {
-          label: "Bulk-Buy",
-          to: "/bulk-buy",
-        },
-      ],
-    },
-    {
-      icon: <ListCheckbox />,
-      label: t("giftCards.giftTemplates"),
-      to: "/gift-templates",
-    },
+    ...customCoreRoutes,
   ]
 }
 
@@ -303,6 +360,19 @@ const Searchbar = () => {
 const CoreRouteSection = () => {
   const coreRoutes = useCoreRoutes()
 
+  const { getMenu } = useDashboardExtension()
+
+  const menuItems = getMenu("coreExtensions")
+
+  menuItems.forEach((item) => {
+    if (item.nested) {
+      const route = coreRoutes.find((route) => route.to === item.nested)
+      if (route) {
+        route.items?.push(item)
+      }
+    }
+  })
+
   return (
     <nav className="flex flex-col gap-y-1 py-3">
       <Searchbar />
@@ -317,7 +387,7 @@ const ExtensionRouteSection = () => {
   const { t } = useTranslation()
   const { getMenu } = useDashboardExtension()
 
-  const menuItems = getMenu("coreExtensions")
+  const menuItems = getMenu("coreExtensions").filter((item) => !item.nested)
 
   if (!menuItems.length) {
     return null

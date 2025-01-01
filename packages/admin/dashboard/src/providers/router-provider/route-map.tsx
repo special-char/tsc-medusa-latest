@@ -11,6 +11,11 @@ import { TaxRegionDetailBreadcrumb } from "../../routes/tax-regions/tax-region-d
 import { taxRegionLoader } from "../../routes/tax-regions/tax-region-detail/loader"
 import { RouteExtensions } from "./route-extensions"
 import { SettingsExtensions } from "./settings-extensions"
+import {
+  customProtectedRoutes,
+  customProtectedSettingsRoutes,
+  customPublicRoutes,
+} from "./custom-routes"
 
 // TODO: Add translations for all breadcrumbs
 export const RouteMap: RouteObject[] = [
@@ -821,227 +826,8 @@ export const RouteMap: RouteObject[] = [
               },
             ],
           },
-          {
-            path: "/gift-cards",
-            errorElement: <ErrorBoundary />,
-            handle: {
-              breadcrumb: () => t("giftCards.domain"),
-            },
-            children: [
-              {
-                path: "",
-                lazy: () => import("../../routes/giftcards/giftcard-lists"),
-                children: [
-                  {
-                    path: "create",
-                    lazy: () =>
-                      import("../../routes/giftcards/giftcard-create"),
-                  },
-                ],
-              },
-              {
-                path: ":id",
-                errorElement: <ErrorBoundary />,
-                lazy: () => import("../../routes/giftcards/giftcard-detail"),
-                children: [
-                  {
-                    children: [
-                      {
-                        path: "add-denomination",
-                        lazy: () =>
-                          import(
-                            "../../routes/giftcards/giftcard-detail/common/component/AddDenominationModal"
-                          ),
-                      },
-                      {
-                        path: "edit-denomination",
-                        lazy: () =>
-                          import(
-                            "../../routes/giftcards/giftcard-detail/common/component/EditDenominationModal"
-                          ),
-                      },
-                      {
-                        path: "edit",
-                        lazy: () =>
-                          import("../../routes/products/product-edit"),
-                      },
-                      {
-                        path: "sales-channels",
-                        lazy: () =>
-                          import(
-                            "../../routes/products/product-sales-channels"
-                          ),
-                      },
-                      {
-                        path: "media",
-                        lazy: () =>
-                          import("../../routes/products/product-media"),
-                      },
-                      {
-                        path: "metadata/edit",
-                        lazy: () =>
-                          import("../../routes/products/product-metadata"),
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            path: "/bulk-buy",
-            errorElement: <ErrorBoundary />,
-            handle: {
-              breadcrumb: () => t("categories.domain"),
-            },
-            children: [
-              {
-                path: "",
-                lazy: () => import("../../routes/giftcards/bulk-buy"),
-                children: [
-                  {
-                    path: "import",
-                    lazy: () =>
-                      import("../../routes/giftcards/giftcard-import"),
-                  },
-                ],
-              },
-              // {
-              //   path: ":id",
-              //   lazy: async () => {
-              //     const { Component, Breadcrumb, loader } = await import(
-              //       "../../routes/categories/category-detail"
-              //     )
-
-              //     return {
-              //       Component,
-              //       loader,
-              //       handle: {
-              //         breadcrumb: (
-              //           match: UIMatch<HttpTypes.AdminProductCategoryResponse>
-              //         ) => <Breadcrumb {...match} />,
-              //       },
-              //     }
-              //   },
-              //   children: [
-              //     {
-              //       path: "edit",
-              //       lazy: () => import("../../routes/categories/category-edit"),
-              //     },
-              //     {
-              //       path: "products",
-              //       lazy: () =>
-              //         import("../../routes/categories/category-products"),
-              //     },
-              //     {
-              //       path: "organize",
-              //       lazy: () =>
-              //         import("../../routes/categories/category-organize"),
-              //     },
-              //     {
-              //       path: "metadata/edit",
-              //       lazy: () =>
-              //         import("../../routes/categories/categories-metadata"),
-              //     },
-              //   ],
-              // },
-            ],
-          },
-          {
-            path: "/gift-templates",
-            errorElement: <ErrorBoundary />,
-            children: [
-              {
-                path: "",
-                lazy: () =>
-                  import("../../routes/gift-templates/gift-templates-list"),
-                children: [
-                  {
-                    path: "create",
-                    lazy: () =>
-                      import(
-                        "../../routes/gift-templates/gift-templates-create"
-                      ),
-                  },
-                  {
-                    path: "edit",
-                    lazy: () =>
-                      import("../../routes/gift-templates/gift-templates-edit"),
-                  },
-                ],
-              },
-            ],
-            // handle: {
-            //   breadcrumb: () => t("inventory.domain"),
-            // },
-            // children: [
-            //   {
-            //     path: "",
-            //     lazy: () => import("../../routes/inventory/inventory-list"),
-            //     children: [
-            //       {
-            //         path: "create",
-            //         lazy: () =>
-            //           import("../../routes/inventory/inventory-create"),
-            //       },
-            //     ],
-            //   },
-            //   {
-            //     path: ":id",
-            //     lazy: async () => {
-            //       const { Component, Breadcrumb, loader } = await import(
-            //         "../../routes/inventory/inventory-detail"
-            //       )
-
-            //       return {
-            //         Component,
-            //         loader,
-            //         handle: {
-            //           breadcrumb: (
-            //             match: UIMatch<HttpTypes.AdminInventoryItemResponse>
-            //           ) => <Breadcrumb {...match} />,
-            //         },
-            //       }
-            //     },
-            //     children: [
-            //       {
-            //         path: "edit",
-            //         lazy: () =>
-            //           import(
-            //             "../../routes/inventory/inventory-detail/components/edit-inventory-item"
-            //           ),
-            //       },
-            //       {
-            //         path: "attributes",
-            //         lazy: () =>
-            //           import(
-            //             "../../routes/inventory/inventory-detail/components/edit-inventory-item-attributes"
-            //           ),
-            //       },
-            //       {
-            //         path: "metadata/edit",
-            //         lazy: () =>
-            //           import("../../routes/inventory/inventory-metadata"),
-            //       },
-            //       {
-            //         path: "locations",
-            //         lazy: () =>
-            //           import(
-            //             "../../routes/inventory/inventory-detail/components/manage-locations"
-            //           ),
-            //       },
-            //       {
-            //         path: "locations/:location_id",
-            //         lazy: () =>
-            //           import(
-            //             "../../routes/inventory/inventory-detail/components/adjust-inventory"
-            //           ),
-            //       },
-            //     ],
-            //   },
-            // ],
-          },
           ...RouteExtensions,
+          ...customProtectedRoutes,
         ],
       },
     ],
@@ -1849,6 +1635,7 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           ...SettingsExtensions,
+          ...customProtectedSettingsRoutes,
         ],
       },
     ],
@@ -1875,6 +1662,7 @@ export const RouteMap: RouteObject[] = [
             path: "*",
             lazy: () => import("../../routes/no-match"),
           },
+          ...customPublicRoutes,
         ],
       },
     ],

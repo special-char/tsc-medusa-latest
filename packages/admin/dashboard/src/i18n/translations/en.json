@@ -376,6 +376,9 @@
   "sales_channels": {
     "availableIn": "Available in <0>{{x}}</0> of <1>{{y}}</1> sales channels"
   },
+  "notification": {
+    "domain": "Notification"
+  },
   "products": {
     "domain": "Products",
     "list": {
@@ -1546,7 +1549,8 @@
           "hint": "Whether customers can use this option during checkout."
         },
         "provider": "Fulfillment provider",
-        "profile": "Shipping profile"
+        "profile": "Shipping profile",
+        "fulfillmentOption": "Fulfillment option"
       }
     },
     "serviceZones": {

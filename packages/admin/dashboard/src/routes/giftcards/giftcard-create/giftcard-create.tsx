@@ -158,7 +158,8 @@ export const GiftCardCreate = () => {
       })
 
       if (!res.ok) {
-        throw new Error("Failed to create gift card")
+        const error = await res.json()
+        throw new Error(error.message)
       }
 
       navigate("/gift-cards")
@@ -170,7 +171,7 @@ export const GiftCardCreate = () => {
     } catch (error) {
       console.error("Error creating giftcard:", error)
       toast.error("Error", {
-        description: "Error creating giftcard.",
+        description: `${error}`,
         duration: 5000,
       })
     }

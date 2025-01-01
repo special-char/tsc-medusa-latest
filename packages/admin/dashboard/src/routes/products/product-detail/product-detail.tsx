@@ -16,6 +16,8 @@ import { productLoader } from "./loader"
 import { useDashboardExtension } from "../../../extensions"
 import ProductVariantImagesWidget from "../../../widgets/product-variant-images/product-variant-images"
 import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-details/product-additional-details"
+import ProductSeoWidget from "./components/product-seo"
+import dashboardConfig from "../../../../dashboard.config"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -70,13 +72,20 @@ export const ProductDetail = () => {
         <ProductMediaSection product={product} />
         <ProductOptionSection product={product} />
         <ProductVariantSection product={product} />
-        <ProductVariantImagesWidget data={product} />
-        <ProductAdditionalDetailsWidget data={product} />
+        {dashboardConfig?.featureFlags?.productVariantImages && (
+          <ProductVariantImagesWidget data={product} />
+        )}
+        {dashboardConfig?.featureFlags?.productAdditionalDetails && (
+          <ProductAdditionalDetailsWidget data={product} />
+        )}
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
+        {dashboardConfig?.featureFlags?.productSeo && (
+          <ProductSeoWidget product={product} />
+        )}
       </TwoColumnPage.Sidebar>
     </TwoColumnPage>
   )
