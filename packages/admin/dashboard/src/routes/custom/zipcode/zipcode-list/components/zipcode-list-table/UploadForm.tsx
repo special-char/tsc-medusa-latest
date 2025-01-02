@@ -2,6 +2,7 @@ import { Heading, Button } from "@medusajs/ui"
 import { useForm, Controller, SubmitHandler } from "react-hook-form"
 import FileInput from "../../../../../../components/custom/components/form/FileInput"
 import { backendUrl } from "../../../../../../lib/client"
+import { useNavigate } from "react-router-dom"
 
 interface FormValues {
   file: File | null
@@ -9,6 +10,8 @@ interface FormValues {
 
 const UploadForm = () => {
   const { handleSubmit, control } = useForm<FormValues>()
+
+  const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!data.file) {
@@ -23,7 +26,11 @@ const UploadForm = () => {
       const response = await fetch(`${backendUrl}/admin/zipcodes`, {
         method: "POST",
         body: formdata,
+        credentials: "include",
       })
+      if (response) {
+        navigate(0)
+      }
     } catch (error) {
       console.log({ error })
     }

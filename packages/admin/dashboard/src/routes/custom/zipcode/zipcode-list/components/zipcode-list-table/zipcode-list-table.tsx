@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { DataTable } from "../../../../../../components/table/data-table"
-import axios from "axios" // Add axios import
+import axios from "axios"
 import { backendUrl } from "../../../../../../lib/client"
 import {
   ColumnFiltersState,
