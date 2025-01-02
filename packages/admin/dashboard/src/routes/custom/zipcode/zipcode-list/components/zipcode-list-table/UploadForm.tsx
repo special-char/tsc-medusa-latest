@@ -1,7 +1,7 @@
 import { Heading, Button } from "@medusajs/ui"
 import { useForm, Controller, SubmitHandler } from "react-hook-form"
-import FileInput from "../../../../components/custom/components/form/FileInput"
-import { backendUrl } from "../../../../lib/client"
+import FileInput from "../../../../../../components/custom/components/form/FileInput"
+import { backendUrl } from "../../../../../../lib/client"
 
 interface FormValues {
   file: File | null
@@ -20,7 +20,7 @@ const UploadForm = () => {
     formdata.append("file", data.file)
 
     try {
-      const response = await fetch(`${backendUrl}/custom/zipcodes`, {
+      const response = await fetch(`${backendUrl}/admin/zipcodes`, {
         method: "POST",
         body: formdata,
       })

@@ -1,9 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { DataTable } from "../../../../../../components/table/data-table"
-import { useDataTable } from "../../../../../../hooks/use-data-table"
-import { Container, Heading, Text } from "@medusajs/ui"
 import axios from "axios" // Add axios import
 import { backendUrl } from "../../../../../../lib/client"
+import {
+  ColumnFiltersState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
+import { useQueryParams } from "../../../../../../hooks/use-query-params"
 
 const PAGE_SIZE = 20
 
@@ -90,6 +97,12 @@ export const ZipcodeListTable = () => {
     count: number
   } | null>(null)
 
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  const queryObject = useQueryParams(["q"])
+
+  const { q } = queryObject
+
   useEffect(() => {
     const getZipcodes = async () => {
       const fetchedZipcodes = await fetchZipcodes()
@@ -102,45 +115,50 @@ export const ZipcodeListTable = () => {
     getZipcodes()
   }, [])
 
-  const { table } = useDataTable({
-    data: (zipcodes?.data ?? []) as ZipcodeType[],
-    columns, // Use the defined columns here
-    count: zipcodes?.count ?? 0,
-    enablePagination: true,
-    pageSize: PAGE_SIZE,
-    getRowId: (row) => row?.CEPInicial.toString() || "",
+  // Filtered data based on search term
+  const filteredData = useMemo(() => {
+    return q
+      ? zipcodes?.data.filter((item) =>
+          Object.values(item).some((value) =>
+            String(value).toLowerCase().includes(q.toLowerCase())
+          )
+        )
+      : zipcodes?.data
+  }, [zipcodes, q])
+
+  const table = useReactTable({
+    data: filteredData || [],
+    columns,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
   })
 
   return (
-    <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
-        <div>
-          <Heading>Zipcodes List</Heading>
-          <Text className="text-ui-fg-subtle" size="small">
-            Zipcodes and Delivery Estimations
-          </Text>
-        </div>
-      </div>
-      <DataTable
-        table={table}
-        columns={columns}
-        count={zipcodes?.count}
-        pageSize={PAGE_SIZE}
-        filters={[]} // Add filters if needed
-        search
-        pagination
-        isLoading={false} // Set loading state as needed
-        queryObject={{}} // Pass query object if applicable
-        // navigateTo={(row) => `${row.original?.}`} // Define navigation logic
-        // orderBy={[
-        //   { key: "CEPInicial", label: "CEPInicial" },
-        //   { key: "CEPFinal", label: "CEPFinal" },
-        //   { key: "UF", label: "UF" },
-        // ]}
-        noRecords={{
-          message: "No records found", // Customize no records message
-        }}
-      />
-    </Container>
+    <DataTable
+      table={table}
+      columns={columns}
+      count={zipcodes?.count}
+      pageSize={PAGE_SIZE}
+      filters={[]} // Add filters if needed
+      search
+      pagination
+      isLoading={false} // Set loading state as needed
+      queryObject={{}} // Pass query object if applicable
+      // navigateTo={(row) => `${row.original?.}`} // Define navigation logic
+      // orderBy={[
+      //   { key: "CEPInicial", label: "CEPInicial" },
+      //   { key: "CEPFinal", label: "CEPFinal" },
+      //   { key: "UF", label: "UF" },
+      // ]}
+      noRecords={{
+        message: "No records found", // Customize no records message
+      }}
+    />
   )
 }
