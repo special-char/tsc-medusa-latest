@@ -9,18 +9,6 @@ import { getProductImportCsvTemplate } from "./helpers/import-template"
 import { useStore } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 
-type ProductImportItem = {
-  email: string
-  firstname: string
-  lastname: string
-  phone: string
-  product_handle: string
-  quantity: number
-  title: string
-  unit_price: number
-  [key: string]: any
-}
-
 export const GiftCardImport = () => {
   const { t } = useTranslation()
 
@@ -61,46 +49,6 @@ const ProductImportContent = () => {
     setFile(file)
   }
 
-  const csvToJson = (csv: string): any[] => {
-    const lines = csv.split("\n").map((line) => line.trim())
-    const headers = lines[0]?.split(",")
-
-    if (!headers) {
-      toast.error("Invalid CSV format")
-      return []
-    }
-
-    const requiredFields = [
-      "product_handle",
-      "title",
-      "unit_price",
-      "quantity",
-      "email",
-    ]
-    const result: ProductImportItem[] = []
-
-    lines.slice(1).forEach((line, rowIndex) => {
-      if (line && line.split(",").some((value) => value.trim() !== "")) {
-        const values = line.split(",")
-        const record = headers.reduce((acc, header, index) => {
-          acc[header] = values[index]?.trim() || ""
-          return acc
-        }, {} as ProductImportItem)
-
-        const missingFields = requiredFields.filter((field) => !record[field])
-        if (missingFields.length > 0) {
-          throw new Error(
-            `Row ${rowIndex + 2}: Missing fields: ${missingFields.join(", ")}`
-          )
-        } else {
-          result.push(record)
-        }
-      }
-    })
-
-    return result
-  }
-
   const handleConfirm = async () => {
     try {
       if (!file) {
@@ -108,64 +56,36 @@ const ProductImportContent = () => {
         return
       }
 
-      const readFile = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = (event) => resolve(event.target?.result as string)
-          reader.onerror = (error) => reject(error)
-          reader.readAsText(file)
-        })
-      }
-
-      const fileContent = await readFile(file)
-
       if (file.type !== "text/csv") {
         toast.error("Please upload a valid CSV file")
         return
       }
 
-      const convertedJson = csvToJson(fileContent)
-
-      const transformedItems = convertedJson?.map((item) => ({
-        product_handle: item?.product_handle,
-        title: item?.title,
-        quantity: item?.quantity,
-        unit_price: item?.unit_price,
-        is_giftcard: true,
-        metadata: {
-          firstname: item?.firstname,
-          lastname: item?.lastname,
-          email: item?.email,
-          phone: item?.phone,
-        },
-      }))
-
-      const payload = {
-        items: transformedItems,
-        additionalData: {
-          currency_code: supportedCurrencies?.[0],
-          sales_channel_id: store?.default_sales_channel_id,
-          region_id: store?.default_region_id,
-        },
-      }
+      const formData = new FormData()
+      formData.append("files", file)
+      formData.append("currency_code", supportedCurrencies?.[0] || "")
+      formData.append("sales_channel_id", store?.default_sales_channel_id || "")
+      formData.append("region_id", store?.default_region_id || "")
 
       const res = await fetch(`${__BACKEND_URL__}/admin/bulk-order`, {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: formData,
       })
+
+      if (!res.ok) {
+        const errorMessage = await res.text()
+        throw new Error(errorMessage || "Failed to upload file")
+      }
+
       console.log({ res })
       handleSuccess()
       navigate(0)
     } catch (error) {
       console.error("Error processing file:", error)
+      handleSuccess()
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to process the uploaded file"
+        "Failed to process the uploaded file check notification for more update"
       )
     }
   }
@@ -202,12 +122,6 @@ const ProductImportContent = () => {
             <UploadImport onUploaded={handleUploaded} />
           )}
         </div>
-
-        {/* {data?.summary && !!filename && (
-          <div className="mt-4">
-            <ImportSummary summary={data?.summary} />
-          </div>
-        )} */}
 
         <Heading className="mt-6" level="h2">
           {t("giftCards.import.template.title")}
