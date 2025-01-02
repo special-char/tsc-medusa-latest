@@ -159,7 +159,11 @@ export const OrderEditCreateForm = ({
                       </div>
                       <div className="w-full flex-1 flex-grow">
                         <Form.Control>
-                          <Input {...field} placeholder={t("fields.note")} />
+                          <Input
+                            {...field}
+                            placeholder={t("fields.note")}
+                            value={(order?.metadata?.note as any) || ""}
+                          />
                         </Form.Control>
                       </div>
                     </div>
