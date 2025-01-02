@@ -328,4 +328,36 @@ export const customProtectedSettingsRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.zipcode
+    ? [
+        {
+          path: "zipcode",
+          errorElement: <ErrorBoundary />,
+          element: <Outlet />,
+          handle: {
+            breadcrumb: () => "Zipcode",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/custom/zipcode/zipcode-list"),
+            },
+          ],
+        },
+        {
+          path: "zip-code",
+          errorElement: <ErrorBoundary />,
+          element: <Outlet />,
+          handle: {
+            breadcrumb: () => "Zip-code",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/custom/zipcode-upload"),
+            },
+          ],
+        },
+      ]
+    : []),
 ]
