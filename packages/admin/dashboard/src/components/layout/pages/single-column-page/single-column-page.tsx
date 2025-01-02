@@ -48,11 +48,11 @@ export const SingleColumnPage = <TData,>({
 
   return (
     <div className="flex flex-col gap-y-3">
-      {before.map((Component, i) => {
+      {before?.map((Component, i) => {
         return <Component {...widgetProps} key={i} />
       })}
       {children}
-      {after.map((Component, i) => {
+      {after?.map((Component, i) => {
         return <Component {...widgetProps} key={i} />
       })}
       {showMetadata && <MetadataSection data={data!} />}
