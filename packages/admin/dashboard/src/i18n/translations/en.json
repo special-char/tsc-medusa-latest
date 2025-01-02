@@ -1842,7 +1842,8 @@
     "tabs": {
       "template": "Type",
       "details": "Details",
-      "campaign": "Campaign"
+      "campaign": "Campaign",
+      "additional_data": "Additional Data"
     },
     "fields": {
       "type": "Type",
@@ -1928,6 +1929,10 @@
           "title": "Without Campaign",
           "description": "Proceed without associating promotion with campaign"
         }
+      },
+      "additionaldata": {
+        "title": "title",
+        "description": "description"
       },
       "status": {
         "title": "Status"

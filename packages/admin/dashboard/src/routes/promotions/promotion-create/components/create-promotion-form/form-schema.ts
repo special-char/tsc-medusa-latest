@@ -37,6 +37,8 @@ export const CreatePromotionSchema = z
       target_type: z.enum(["order", "shipping_methods", "items"]),
     }),
     campaign: CreateCampaignSchema.optional(),
+    title: z.string().optional(),
+    description: z.string().optional(),
   })
   .refine(
     (data) => {
