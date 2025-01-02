@@ -41,6 +41,14 @@ const useSettingRoutes = (): INavItem[] => {
           },
         ]
       : []),
+    ...(dashboardConfig?.featureFlags?.zipcode
+      ? [
+          {
+            label: "ZipCode",
+            to: "/settings/zipcode",
+          },
+        ]
+      : []),
   ]
 
   return useMemo(
