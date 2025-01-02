@@ -15,6 +15,7 @@ type ConfigType = {
     subscriptions?: boolean
     marketplace?: boolean
     restock?: boolean
+    bulkBuy?: boolean
   }
 }
 
@@ -33,6 +34,7 @@ const dashboardConfig: ConfigType = {
     notifications: true,
     digitalProducts: true,
     subscriptions: true,
+    bulkBuy: true,
     // marketplace
     // restock
   },

@@ -3397,8 +3397,90 @@
         },
         "giftTemplates": {
           "type": "string"
+        },
+        "import": {
+          "type": "object",
+          "properties": {
+            "header": {
+              "type": "string"
+            },
+            "uploadLabel": {
+              "type": "string"
+            },
+            "uploadHint": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "template": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["title", "description"],
+              "additionalProperties": false
+            },
+            "upload": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "preprocessing": {
+                  "type": "string"
+                },
+                "giftcardsToCreate": {
+                  "type": "string"
+                },
+                "giftcardsToUpdate": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "description",
+                "preprocessing",
+                "giftcardsToCreate",
+                "giftcardsToUpdate"
+              ],
+              "additionalProperties": false
+            },
+            "success": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["title", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "header",
+            "uploadLabel",
+            "uploadHint",
+            "description",
+            "template",
+            "upload",
+            "success"
+          ],
+          "additionalProperties": false
         }
       },
+
       "required": [
         "domain",
         "editGiftCard",
