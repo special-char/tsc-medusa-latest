@@ -12,8 +12,8 @@ const CustomTable = ({ PAGE_SIZE, table, data }: Props) => {
     <>
       <div
         style={{
-          height: "calc(100vh - 225px)",
-          overflow: "scroll",
+          // height: "calc(100vh - 225px)",
+          // overflow: "scroll",
           position: "relative",
         }}
       >
@@ -41,10 +41,7 @@ const CustomTable = ({ PAGE_SIZE, table, data }: Props) => {
           </Table.Header>
           <Table.Body className="border-b-0">
             {table.getRowModel().rows.map((row) => (
-              <Table.Row
-                key={row.id}
-                className={"cursor-pointer [&_td:last-of-type]:w-[1%]"}
-              >
+              <Table.Row key={row.id} className={"[&_td:last-of-type]:w-[1%]"}>
                 {row.getVisibleCells().map((cell) => (
                   <Table.Cell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

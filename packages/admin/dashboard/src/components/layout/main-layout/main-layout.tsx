@@ -19,6 +19,7 @@ import {
   Users,
   Envelope,
   PhotoSolid,
+  SquareTwoStack,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import * as Collapsible from "@radix-ui/react-collapsible"
@@ -222,6 +223,15 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
             icon: <ListCheckbox />,
             label: t("giftCards.giftTemplates"),
             to: "/gift-templates",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.redemption
+      ? [
+          {
+            icon: <SquareTwoStack />,
+            label: "Redemption",
+            to: "/redemption",
           },
         ]
       : []),

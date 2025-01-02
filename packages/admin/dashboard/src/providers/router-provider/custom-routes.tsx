@@ -3,6 +3,7 @@ import { ErrorBoundary } from "../../components/utilities/error-boundary"
 import { t } from "i18next"
 import { HttpTypes } from "@medusajs/types"
 import dashboardConfig from "../../../dashboard.config"
+import { lazy } from "react"
 
 export const customProtectedRoutes: RouteObject[] = [
   ...(dashboardConfig?.featureFlags?.digitalProducts
@@ -133,6 +134,31 @@ export const customProtectedRoutes: RouteObject[] = [
                     import("../../routes/gift-templates/gift-templates-edit"),
                 },
               ],
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(dashboardConfig?.featureFlags?.redemption
+    ? [
+        {
+          path: "/redemption",
+          errorElement: <ErrorBoundary />,
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/redemption/redemption-list"),
+              // children: [
+              //   {
+              //     path: "detail",
+              //     lazy: () =>
+              //       import("../../routes/redemption/redemption-detail"),
+              //   },
+              // ],
+            },
+            {
+              path: ":id",
+              lazy: () => import("../../routes/redemption/redemption-detail"),
             },
           ],
         },
@@ -323,6 +349,24 @@ export const customProtectedSettingsRoutes: RouteObject[] = [
                   lazy: () => import("../../routes/brand/brand-edit"),
                 },
               ],
+            },
+          ],
+        },
+      ]
+    : []),
+  ...(dashboardConfig?.featureFlags?.zipcode
+    ? [
+        {
+          path: "zipcode",
+          errorElement: <ErrorBoundary />,
+          element: <Outlet />,
+          handle: {
+            breadcrumb: () => "Zipcode",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/custom/zipcode/zipcode-list"),
             },
           ],
         },

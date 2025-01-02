@@ -1,5 +1,5 @@
 import { createColumnHelper, Table as TableType } from "@tanstack/react-table"
-import CustomTable from "../CustomTable"
+import CustomTable from "../../../../../components/common/CustomTable"
 
 const columnHelper = createColumnHelper<any>()
 const column = columnHelper.accessor("title", {})
