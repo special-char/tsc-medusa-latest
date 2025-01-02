@@ -16,6 +16,7 @@ type ConfigType = {
     marketplace?: boolean
     restock?: boolean
     bulkBuy?: boolean
+    zipcode?: boolean
   }
 }
 
@@ -35,6 +36,7 @@ const dashboardConfig: ConfigType = {
     digitalProducts: true,
     subscriptions: true,
     bulkBuy: true,
+    zipcode: true,
     // marketplace
     // restock
   },
