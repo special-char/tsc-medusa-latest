@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { useStore } from "../../../hooks/api"
 import { useMemo } from "react"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
+import { backendUrl } from "../../../lib/client"
 
 const formSchema = {
   title: {
@@ -96,7 +97,7 @@ export const GiftCardCreate = () => {
     let thumbnailUrl: string | null = null
     if (data.thumbnail) {
       formData.append("files", data.thumbnail.file)
-      const response = await fetch(`${__BACKEND_URL__}/admin/uploads`, {
+      const response = await fetch(`${backendUrl}/admin/uploads`, {
         method: "POST",
         body: formData,
         credentials: "include",
@@ -148,7 +149,7 @@ export const GiftCardCreate = () => {
     }
 
     try {
-      const res = await fetch(`${__BACKEND_URL__}/admin/products`, {
+      const res = await fetch(`${backendUrl}/admin/products`, {
         method: "POST",
         credentials: "include",
         headers: {
