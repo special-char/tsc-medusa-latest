@@ -70,6 +70,7 @@ export const CreatePromotionForm = () => {
     [Tab.TYPE]: "in-progress",
     [Tab.PROMOTION]: "not-started",
     [Tab.CAMPAIGN]: "not-started",
+    [Tab.ADDITIONALDATA]: "not-started",
   })
 
   const { t } = useTranslation()
@@ -85,12 +86,16 @@ export const CreatePromotionForm = () => {
 
   const handleSubmit = form.handleSubmit(
     async (data) => {
+      console.log({ data })
+
       const {
         campaign_choice: _campaignChoice,
         is_automatic,
         template_id: _templateId,
         application_method,
         rules,
+        title,
+        description,
         ...promotionData
       } = data
       const {
@@ -142,6 +147,10 @@ export const CreatePromotionForm = () => {
             buy_rules: buildRulesData(buyRulesData),
           },
           is_automatic: is_automatic === "true",
+          additional_data: {
+            title,
+            description,
+          },
         },
         {
           onSuccess: ({ promotion }) => {
@@ -195,7 +204,8 @@ export const CreatePromotionForm = () => {
           setTabState({
             [Tab.TYPE]: "completed",
             [Tab.PROMOTION]: "in-progress",
-            [Tab.CAMPAIGN]: "not-started",
+            [Tab.CAMPAIGN]: "in-progress",
+            [Tab.ADDITIONALDATA]: "not-started",
           })
           setTab(Tab.PROMOTION)
           break
@@ -209,6 +219,14 @@ export const CreatePromotionForm = () => {
         setTab(tab)
         break
       }
+      case Tab.ADDITIONALDATA:
+        setTabState((prev) => ({
+          ...prev,
+          [Tab.CAMPAIGN]: "completed",
+          [Tab.ADDITIONALDATA]: "in-progress",
+        }))
+        setTab(tab)
+        break
     }
   }
 
@@ -221,11 +239,14 @@ export const CreatePromotionForm = () => {
         const valid = await form.trigger()
 
         if (valid) {
-          handleTabChange(Tab.CAMPAIGN)
+          handleTabChange(Tab.ADDITIONALDATA)
         }
 
         break
       }
+      case Tab.ADDITIONALDATA:
+        handleTabChange(Tab.CAMPAIGN)
+        break
       case Tab.CAMPAIGN:
         break
     }
@@ -361,7 +382,7 @@ export const CreatePromotionForm = () => {
           <RouteFocusModal.Header>
             <div className="flex w-full items-center justify-between gap-x-4">
               <div className="-my-2 w-full max-w-[600px] border-l">
-                <ProgressTabs.List className="grid w-full grid-cols-3">
+                <ProgressTabs.List className="grid w-full grid-cols-4">
                   <ProgressTabs.Trigger
                     className="w-full"
                     value={Tab.TYPE}
@@ -377,7 +398,13 @@ export const CreatePromotionForm = () => {
                   >
                     {t("promotions.tabs.details")}
                   </ProgressTabs.Trigger>
-
+                  <ProgressTabs.Trigger
+                    className="w-full"
+                    value={Tab.ADDITIONALDATA}
+                    status={tabState[Tab.ADDITIONALDATA]}
+                  >
+                    {t("promotions.tabs.additional_data")}
+                  </ProgressTabs.Trigger>
                   <ProgressTabs.Trigger
                     className="w-full"
                     value={Tab.CAMPAIGN}
@@ -832,7 +859,50 @@ export const CreatePromotionForm = () => {
                 </div>
               </div>
             </ProgressTabs.Content>
+            <ProgressTabs.Content
+              value={Tab.ADDITIONALDATA}
+              className="size-full overflow-auto"
+            >
+              <div className="flex flex-col items-center">
+                <div className="flex w-full max-w-[720px] flex-col gap-y-8 py-16">
+                  <Form.Field
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => {
+                      return (
+                        <Form.Item className="basis-1/2">
+                          <Form.Label>
+                            {t("promotions.form.additionaldata.title")}
+                          </Form.Label>
 
+                          <Form.Control>
+                            <Input {...field} placeholder="Title" />
+                          </Form.Control>
+                        </Form.Item>
+                      )
+                    }}
+                  />
+
+                  <Form.Field
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => {
+                      return (
+                        <Form.Item className="basis-1/2">
+                          <Form.Label>
+                            {t("promotions.form.additionaldata.description")}
+                          </Form.Label>
+
+                          <Form.Control>
+                            <Input {...field} placeholder="Description" />
+                          </Form.Control>
+                        </Form.Item>
+                      )
+                    }}
+                  />
+                </div>
+              </div>
+            </ProgressTabs.Content>
             <ProgressTabs.Content
               value={Tab.CAMPAIGN}
               className="size-full overflow-auto"
