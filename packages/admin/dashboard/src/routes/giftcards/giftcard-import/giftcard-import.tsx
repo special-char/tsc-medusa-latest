@@ -1,11 +1,10 @@
 import { Button, Heading, Text, toast } from "@medusajs/ui"
 import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useTranslation } from "react-i18next"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { UploadImport } from "./components/upload-import"
 import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
-import { getProductImportCsvTemplate } from "./helpers/import-template"
 import { useStore } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 
@@ -40,10 +39,6 @@ const ProductImportContent = () => {
     },
     [] as string[]
   )
-
-  const productImportTemplateContent = useMemo(() => {
-    return getProductImportCsvTemplate()
-  }, [])
 
   const handleUploaded = async (file: File) => {
     setFile(file)
@@ -132,7 +127,7 @@ const ProductImportContent = () => {
         <div className="mt-4">
           <FilePreview
             filename={"product-import-template.csv"}
-            url={productImportTemplateContent}
+            url={"../../../../public/csv/bulk-buy-import-template.csv"}
           />
         </div>
       </RouteDrawer.Body>

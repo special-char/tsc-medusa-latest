@@ -1,0 +1,4 @@
+product_handle,title,quantity,unit_price,firstname,lastname,email,phone
+gifthamper,GiftHamper,2,200,Linda,Johnson,linda.johnson@gmail.com,9999999999
+Booklet,Booklet,3,150,Jane,Doe,jane.doe@gmail.com,8888888888
+Toy package,ToyPackage,4,350,Sam,Smith,sam.smith@gmail.com,7777777777
