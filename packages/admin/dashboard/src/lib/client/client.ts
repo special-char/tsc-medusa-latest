@@ -1,6 +1,6 @@
 import Medusa from "@medusajs/js-sdk"
 
-export const backendUrl = __BACKEND_URL__ ?? "/"
+export const backendUrl = process.env.VITE_MEDUSA_BACKEND_URL ?? "/"
 
 export const sdk = new Medusa({
   baseUrl: backendUrl,
