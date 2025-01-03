@@ -164,6 +164,30 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.vendors
+    ? [
+        {
+          path: "/vendors",
+          errorElement: <ErrorBoundary />,
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/vendors/vendor-list"),
+              children: [
+                {
+                  path: "create",
+                  lazy: () => import("../../routes/vendors/vendor-create"),
+                },
+              ],
+            },
+            {
+              path: ":id",
+              lazy: () => import("../../routes/redemption/redemption-detail"),
+            },
+          ],
+        },
+      ]
+    : []),
   ...(dashboardConfig?.featureFlags?.notifications
     ? [
         {
