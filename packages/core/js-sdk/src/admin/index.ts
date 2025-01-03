@@ -40,6 +40,7 @@ import { TaxRegion } from "./tax-region"
 import { Upload } from "./upload"
 import { User } from "./user"
 import { WorkflowExecution } from "./workflow-execution"
+import { Zipcode } from "./zipcode"
 
 export class Admin {
   /**
@@ -207,6 +208,11 @@ export class Admin {
    */
   public campaign: Campaign
 
+  /**
+   * @tags region
+   */
+  public zipcode: Zipcode
+
   constructor(client: Client) {
     this.invite = new Invite(client)
     this.customer = new Customer(client)
@@ -249,5 +255,6 @@ export class Admin {
     this.customerGroup = new CustomerGroup(client)
     this.promotion = new Promotion(client)
     this.campaign = new Campaign(client)
+    this.zipcode = new Zipcode(client)
   }
 }
