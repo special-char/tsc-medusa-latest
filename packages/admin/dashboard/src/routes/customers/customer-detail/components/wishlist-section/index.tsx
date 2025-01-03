@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu/index.ts"
 import { useDataTable } from "../../../../../hooks/use-data-table.tsx"
 import { DataTable } from "../../../../../components/table/data-table/data-table.tsx"
+import { sdk } from "../../../../../lib/client/client.ts"
 
 type CustomerGroupSectionProps = {
   customer: HttpTypes.AdminCustomer
@@ -18,21 +19,11 @@ const PREFIX = "cusgr"
 
 const fetchWishlists = async (customerId: string) => {
   try {
-    const res = await fetch(
-      `${__BACKEND_URL__}/admin/wishlist/customer/${customerId}`,
-      {
-        credentials: "include",
-        // headers: {
-        // "x-publishable-api-key":
-        //   "pk_60e40a6ab188f40d04717c08a86d30696524a80f64f8e71b51e72056b0e4265c",
-        // "x-publishable-api-key": __PUBLISHABLE_KEY__,
-        // },
-      }
-    )
-    if (!res.ok) {
-      throw new Error(res)
-    }
-    const response = await res.json()
+    const res = await sdk.admin.wishlist.retrieve(customerId)
+    // if (!res.ok) {
+    //   throw new Error(res)
+    // }
+    const response = res
 
     return response
   } catch (error) {
