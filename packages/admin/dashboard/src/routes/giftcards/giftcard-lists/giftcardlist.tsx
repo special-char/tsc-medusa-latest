@@ -60,10 +60,10 @@ const RenderItem = ({
           </Heading>
           <p className="line-clamp-1">{product.description}</p>
         </div>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 flex-wrap">
           {product?.variants &&
             product?.variants?.length > 0 &&
-            product?.variants?.map((variant) => {
+            product?.variants?.slice(0, 5).map((variant) => {
               return (
                 <>
                   {variant?.options && !variant?.options[0]?.metadata && (
@@ -75,6 +75,9 @@ const RenderItem = ({
                 </>
               )
             })}
+          {product?.variants && product?.variants.length > 5 && (
+            <Badge>+{product?.variants.length - 5} more</Badge>
+          )}
         </div>
       </div>
       <div className="flex flex-col justify-between items-end">
