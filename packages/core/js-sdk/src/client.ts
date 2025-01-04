@@ -168,9 +168,13 @@ export class Client {
       headers: { ...init?.headers, accept: "text/event-stream" },
     })
 
+    console.log({ [`fetchStream res for - ${input}`]: res })
+
     if (res.ok) {
       return { stream: events(res, abortController.signal), abort: abortFunc }
     }
+
+    console.log("res.ok", res.ok)
 
     return { stream: null, abort: abortFunc }
   }

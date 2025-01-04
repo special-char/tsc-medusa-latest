@@ -1,11 +1,9 @@
 import { createElement, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Button, FocusModal } from "@medusajs/ui"
-
-import axios from "axios"
 import { CustomProduct, CustomProductVariant } from "../../../types/custom"
 import getInputElement from "../../../components/custom/components/form/getInputElement"
-import { backendUrl } from "../../../lib/client"
+import { sdk } from "../../../lib/client"
 
 type Props = {
   product: CustomProduct
@@ -57,58 +55,30 @@ const VariantsImagesModal = ({
       if (data?.uploads && data?.uploads?.length > 0) {
         console.log("uploads", data?.uploads)
 
-        const formdata = new FormData()
-        data?.uploads.forEach((item) => {
-          return formdata.append("files", item, item?.name)
+        const response = await sdk.admin.upload.create({
+          files: data?.uploads,
         })
 
-        const response = await axios.post(
-          `${backendUrl}/admin/uploads`,
-          formdata,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        )
-        console.log(response.data.files, "files")
-
-        if (response.data.files && response.data.files?.length > 0) {
+        if (response.files && response.files?.length > 0) {
           const images = [
-            ...(product?.images
-              ? product?.images?.map((img) => ({ url: img.url }))
-              : []),
-            ...response.data.files.map((item: any) => ({ url: item?.url })),
+            ...(product?.images?.map((img) => ({ url: img.url })) ?? []),
+            ...response.files.map((item: any) => ({ url: item?.url })),
           ]
 
           console.log("payload", images)
 
-          const productResponse = await axios.post(
-            `${backendUrl}/admin/products/${product?.id}`,
-            {
-              images,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-              withCredentials: true,
-            }
-          )
-          console.log(productResponse.data, "product")
+          const productResponse = await sdk.admin.product.update(product.id, {
+            images,
+          })
+
+          console.log(productResponse, "product")
           selectedImages = [
-            ...response.data.files?.map((item: any) => item.url),
-            ...data?.selectedImages,
+            ...(response.files?.map((item: any) => item.url) ?? []),
+            ...(data?.selectedImages ?? []),
           ]
         }
       }
       console.log("Submitted Data:", data)
-
-      const raw = JSON.stringify({
-        ...(type === "thumbnail" ? { thumbnail: selectedImages[0] } : {}),
-        ...(type === "media" ? { images: selectedImages } : {}),
-      })
 
       console.log({
         body: {
@@ -119,26 +89,13 @@ const VariantsImagesModal = ({
         },
       })
 
-      const res = await fetch(
-        `${backendUrl}/admin/product-variant-images/product-variant/${variant?.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: raw,
-        }
-      )
+      const updateProductVariantRes =
+        await sdk.admin.productVariantImages.updateProductVariant(variant.id, {
+          ...(type === "thumbnail" ? { thumbnail: selectedImages[0] } : {}),
+          ...(type === "media" ? { images: selectedImages } : {}),
+        })
 
-      console.log({ res })
-
-      if (!res.ok) {
-        throw new Error("Something went wrong")
-      }
-      const jsonData = await res.json()
-
-      console.log(jsonData)
+      console.log(updateProductVariantRes)
 
       onClose()
     } catch (error: any) {
@@ -167,16 +124,16 @@ const VariantsImagesModal = ({
             Save and close
           </Button>
         </FocusModal.Header>
-        <FocusModal.Body className="overflow-y-scroll h-full">
+        <FocusModal.Body className="h-full overflow-y-scroll">
           <form
             onSubmit={handleSubmit(onSubmit)}
             id="variant-images-form"
-            className="relative grid md:grid-cols-[1fr_40%] md:h-full"
+            className="relative grid md:h-full md:grid-cols-[1fr_40%]"
           >
-            <div className="p-4 overflow-y-scroll h-full md:border-r">
+            <div className="h-full overflow-y-scroll p-4 md:border-r">
               <div className="space-y-2 py-4">
-                <h2 className="font-sans h2-core font-medium">Uploads</h2>
-                <p className="font-normal font-sans txt-compact-small whitespace-pre-line text-pretty">
+                <h2 className="h2-core font-sans font-medium">Uploads</h2>
+                <p className="txt-compact-small whitespace-pre-line text-pretty font-sans font-normal">
                   Select an image to use as variant {type} - {variant?.title}.
                 </p>
               </div>
@@ -194,7 +151,7 @@ const VariantsImagesModal = ({
                         <label className="relative cursor-pointer">
                           <input
                             type="checkbox"
-                            className="absolute top-2 right-2"
+                            className="absolute right-2 top-2"
                             value={image.url}
                             checked={field.value.includes(image.url)}
                             onChange={(e) => {
@@ -226,15 +183,15 @@ const VariantsImagesModal = ({
                 ))}
               </div>
             </div>
-            <div className="p-4 overflow-y-auto h-fit md:sticky top-0 left-0">
+            <div className="left-0 top-0 h-fit overflow-y-auto p-4 md:sticky">
               <div className="space-y-2 py-4">
-                <h2 className="font-sans h2-core font-medium">
+                <h2 className="h2-core font-sans font-medium">
                   Media{" "}
-                  <span className="font-normal font-sans txt-compact-small">
+                  <span className="txt-compact-small font-sans font-normal">
                     (optional)
                   </span>
                 </h2>
-                <p className="font-normal font-sans txt-compact-small whitespace-pre-line text-pretty">
+                <p className="txt-compact-small whitespace-pre-line text-pretty font-sans font-normal">
                   Add images to your product media.
                 </p>
               </div>
