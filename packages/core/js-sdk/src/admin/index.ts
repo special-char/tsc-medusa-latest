@@ -1,5 +1,7 @@
 import { Client } from "../client"
 import { ApiKey } from "./api-key"
+import { Brand } from "./brand"
+import { Wishlist } from "./wishlist"
 import { Campaign } from "./campaign"
 import { Claim } from "./claim"
 import { Currency } from "./currency"
@@ -167,6 +169,10 @@ export class Admin {
    */
   public currency: Currency
   /**
+   * @tags brand
+   */
+  public brand: Brand
+  /**
    * @tags payment
    */
   public payment: Payment
@@ -206,6 +212,10 @@ export class Admin {
    * @tags promotion
    */
   public campaign: Campaign
+  /**
+   * @tags wishlist
+   */
+  public wishlist: Wishlist
 
   constructor(client: Client) {
     this.invite = new Invite(client)
@@ -249,5 +259,7 @@ export class Admin {
     this.customerGroup = new CustomerGroup(client)
     this.promotion = new Promotion(client)
     this.campaign = new Campaign(client)
+    this.brand = new Brand(client)
+    this.wishlist = new Wishlist(client)
   }
 }
