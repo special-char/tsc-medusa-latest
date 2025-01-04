@@ -16,6 +16,7 @@ import { Invite } from "./invite"
 import { Notification } from "./notification"
 import { Order } from "./order"
 import { OrderEdit } from "./order-edit"
+import { OrderResendMail } from "./order-resend-mail"
 import { Payment } from "./payment"
 import { PaymentCollection } from "./payment-collection"
 import { PriceList } from "./price-list"
@@ -48,8 +49,22 @@ import { WorkflowExecution } from "./workflow-execution"
 import { Zipcode } from "./zipcode"
 import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
+import { Blog } from "./blog"
+import { Faq } from "./faq"
 
 export class Admin {
+  /**
+   * @tags faq
+   */
+  public faq: Faq
+  /**
+   * @tags order_resend_mail
+   */
+  public orderResendMail: OrderResendMail
+  /**
+   * @tags blog
+   */
+  public blog: Blog
   /**
    * @tags bulkorder upload
    */
@@ -252,6 +267,9 @@ export class Admin {
   public productCategoryDetails: ProductCategoryDetails
 
   constructor(client: Client) {
+    this.faq = new Faq(client)
+    this.orderResendMail = new OrderResendMail(client)
+    this.blog = new Blog(client)
     this.bulkorder = new BulkOrder(client)
     this.gifttemplate = new GiftTemplate(client)
     this.invite = new Invite(client)
