@@ -46,8 +46,18 @@ import { Upload } from "./upload"
 import { User } from "./user"
 import { WorkflowExecution } from "./workflow-execution"
 import { Zipcode } from "./zipcode"
+import { GiftTemplate } from "./gift-template"
+import { BulkOrder } from "./bulkorder"
 
 export class Admin {
+  /**
+   * @tags bulkorder upload
+   */
+  public bulkorder: BulkOrder
+  /**
+   * @tags gifttemplate
+   */
+  public gifttemplate: GiftTemplate
   /**
    * @tags user
    */
@@ -242,6 +252,8 @@ export class Admin {
   public productCategoryDetails: ProductCategoryDetails
 
   constructor(client: Client) {
+    this.bulkorder = new BulkOrder(client)
+    this.gifttemplate = new GiftTemplate(client)
     this.invite = new Invite(client)
     this.customer = new Customer(client)
     this.productCollection = new ProductCollection(client)
