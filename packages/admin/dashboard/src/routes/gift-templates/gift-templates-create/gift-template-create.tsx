@@ -123,7 +123,7 @@ export const GiftTemplateCreate = () => {
   return (
     <RouteFocusModal>
       <RouteFocusModal.Header />
-      <RouteFocusModal.Body className="relative w-full py-16 px-8 overflow-y-scroll">
+      <RouteFocusModal.Body className="relative w-full overflow-y-scroll px-8 py-16">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <div>
