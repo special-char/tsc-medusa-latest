@@ -108,7 +108,7 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
       // notify.success("Done", "success");
 
       toast(`Additional Details for product ${product.title} Updated`)
-      // navigate(0)
+      navigate(0)
     } catch (error) {
       // notify.error("Error", error);
       console.error("error occured while submitting data", { error })
