@@ -1,4 +1,4 @@
-import { Heading, Button } from "@medusajs/ui"
+import { Heading, Button, toast } from "@medusajs/ui"
 import { useForm, Controller, SubmitHandler } from "react-hook-form"
 import FileInput from "../../../../../../components/custom/components/form/FileInput"
 import { sdk } from "../../../../../../lib/client"
@@ -36,7 +36,10 @@ const UploadForm = () => {
         navigate(0)
       }
     } catch (error) {
-      console.log({ error })
+      const errorMessage =
+        (error as { message?: string })?.message || "Error while uploading file"
+
+      toast.error(errorMessage)
     }
   }
   return (
