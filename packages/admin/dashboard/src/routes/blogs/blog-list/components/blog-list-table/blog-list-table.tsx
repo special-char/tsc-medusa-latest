@@ -1,7 +1,7 @@
 import { Button, Container, Heading, Table } from "@medusajs/ui"
 import { useEffect, useState } from "react"
 
-import { backendUrl } from "../../../../../lib/client"
+import { backendUrl, sdk } from "../../../../../lib/client"
 import { DateCell } from "../../../../../components/table/table-cells/common/date-cell"
 import BlogActions from "../blog-actions/blog.actions"
 import { Link, Outlet } from "react-router-dom"
@@ -21,15 +21,16 @@ export type BlogProps = {
 }
 
 export const BlogListTable = () => {
-  const [blogs, setBlogs] = useState([])
+  const [blogs, setBlogs] = useState<BlogProps[]>([])
   const LoadBlogData = async () => {
     try {
-      const blogResponse = await fetch(`${backendUrl}/admin/blogs`, {
-        method: "GET",
-        credentials: "include",
-      })
-      const blogResponseJson = await blogResponse.json()
-      setBlogs(blogResponseJson?.blogs)
+      const blogResponse = await sdk.admin.blog.list()
+      // const blogResponse = await fetch(`${backendUrl}/admin/blogs`, {
+      //   method: "GET",
+      //   credentials: "include",
+      // })
+
+      setBlogs(blogResponse?.blogs)
     } catch (error: any) {
       console.log(`Failed to fetch blog data:${error}`)
     }

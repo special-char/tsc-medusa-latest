@@ -1,5 +1,6 @@
 import { Client } from "../client"
 import { ApiKey } from "./api-key"
+import { Blog } from "./blog"
 import { Campaign } from "./campaign"
 import { Claim } from "./claim"
 import { Currency } from "./currency"
@@ -14,6 +15,7 @@ import { Invite } from "./invite"
 import { Notification } from "./notification"
 import { Order } from "./order"
 import { OrderEdit } from "./order-edit"
+import { OrderResendMail } from "./order-resend-mail"
 import { Payment } from "./payment"
 import { PaymentCollection } from "./payment-collection"
 import { PriceList } from "./price-list"
@@ -42,6 +44,14 @@ import { User } from "./user"
 import { WorkflowExecution } from "./workflow-execution"
 
 export class Admin {
+  /**
+   * @tags order_resend_mail
+   */
+  public orderResendMail: OrderResendMail
+  /**
+   * @tags blog
+   */
+  public blog: Blog
   /**
    * @tags user
    */
@@ -208,6 +218,8 @@ export class Admin {
   public campaign: Campaign
 
   constructor(client: Client) {
+    this.orderResendMail = new OrderResendMail(client)
+    this.blog = new Blog(client)
     this.invite = new Invite(client)
     this.customer = new Customer(client)
     this.productCollection = new ProductCollection(client)

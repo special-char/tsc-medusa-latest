@@ -1,20 +1,21 @@
 import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
 import { Button, DropdownMenu } from "@medusajs/ui"
 import { Link, useNavigate } from "react-router-dom"
-import { backendUrl } from "../../../../../lib/client"
+import { sdk } from "../../../../../lib/client"
 
 const BlogActions = ({ blogId }: { blogId: string }) => {
   const navigate = useNavigate()
   const handleDelete = async () => {
     try {
-      const deleteBlogResponse = await fetch(
-        `${backendUrl}/admin/blogs/${blogId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      )
-      if (deleteBlogResponse.ok) {
+      // const deleteBlogResponse = await fetch(
+      //   `${backendUrl}/admin/blogs/${blogId}`,
+      //   {
+      //     method: "DELETE",
+      //     credentials: "include",
+      //   }
+      // )
+      const deleteBlogResponse = await sdk.admin.blog.delete(blogId)
+      if (deleteBlogResponse) {
         navigate(0)
       }
     } catch (error: any) {
