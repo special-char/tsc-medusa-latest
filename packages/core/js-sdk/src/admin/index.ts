@@ -19,7 +19,9 @@ import { PaymentCollection } from "./payment-collection"
 import { PriceList } from "./price-list"
 import { PricePreference } from "./price-preference"
 import { Product } from "./product"
+import { ProductAdditionalDetails } from "./product-additional-details"
 import { ProductCategory } from "./product-category"
+import { ProductCategoryDetails } from "./product-category-details"
 import { ProductCollection } from "./product-collection"
 import { ProductTag } from "./product-tag"
 import { ProductType } from "./product-type"
@@ -215,9 +217,19 @@ export class Admin {
   public zipcode: Zipcode
 
   /**
-   * @tags zipcode
+   * @tags product variant images
    */
   public productVariantImages: ProductVariantImages
+
+  /**
+   * @tags product additional details
+   */
+  public productAdditionalDetails: ProductAdditionalDetails
+
+  /**
+   * @tags product additional details
+   */
+  public productCategoryDetails: ProductCategoryDetails
 
   constructor(client: Client) {
     this.invite = new Invite(client)
@@ -264,5 +276,7 @@ export class Admin {
     // custom sdk client
     this.zipcode = new Zipcode(client)
     this.productVariantImages = new ProductVariantImages(client)
+    this.productAdditionalDetails = new ProductAdditionalDetails(client)
+    this.productCategoryDetails = new ProductCategoryDetails(client)
   }
 }
