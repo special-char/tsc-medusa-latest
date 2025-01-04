@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { useStore } from "../../../hooks/api"
 import { useMemo } from "react"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
+import { sdk } from "../../../lib/client"
 
 const formSchema = {
   title: {
@@ -68,7 +69,6 @@ type FormValues = {
 
 export const GiftCardCreate = () => {
   const navigate = useNavigate()
-
   const { store } = useStore()
 
   const defaultCurrency = store?.supported_currencies.find((c) => c.is_default)
@@ -92,22 +92,17 @@ export const GiftCardCreate = () => {
   })
 
   const onSubmit = async (data: FormValues) => {
-    const formData = new FormData()
     let thumbnailUrl: string | null = null
     if (data.thumbnail) {
-      formData.append("files", data.thumbnail.file)
-      const response = await fetch(`${__BACKEND_URL__}/admin/uploads`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to upload images")
+      try {
+        const uploadedFiles = await sdk.admin.upload.create({
+          files: [data.thumbnail.file],
+        })
+        thumbnailUrl = uploadedFiles.files[0].url
+      } catch (error) {
+        toast.error("Failed to upload thumbnail")
+        return
       }
-
-      const uploadData = await response.json()
-      thumbnailUrl = uploadData.files[0].url
     }
 
     const variants = data.denominations.map(
@@ -139,37 +134,25 @@ export const GiftCardCreate = () => {
     const payload = {
       title: data.title,
       is_giftcard: true,
-      status: "published",
-      thumbnail: thumbnailUrl,
       description: data.description,
       options,
       variants,
       sales_channels: [{ id: data.sales_channel }],
     }
-
     try {
-      const res = await fetch(`${__BACKEND_URL__}/admin/products`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+      await sdk.admin.product.create({
+        ...payload,
+        thumbnail: thumbnailUrl || undefined,
+        status: "published",
       })
-
-      if (!res.ok) {
-        const error = await res.json()
-        throw new Error(error.message)
-      }
-
       navigate("/gift-cards")
       navigate(0)
       toast.success("Success", {
-        description: "gift card added successfully",
+        description: "Gift card added successfully",
         duration: 5000,
       })
     } catch (error) {
-      console.error("Error creating giftcard:", error)
+      console.error("Error creating gift card:", error)
       toast.error("Error", {
         description: `${error}`,
         duration: 5000,
