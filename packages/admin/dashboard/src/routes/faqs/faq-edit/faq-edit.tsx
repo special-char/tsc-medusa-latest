@@ -2,31 +2,40 @@ import { Toaster } from "@medusajs/ui"
 import { RouteFocusModal } from "../../../components/modals"
 import { useNavigate, useParams } from "react-router-dom"
 import { FieldValues, useForm } from "react-hook-form"
-import { backendUrl } from "../../../lib/client"
+import { sdk } from "../../../lib/client"
 import { useEffect, useState, useCallback, useMemo } from "react"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
+import { FaqCategoriesListProps } from "../faq-create/faq-create"
 
-// Abstracted fetch function for reusable API calls
-const fetchData = async (url: string) => {
-  const response = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-  })
-  if (!response.ok) {
-    throw new Error(`Failed to fetch: ${url}`)
+const fetchFaqById = async (id: string) => {
+  try {
+    const response = await sdk.admin.faq.retrieve(id)
+
+    return response
+  } catch (error: any) {
+    console.error(`Failed to fetch faq with : ${id}`)
+    console.log({
+      error: `Failed to fetch faq with : ${id}`,
+      message: error.message,
+    })
   }
-  return response.json()
 }
 
-const fetchFaqById = async (id: string) =>
-  fetchData(`${backendUrl}/admin/faqs/${id}`)
-const fetchFaqCategories = async () =>
-  fetchData(`${backendUrl}/admin/faqs/categories`)
+const fetchFaqCategories = async () => {
+  try {
+    const response = await sdk.admin.faq.listFaqCategories()
+
+    return response
+  } catch (error: any) {
+    console.error(`Failed to fetch faqs`)
+    console.log({ error: "Failed to fetch faqs", message: error.message })
+  }
+}
 
 export const FaqEdit = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState<FaqCategoriesListProps[]>([])
 
   const form = useForm<FieldValues>({
     defaultValues: {
@@ -42,8 +51,8 @@ export const FaqEdit = () => {
   // Fetch categories and memoize the category options
   const loadFaqCategoriesData = useCallback(async () => {
     try {
-      const { faqCategories } = await fetchFaqCategories()
-      setCategories(faqCategories || [])
+      const data = await fetchFaqCategories()
+      setCategories(data?.faqCategories || [])
     } catch (error) {
       console.error("Error fetching categories:", error)
     }
@@ -110,12 +119,12 @@ export const FaqEdit = () => {
       try {
         const faqData = await fetchFaqById(id!)
         form.reset({
-          faqTitle: faqData.title || "",
-          faqContent: faqData.content || "",
-          faqCategoryTitle: faqData.category.title || "",
-          faqType: faqData.type || "",
-          faqDisplayStatus: faqData.display_status === "published",
-          faqDefaultOpen: faqData.by_admin || false,
+          faqTitle: faqData?.title || "",
+          faqContent: faqData?.content || "",
+          faqCategoryTitle: faqData?.category.title || "",
+          faqType: faqData?.type || "",
+          faqDisplayStatus: faqData?.display_status === "published",
+          faqDefaultOpen: faqData?.by_admin || false,
           // metadata: Object.entries(faqData?.metadata || {}).map(
           //   ([key, value]) => ({
           //     key,
@@ -145,19 +154,22 @@ export const FaqEdit = () => {
       content: data.faqContent,
       type: data.faqType,
       by_admin: data.faqDefaultOpen,
-      display_status: data.faqDisplayStatus ? "published" : "draft",
+      display_status: data.faqDisplayStatus
+        ? ("published" as const)
+        : ("draft" as const),
       email: data.email,
       category: { title: data.faqCategoryTitle },
     }
 
     try {
-      const response = await fetch(`${backendUrl}/admin/faqs/${id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(raw),
-      })
-      if (response.ok) {
+      // const response = await fetch(`${backendUrl}/admin/faqs/${id}`, {
+      //   method: "PUT",
+      //   credentials: "include",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(raw),
+      // })
+      const response = await sdk.admin.faq.update(id!, raw)
+      if (response) {
         navigate("/faqs")
         navigate(0)
       } else {

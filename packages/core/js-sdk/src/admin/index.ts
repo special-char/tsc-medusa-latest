@@ -50,8 +50,13 @@ import { Zipcode } from "./zipcode"
 import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
 import { Blog } from "./blog"
+import { Faq } from "./faq"
 
 export class Admin {
+  /**
+   * @tags faq
+   */
+  public faq: Faq
   /**
    * @tags order_resend_mail
    */
@@ -262,6 +267,7 @@ export class Admin {
   public productCategoryDetails: ProductCategoryDetails
 
   constructor(client: Client) {
+    this.faq = new Faq(client)
     this.orderResendMail = new OrderResendMail(client)
     this.blog = new Blog(client)
     this.bulkorder = new BulkOrder(client)
