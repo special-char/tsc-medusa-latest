@@ -24,6 +24,7 @@ import { ProductCollection } from "./product-collection"
 import { ProductTag } from "./product-tag"
 import { ProductType } from "./product-type"
 import { ProductVariant } from "./product-variant"
+import { ProductVariantImages } from "./product-variant-images"
 import { Promotion } from "./promotion"
 import { RefundReason } from "./refund-reasons"
 import { Region } from "./region"
@@ -209,9 +210,14 @@ export class Admin {
   public campaign: Campaign
 
   /**
-   * @tags region
+   * @tags zipcode
    */
   public zipcode: Zipcode
+
+  /**
+   * @tags zipcode
+   */
+  public productVariantImages: ProductVariantImages
 
   constructor(client: Client) {
     this.invite = new Invite(client)
@@ -255,6 +261,8 @@ export class Admin {
     this.customerGroup = new CustomerGroup(client)
     this.promotion = new Promotion(client)
     this.campaign = new Campaign(client)
+    // custom sdk client
     this.zipcode = new Zipcode(client)
+    this.productVariantImages = new ProductVariantImages(client)
   }
 }
