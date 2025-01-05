@@ -8,14 +8,11 @@ import CustomTable from "../../../components/common/CustomTable"
 import { Container, Heading } from "@medusajs/ui"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { sdk } from "../../../lib/client"
 
 const listRedemptions = async () => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/redemption`, {
-      credentials: "include",
-    })
-    const res = await response.json()
-
+    const res = await sdk.admin.redemption.retrieveAll()
     return res.redemptions
   } catch (error) {
     console.log(error)
