@@ -51,12 +51,17 @@ import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
+import { Redemption } from "./redemption"
 
 export class Admin {
   /**
    * @tags faq
    */
   public faq: Faq
+  /**
+   * @tags redemption
+   */
+  public redemption: Redemption
   /**
    * @tags order_resend_mail
    */
@@ -320,5 +325,6 @@ export class Admin {
     this.productVariantImages = new ProductVariantImages(client)
     this.productAdditionalDetails = new ProductAdditionalDetails(client)
     this.productCategoryDetails = new ProductCategoryDetails(client)
+    this.redemption = new Redemption(client)
   }
 }
