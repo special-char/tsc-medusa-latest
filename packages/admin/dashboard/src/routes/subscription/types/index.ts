@@ -1,18 +1,15 @@
-import { 
-  OrderDTO,
-  CustomerDTO
-} from "@medusajs/framework/types"
+import { OrderDTO, CustomerDTO } from "@medusajs/framework/types"
 
 export enum SubscriptionStatus {
   ACTIVE = "active",
   CANCELED = "canceled",
   EXPIRED = "expired",
-  FAILED = "failed"
+  FAILED = "failed",
 }
 
 export enum SubscriptionInterval {
   MONTHLY = "monthly",
-  YEARLY = "yearly"
+  YEARLY = "yearly",
 }
 
 export type SubscriptionData = {
