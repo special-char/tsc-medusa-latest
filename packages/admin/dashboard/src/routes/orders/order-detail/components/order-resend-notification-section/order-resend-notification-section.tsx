@@ -11,8 +11,8 @@ import {
   Text,
 } from "@medusajs/ui"
 import { useState } from "react"
-import { backendUrl } from "../../../../../lib/client"
 import { useNavigate } from "react-router-dom"
+import { sdk } from "../../../../../lib/client"
 
 type orderResendNotificationSectionProps = {
   order: HttpTypes.AdminOrder
@@ -45,16 +45,18 @@ const OrderResendNotificationSection = ({
 
     try {
       setLoading(true)
-      const response = await fetch(`${backendUrl}/admin/resend-email`, {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(resendData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      await response.json()
-      if (response.ok) {
+      // const response = await fetch(`${backendUrl}/admin/resend-email`, {
+      //   method: "POST",
+      //   credentials: "include",
+      //   body: JSON.stringify(resendData),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      // await response.json()
+      const resendMail = await sdk.admin.orderResendMail.create(resendData)
+
+      if (resendMail) {
         navigate(0)
       }
     } catch (error) {

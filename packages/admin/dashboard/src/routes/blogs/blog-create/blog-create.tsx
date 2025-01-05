@@ -1,7 +1,7 @@
 import { Toaster } from "@medusajs/ui"
 import { RouteFocusModal } from "../../../components/modals"
 import { FieldValues, useForm } from "react-hook-form"
-import { backendUrl } from "../../../lib/client"
+import { sdk } from "../../../lib/client"
 import { useNavigate } from "react-router-dom"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
 export const blogCreateSchema = {
@@ -50,22 +50,29 @@ export const blogCreateSchema = {
     },
   },
 }
+
 export const BlogCreate = () => {
   const navigate = useNavigate()
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      const createBlogResponse = await fetch(`${backendUrl}/admin/blogs`, {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      const createBlogResponseJson = await createBlogResponse.json()
-
-      if (createBlogResponseJson) {
+      // const createBlogResponse = await fetch(`${backendUrl}/admin/blogs`, {
+      //   method: "POST",
+      //   credentials: "include",
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      // const createBlogResponseJson = await createBlogResponse.json()
+      const createBlogData = {
+        title: data.title,
+        subtitle: data.subtitle,
+        handle: data.handle,
+        content: data.content,
+      }
+      const createBlogResponse = await sdk.admin.blog.create(createBlogData)
+      if (createBlogResponse) {
         navigate("/blogs")
         navigate(0)
       }

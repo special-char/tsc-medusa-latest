@@ -1,5 +1,5 @@
 import { Badge, Button, Container, DropdownMenu, Heading } from "@medusajs/ui"
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
   useProducts,
@@ -27,6 +27,7 @@ const RenderItem = ({
 }) => {
   const { mutateAsync: updateMutate } = useUpdateProduct(product.id)
   const { mutateAsync: deleteMutate } = useDeleteProduct(product.id)
+  const navigate = useNavigate()
 
   const handleDelete = async (productId: string) => {
     await deleteMutate()
@@ -44,7 +45,7 @@ const RenderItem = ({
   }
 
   return (
-    <Container className="p-8 grid grid-cols-[auto_1fr_auto] gap-4">
+    <Container className="p-8 grid grid-cols-[auto_1fr_auto] gap-4 hover:cursor-pointer">
       <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]">
         <img
           src={product.thumbnail || ""}

@@ -13,19 +13,11 @@ import { Button, Input, Label, Text } from "@medusajs/ui"
 import { useMemo } from "react"
 import RichTextInput from "./components/RichTextInput"
 import { useNavigate } from "react-router-dom"
+import { sdk } from "../../../lib/client"
 
 const createGiftTemplates = async (data: any) => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/gift-templates`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    const res = await response.json()
-    console.log({ res }, "post template")
+    const res = await sdk.admin.gifttemplate.create(data)
     return res
   } catch (error) {
     console.log(error)

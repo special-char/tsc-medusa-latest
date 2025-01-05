@@ -1,7 +1,7 @@
-import { Heading, Button } from "@medusajs/ui"
+import { Heading, Button, toast } from "@medusajs/ui"
 import { useForm, Controller, SubmitHandler } from "react-hook-form"
 import FileInput from "../../../../../../components/custom/components/form/FileInput"
-import { backendUrl } from "../../../../../../lib/client"
+import { sdk } from "../../../../../../lib/client"
 import { useNavigate } from "react-router-dom"
 
 interface FormValues {
@@ -23,16 +23,23 @@ const UploadForm = () => {
     formdata.append("file", data.file)
 
     try {
-      const response = await fetch(`${backendUrl}/admin/zipcodes`, {
-        method: "POST",
-        body: formdata,
-        credentials: "include",
-      })
+      // const response = await fetch(`${backendUrl}/admin/zipcodes`, {
+      //   method: "POST",
+      //   body: formdata,
+      //   credentials: "include",
+      // })
+      const response = await sdk.admin.zipcode.upload(data.file)
+
+      console.log({ response })
+
       if (response) {
         navigate(0)
       }
     } catch (error) {
-      console.log({ error })
+      const errorMessage =
+        (error as { message?: string })?.message || "Error while uploading file"
+
+      toast.error(errorMessage)
     }
   }
   return (
