@@ -6,6 +6,7 @@ export const normalizeProductFormValues = (
   values: ProductCreateSchemaType & {
     status: HttpTypes.AdminProductStatus
     regionsCurrencyMap: Record<string, string>
+    is_giftcard: boolean
   }
 ): HttpTypes.AdminCreateProduct | any => {
   const thumbnail = values.media?.find((media) => media.isThumbnail)?.url
@@ -15,7 +16,7 @@ export const normalizeProductFormValues = (
 
   return {
     status: values.status,
-    is_giftcard: false,
+    is_giftcard: values.is_giftcard,
     tags: values?.tags?.length
       ? values.tags?.map((tag) => ({ id: tag }))
       : undefined,
