@@ -47,8 +47,6 @@ import { Upload } from "./upload"
 import { User } from "./user"
 import { WorkflowExecution } from "./workflow-execution"
 import { Zipcode } from "./zipcode"
-import { GiftTemplate } from "./gift-template"
-import { BulkOrder } from "./bulkorder"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
 import { Redemption } from "./redemption"
@@ -72,14 +70,6 @@ export class Admin {
    * @tags blog
    */
   public blog: Blog
-  /**
-   * @tags bulkorder upload
-   */
-  public bulkorder: BulkOrder
-  /**
-   * @tags gifttemplate
-   */
-  public gifttemplate: GiftTemplate
   /**
    * @tags bulkorder upload
    */
@@ -285,8 +275,6 @@ export class Admin {
     this.faq = new Faq(client)
     this.orderResendMail = new OrderResendMail(client)
     this.blog = new Blog(client)
-    this.bulkorder = new BulkOrder(client)
-    this.gifttemplate = new GiftTemplate(client)
     this.bulkorder = new BulkOrder(client)
     this.gifttemplate = new GiftTemplate(client)
     this.invite = new Invite(client)

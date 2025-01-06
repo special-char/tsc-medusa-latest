@@ -27,7 +27,6 @@ const RenderItem = ({
 }) => {
   const { mutateAsync: updateMutate } = useUpdateProduct(product.id)
   const { mutateAsync: deleteMutate } = useDeleteProduct(product.id)
-  const navigate = useNavigate()
 
   const handleDelete = async (productId: string) => {
     await deleteMutate()
