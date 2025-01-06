@@ -4,21 +4,12 @@ import { sdk } from "../../../../lib/client"
 
 const deleteBrand = async (brandId: string) => {
   try {
- 
     const response = await sdk.admin.brand.delete(brandId)
-
-    // if (!response.ok) {
-    //   // Throw an error if the response status is not OK
-    //   const errorData = await response.json()
-
-    //   throw new Error(errorData.error || "Failed to delete brand")
-    // }
 
     const res = response
     return res
   } catch (error) {
-    console.log(error, "error")
-    throw new Error("Failed to delete brand")
+    throw error
   }
 }
 
