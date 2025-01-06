@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 import { DigitalProduct } from "./types"
 import CreateDigitalProductForm from "./components/create-digital-product-form"
+import { sdk } from "../../lib/client"
 
 export const DigitalProductsPage = () => {
   const [digitalProducts, setDigitalProducts] = useState<DigitalProduct[]>([])
@@ -33,20 +34,15 @@ export const DigitalProductsPage = () => {
     }
   }
 
-  const fetchProducts = () => {
+  const fetchProducts = async () => {
     const query = new URLSearchParams({
       limit: `${pageLimit}`,
       offset: `${pageLimit * currentPage}`,
     })
-
-    fetch(`${__BACKEND_URL__}/admin/digital-products?${query.toString()}`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then(({ digital_products: data, count }) => {
-        setDigitalProducts(data)
-        setCount(count)
-      })
+    const { digital_products: data, count } =
+      await sdk.admin.digitalProduct.retrieveAll(query)
+    setDigitalProducts(data)
+    setCount(count)
   }
 
   useEffect(() => {
