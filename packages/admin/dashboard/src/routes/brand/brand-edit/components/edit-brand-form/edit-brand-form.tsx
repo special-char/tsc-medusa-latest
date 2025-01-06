@@ -20,13 +20,7 @@ type EditBrandFormProps = {
 
 const editBrand = async (data: { name: string; id: string }) => {
   try {
-   
     const response = await sdk.admin.brand.edit(data.id, data)
-    // if (!response.ok) {
-    //   const errorData = await response.json()
-    //   throw new Error(errorData.message || "Failed to create brand")
-    // }
-
     const res = response
     return res
   } catch (error) {
@@ -57,7 +51,7 @@ export const EditBrandForm = ({ Brand }: EditBrandFormProps) => {
       toast.success("Brand updated successfully")
       handleSuccess(`/settings/brand`)
     } catch (error) {
-      toast.error("Failed to update brand")
+      toast.error(error?.message || "Failed to update brand. Please try again.")
     } finally {
       setIsPending(false)
     }
