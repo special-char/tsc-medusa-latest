@@ -54,6 +54,7 @@ import { DigitalProduct } from "./digital-product"
 import { Subscription } from "./subscription"
 import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
+import { ProductSeo } from "./product-seo"
 
 export class Admin {
   /**
@@ -64,6 +65,10 @@ export class Admin {
    * @tags subscription
    */
   public subscription: Subscription
+  /**
+   * @tags productSeo
+   */
+  public productSeo: ProductSeo
   /**
    * @tags redemption
    */
@@ -283,6 +288,7 @@ export class Admin {
 
   constructor(client: Client) {
     this.faq = new Faq(client)
+    this.productSeo = new ProductSeo(client)
     this.orderResendMail = new OrderResendMail(client)
     this.blog = new Blog(client)
     this.bulkorder = new BulkOrder(client)
