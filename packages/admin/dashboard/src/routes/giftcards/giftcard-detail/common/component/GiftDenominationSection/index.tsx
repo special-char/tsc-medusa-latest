@@ -2,7 +2,6 @@ import { HttpTypes } from "@medusajs/types"
 import { Container, Heading } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useProductVariants } from "../../../../../../hooks/api/products"
-import { useProductVariantTableQuery } from "../../../../../products/product-detail/components/product-variant-section/use-variant-table-query"
 
 import DenominationTable from "../DenominationTabel.tsx"
 import { Plus } from "@medusajs/icons"
@@ -12,19 +11,12 @@ type ProductVariantSectionProps = {
   product: HttpTypes.AdminProduct
 }
 
-const PAGE_SIZE = 10
-
 export const GiftDenominationSection = ({
   product,
 }: ProductVariantSectionProps) => {
-  const { searchParams } = useProductVariantTableQuery({
-    pageSize: PAGE_SIZE,
-  })
-
   const { variants, isError, error } = useProductVariants(
     product.id,
     {
-      ...searchParams,
       fields: "*inventory_items.inventory.location_levels,+inventory_quantity",
     },
     {
@@ -37,7 +29,7 @@ export const GiftDenominationSection = ({
   }
 
   return (
-    <Container className="divide-y p-0">
+    <Container className="p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h2">Denominations</Heading>
         <Link
