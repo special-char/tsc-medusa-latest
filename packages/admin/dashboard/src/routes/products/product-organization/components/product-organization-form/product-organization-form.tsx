@@ -24,13 +24,9 @@ type ProductOrganizationFormProps = {
 
 const fetchBrands = async () => {
   try {
-    
     const response = await sdk.admin.brand.list()
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.message || "Failed to fetch brands")
-    }
-    const result = await response.json()
+
+    const result = response
     return { brands: result.brands }
   } catch (error) {
     console.error(error)
