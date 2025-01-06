@@ -67,10 +67,10 @@ export const GiftCardCreate = () => {
   return (
     <RouteFocusModal>
       <RouteFocusModal.Title asChild>
-        <span className="sr-only">test</span>
+        <span className="sr-only">GiftCard</span>
       </RouteFocusModal.Title>
       <RouteFocusModal.Description asChild>
-        <span className="sr-only">test</span>
+        <span className="sr-only">GiftCard Create</span>
       </RouteFocusModal.Description>
       <RouteFocusModal.Header />
       {ready && (
