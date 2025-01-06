@@ -3,6 +3,12 @@ import { useEffect, useMemo, useState } from "react"
 
 import { Link } from "react-router-dom"
 import { SubscriptionData, SubscriptionStatus } from "../types"
+import { sdk } from "../../../lib/client"
+
+const listSubscriptionByQuery = async (query: URLSearchParams) => {
+  const res = await sdk.admin.subscription.retrieveByQuery(query)
+  return res
+}
 
 export const SubscriptionsPage = () => {
   const [subscriptions, setSubscriptions] = useState<SubscriptionData[]>([])
@@ -36,14 +42,7 @@ export const SubscriptionsPage = () => {
       offset: `${pageLimit * currentPage}`,
     })
 
-    fetch(`${__BACKEND_URL__}/admin/subscriptions?${query.toString()}`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then(({ subscriptions: data, count }) => {
-        setSubscriptions(data)
-        setCount(count)
-      })
+    listSubscriptionByQuery(query).then((res) => setSubscriptions(res))
   }, [currentPage])
 
   const getBadgeColor = (status: SubscriptionStatus) => {

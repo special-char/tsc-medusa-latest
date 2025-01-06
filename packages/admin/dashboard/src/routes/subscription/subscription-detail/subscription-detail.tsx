@@ -2,6 +2,12 @@ import { Container, Heading, Table } from "@medusajs/ui"
 import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { SubscriptionData } from "../types"
+import { sdk } from "../../../lib/client"
+
+const listSubscriptionById = async (id: string) => {
+  const res = await sdk.admin.subscription.retrieveById(id)
+  return res
+}
 
 export const SubscriptionPage = () => {
   const { id } = useParams()
@@ -11,13 +17,7 @@ export const SubscriptionPage = () => {
   >()
 
   useEffect(() => {
-    fetch(`${__BACKEND_URL__}/admin/subscriptions/${id}`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then(({ subscription: data }) => {
-        setSubscription(data)
-      })
+    listSubscriptionById(id as string).then((res) => setSubscription(res))
   }, [id])
 
   return (

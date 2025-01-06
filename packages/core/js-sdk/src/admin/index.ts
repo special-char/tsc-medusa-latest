@@ -52,12 +52,17 @@ import { BulkOrder } from "./bulkorder"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
 import { Redemption } from "./redemption"
+import { Subscription } from "./subscription"
 
 export class Admin {
   /**
    * @tags faq
    */
   public faq: Faq
+  /**
+   * @tags subscription
+   */
+  public subscription: Subscription
   /**
    * @tags redemption
    */
