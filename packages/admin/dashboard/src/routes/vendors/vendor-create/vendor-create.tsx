@@ -7,9 +7,9 @@ import {
 import { RouteFocusModal } from "../../../components/modals"
 import { Button, Heading, Input, Label, Text, Tooltip } from "@medusajs/ui"
 import { useEffect } from "react"
-import ImageUpload from "../../../components/custom/components/form/ImageUpload"
 import { InformationCircleSolid } from "@medusajs/icons"
 import { sdk } from "../../../lib/client"
+import { useNavigate } from "react-router-dom"
 
 const getAuthToken = async (data: any) => {
   try {
@@ -19,55 +19,17 @@ const getAuthToken = async (data: any) => {
     })
 
     return response
-
-    // const response = await fetch(
-    //   `${__BACKEND_URL__}/auth/manager/emailpass/register`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       email: data.email,
-    //       password: data.email, // Replace with actual password if needed
-    //     }),
-    //   }
-    // )
-
-    // const result = await response.json()
-
-    // return result
   } catch (error) {
     console.log(error)
   }
 }
 
-const postVendor = async (data, tokenResult) => {
+const postVendor = async (data: any, tokenResult?: string) => {
   try {
     const response = await sdk.vendor.create(data, {
       Authorization: `Bearer ${tokenResult}`,
     })
     return response
-    // const response = await fetch(`${__BACKEND_URL__}/admin/vendors`, {
-    //   method: "POST",
-    //   credentials: "include",
-    //   body: JSON.stringify({
-    //     name: data.name,
-    //     handle: data.handle,
-    //     logo: data.logo ? data.logo[0] : null,
-    //     admin: {
-    //       email: data.email,
-    //       first_name: data.first_name,
-    //       last_name: data.last_name,
-    //     },
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${tokenResult.token}`,
-    //   },
-    // })
-    // const res = await response.json()
-    // console.log("res", res)
   } catch (error) {
     console.log(error)
   }
@@ -84,6 +46,8 @@ export function VendorCreate() {
 
   const name = watch("name")
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     if (name) {
       const generatedHandle = name.trim().replace(/\s+/g, "-").toLowerCase()
@@ -95,11 +59,23 @@ export function VendorCreate() {
     try {
       const tokenResult = await getAuthToken(data)
 
-      console.log("tokenResult", tokenResult)
-
-      const vendorResult = await postVendor(data, tokenResult)
-
-      console.log({ vendorResult }, "post vendor")
+      const vendorResult = await postVendor(
+        {
+          name: data.name,
+          handle: data.handle,
+          // logo: data.logo,
+          admin: {
+            email: data.email,
+            first_name: data.first_name,
+            last_name: data.last_name,
+          },
+        },
+        tokenResult
+      )
+      navigate("/vendors", {
+        replace: true,
+        state: { isSubmittingSuccessful: true },
+      })
     } catch (error) {
       console.error("Error:", error)
     }
@@ -165,7 +141,7 @@ export function VendorCreate() {
                 </Text>
               )}
             </div>
-            <div>
+            {/* <div>
               <Controller
                 name="logo"
                 control={control}
@@ -185,7 +161,7 @@ export function VendorCreate() {
                   {errors.content.message as string}
                 </Text>
               )}
-            </div>
+            </div> */}
             <Heading level="h1" className="text-xl font-semibold">
               Vendor Admin
             </Heading>

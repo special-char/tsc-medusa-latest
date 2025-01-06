@@ -8,14 +8,11 @@ import {
 import CustomTable from "../../../components/common/CustomTable"
 import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { sdk } from "../../../lib/client"
 
 const listHistory = async (id: string) => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/redemption/${id}`, {
-      credentials: "include",
-    })
-    const res = await response.json()
-
+    const res = await sdk.admin.redemption.retrieve(id)
     return res.redemption
   } catch (error) {
     console.log(error)

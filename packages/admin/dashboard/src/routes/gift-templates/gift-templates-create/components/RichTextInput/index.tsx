@@ -3,7 +3,7 @@ import ReactQuill, { Quill } from "react-quill"
 import QuillResizeImage from "quill-resize-image"
 import "react-quill/dist/quill.snow.css"
 import { Label } from "@medusajs/ui"
-import axios from "axios"
+import { sdk } from "../../../../../lib/client"
 
 Quill.register("modules/resize", QuillResizeImage)
 
@@ -82,22 +82,11 @@ const RichTextInput: React.FC<RichTextProps> = ({ label, value, onChange }) => {
               })
 
               try {
-                // Upload the image
-                const formData = new FormData()
-                formData.append("files", file)
+                const response = await sdk.admin.upload.create({
+                  files: [file],
+                })
 
-                const response = await axios.post(
-                  `${__BACKEND_URL__}/admin/uploads`,
-                  formData,
-                  {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                    },
-                    withCredentials: true,
-                  }
-                )
-
-                const uploadedImage = response.data.files?.[0]
+                const uploadedImage = response.files?.[0]
                 if (uploadedImage && uploadedImage.url) {
                   const uploadedImageUrl = uploadedImage.url
 

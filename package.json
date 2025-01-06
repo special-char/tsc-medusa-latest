@@ -78,8 +78,6 @@
     "global": "^4.4.0",
     "import-from": "^3.0.0",
     "lodash": "^4.17.21",
-    "quill-resize-image": "^1.0.5",
-    "react-quill": "^2.0.0",
     "type-fest": "^4.30.2"
   },
   "packageManager": "yarn@3.2.1",

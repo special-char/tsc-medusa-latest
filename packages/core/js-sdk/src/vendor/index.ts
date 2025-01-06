@@ -20,4 +20,10 @@ export class Vendor {
       body: data,
     })
   }
+
+  async retrieve(headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/vendors`, {
+      headers,
+    })
+  }
 }

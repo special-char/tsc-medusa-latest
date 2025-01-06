@@ -9,6 +9,7 @@ import {
   useRouteModal,
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
+import { sdk } from "../../../../../lib/client/client"
 
 const CreateProductTypeSchema = z.object({
   value: z.string().min(1),
@@ -16,22 +17,9 @@ const CreateProductTypeSchema = z.object({
 
 const createBrand = async (data: { name: string }) => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/brand`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+    const response = await sdk.admin.brand.create(data)
 
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || "Failed to create brand")
-    }
-
-    const res = await response.json()
+    const res = response
     return res
   } catch (error) {
     console.log(error)

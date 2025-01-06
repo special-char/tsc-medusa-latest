@@ -1,13 +1,13 @@
 import { Button, Heading, Text, toast } from "@medusajs/ui"
 import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useTranslation } from "react-i18next"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { UploadImport } from "./components/upload-import"
 import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
-import { getProductImportCsvTemplate } from "./helpers/import-template"
 import { useStore } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
+import { sdk } from "../../../lib/client"
 
 export const GiftCardImport = () => {
   const { t } = useTranslation()
@@ -41,10 +41,6 @@ const ProductImportContent = () => {
     [] as string[]
   )
 
-  const productImportTemplateContent = useMemo(() => {
-    return getProductImportCsvTemplate()
-  }, [])
-
   const handleUploaded = async (file: File) => {
     setFile(file)
   }
@@ -61,23 +57,14 @@ const ProductImportContent = () => {
         return
       }
 
-      const formData = new FormData()
-      formData.append("files", file)
-      formData.append("currency_code", supportedCurrencies?.[0] || "")
-      formData.append("sales_channel_id", store?.default_sales_channel_id || "")
-      formData.append("region_id", store?.default_region_id || "")
-
-      const res = await fetch(`${__BACKEND_URL__}/admin/bulk-order`, {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      })
-
-      if (!res.ok) {
-        const errorMessage = await res.text()
-        throw new Error(errorMessage || "Failed to upload file")
+      const formData = {
+        files: file,
+        currency_code: supportedCurrencies?.[0] || "",
+        sales_channel_id: store?.default_sales_channel_id || "",
+        region_id: store?.default_region_id || "",
       }
 
+      const res = await sdk.admin.bulkorder.upload(formData)
       console.log({ res })
       handleSuccess()
       navigate(0)
@@ -131,8 +118,8 @@ const ProductImportContent = () => {
         </Text>
         <div className="mt-4">
           <FilePreview
-            filename={"product-import-template.csv"}
-            url={productImportTemplateContent}
+            filename={"bulkbuy-import-template.csv"}
+            url={"../../../../public/csv/bulk-buy-import-template.csv"}
           />
         </div>
       </RouteDrawer.Body>

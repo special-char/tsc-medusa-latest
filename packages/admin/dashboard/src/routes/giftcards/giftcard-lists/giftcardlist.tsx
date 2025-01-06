@@ -1,5 +1,5 @@
 import { Badge, Button, Container, DropdownMenu, Heading } from "@medusajs/ui"
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
   useProducts,
@@ -44,7 +44,7 @@ const RenderItem = ({
   }
 
   return (
-    <Container className="p-8 grid grid-cols-[auto_1fr_auto] gap-4">
+    <Container className="p-8 grid grid-cols-[auto_1fr_auto] gap-4 hover:cursor-pointer">
       <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]">
         <img
           src={product.thumbnail || ""}
@@ -59,10 +59,10 @@ const RenderItem = ({
           </Heading>
           <p className="line-clamp-1">{product.description}</p>
         </div>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 flex-wrap">
           {product?.variants &&
             product?.variants?.length > 0 &&
-            product?.variants?.map((variant) => {
+            product?.variants?.slice(0, 5).map((variant) => {
               return (
                 <>
                   {variant?.options && !variant?.options[0]?.metadata && (
@@ -74,6 +74,9 @@ const RenderItem = ({
                 </>
               )
             })}
+          {product?.variants && product?.variants.length > 5 && (
+            <Badge>+{product?.variants.length - 5} more</Badge>
+          )}
         </div>
       </div>
       <div className="flex flex-col justify-between items-end">

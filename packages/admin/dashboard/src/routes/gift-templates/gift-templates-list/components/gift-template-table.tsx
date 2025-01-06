@@ -9,13 +9,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { useEffect, useState } from "react"
+import { sdk } from "../../../../lib/client"
 
 const getGiftTemplates = async () => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/gift-templates`, {
-      credentials: "include",
-    })
-    const res = await response.json()
+    const res = await sdk.admin.gifttemplate.list()
     return res
   } catch (error) {
     console.log(error)
@@ -24,17 +22,7 @@ const getGiftTemplates = async () => {
 
 const deleteGiftTemplates = async (id: string) => {
   try {
-    const response = await fetch(
-      `${__BACKEND_URL__}/admin/gift-templates/${id}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    const res = await response.json()
+    const res = await sdk.admin.gifttemplate.delete(id)
     console.log({ res }, "delete template")
   } catch (error) {
     console.log(error)
@@ -117,7 +105,7 @@ export const GiftTemplateTable = () => {
   })
 
   useEffect(() => {
-    getGiftTemplates().then((res) => setGiftTemplates(res.data))
+    getGiftTemplates().then((res: any) => setGiftTemplates(res.data))
   }, [])
 
   return (

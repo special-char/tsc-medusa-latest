@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { DataTable } from "../../../../../../components/table/data-table"
-import axios from "axios"
-import { backendUrl } from "../../../../../../lib/client"
+import { sdk } from "../../../../../../lib/client"
 import {
   ColumnFiltersState,
   getCoreRowModel,
@@ -30,15 +29,11 @@ type ZipcodeType = {
 
 const fetchZipcodes = async () => {
   try {
-    const response = await axios.get(`${backendUrl}/admin/zipcodes`, {
-      withCredentials: true, // Use withCredentials for including cookies
-    }) // Replace with your API endpoint
-
-    const data = response.data // Access data directly from the response
+    const data = await sdk.admin.zipcode.list()
     return data // Assuming the API returns an array of zip codes
   } catch (error) {
     console.error("Error fetching zip codes:", error)
-    return [] // Return an empty array in case of error
+    return
   }
 }
 
@@ -110,7 +105,9 @@ export const ZipcodeListTable = () => {
 
       console.log({ fetchedZipcodes })
 
-      setZipcodes(fetchedZipcodes)
+      if (fetchedZipcodes) {
+        setZipcodes(fetchedZipcodes)
+      }
     }
     getZipcodes()
   }, [])

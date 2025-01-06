@@ -8,6 +8,7 @@ import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { Brand } from "../../../brand-list/components/brand-list-table/brand-list-table"
 import { useState } from "react"
+import { sdk } from "../../../../../lib/client/client"
 
 const EditBrandSchema = z.object({
   name: z.string().min(1),
@@ -19,23 +20,8 @@ type EditBrandFormProps = {
 
 const editBrand = async (data: { name: string; id: string }) => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/brand/${data.id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        // "x-publishable-api-key": __PUBLISHABLE_KEY__,
-      },
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.message || "Failed to create brand")
-    }
-
-    const res = await response.json()
+    const response = await sdk.admin.brand.edit(data.id, data)
+    const res = response
     return res
   } catch (error) {
     console.log(error)
@@ -65,7 +51,7 @@ export const EditBrandForm = ({ Brand }: EditBrandFormProps) => {
       toast.success("Brand updated successfully")
       handleSuccess(`/settings/brand`)
     } catch (error) {
-      toast.error("Failed to update brand")
+      toast.error(error?.message || "Failed to update brand. Please try again.")
     } finally {
       setIsPending(false)
     }

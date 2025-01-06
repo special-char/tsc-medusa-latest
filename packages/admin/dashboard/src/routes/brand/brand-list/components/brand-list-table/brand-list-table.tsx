@@ -11,6 +11,7 @@ import { TextCell } from "../../../../../components/table/table-cells/common/tex
 import { DateCell } from "../../../../../components/table/table-cells/common/date-cell"
 import { BrandRowActions } from "./brand-row-actions"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "../../../../../lib/client/client"
 
 const PAGE_SIZE = 20
 
@@ -30,7 +31,7 @@ const fetchBrands = async (
           for (const [nestedKey, nestedValue] of Object.entries(value)) {
             if (nestedValue !== undefined) {
               // Check if nested value is defined
-              queryString.append(`${key}[${nestedKey}]`, nestedValue)
+              queryString.append(`${key}[${nestedKey}]`, nestedValue as string)
             }
           }
         } else {
@@ -41,23 +42,13 @@ const fetchBrands = async (
 
     console.log("🚀 ~ queryString:", queryString.toString())
     // Convert searchParams to query string
-    const response = await fetch(
-      `${__BACKEND_URL__}/admin/brand?${queryString.toString()}`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          // "x-publishable-api-key": __PUBLISHABLE_KEY__,
-        },
-      }
-    )
-    if (!response.ok) {
+   
+    const response = await sdk.admin.brand.list(queryString)
+    if (!response) {
       const errorData = await response.json()
       throw new Error(errorData.message || "Failed to fetch brands")
     }
-    const result = await response.json()
+    const result = response
     return result // Return the brands array
   } catch (error) {
     console.error(error)

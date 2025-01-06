@@ -10,8 +10,8 @@ import { CustomProduct, CustomProductVariant } from "../../../types/custom"
 
 const EmptyImage = ({ text = "No images..." }) => {
   return (
-    <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px] grid justify-center items-center">
-      <span className="font-sans txt-compact-small">{text}</span>
+    <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative grid aspect-square size-full cursor-pointer items-center justify-center overflow-hidden rounded-[8px]">
+      <span className="txt-compact-small font-sans">{text}</span>
     </div>
   )
 }
@@ -39,7 +39,7 @@ const ProductVariantImagesList = ({
     <div className="divide-y">
       {product?.variants?.map((variant) => {
         return (
-          <div key={variant.id} className="mt-3 w-full py-2 px-6">
+          <div key={variant.id} className="mt-3 w-full px-6 py-2">
             <div className="flex items-center">
               <div className="inter-base-semibold flex-1">{variant.title}</div>
               <DropdownMenu>
@@ -47,7 +47,7 @@ const ProductVariantImagesList = ({
                   <Button
                     variant="secondary"
                     size="small"
-                    className="w-6 h-6 p-0"
+                    className="h-6 w-6 p-0"
                   >
                     <EllipsisHorizontal />
                   </Button>
@@ -78,8 +78,8 @@ const ProductVariantImagesList = ({
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-4 py-2">
               {variant?.variant_images?.thumbnail ? (
-                <div className="relative shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]">
-                  <ThumbnailBadge className="absolute top-2 left-2" />
+                <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]">
+                  <ThumbnailBadge className="absolute left-2 top-2" />
                   <img
                     src={variant?.variant_images?.thumbnail}
                     alt="thumbnail"
