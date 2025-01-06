@@ -1,20 +1,21 @@
 import { EllipsisHorizontal, PencilSquare, Trash } from "@medusajs/icons"
 import { Button, DropdownMenu } from "@medusajs/ui"
 import { Link, useNavigate } from "react-router-dom"
-import { backendUrl } from "../../../../../lib/client"
+import { sdk } from "../../../../../lib/client"
 
 const FaqActions = ({ faqId }: { faqId: string }) => {
   const navigate = useNavigate()
   const handleDelete = async () => {
     try {
-      const deleteFaqResponse = await fetch(
-        `${backendUrl}/admin/faqs/${faqId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      )
-      if (deleteFaqResponse.ok) {
+      // const deleteFaqResponse = await fetch(
+      //   `${backendUrl}/admin/faqs/${faqId}`,
+      //   {
+      //     method: "DELETE",
+      //     credentials: "include",
+      //   }
+      // )
+      const deleteFaqResponse = await sdk.admin.faq.delete(faqId)
+      if (deleteFaqResponse) {
         navigate(0)
       }
     } catch (error: any) {

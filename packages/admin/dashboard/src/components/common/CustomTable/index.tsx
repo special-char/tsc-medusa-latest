@@ -13,7 +13,7 @@ const CustomTable = ({ PAGE_SIZE, table, data }: Props) => {
       <div
         style={{
           // height: "calc(100vh - 225px)",
-          // overflow: "scroll",
+          overflow: "scroll",
           position: "relative",
         }}
       >
@@ -23,7 +23,7 @@ const CustomTable = ({ PAGE_SIZE, table, data }: Props) => {
               return (
                 <Table.Row
                   key={headerGroup.id}
-                  className="[&_th]:w-1/5 [&_th:last-of-type]:w-[1%]"
+                  className="[&_th:last-of-type]:w-[1%] [&_th]:w-1/5"
                 >
                   {headerGroup.headers.map((header) => {
                     return (

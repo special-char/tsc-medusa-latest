@@ -20,6 +20,7 @@ import {
   Envelope,
   PhotoSolid,
   SquareTwoStack,
+  UsersSolid,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import * as Collapsible from "@radix-ui/react-collapsible"
@@ -232,6 +233,15 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
             icon: <SquareTwoStack />,
             label: "Redemption",
             to: "/redemption",
+          },
+        ]
+      : []),
+    ...(dashboardConfig?.featureFlags?.vendors
+      ? [
+          {
+            icon: <UsersSolid />,
+            label: "Vendors",
+            to: "/vendors",
           },
         ]
       : []),
