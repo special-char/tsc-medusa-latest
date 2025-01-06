@@ -50,6 +50,7 @@ import { Zipcode } from "./zipcode"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
 import { Redemption } from "./redemption"
+import { Subscription } from "./subscription"
 import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
 
@@ -58,6 +59,10 @@ export class Admin {
    * @tags faq
    */
   public faq: Faq
+  /**
+   * @tags subscription
+   */
+  public subscription: Subscription
   /**
    * @tags redemption
    */
