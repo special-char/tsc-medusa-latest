@@ -52,6 +52,7 @@ import { BulkOrder } from "./bulkorder"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
 import { Redemption } from "./redemption"
+import { DigitalProduct } from "./digital-product"
 
 export class Admin {
   /**
@@ -62,6 +63,10 @@ export class Admin {
    * @tags redemption
    */
   public redemption: Redemption
+  /**
+   * @tags digital product
+   */
+  public digitalProduct: DigitalProduct
   /**
    * @tags order_resend_mail
    */
@@ -326,5 +331,6 @@ export class Admin {
     this.productAdditionalDetails = new ProductAdditionalDetails(client)
     this.productCategoryDetails = new ProductCategoryDetails(client)
     this.redemption = new Redemption(client)
+    this.digitalProduct = new DigitalProduct(client)
   }
 }
