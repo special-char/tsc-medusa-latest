@@ -7,61 +7,19 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import { sdk } from "../../../lib/client"
+import { useEffect, useState } from "react"
 
-type Order = {
-  id: string
-  displayId: number
-  customer: string
-  email: string
-  amount: number
-  currency: string
+const listVendors = async () => {
+  const response = await sdk.vendor.retrieve()
+  return response
 }
 
-const fakeData: Order[] = [
-  {
-    id: "order_6782",
-    displayId: 86078,
-    customer: "Jill Miller",
-    email: "32690@gmail.com",
-    amount: 493,
-    currency: "EUR",
-  },
-  {
-    id: "order_46487",
-    displayId: 42845,
-    customer: "Sarah Garcia",
-    email: "86379@gmail.com",
-    amount: 113,
-    currency: "JPY",
-  },
-  {
-    id: "order_8169",
-    displayId: 39129,
-    customer: "Josef Smith",
-    email: "89383@gmail.com",
-    amount: 43,
-    currency: "USD",
-  },
-  {
-    id: "order_67883",
-    displayId: 5548,
-    customer: "Elvis Jones",
-    email: "52860@gmail.com",
-    amount: 840,
-    currency: "GBP",
-  },
-  {
-    id: "order_61121",
-    displayId: 87668,
-    customer: "Charles Rodriguez",
-    email: "45675@gmail.com",
-    amount: 304,
-    currency: "GBP",
-  },
-]
-
 export function VendorList() {
+  const [vendorList, setVendorList] = useState([])
+
   const navigate = useNavigate()
+
   const PAGE_SIZE = 10
 
   const columnHelper = createColumnHelper<any>()
@@ -70,47 +28,31 @@ export function VendorList() {
     columnHelper.accessor("id", {
       header: "Id",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
+        <span className="line-clamp-1 w-[200px] overflow-hidden">
           {info.getValue()}
         </span>
       ),
     }),
-    columnHelper.accessor("displayId", {
-      header: "displayId",
+    columnHelper.accessor("name", {
+      header: "Name",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
+        <span className="line-clamp-1 w-[200px] overflow-hidden">
           {info.getValue()}
         </span>
       ),
     }),
-    columnHelper.accessor("customer", {
-      header: "customer",
+    columnHelper.accessor("handle", {
+      header: "Handle",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
+        <span className="line-clamp-1 w-[200px] overflow-hidden">
           {info.getValue()}
         </span>
       ),
     }),
-    columnHelper.accessor("email", {
-      header: "email",
+    columnHelper.accessor("logo", {
+      header: "Logo",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
-      ),
-    }),
-    columnHelper.accessor("amount", {
-      header: "amount",
-      cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
-      ),
-    }),
-    columnHelper.accessor("currency", {
-      header: "currency",
-      cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
+        <span className="line-clamp-1 w-[200px] overflow-hidden">
           {info.getValue()}
         </span>
       ),
@@ -118,11 +60,19 @@ export function VendorList() {
   ]
 
   const table = useReactTable<any>({
-    data: fakeData,
+    data: vendorList,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   })
+
+  useEffect(() => {
+    listVendors().then((res) => {
+      setVendorList(res.data)
+    })
+  }, [])
+
+  console.log("vendorList", vendorList)
 
   return (
     <Container>
@@ -138,7 +88,7 @@ export function VendorList() {
         </Button>
       </div>
       <div className="my-4">
-        <CustomTable PAGE_SIZE={PAGE_SIZE} data={fakeData} table={table} />
+        <CustomTable PAGE_SIZE={PAGE_SIZE} data={vendorList} table={table} />
       </div>
       <Outlet />
     </Container>

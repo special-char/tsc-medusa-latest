@@ -47,18 +47,23 @@ import { Upload } from "./upload"
 import { User } from "./user"
 import { WorkflowExecution } from "./workflow-execution"
 import { Zipcode } from "./zipcode"
-import { GiftTemplate } from "./gift-template"
-import { BulkOrder } from "./bulkorder"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
 import { Redemption } from "./redemption"
 import { DigitalProduct } from "./digital-product"
+import { Subscription } from "./subscription"
+import { GiftTemplate } from "./gift-template"
+import { BulkOrder } from "./bulkorder"
 
 export class Admin {
   /**
    * @tags faq
    */
   public faq: Faq
+  /**
+   * @tags subscription
+   */
+  public subscription: Subscription
   /**
    * @tags redemption
    */

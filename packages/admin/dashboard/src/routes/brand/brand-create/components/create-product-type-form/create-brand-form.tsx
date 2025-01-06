@@ -17,12 +17,7 @@ const CreateProductTypeSchema = z.object({
 
 const createBrand = async (data: { name: string }) => {
   try {
-   
     const response = await sdk.admin.brand.create(data)
-    // if (!response.ok) {
-    //   const errorData = await response.json()
-    //   throw new Error(errorData.error || "Failed to create brand")
-    // }
 
     const res = response
     return res
