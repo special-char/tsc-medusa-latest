@@ -32,41 +32,31 @@ export function RedemptionList() {
     columnHelper.accessor("id", {
       header: "Id",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("gift_card_code", {
       header: "Gift Card Code",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("balance", {
       header: "Balance",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("expiration_date", {
       header: "Expiration Date",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.display({
@@ -74,7 +64,7 @@ export function RedemptionList() {
       id: "actions",
       cell: (info) => {
         return (
-          <div className="flex w-[200px] gap-5">
+          <div className="flex w-[100px] gap-5">
             <button
               className="border rounded-md py-1 px-2"
               onClick={() => {
