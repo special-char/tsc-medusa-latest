@@ -89,24 +89,16 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
   }, [regions])
 
   const onSubmit = form.handleSubmit(async (data) => {
-    const media = data.thumbnail || []
-
     let uploadedMedia: (HttpTypes.AdminFile & { isThumbnail: boolean })[] = []
     try {
-      if (media.length) {
-        const thumbnailReq = media.find((m) => m.isThumbnail)
+      const fileReqs = []
+      fileReqs.push(
+        sdk.admin.upload
+          .create({ files: [data.thumbnail.file] })
+          .then((r) => r.files.map((f) => ({ ...f, isThumbnail: true })))
+      )
 
-        const fileReqs = []
-        if (thumbnailReq) {
-          fileReqs.push(
-            sdk.admin.upload
-              .create({ files: [data.thumbnail.file] })
-              .then((r) => r.files.map((f) => ({ ...f, isThumbnail: true })))
-          )
-        }
-
-        uploadedMedia = (await Promise.all(fileReqs)).flat()
-      }
+      uploadedMedia = (await Promise.all(fileReqs)).flat()
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -116,25 +108,24 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
     const variants = data.denominations.map(
       (denomination: any, index: number) => ({
         title: (index + 1).toString(),
-        prices: [
-          {
-            amount: denomination.amount / 100,
-            currency_code: denomination.currency,
-          },
-        ],
-        options: {
-          Denominations: (denomination.amount / 100).toString(),
+        prices: {
+          [denomination.currency]: denomination.amount / 100,
         },
+        options: {
+          Denominations: `${denomination.amount / 100}`,
+        },
+        inventory: [],
         allow_backorder: true,
         manage_inventory: false,
+        should_create: true,
       })
     )
 
     const options = [
       {
         title: "Denominations",
-        values: data.denominations.map((denomination: { amount: number }) =>
-          (denomination.amount / 100).toString()
+        values: data.denominations.map(
+          (denomination: { amount: number }) => `${denomination.amount / 100}`
         ),
       },
     ]
