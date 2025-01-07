@@ -101,6 +101,7 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
       uploadedMedia = (await Promise.all(fileReqs)).flat()
     } catch (error) {
       if (error instanceof Error) {
+        form.reset(defaultValues, {})
         toast.error(error.message)
       }
     }
