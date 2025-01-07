@@ -7,6 +7,7 @@ export const normalizeProductFormValues = (
     status: HttpTypes.AdminProductStatus
     regionsCurrencyMap: Record<string, string>
     is_giftcard?: boolean
+    metadata: Record<string, string>
   }
 ): HttpTypes.AdminCreateProduct | any => {
   const thumbnail = values.media?.find((media) => media.isThumbnail)?.url
@@ -47,6 +48,7 @@ export const normalizeProductFormValues = (
       values.variants.filter((variant) => variant.should_create),
       values.regionsCurrencyMap
     ),
+    metadata: values.metadata,
   }
 }
 

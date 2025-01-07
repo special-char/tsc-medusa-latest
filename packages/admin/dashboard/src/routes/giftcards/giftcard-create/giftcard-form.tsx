@@ -34,6 +34,21 @@ const formSchema = {
     },
     validation: {},
   },
+  expiryDay: {
+    label: "Expiry Days From Purchase Date",
+    fieldType: "input",
+    props: {
+      placeholder: "Enter Days",
+      defaultValue: 30,
+      type: "number",
+      min: 30,
+      step: 1,
+    },
+    validation: {
+      required: true,
+      message: "Expiry Day is required",
+    },
+  },
   thumbnail: {
     label: "Thumbnail",
     fieldType: "image-upload",
@@ -51,8 +66,11 @@ const formSchema = {
       placeholder: "Select",
     },
     validation: {
-      required: true,
-      message: "Select Sales Channel",
+      required: {
+        value: true,
+        message: "Select Sales Channel",
+      },
+      valueAsNumber: true,
     },
   },
   denominations: {
@@ -145,6 +163,9 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
       discountable: false,
       categories: [],
       enable_variants: false,
+      metadata: {
+        expiryDay: data.expiryDay,
+      },
     }
 
     await mutateAsync(
