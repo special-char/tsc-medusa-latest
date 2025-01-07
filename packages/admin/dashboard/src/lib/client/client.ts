@@ -3,7 +3,7 @@ import Medusa from "@medusajs/js-sdk"
 export const backendUrl = __BACKEND_URL__ ?? "/"
 
 export const sdk = new Medusa({
-  baseUrl: "https://stg-backend.gift.mu",
+  baseUrl: "http://localhost:9000",
   auth: {
     type: "session",
   },
