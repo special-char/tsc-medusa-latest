@@ -59,7 +59,7 @@ export function VendorCreate() {
     try {
       const tokenResult = await getAuthToken(data)
 
-      const vendorResult = await postVendor(
+      await postVendor(
         {
           name: data.name,
           handle: data.handle,
@@ -76,6 +76,7 @@ export function VendorCreate() {
         replace: true,
         state: { isSubmittingSuccessful: true },
       })
+      navigate(0)
     } catch (error) {
       console.error("Error:", error)
     }
