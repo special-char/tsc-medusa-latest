@@ -9,6 +9,7 @@ import { Container, Heading } from "@medusajs/ui"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { sdk } from "../../../lib/client"
+import { useProduct } from "../../../hooks/api"
 
 const listRedemptions = async () => {
   try {
@@ -29,11 +30,20 @@ export function RedemptionList() {
   const columnHelper = createColumnHelper<any>()
 
   const columns = [
-    columnHelper.accessor("id", {
-      header: "Id",
-      cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
-      ),
+    columnHelper.accessor("product_id", {
+      header: "Product Title",
+      cell: (info) => {
+        const { product } = useProduct(info.row.original.product_id)
+        console.log("product", product)
+
+        return (
+          <span className="overflow-hidden line-clamp-1">
+            <a href={`/products/${info.row.original.product_id}`}>
+              {product?.title}
+            </a>
+          </span>
+        )
+      },
     }),
     columnHelper.accessor("gift_card_code", {
       header: "Gift Card Code",
@@ -44,19 +54,25 @@ export function RedemptionList() {
     columnHelper.accessor("amount", {
       header: "Amount",
       cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
+        <span className="overflow-hidden w-[30px] line-clamp-1">
+          {info.getValue()}
+        </span>
       ),
     }),
     columnHelper.accessor("balance", {
       header: "Balance",
       cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
+        <span className="overflow-hidden w-[30px] line-clamp-1">
+          {info.getValue()}
+        </span>
       ),
     }),
     columnHelper.accessor("expiration_date", {
       header: "Expiration Date",
       cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
+        <span className="overflow-hidden w-[150px] line-clamp-1">
+          {info.getValue()}
+        </span>
       ),
     }),
     columnHelper.display({

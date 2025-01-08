@@ -9,6 +9,7 @@ import CustomTable from "../../../components/common/CustomTable"
 import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { sdk } from "../../../lib/client"
+import { useProduct } from "../../../hooks/api"
 
 const listHistory = async (id: string) => {
   try {
@@ -19,41 +20,51 @@ const listHistory = async (id: string) => {
   }
 }
 
-type Redemption = {
-  id: string
-  redemptionId: string
-  vendorId: string
-  amountSpent: number
-  expirationDate: string
-  whereDeducted: string
+const listVendors = async () => {
+  const response = await sdk.vendor.retrieve()
+  return response
 }
 
 export function RedemptionDetail() {
   const [historyData, setHistoryData] = useState([])
+  const [vendor, setVendor] = useState<any>([])
   const PAGE_SIZE = 10
 
   const { state } = useLocation()
 
+  console.log("state", state)
+
   const columnHelper = createColumnHelper<any>()
 
   const columns = [
-    columnHelper.accessor("id", {
-      header: "Id",
-      cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
-      ),
-    }),
-    columnHelper.accessor("redemption_id_id", {
-      header: "Redemption Id",
-      cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
-      ),
+    columnHelper.accessor("product_id", {
+      header: "Product Title",
+      cell: (info) => {
+        const { product } = useProduct(state.product_id)
+        console.log("product", product)
+
+        return (
+          <span className="overflow-hidden line-clamp-1">
+            <a href={`/products/${info.row.original.product_id}`}>
+              {product?.title}
+            </a>
+          </span>
+        )
+      },
     }),
     columnHelper.accessor("vendor_id", {
-      header: "Vendor Id",
-      cell: (info) => (
-        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
-      ),
+      header: "Vendor Name",
+      cell: (info) => {
+        const vendorName = vendor.find(
+          (x: any) => x?.id === info.row.original.vendor_id
+        )?.name
+
+        return (
+          <span className="w-[250px] overflow-hidden line-clamp-1">
+            {vendorName}
+          </span>
+        )
+      },
     }),
     columnHelper.accessor("amount_spent", {
       header: "Amount Spent",
@@ -71,8 +82,6 @@ export function RedemptionDetail() {
     }),
   ]
 
-  //"01JGKFS5NAVVEBT9Z8PSEEZTK8" vId
-
   const table = useReactTable<any>({
     data: historyData,
     columns,
@@ -83,6 +92,7 @@ export function RedemptionDetail() {
   useEffect(() => {
     if (state?.id) {
       listHistory(state?.id).then((res) => setHistoryData(res.history))
+      listVendors().then((res) => setVendor(res.data))
     }
   }, [])
 
