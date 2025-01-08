@@ -50,9 +50,11 @@ import { Zipcode } from "./zipcode"
 import { Blog } from "./blog"
 import { Faq } from "./faq"
 import { Redemption } from "./redemption"
+import { DigitalProduct } from "./digital-product"
 import { Subscription } from "./subscription"
 import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
+import { ProductSeo } from "./product-seo"
 
 export class Admin {
   /**
@@ -64,9 +66,17 @@ export class Admin {
    */
   public subscription: Subscription
   /**
+   * @tags productSeo
+   */
+  public productSeo: ProductSeo
+  /**
    * @tags redemption
    */
   public redemption: Redemption
+  /**
+   * @tags digital product
+   */
+  public digitalProduct: DigitalProduct
   /**
    * @tags order_resend_mail
    */
@@ -278,6 +288,7 @@ export class Admin {
 
   constructor(client: Client) {
     this.faq = new Faq(client)
+    this.productSeo = new ProductSeo(client)
     this.orderResendMail = new OrderResendMail(client)
     this.blog = new Blog(client)
     this.bulkorder = new BulkOrder(client)
@@ -331,5 +342,6 @@ export class Admin {
     this.productAdditionalDetails = new ProductAdditionalDetails(client)
     this.productCategoryDetails = new ProductCategoryDetails(client)
     this.redemption = new Redemption(client)
+    this.digitalProduct = new DigitalProduct(client)
   }
 }

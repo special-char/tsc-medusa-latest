@@ -58,6 +58,7 @@ export const GiftCardCreate = () => {
       title: "",
       description: "",
       thumbnail: null,
+      sales_channel: "",
       denominations: [
         { amount: null, currency: defaultCurrency?.currency_code },
       ],

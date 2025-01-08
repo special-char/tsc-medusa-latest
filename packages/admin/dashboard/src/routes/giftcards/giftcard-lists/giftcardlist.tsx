@@ -18,19 +18,12 @@ import {
 import { HttpTypes } from "@medusajs/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
-const RenderItem = ({
-  product,
-  setGiftcards,
-}: {
-  product: HttpTypes.AdminProduct
-  setGiftcards: React.Dispatch<React.SetStateAction<any[]>>
-}) => {
+const RenderItem = ({ product }: { product: HttpTypes.AdminProduct }) => {
   const { mutateAsync: updateMutate } = useUpdateProduct(product.id)
   const { mutateAsync: deleteMutate } = useDeleteProduct(product.id)
 
-  const handleDelete = async (productId: string) => {
+  const handleDelete = async () => {
     await deleteMutate()
-    setGiftcards((prev) => prev.filter((p) => p.id !== productId))
   }
 
   const setProductStatus = async (product: HttpTypes.AdminProduct) => {
@@ -38,9 +31,6 @@ const RenderItem = ({
     await updateMutate({
       status: newStatus,
     })
-    setGiftcards((prev) =>
-      prev.map((p) => (p.id === product.id ? { ...p, status: newStatus } : p))
-    )
   }
 
   return (
@@ -127,13 +117,8 @@ const RenderItem = ({
 }
 
 export const GiftCardList = () => {
-  const [giftcards, setGiftcards] = useState([])
   const { t } = useTranslation()
   const { products } = useProducts({ is_giftcard: true })
-
-  useEffect(() => {
-    setGiftcards(products as any)
-  }, [products])
 
   return (
     <div className="p-0 flex flex-col gap-4">
@@ -148,7 +133,7 @@ export const GiftCardList = () => {
           <Heading level="h2" className="font-bold">
             Are you ready to sell your first Gift Card?
           </Heading>
-          {!giftcards?.length && (
+          {!products?.length && (
             <p className="text-sm">No Gift Card has been added yet.</p>
           )}
         </div>
@@ -158,16 +143,9 @@ export const GiftCardList = () => {
         <Outlet />
       </Container>
 
-      {giftcards &&
-        giftcards?.map((product: HttpTypes.AdminProduct) => {
-          return (
-            <RenderItem
-              key={product?.id}
-              product={product}
-              setGiftcards={setGiftcards as Dispatch<SetStateAction<any[]>>}
-            />
-          )
-        })}
+      {products?.map((product: HttpTypes.AdminProduct) => {
+        return <RenderItem key={product?.id} product={product} />
+      })}
     </div>
   )
 }

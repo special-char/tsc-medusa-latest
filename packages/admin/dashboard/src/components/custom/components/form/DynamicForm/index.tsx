@@ -65,13 +65,8 @@ const DynamicForm = ({ form, onSubmit, onReset, schema, isPending }: Props) => {
         )
       })}
       <div className="flex items-center gap-4">
-        <Button
-          type="submit"
-          disabled={form.formState.isLoading || form.formState.isSubmitting}
-        >
-          {form.formState.isLoading || form.formState.isSubmitting
-            ? "Submitting..."
-            : "Submit"}
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Submitting..." : "Submit"}
         </Button>
         {onReset && (
           <Button

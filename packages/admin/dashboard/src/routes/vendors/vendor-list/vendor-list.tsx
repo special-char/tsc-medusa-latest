@@ -1,4 +1,4 @@
-import { Button, Container, Heading } from "@medusajs/ui"
+import { Button, Container, Heading, Prompt } from "@medusajs/ui"
 import { Outlet, useNavigate } from "react-router-dom"
 import CustomTable from "../../../components/common/CustomTable"
 import {
@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table"
 import { sdk } from "../../../lib/client"
 import { useEffect, useState } from "react"
+import QRCode from "react-qr-code"
 
 const listVendors = async () => {
   const response = await sdk.vendor.retrieve()
@@ -28,34 +29,47 @@ export function VendorList() {
     columnHelper.accessor("id", {
       header: "Id",
       cell: (info) => (
-        <span className="line-clamp-1 w-[200px] overflow-hidden">
-          {info.getValue()}
-        </span>
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("name", {
       header: "Name",
       cell: (info) => (
-        <span className="line-clamp-1 w-[200px] overflow-hidden">
-          {info.getValue()}
-        </span>
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("handle", {
       header: "Handle",
       cell: (info) => (
-        <span className="line-clamp-1 w-[200px] overflow-hidden">
-          {info.getValue()}
-        </span>
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
       ),
     }),
-    columnHelper.accessor("logo", {
-      header: "Logo",
-      cell: (info) => (
-        <span className="line-clamp-1 w-[200px] overflow-hidden">
-          {info.getValue()}
-        </span>
-      ),
+    columnHelper.display({
+      header: "Action",
+      id: "action",
+      cell: (info) => {
+        return (
+          <div className="flex w-[100px] gap-5">
+            <Prompt>
+              <Prompt.Trigger asChild>
+                <Button variant="secondary">View QR</Button>
+              </Prompt.Trigger>
+              <Prompt.Content>
+                <Prompt.Header>
+                  <Prompt.Title>Scan QR</Prompt.Title>
+                  <Prompt.Description>
+                    Scan this QR to redeem your gift card.
+                  </Prompt.Description>
+                  <Prompt.Footer className="flex flex-col gap-4">
+                    <QRCode value={info.row.original.id} size={200} />
+                    <Prompt.Cancel className="self-end">Cancel</Prompt.Cancel>
+                  </Prompt.Footer>
+                </Prompt.Header>
+              </Prompt.Content>
+            </Prompt>
+          </div>
+        )
+      },
     }),
   ]
 
@@ -71,8 +85,6 @@ export function VendorList() {
       setVendorList(res.data)
     })
   }, [])
-
-  console.log("vendorList", vendorList)
 
   return (
     <Container>

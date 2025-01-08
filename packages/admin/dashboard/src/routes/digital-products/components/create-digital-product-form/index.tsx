@@ -1,6 +1,7 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { Input, Button, Select, toast } from "@medusajs/ui"
 import { MediaType } from "../../types"
+import { sdk } from "../../../../lib/client"
 
 type CreateMedia = {
   type: MediaType
@@ -38,31 +39,14 @@ const CreateDigitalProductForm = ({ onSuccess }: Props) => {
   }
 
   const uploadMediaFiles = async (type: MediaType) => {
-    const formData = new FormData()
-    const mediaWithFiles = medias.filter(
-      (media) => media.file !== undefined && media.type === type
+    const response = await sdk.admin.digitalProduct.upload(type, medias)
+    const mediaWithFiles = medias?.filter(
+      (media) => media?.file !== undefined && media.type === type
     )
-
-    if (!mediaWithFiles.length) {
-      return
-    }
-
-    mediaWithFiles.forEach((media) => {
-      formData.append("files", media.file)
-    })
-
-    const { files } = await fetch(
-      `${__BACKEND_URL__}/admin/digital-products/upload/${type}`,
-      {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      }
-    ).then((res) => res.json())
 
     return {
       mediaWithFiles,
-      files,
+      files: response?.files,
     }
   }
 
@@ -71,10 +55,13 @@ const CreateDigitalProductForm = ({ onSuccess }: Props) => {
     setLoading(true)
 
     try {
+      console.log("onSubmit")
+
       const { mediaWithFiles: previewMedias, files: previewFiles } =
         (await uploadMediaFiles(MediaType.PREVIEW)) || {}
       const { mediaWithFiles: mainMedias, files: mainFiles } =
         (await uploadMediaFiles(MediaType.MAIN)) || {}
+      console.log({ uploadMediaFiles: "uploadMediaFiles" })
 
       const mediaData = []
 
@@ -94,13 +81,8 @@ const CreateDigitalProductForm = ({ onSuccess }: Props) => {
         })
       })
 
-      fetch(`${__BACKEND_URL__}/admin/digital-products`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await sdk.admin.digitalProduct
+        .create({
           name,
           medias: mediaData,
           product: {
@@ -123,9 +105,7 @@ const CreateDigitalProductForm = ({ onSuccess }: Props) => {
               },
             ],
           },
-        }),
-      })
-        .then((res) => res.json())
+        })
         .then(({ message }) => {
           if (message) {
             throw message

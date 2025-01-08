@@ -4,6 +4,7 @@ import { Button, FocusModal } from "@medusajs/ui"
 
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { useEffect, useState } from "react"
+import { sdk } from "../../../../../lib/client"
 // import { SeoDetailsTypes } from "../../../modules/product-seo/models/seo-details"
 
 export type SeoSocialTypes = {
@@ -30,14 +31,8 @@ export type SeoDetailsTypes = {
 const fetchProductWithSeo = async (
   id: string
 ): Promise<{ data: SeoDetailsTypes }> => {
-  console.log(`${__BACKEND_URL__}/admin/product-seo/${id}`)
-  const response = await fetch(`${__BACKEND_URL__}/admin/product-seo/${id}`, {
-    credentials: "include",
-    // headers: {
-    //   "x-publishable-api-key": __PUBLISHABLE_KEY__,
-    // },
-  })
-  return await response.json()
+  const response = sdk.admin.productSeo.retrieveById(id)
+  return response
 }
 
 const ProductSeoWidget = ({ product: data }: { product: any }) => {

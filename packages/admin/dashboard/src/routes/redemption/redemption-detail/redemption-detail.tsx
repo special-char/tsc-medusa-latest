@@ -28,49 +28,6 @@ type Redemption = {
   whereDeducted: string
 }
 
-const fakeData: Redemption[] = [
-  {
-    id: "order_6782",
-    redemptionId: "86078",
-    vendorId: "86078",
-    amountSpent: 493,
-    expirationDate: "7899",
-    whereDeducted: "string",
-  },
-  {
-    id: "order_46487",
-    redemptionId: "86078",
-    vendorId: "86078",
-    amountSpent: 493,
-    expirationDate: "7899",
-    whereDeducted: "string",
-  },
-  {
-    id: "order_8169",
-    redemptionId: "86078",
-    vendorId: "86078",
-    amountSpent: 493,
-    expirationDate: "7899",
-    whereDeducted: "string",
-  },
-  {
-    id: "order_67883",
-    redemptionId: "86078",
-    vendorId: "86078",
-    amountSpent: 493,
-    expirationDate: "7899",
-    whereDeducted: "string",
-  },
-  {
-    id: "order_61121",
-    redemptionId: "86078",
-    vendorId: "86078",
-    amountSpent: 493,
-    expirationDate: "7899",
-    whereDeducted: "string",
-  },
-]
-
 export function RedemptionDetail() {
   const [historyData, setHistoryData] = useState([])
   const PAGE_SIZE = 10
@@ -83,39 +40,31 @@ export function RedemptionDetail() {
     columnHelper.accessor("id", {
       header: "Id",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
-    columnHelper.accessor("redemption_id", {
+    columnHelper.accessor("redemption_id_id", {
       header: "Redemption Id",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("vendor_id", {
       header: "Vendor Id",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("amount_spent", {
       header: "Amount Spent",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
-          {info.getValue()}
-        </span>
+        <span className="overflow-hidden line-clamp-1">{info.getValue()}</span>
       ),
     }),
     columnHelper.accessor("where_deducted", {
       header: "Where Deducted",
       cell: (info) => (
-        <span className="w-[200px] overflow-hidden line-clamp-1">
+        <span className="w-[150px] overflow-hidden line-clamp-1">
           {info.getValue()}
         </span>
       ),

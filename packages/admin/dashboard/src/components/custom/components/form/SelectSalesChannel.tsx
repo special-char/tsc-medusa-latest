@@ -19,6 +19,7 @@ const SelectSalesChannel = (props: Props) => {
         <Select.Value placeholder="Select a Sales Channel" />
       </Select.Trigger>
       <Select.Content>
+        <Select.Item value={" "}>{"Select a Sales Channel"}</Select.Item>
         {sales_channels?.map((channel) => (
           <Select.Item key={channel.id} value={channel.id}>
             {channel.name}

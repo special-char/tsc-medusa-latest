@@ -10,6 +10,7 @@ import { useDataTable } from "../../../hooks/use-data-table"
 import { DEFAULT_FIELDS } from "../../orders/order-list/const"
 import { DataTable } from "../../../components/table/data-table"
 import { useTranslation } from "react-i18next"
+import { useMemo } from "react"
 
 const PAGE_SIZE = 20
 
@@ -32,8 +33,13 @@ export const BulkbuyComponent = () => {
   const columns = useOrderTableColumns({})
   const { t } = useTranslation()
 
+  const bulkOrder = useMemo(
+    () => orders?.filter((x) => x?.metadata?.bulk_buy === true),
+    [orders]
+  )
+
   const { table } = useDataTable({
-    data: orders ?? [],
+    data: bulkOrder ?? [],
     columns,
     enablePagination: true,
     count,
