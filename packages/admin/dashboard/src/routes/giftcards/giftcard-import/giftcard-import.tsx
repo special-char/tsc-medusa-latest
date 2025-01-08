@@ -47,6 +47,7 @@ const ProductImportContent = () => {
 
   const handleConfirm = async () => {
     try {
+      const me = await sdk.admin.user.me()
       if (!file) {
         toast.error("No file uploaded")
         return
@@ -62,10 +63,9 @@ const ProductImportContent = () => {
         currency_code: supportedCurrencies?.[0] || "",
         sales_channel_id: store?.default_sales_channel_id || "",
         region_id: store?.default_region_id || "",
+        user: me.user,
       }
-
       const res = await sdk.admin.bulkorder.upload(formData)
-      console.log({ res })
       handleSuccess()
       navigate(0)
     } catch (error) {
