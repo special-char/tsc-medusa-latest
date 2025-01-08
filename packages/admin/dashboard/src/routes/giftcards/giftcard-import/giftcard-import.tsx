@@ -5,9 +5,10 @@ import { useState } from "react"
 import { UploadImport } from "./components/upload-import"
 import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
-import { useStore } from "../../../hooks/api"
+import { useOrders, useStore } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/client"
+import { DEFAULT_FIELDS } from "../../orders/order-list/const"
 
 export const GiftCardImport = () => {
   const { t } = useTranslation()
@@ -30,6 +31,9 @@ const ProductImportContent = () => {
   const { store } = useStore()
   const { handleSuccess } = useRouteModal()
   const navigate = useNavigate()
+  const { refetch } = useOrders({
+    fields: DEFAULT_FIELDS,
+  })
 
   const supportedCurrencies = store?.supported_currencies?.reduce(
     (acc: string[], item) => {
@@ -74,6 +78,7 @@ const ProductImportContent = () => {
       toast.error(
         "Failed to process the uploaded file check notification for more update"
       )
+      navigate(0)
     }
   }
 

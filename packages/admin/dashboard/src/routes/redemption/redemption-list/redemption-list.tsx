@@ -38,7 +38,10 @@ export function RedemptionList() {
 
         return (
           <span className="overflow-hidden line-clamp-1">
-            <a href={`/products/${info.row.original.product_id}`}>
+            <a
+              href={`/products/${info.row.original.product_id}`}
+              className="underline text-blue-500"
+            >
               {product?.title}
             </a>
           </span>

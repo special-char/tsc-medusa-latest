@@ -32,8 +32,6 @@ export function RedemptionDetail() {
 
   const { state } = useLocation()
 
-  console.log("state", state)
-
   const columnHelper = createColumnHelper<any>()
 
   const columns = [
@@ -41,11 +39,13 @@ export function RedemptionDetail() {
       header: "Product Title",
       cell: (info) => {
         const { product } = useProduct(state.product_id)
-        console.log("product", product)
 
         return (
           <span className="overflow-hidden line-clamp-1">
-            <a href={`/products/${info.row.original.product_id}`}>
+            <a
+              href={`/products/${info.row.original.product_id}`}
+              className="underline text-blue-500"
+            >
               {product?.title}
             </a>
           </span>
