@@ -26,12 +26,6 @@ export function VendorList() {
   const columnHelper = createColumnHelper<any>()
 
   const columns = [
-    columnHelper.accessor("id", {
-      header: "Id",
-      cell: (info) => (
-        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
-      ),
-    }),
     columnHelper.accessor("name", {
       header: "Name",
       cell: (info) => (

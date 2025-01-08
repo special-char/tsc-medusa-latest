@@ -5,7 +5,15 @@ import {
   useForm,
 } from "react-hook-form"
 import { RouteFocusModal } from "../../../components/modals"
-import { Button, Heading, Input, Label, Text, Tooltip } from "@medusajs/ui"
+import {
+  Button,
+  Heading,
+  Input,
+  Label,
+  Text,
+  toast,
+  Tooltip,
+} from "@medusajs/ui"
 import { useEffect } from "react"
 import { InformationCircleSolid } from "@medusajs/icons"
 import { sdk } from "../../../lib/client"
@@ -17,10 +25,10 @@ const getAuthToken = async (data: any) => {
       email: data.email,
       password: data.email,
     })
-
     return response
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    toast.error(error.message)
+    console.log(error, "erroradmin")
   }
 }
 
@@ -30,8 +38,9 @@ const postVendor = async (data: any, tokenResult?: string) => {
       Authorization: `Bearer ${tokenResult}`,
     })
     return response
-  } catch (error) {
-    console.log(error)
+  } catch (error: any) {
+    toast.error(error.message)
+    console.log(error, "error")
   }
 }
 
@@ -59,26 +68,30 @@ export function VendorCreate() {
     try {
       const tokenResult = await getAuthToken(data)
 
-      await postVendor(
-        {
-          name: data.name,
-          handle: data.handle,
-          // logo: data.logo,
-          admin: {
-            email: data.email,
-            first_name: data.first_name,
-            last_name: data.last_name,
+      if (tokenResult) {
+        await postVendor(
+          {
+            name: data.name,
+            handle: data.handle,
+            // logo: data.logo,
+            admin: {
+              email: data.email,
+              first_name: data.first_name,
+              last_name: data.last_name,
+            },
           },
-        },
-        tokenResult
-      )
-      navigate("/vendors", {
-        replace: true,
-        state: { isSubmittingSuccessful: true },
-      })
-      navigate(0)
-    } catch (error) {
-      console.error("Error:", error)
+          tokenResult
+        )
+
+        navigate("/vendors", {
+          replace: true,
+          state: { isSubmittingSuccessful: true },
+        })
+        navigate(0)
+      }
+    } catch (error: any) {
+      toast.error(error.message)
+      console.log(error)
     }
   }
 

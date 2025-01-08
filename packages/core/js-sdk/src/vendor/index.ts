@@ -26,4 +26,9 @@ export class Vendor {
       headers,
     })
   }
+  async retrieveById(id: string, headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/vendors/${id}`, {
+      headers,
+    })
+  }
 }
