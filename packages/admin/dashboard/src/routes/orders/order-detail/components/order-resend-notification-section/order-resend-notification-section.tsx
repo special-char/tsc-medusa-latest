@@ -27,6 +27,7 @@ const OrderResendNotificationSection = ({
   order,
 }: orderResendNotificationSectionProps) => {
   const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
@@ -38,22 +39,14 @@ const OrderResendNotificationSection = ({
     data: AdminOrderLineItem
   }) => {
     const resendData = {
-      to: email,
+      email,
       template,
       data,
+      phone,
     }
 
     try {
       setLoading(true)
-      // const response = await fetch(`${backendUrl}/admin/resend-email`, {
-      //   method: "POST",
-      //   credentials: "include",
-      //   body: JSON.stringify(resendData),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      // await response.json()
       const resendMail = await sdk.admin.orderResendMail.create(resendData)
 
       if (resendMail) {
@@ -68,7 +61,9 @@ const OrderResendNotificationSection = ({
   }
 
   const isGiftCardExist = order?.items.some(
-    (item) => item.variant?.product?.is_giftcard === true
+    (item) =>
+      item.variant?.product?.is_giftcard === true ||
+      item?.metadata?.is_giftcard === true
   )
 
   if (!isGiftCardExist) {
@@ -118,7 +113,8 @@ const OrderResendNotificationSection = ({
                   </Text> */}
                 </div>
               </div>
-              {orderItem.variant?.product?.is_giftcard === true ? (
+              {orderItem.variant?.product?.is_giftcard === true ||
+              orderItem?.metadata?.is_giftcard === true ? (
                 <div className="flex gap-4 items-center justify-between">
                   {typeof orderItem?.metadata?.email === "string" && (
                     <Text>{orderItem.metadata.email}</Text>
@@ -145,9 +141,16 @@ const OrderResendNotificationSection = ({
                         <Prompt.Title>Edit Email</Prompt.Title>
                         <Prompt.Description>
                           <Input
+                            className="mb-2"
                             defaultValue={orderItem?.metadata?.email as string}
                             onChange={(e) => {
                               setEmail(e.target.value)
+                            }}
+                          />
+                          <Input
+                            defaultValue={orderItem?.metadata?.phone as string}
+                            onChange={(e) => {
+                              setPhone(e.target.value)
                             }}
                           />
                         </Prompt.Description>

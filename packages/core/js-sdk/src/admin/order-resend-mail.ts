@@ -1,7 +1,8 @@
 import { AdminOrderLineItem } from "@medusajs/types"
 import { Client } from "../client"
 type OrderResendMailProps = {
-  to: string
+  phone: string
+  email: string
   template: string
   data: AdminOrderLineItem
 }
