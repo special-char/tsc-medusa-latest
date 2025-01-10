@@ -23,11 +23,21 @@ function getTimeDifferenceInMilliseconds(endDate: string) {
 
   return endTime - startTime
 }
+const getRedemption = async (id: string) => {
+  try {
+    const { redemption } = await sdk.admin.redemption.retrieve(id)
+    return redemption
+  } catch (error) {
+    console.log(error)
+  }
+}
 const OrderResendNotificationSection = ({
   order,
 }: orderResendNotificationSectionProps) => {
   const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
+  const [redemption, setRedemption] = useState({})
   const navigate = useNavigate()
 
   const handleSendNotification = async ({
@@ -38,22 +48,15 @@ const OrderResendNotificationSection = ({
     data: AdminOrderLineItem
   }) => {
     const resendData = {
-      to: email,
+      email,
       template,
       data,
+      phone,
+      redemptionData: redemption,
     }
 
     try {
       setLoading(true)
-      // const response = await fetch(`${backendUrl}/admin/resend-email`, {
-      //   method: "POST",
-      //   credentials: "include",
-      //   body: JSON.stringify(resendData),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      // await response.json()
       const resendMail = await sdk.admin.orderResendMail.create(resendData)
 
       if (resendMail) {
@@ -68,12 +71,15 @@ const OrderResendNotificationSection = ({
   }
 
   const isGiftCardExist = order?.items.some(
-    (item) => item.variant?.product?.is_giftcard === true
+    (item) =>
+      item.variant?.product?.is_giftcard === true ||
+      item?.metadata?.is_giftcard === true
   )
 
   if (!isGiftCardExist) {
     return null
   }
+
   return (
     <Container className="divide-y divide-dashed p-0">
       <Heading level="h2" className="px-6 py-4">
@@ -118,7 +124,8 @@ const OrderResendNotificationSection = ({
                   </Text> */}
                 </div>
               </div>
-              {orderItem.variant?.product?.is_giftcard === true ? (
+              {orderItem.variant?.product?.is_giftcard === true ||
+              orderItem?.metadata?.is_giftcard === true ? (
                 <div className="flex gap-4 items-center justify-between">
                   {typeof orderItem?.metadata?.email === "string" && (
                     <Text>{orderItem.metadata.email}</Text>
@@ -135,6 +142,14 @@ const OrderResendNotificationSection = ({
                       <Button
                         disabled={differenceInMilliseconds > 0}
                         size="small"
+                        onClick={async () => {
+                          if (orderItem?.metadata?.redemptionId) {
+                            const redemptionData = await getRedemption(
+                              orderItem?.metadata?.redemptionId as string
+                            )
+                            setRedemption(redemptionData)
+                          }
+                        }}
                       >
                         <PencilSquare />
                       </Button>
@@ -145,9 +160,16 @@ const OrderResendNotificationSection = ({
                         <Prompt.Title>Edit Email</Prompt.Title>
                         <Prompt.Description>
                           <Input
+                            className="mb-2"
                             defaultValue={orderItem?.metadata?.email as string}
                             onChange={(e) => {
                               setEmail(e.target.value)
+                            }}
+                          />
+                          <Input
+                            defaultValue={orderItem?.metadata?.phone as string}
+                            onChange={(e) => {
+                              setPhone(e.target.value)
                             }}
                           />
                         </Prompt.Description>
