@@ -19,6 +19,7 @@ type ConfigType = {
     zipcode?: boolean
     redemption?: boolean
     vendors?: boolean
+    productOptionImages?: boolean
   }
 }
 
@@ -41,6 +42,7 @@ const dashboardConfig: ConfigType = {
     zipcode: false,
     redemption: true,
     vendors: true,
+    productOptionImages: true,
     // marketplace
     // restock
   },

@@ -55,6 +55,7 @@ import { Subscription } from "./subscription"
 import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
 import { ProductSeo } from "./product-seo"
+import { ProductOptionValue } from "./product-option-value"
 
 export class Admin {
   /**
@@ -286,6 +287,11 @@ export class Admin {
    */
   public productCategoryDetails: ProductCategoryDetails
 
+  /**
+   * @tags product additional details
+   */
+  public productOptionValue: ProductOptionValue
+
   constructor(client: Client) {
     this.faq = new Faq(client)
     this.productSeo = new ProductSeo(client)
@@ -343,5 +349,6 @@ export class Admin {
     this.productCategoryDetails = new ProductCategoryDetails(client)
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
+    this.productOptionValue = new ProductOptionValue(client)
   }
 }
