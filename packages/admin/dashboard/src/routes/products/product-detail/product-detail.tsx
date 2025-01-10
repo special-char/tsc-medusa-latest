@@ -18,6 +18,7 @@ import ProductVariantImagesWidget from "../../../widgets/product-variant-images/
 import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-details/product-additional-details"
 import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
+import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -74,6 +75,9 @@ export const ProductDetail = () => {
         <ProductVariantSection product={product} />
         {dashboardConfig?.featureFlags?.productVariantImages && (
           <ProductVariantImagesWidget data={product} />
+        )}
+        {dashboardConfig?.featureFlags?.productOptionImages && (
+          <ProductOptionImagesWidget data={product} />
         )}
         {dashboardConfig?.featureFlags?.productAdditionalDetails && (
           <ProductAdditionalDetailsWidget data={product} />
