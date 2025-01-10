@@ -5,6 +5,7 @@ type OrderResendMailProps = {
   email: string
   template: string
   data: AdminOrderLineItem
+  redemptionData: Record<string, any>
 }
 export class OrderResendMail {
   /**

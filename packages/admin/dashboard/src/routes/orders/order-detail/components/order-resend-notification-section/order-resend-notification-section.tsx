@@ -23,12 +23,21 @@ function getTimeDifferenceInMilliseconds(endDate: string) {
 
   return endTime - startTime
 }
+const getRedemption = async (id: string) => {
+  try {
+    const { redemption } = await sdk.admin.redemption.retrieve(id)
+    return redemption
+  } catch (error) {
+    console.log(error)
+  }
+}
 const OrderResendNotificationSection = ({
   order,
 }: orderResendNotificationSectionProps) => {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [loading, setLoading] = useState(false)
+  const [redemption, setRedemption] = useState({})
   const navigate = useNavigate()
 
   const handleSendNotification = async ({
@@ -43,6 +52,7 @@ const OrderResendNotificationSection = ({
       template,
       data,
       phone,
+      redemptionData: redemption,
     }
 
     try {
@@ -69,6 +79,7 @@ const OrderResendNotificationSection = ({
   if (!isGiftCardExist) {
     return null
   }
+
   return (
     <Container className="divide-y divide-dashed p-0">
       <Heading level="h2" className="px-6 py-4">
@@ -131,6 +142,14 @@ const OrderResendNotificationSection = ({
                       <Button
                         disabled={differenceInMilliseconds > 0}
                         size="small"
+                        onClick={async () => {
+                          if (orderItem?.metadata?.redemptionId) {
+                            const redemptionData = await getRedemption(
+                              orderItem?.metadata?.redemptionId as string
+                            )
+                            setRedemption(redemptionData)
+                          }
+                        }}
                       >
                         <PencilSquare />
                       </Button>
