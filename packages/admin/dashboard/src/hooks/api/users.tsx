@@ -38,6 +38,27 @@ export const useMe = (
   }
 }
 
+export const useVendorMe = (
+  query?: HttpTypes.AdminUserParams,
+  options?: UseQueryOptions<
+    HttpTypes.AdminUserResponse,
+    FetchError,
+    HttpTypes.AdminUserResponse,
+    QueryKey
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () => sdk.admin.user.vendorMe(query),
+    queryKey: usersQueryKeys.me(),
+    ...options,
+  })
+
+  return {
+    ...data,
+    ...rest,
+  }
+}
+
 export const useUser = (
   id: string,
   query?: HttpTypes.AdminUserParams,

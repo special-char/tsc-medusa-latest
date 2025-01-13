@@ -22,6 +22,25 @@ export const useSignInWithEmailPass = (
   })
 }
 
+export const useVendorSignInWithEmailPass = (
+  options?: UseMutationOptions<
+    | string
+    | {
+        location: string
+      },
+    FetchError,
+    HttpTypes.AdminSignUpWithEmailPassword
+  >
+) => {
+  return useMutation({
+    mutationFn: (payload) => sdk.auth.login("vendor", "emailpass", payload),
+    onSuccess: async (data, variables, context) => {
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
 export const useSignUpWithEmailPass = (
   options?: UseMutationOptions<
     string,

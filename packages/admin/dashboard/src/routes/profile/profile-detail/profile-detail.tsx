@@ -1,4 +1,4 @@
-import { useMe } from "../../../hooks/api/users"
+import { useMe, useVendorMe } from "../../../hooks/api/users"
 import { ProfileGeneralSection } from "./components/profile-general-section"
 
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
@@ -7,14 +7,22 @@ import { useDashboardExtension } from "../../../extensions"
 
 export const ProfileDetail = () => {
   const { user, isPending: isLoading, isError, error } = useMe()
+  const {
+    user: vendorUser,
+    isPending: isVendorPending,
+    isError: isVendorError,
+    error: vendorError,
+  } = useVendorMe()
   const { getWidgets } = useDashboardExtension()
 
-  if (isLoading || !user) {
+  if (isLoading || !user || isVendorPending || !vendorUser) {
     return <SingleColumnPageSkeleton sections={1} />
   }
 
   if (isError) {
-    throw error
+    if (isVendorError) {
+      throw error
+    }
   }
 
   return (

@@ -84,4 +84,11 @@ export class User {
       headers,
     })
   }
+
+  async vendorMe(query?: HttpTypes.AdminUserParams, headers?: ClientHeaders) {
+    return this.client.fetch<HttpTypes.AdminUserResponse>(`/vendors/me`, {
+      query,
+      headers,
+    })
+  }
 }
