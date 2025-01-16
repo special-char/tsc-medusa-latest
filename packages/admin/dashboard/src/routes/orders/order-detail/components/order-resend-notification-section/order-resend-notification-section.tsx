@@ -128,7 +128,18 @@ const OrderResendNotificationSection = ({
               orderItem?.metadata?.is_giftcard === true ? (
                 <div className="flex gap-4 items-center justify-between">
                   {typeof orderItem?.metadata?.email === "string" && (
-                    <Text>{orderItem.metadata.email}</Text>
+                    <Text>
+                      {orderItem.metadata.email.trim()
+                        ? orderItem.metadata.email
+                        : "No email provided"}
+                    </Text>
+                  )}
+                  {typeof orderItem?.metadata?.phone === "string" && (
+                    <Text>
+                      {orderItem.metadata.phone.trim()
+                        ? orderItem.metadata.phone
+                        : "No phone provided"}
+                    </Text>
                   )}
                   <Text> Notification Status</Text>
                   <Alert
