@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { PencilSquare, PhotoSolid } from "@medusajs/icons"
+import { PencilSquare, PhotoSolid, Trash } from "@medusajs/icons"
 import { AdminOrderLineItem, HttpTypes } from "@medusajs/types"
 import {
   Alert,
   Button,
   Container,
   Heading,
+  IconButton,
   Input,
   Prompt,
   Text,
@@ -199,6 +200,37 @@ const OrderResendNotificationSection = ({
                           }
                         >
                           Submit
+                        </Button>
+                      </Prompt.Footer>
+                    </Prompt.Content>
+                  </Prompt>
+                  <Prompt>
+                    <Prompt.Trigger asChild>
+                      <IconButton>
+                        <Trash className="text-ui-tag-red-icon" />
+                      </IconButton>
+                    </Prompt.Trigger>
+                    <Prompt.Content>
+                      <Prompt.Header>
+                        <Prompt.Title>Delete {orderItem.title}</Prompt.Title>
+                        <Prompt.Description>
+                          Are you sure? This cannot be undone.
+                        </Prompt.Description>
+                      </Prompt.Header>
+                      <Prompt.Footer>
+                        <Prompt.Cancel>Cancel</Prompt.Cancel>
+                        <Button
+                        // onClick={async () => {
+                        //   const deletedItem =
+                        //     await sdk.admin.orderEdit.removeAddedItem(
+                        //       order.id,
+                        //       orderItem.id
+                        //     )
+
+                        //   console.log("delete", deletedItem)
+                        // }}
+                        >
+                          Delete
                         </Button>
                       </Prompt.Footer>
                     </Prompt.Content>
