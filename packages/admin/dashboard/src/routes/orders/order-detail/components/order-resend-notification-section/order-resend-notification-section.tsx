@@ -14,6 +14,13 @@ import {
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../../../lib/client"
+import {
+  useConfirmOrderEdit,
+  useCreateOrderEdit,
+  useRemoveOrderEditItem,
+  useRequestOrderEdit,
+  useUpdateOrderEditAddedItem,
+} from "../../../../../hooks/api/order-edits"
 
 type orderResendNotificationSectionProps = {
   order: HttpTypes.AdminOrder
@@ -40,6 +47,14 @@ const OrderResendNotificationSection = ({
   const [loading, setLoading] = useState(false)
   const [redemption, setRedemption] = useState({})
   const navigate = useNavigate()
+  const { mutateAsync: createOrderEdit } = useCreateOrderEdit(order.id)
+  const { mutateAsync: requestOrderEdit, isPending: isRequesting } =
+    useRequestOrderEdit(order.id)
+  const { mutateAsync: confirmOrderEdit } = useConfirmOrderEdit(order.id)
+  const { mutateAsync: undoAction } = useRemoveOrderEditItem(order.id)
+  const { mutateAsync: editOrderLineItem } = useUpdateOrderEditAddedItem(
+    order.id
+  )
 
   const handleSendNotification = async ({
     template,
@@ -206,7 +221,13 @@ const OrderResendNotificationSection = ({
                   </Prompt>
                   <Prompt>
                     <Prompt.Trigger asChild>
-                      <IconButton>
+                      <IconButton
+                      // onClick={async () => {
+                      //   await createOrderEdit({ order_id: order.id })
+                      //   await requestOrderEdit()
+                      //   await confirmOrderEdit()
+                      // }}
+                      >
                         <Trash className="text-ui-tag-red-icon" />
                       </IconButton>
                     </Prompt.Trigger>
@@ -221,10 +242,11 @@ const OrderResendNotificationSection = ({
                         <Prompt.Cancel>Cancel</Prompt.Cancel>
                         <Prompt.Action
                           onClick={async () => {
-                            // await sdk.admin.orderEdit.removeAddedItem(
-                            //   order.id,
-                            //   orderItem.id
-                            // )
+                            await sdk.admin.order.removeLineItem(
+                              orderItem.id,
+                              order.id
+                            )
+                            navigate(0)
                           }}
                         >
                           Delete
