@@ -1,14 +1,15 @@
-import { Button, Heading, Text, toast } from "@medusajs/ui"
+import { Button, Checkbox, Heading, Label, Text, toast } from "@medusajs/ui"
 import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { UploadImport } from "./components/upload-import"
 import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
-import { useOrders, useStore } from "../../../hooks/api"
+import { useMe, useOrders, useStore } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/client"
 import { DEFAULT_FIELDS } from "../../orders/order-list/const"
+import { AdminUser } from "@medusajs/types"
 
 export const GiftCardImport = () => {
   const { t } = useTranslation()
@@ -27,6 +28,7 @@ export const GiftCardImport = () => {
 
 const ProductImportContent = () => {
   const { t } = useTranslation()
+  const { user } = useMe()
   const [file, setFile] = useState<File>()
   const { store } = useStore()
   const { handleSuccess } = useRouteModal()
@@ -34,6 +36,7 @@ const ProductImportContent = () => {
   const { refetch } = useOrders({
     fields: DEFAULT_FIELDS,
   })
+  const [sendCorporateEmail, setSendCorporateEmail] = useState(false)
 
   const supportedCurrencies = store?.supported_currencies?.reduce(
     (acc: string[], item) => {
@@ -51,7 +54,6 @@ const ProductImportContent = () => {
 
   const handleConfirm = async () => {
     try {
-      const me = await sdk.admin.user.me()
       if (!file) {
         toast.error("No file uploaded")
         return
@@ -67,7 +69,8 @@ const ProductImportContent = () => {
         currency_code: supportedCurrencies?.[0] || "",
         sales_channel_id: store?.default_sales_channel_id || "",
         region_id: store?.default_region_id || "",
-        user: me.user,
+        user: user as unknown as AdminUser,
+        sendCorporateEmail,
       }
       const res = await sdk.admin.bulkorder.upload(formData)
       handleSuccess()
@@ -126,6 +129,20 @@ const ProductImportContent = () => {
             filename={"bulkbuy-import-template.csv"}
             url={"../../../../public/csv/bulk-buy-import-template.csv"}
           />
+        </div>
+        <div className="mt-4 flex items-center space-x-2">
+          <Checkbox
+            onCheckedChange={(checked) =>
+              setSendCorporateEmail(checked as boolean)
+            }
+            checked={sendCorporateEmail}
+            name="corporate-email"
+            id="corporate-email"
+          />
+          <Label htmlFor="corporate-email">
+            Send to Corporate Email:-{" "}
+            <span className="text-blue-500 underline">{user?.email}</span>
+          </Label>
         </div>
       </RouteDrawer.Body>
       <RouteDrawer.Footer>

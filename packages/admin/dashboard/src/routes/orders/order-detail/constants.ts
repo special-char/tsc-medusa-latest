@@ -45,6 +45,7 @@ const DEFAULT_RELATIONS = [
   "*payment_collections.payments.refunds.refund_reason",
   "region.automatic_taxes",
   "metadata",
+  "*cart",
 ]
 
 export const DEFAULT_FIELDS = `${DEFAULT_PROPERTIES.join(
