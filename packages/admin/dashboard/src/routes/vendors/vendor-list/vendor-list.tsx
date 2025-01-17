@@ -48,14 +48,18 @@ export function VendorList() {
               <Prompt.Trigger asChild>
                 <Button variant="secondary">View QR</Button>
               </Prompt.Trigger>
-              <Prompt.Content>
+              <Prompt.Content className="">
                 <Prompt.Header>
                   <Prompt.Title>Scan QR</Prompt.Title>
                   <Prompt.Description>
                     Scan this QR to redeem your gift card.
                   </Prompt.Description>
                   <Prompt.Footer className="flex flex-col gap-4">
-                    <QRCode value={info.row.original.id} size={200} />
+                    <QRCode
+                      className="bg-white p-5"
+                      value={info.row.original.id}
+                      size={200}
+                    />
                     <Prompt.Cancel className="self-end">Cancel</Prompt.Cancel>
                   </Prompt.Footer>
                 </Prompt.Header>
