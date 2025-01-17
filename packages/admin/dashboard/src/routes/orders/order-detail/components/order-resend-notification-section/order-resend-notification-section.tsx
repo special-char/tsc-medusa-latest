@@ -219,19 +219,16 @@ const OrderResendNotificationSection = ({
                       </Prompt.Header>
                       <Prompt.Footer>
                         <Prompt.Cancel>Cancel</Prompt.Cancel>
-                        <Button
-                        // onClick={async () => {
-                        //   const deletedItem =
-                        //     await sdk.admin.orderEdit.removeAddedItem(
-                        //       order.id,
-                        //       orderItem.id
-                        //     )
-
-                        //   console.log("delete", deletedItem)
-                        // }}
+                        <Prompt.Action
+                          onClick={async () => {
+                            // await sdk.admin.orderEdit.removeAddedItem(
+                            //   order.id,
+                            //   orderItem.id
+                            // )
+                          }}
                         >
                           Delete
-                        </Button>
+                        </Prompt.Action>
                       </Prompt.Footer>
                     </Prompt.Content>
                   </Prompt>
