@@ -1,5 +1,5 @@
 import { Button, Container, Heading, Prompt } from "@medusajs/ui"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import CustomTable from "../../../components/common/CustomTable"
 import {
   createColumnHelper,
@@ -20,7 +20,7 @@ export function VendorList() {
   const [vendorList, setVendorList] = useState([])
 
   const navigate = useNavigate()
-
+  const location = useLocation()  
   const PAGE_SIZE = 10
 
   const columnHelper = createColumnHelper<any>()
@@ -78,7 +78,7 @@ export function VendorList() {
     listVendors().then((res) => {
       setVendorList(res.data)
     })
-  }, [])
+  }, [location])
 
   return (
     <Container>

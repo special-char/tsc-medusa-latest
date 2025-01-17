@@ -28,8 +28,11 @@ export const ProfileEdit = () => {
           <Heading>{t("profile.edit.header")}</Heading>
         </RouteDrawer.Title>
       </RouteDrawer.Header>
-      {!isLoading && user && <EditProfileForm user={user} />}
-      {!isVendorPending && vendorUser && <EditProfileForm user={vendorUser} />}
+      {!isLoading && user ? (
+        <EditProfileForm user={user} />
+      ) : !isVendorPending && vendorUser ? (
+        <EditProfileForm user={vendorUser} />
+      ) : null}
     </RouteDrawer>
   )
 }

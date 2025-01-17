@@ -14,7 +14,7 @@ export class Vendor {
   }
 
   async create(data: any, headers?: ClientHeaders) {
-    return this.client.fetch<any>(`/vendors`, {
+    return this.client.fetch<any>(`/vendors/vendor-create`, {
       headers,
       method: "POST",
       body: data,
@@ -26,6 +26,7 @@ export class Vendor {
       headers,
     })
   }
+
   async retrieveById(id: string, headers?: ClientHeaders) {
     return this.client.fetch<any>(`/vendors/${id}`, {
       headers,

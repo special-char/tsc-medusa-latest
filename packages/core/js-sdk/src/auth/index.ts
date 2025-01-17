@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import { Client } from "../client"
-import { Config } from "../types"
+import { ClientHeaders, Config } from "../types"
 
 export class Auth {
   private client: Client
@@ -53,6 +53,26 @@ export class Auth {
     return token
   }
 
+  vendorInvite = async (
+    payload: { email: string, password: string, invite_token: string, first_name: string, last_name: string },
+    headers?: ClientHeaders
+  ) => {
+    const { invite_token, ...rest } = payload
+
+    const { token } = await this.client.fetch<{ token: string }>(
+      `/vendors/invites`,
+      {
+        method: "POST",
+        body: rest,
+        headers
+      }
+    )
+
+    this.client.setToken(token)
+
+    return token
+  }
+
   /**
    * This method retrieves the JWT authenticated token for an admin user, customer, or custom
    * actor type. It sends a request to the [Authenticate API Route](https://docs.medusajs.com/api/admin#auth_postactor_typeauth_provider).
@@ -93,6 +113,27 @@ export class Auth {
       token?: string
       location?: string
     }>(`/auth/${actor}/${method}`, {
+      method: "POST",
+      body: payload,
+    })
+
+    // In the case of an oauth login, we return the redirect location to the caller.
+    // They can decide if they do an immediate redirect or put it in an <a> tag.
+    if (location) {
+      return { location }
+    }
+
+    await this.setToken_(token as string)
+    return token as string
+  }
+  vendorLogin = async (
+    payload: HttpTypes.AdminSignInWithEmailPassword | Record<string, unknown>
+  ) => {
+    // There will either be token or location returned from the backend.
+    const { token, location } = await this.client.fetch<{
+      token?: string
+      location?: string
+    }>(`/vendors/login`, {
       method: "POST",
       body: payload,
     })

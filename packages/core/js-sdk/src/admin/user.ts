@@ -44,6 +44,23 @@ export class User {
     )
   }
 
+  async updateVendor(
+    id: string,
+    body: HttpTypes.AdminUpdateUser,
+    query?: HttpTypes.AdminUserParams,
+    headers?: ClientHeaders
+  ) {
+    return this.client.fetch<HttpTypes.AdminUserResponse>(
+      `/vendors/${id}`,
+      {
+        method: "POST",
+        headers,
+        body,
+        query,
+      }
+    )
+  }
+
   async list(
     queryParams?: HttpTypes.AdminUserListParams,
     headers?: ClientHeaders

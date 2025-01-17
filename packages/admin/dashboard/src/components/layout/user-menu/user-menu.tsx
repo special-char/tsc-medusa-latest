@@ -93,7 +93,7 @@ const UserBadge = () => {
   } = useVendorMe()
 
   const name = [user?.first_name, user?.last_name].filter(Boolean).join(" ")
-  const displayName = name || user?.email || vendorUser?.email
+  const displayName = name || user?.email || vendorUser?.name
 
   const fallback = displayName ? displayName[0].toUpperCase() : null
 
@@ -106,8 +106,10 @@ const UserBadge = () => {
     )
   }
 
-  if (isError || isVendorError) {
-    throw error
+  if (isError) {
+    if (isVendorError) {
+      throw vendorError
+    }
   }
 
   return (
@@ -314,7 +316,7 @@ const UserItem = () => {
 
   const name = [user.first_name, user.last_name].filter(Boolean).join(" ")
 
-  const email = user.email || vendorUser?.email
+  const email = user.email || vendorUser?.name
   const fallback = name ? name[0].toUpperCase() : email[0].toUpperCase()
   const avatar = user.avatar_url || vendorUser?.avatar_url
 

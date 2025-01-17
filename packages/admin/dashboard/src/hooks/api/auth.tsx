@@ -33,7 +33,31 @@ export const useVendorSignInWithEmailPass = (
   >
 ) => {
   return useMutation({
-    mutationFn: (payload) => sdk.auth.login("vendor", "emailpass", payload),
+    mutationFn: (payload) => sdk.auth.vendorLogin(payload),
+    onSuccess: async (data, variables, context) => {
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+type inviteToken = {
+  email: string
+  password: string
+  invite_token: string
+  first_name: string
+  last_name: string
+}
+
+export const useVendorSignUpWithToken = (
+  options?: UseMutationOptions<string, FetchError, inviteToken>
+) => {
+  return useMutation({
+    mutationFn: (payload) => {
+      const { invite_token } = payload
+      return sdk.auth.vendorInvite(payload, {
+        Authorization: `Bearer ${invite_token}`,
+      })
+    },
     onSuccess: async (data, variables, context) => {
       options?.onSuccess?.(data, variables, context)
     },
