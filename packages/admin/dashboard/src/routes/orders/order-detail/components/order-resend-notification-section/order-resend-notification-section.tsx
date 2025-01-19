@@ -241,7 +241,7 @@ const OrderResendNotificationSection = ({
                                 orderItem.id,
                                 order.id
                               )
-                              sdk.admin.paymentCollection.navigate(0)
+                              navigate(0)
                             }}
                           >
                             Delete
