@@ -96,6 +96,8 @@ const OrderResendNotificationSection = ({
     return null
   }
 
+  console.log(order)
+
   return (
     <Container className="divide-y divide-dashed p-0">
       <Heading level="h2" className="px-6 py-4">
@@ -219,41 +221,37 @@ const OrderResendNotificationSection = ({
                       </Prompt.Footer>
                     </Prompt.Content>
                   </Prompt>
-                  <Prompt>
-                    <Prompt.Trigger asChild>
-                      <IconButton
-                      // onClick={async () => {
-                      //   await createOrderEdit({ order_id: order.id })
-                      //   await requestOrderEdit()
-                      //   await confirmOrderEdit()
-                      // }}
-                      >
-                        <Trash className="text-ui-tag-red-icon" />
-                      </IconButton>
-                    </Prompt.Trigger>
-                    <Prompt.Content>
-                      <Prompt.Header>
-                        <Prompt.Title>Delete {orderItem.title}</Prompt.Title>
-                        <Prompt.Description>
-                          Are you sure? This cannot be undone.
-                        </Prompt.Description>
-                      </Prompt.Header>
-                      <Prompt.Footer>
-                        <Prompt.Cancel>Cancel</Prompt.Cancel>
-                        <Prompt.Action
-                          onClick={async () => {
-                            await sdk.admin.order.removeLineItem(
-                              orderItem.id,
-                              order.id
-                            )
-                            navigate(0)
-                          }}
-                        >
-                          Delete
-                        </Prompt.Action>
-                      </Prompt.Footer>
-                    </Prompt.Content>
-                  </Prompt>
+                  {order.payment_status !== "captured" && (
+                    <Prompt>
+                      <Prompt.Trigger asChild>
+                        <IconButton>
+                          <Trash className="text-ui-tag-red-icon" />
+                        </IconButton>
+                      </Prompt.Trigger>
+                      <Prompt.Content>
+                        <Prompt.Header>
+                          <Prompt.Title>Delete {orderItem.title}</Prompt.Title>
+                          <Prompt.Description>
+                            Are you sure? This cannot be undone.
+                          </Prompt.Description>
+                        </Prompt.Header>
+                        <Prompt.Footer>
+                          <Prompt.Cancel>Cancel</Prompt.Cancel>
+                          <Prompt.Action
+                            onClick={async () => {
+                              await sdk.admin.order.removeLineItem(
+                                orderItem.id,
+                                order.id
+                              )
+                              sdk.admin.paymentCollection.navigate(0)
+                            }}
+                          >
+                            Delete
+                          </Prompt.Action>
+                        </Prompt.Footer>
+                      </Prompt.Content>
+                    </Prompt>
+                  )}
                 </div>
               ) : (
                 <Text>
