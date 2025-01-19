@@ -96,8 +96,6 @@ const OrderResendNotificationSection = ({
     return null
   }
 
-  console.log(order)
-
   return (
     <Container className="divide-y divide-dashed p-0">
       <Heading level="h2" className="px-6 py-4">
