@@ -503,4 +503,12 @@ export class Order {
       }
     )
   }
+  async removeLineItem(id: string, orderId: string) {
+    return await this.client.fetch<HttpTypes.AdminOrderLineItemsListResponse>(
+      `/admin/remove-order-item/${orderId}/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
+  }
 }

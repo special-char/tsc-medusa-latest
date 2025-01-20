@@ -8,12 +8,20 @@ import {
   Heading,
   IconButton,
   Input,
+  Label,
   Prompt,
   Text,
 } from "@medusajs/ui"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../../../lib/client"
+import {
+  useConfirmOrderEdit,
+  useCreateOrderEdit,
+  useRemoveOrderEditItem,
+  useRequestOrderEdit,
+  useUpdateOrderEditAddedItem,
+} from "../../../../../hooks/api/order-edits"
 
 type orderResendNotificationSectionProps = {
   order: HttpTypes.AdminOrder
@@ -40,6 +48,14 @@ const OrderResendNotificationSection = ({
   const [loading, setLoading] = useState(false)
   const [redemption, setRedemption] = useState({})
   const navigate = useNavigate()
+  const { mutateAsync: createOrderEdit } = useCreateOrderEdit(order.id)
+  const { mutateAsync: requestOrderEdit, isPending: isRequesting } =
+    useRequestOrderEdit(order.id)
+  const { mutateAsync: confirmOrderEdit } = useConfirmOrderEdit(order.id)
+  const { mutateAsync: undoAction } = useRemoveOrderEditItem(order.id)
+  const { mutateAsync: editOrderLineItem } = useUpdateOrderEditAddedItem(
+    order.id
+  )
 
   const handleSendNotification = async ({
     template,
@@ -54,6 +70,7 @@ const OrderResendNotificationSection = ({
       data,
       phone,
       redemptionData: redemption,
+      payment_status: order.payment_status,
     }
 
     try {
@@ -171,6 +188,7 @@ const OrderResendNotificationSection = ({
                       <Prompt.Header>
                         <Prompt.Title>Edit Email</Prompt.Title>
                         <Prompt.Description>
+                          <Label>Email</Label>
                           <Input
                             className="mb-2"
                             defaultValue={orderItem?.metadata?.email as string}
@@ -178,6 +196,7 @@ const OrderResendNotificationSection = ({
                               setEmail(e.target.value)
                             }}
                           />
+                          <Label>Phone</Label>
                           <Input
                             defaultValue={orderItem?.metadata?.phone as string}
                             onChange={(e) => {
@@ -204,34 +223,37 @@ const OrderResendNotificationSection = ({
                       </Prompt.Footer>
                     </Prompt.Content>
                   </Prompt>
-                  <Prompt>
-                    <Prompt.Trigger asChild>
-                      <IconButton>
-                        <Trash className="text-ui-tag-red-icon" />
-                      </IconButton>
-                    </Prompt.Trigger>
-                    <Prompt.Content>
-                      <Prompt.Header>
-                        <Prompt.Title>Delete {orderItem.title}</Prompt.Title>
-                        <Prompt.Description>
-                          Are you sure? This cannot be undone.
-                        </Prompt.Description>
-                      </Prompt.Header>
-                      <Prompt.Footer>
-                        <Prompt.Cancel>Cancel</Prompt.Cancel>
-                        <Prompt.Action
-                          onClick={async () => {
-                            // await sdk.admin.orderEdit.removeAddedItem(
-                            //   order.id,
-                            //   orderItem.id
-                            // )
-                          }}
-                        >
-                          Delete
-                        </Prompt.Action>
-                      </Prompt.Footer>
-                    </Prompt.Content>
-                  </Prompt>
+                  {order.payment_status !== "captured" && (
+                    <Prompt>
+                      <Prompt.Trigger asChild>
+                        <IconButton>
+                          <Trash className="text-ui-tag-red-icon" />
+                        </IconButton>
+                      </Prompt.Trigger>
+                      <Prompt.Content>
+                        <Prompt.Header>
+                          <Prompt.Title>Delete {orderItem.title}</Prompt.Title>
+                          <Prompt.Description>
+                            Are you sure? This cannot be undone.
+                          </Prompt.Description>
+                        </Prompt.Header>
+                        <Prompt.Footer>
+                          <Prompt.Cancel>Cancel</Prompt.Cancel>
+                          <Prompt.Action
+                            onClick={async () => {
+                              await sdk.admin.order.removeLineItem(
+                                orderItem.id,
+                                order.id
+                              )
+                              navigate(0)
+                            }}
+                          >
+                            Delete
+                          </Prompt.Action>
+                        </Prompt.Footer>
+                      </Prompt.Content>
+                    </Prompt>
+                  )}
                 </div>
               ) : (
                 <Text>
