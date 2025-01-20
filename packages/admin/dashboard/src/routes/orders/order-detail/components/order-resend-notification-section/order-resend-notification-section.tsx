@@ -8,6 +8,7 @@ import {
   Heading,
   IconButton,
   Input,
+  Label,
   Prompt,
   Text,
 } from "@medusajs/ui"
@@ -69,6 +70,7 @@ const OrderResendNotificationSection = ({
       data,
       phone,
       redemptionData: redemption,
+      payment_status: order.payment_status,
     }
 
     try {
@@ -186,6 +188,7 @@ const OrderResendNotificationSection = ({
                       <Prompt.Header>
                         <Prompt.Title>Edit Email</Prompt.Title>
                         <Prompt.Description>
+                          <Label>Email</Label>
                           <Input
                             className="mb-2"
                             defaultValue={orderItem?.metadata?.email as string}
@@ -193,6 +196,7 @@ const OrderResendNotificationSection = ({
                               setEmail(e.target.value)
                             }}
                           />
+                          <Label>Phone</Label>
                           <Input
                             defaultValue={orderItem?.metadata?.phone as string}
                             onChange={(e) => {
