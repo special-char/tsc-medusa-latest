@@ -57,6 +57,11 @@ export const customProtectedRoutes: RouteObject[] = [
                         ),
                     },
                     {
+                      path: "prices",
+                      lazy: () =>
+                        import("../../routes/products/product-prices"),
+                    },
+                    {
                       path: "edit-denomination",
                       lazy: () =>
                         import(
