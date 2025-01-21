@@ -154,12 +154,10 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
       description: data.description,
       options,
       variants,
-      sales_channels: [
-        {
-          id: data.sales_channel.id,
-          name: data.sales_channel.name,
-        },
-      ],
+      sales_channels: data.sales_channel.map((salesChannel) => ({
+        id: salesChannel.id,
+        name: salesChannel.name,
+      })),
       discountable: false,
       categories: [],
       enable_variants: false,
