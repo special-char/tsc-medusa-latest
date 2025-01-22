@@ -80,6 +80,7 @@ const formSchema = {
       preview: false,
       multiple: true,
     },
+
     validation: {},
   },
 }
@@ -110,16 +111,20 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
     let uploadedMedia: (HttpTypes.AdminFile & { isThumbnail: boolean })[] = []
     try {
       const fileReqs = []
-      fileReqs.push(
-        sdk.admin.upload
-          .create({ files: [data.thumbnail.file] })
-          .then((r) => r.files.map((f) => ({ ...f, isThumbnail: true })))
-      )
+      if (data?.thumbnail?.file) {
+        fileReqs.push(
+          sdk.admin.upload
+            .create({ files: [data?.thumbnail?.file] })
+            .then((r) => r?.files?.map((f) => ({ ...f, isThumbnail: true })))
+        )
+      }
 
-      uploadedMedia = (await Promise.all(fileReqs)).flat()
+      if (fileReqs.length > 0) {
+        uploadedMedia = (await Promise.all(fileReqs)).flat()
+      }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message)
+        toast.error(error?.message)
       }
     }
 
@@ -184,7 +189,7 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
           handleSuccess(`../${data.product.id}`)
         },
         onError: (error) => {
-          toast.error(error.message)
+          toast.error(error?.message)
         },
       }
     )

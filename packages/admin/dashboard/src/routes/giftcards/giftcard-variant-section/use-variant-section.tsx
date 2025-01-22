@@ -121,18 +121,19 @@ export const useProductGiftVariantTableColumns = (
           if (!variantOpt) {
             return <PlaceholderCell />
           }
-          const optionValue = row.original?.options?.[0]?.value
-          const filteredPrices = row.original?.prices?.filter((price) => {
-            return !(
-              price.amount.toString() === optionValue &&
-              price.currency_code ===
-                row.original?.prices?.find(
-                  (p) => p.amount.toString() === optionValue
-                )?.currency_code
-            )
-          })
+          // const optionValue = row.original?.options?.[0]?.value
+          // const filteredPrices = row.original?.prices?.filter((price) => {
+          //   return !(
+          //     price.amount.toString() === optionValue &&
+          //     !price.currency_code ===
+          //       row.original?.prices?.find(
+          //         (p) => p.amount.toString() === optionValue
+          //       )?.currency_code
+          //   )
+          // })
+
           const priceList =
-            filteredPrices
+            row.original?.prices
               ?.map((price) => `${price.amount} ${price.currency_code}`)
               .join(", ") || "-"
 

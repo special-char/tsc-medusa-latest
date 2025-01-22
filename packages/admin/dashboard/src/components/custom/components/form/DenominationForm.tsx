@@ -46,16 +46,16 @@ const DenominationForm = ({ form }: Props) => {
   })
 
   return (
-    <div className="gap-y-8 flex flex-col px-4">
+    <div className="flex flex-col gap-y-8 px-4">
       <Heading level="h1">Add Denomination</Heading>
       <div>
-        <div className="gap-x-2 flex items-center">
+        <div className="flex items-center gap-x-2">
           <h2>Default currency</h2>
           <InformationCircle />
         </div>
         <div className="rounded-rounded relative flex justify-between transition-colors">
-          <div className="gap-x-2 flex items-center">
-            <div className="gap-x-4 flex items-center">
+          <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-4">
               <span>{defaultCurrency.currency_code.toUpperCase()}</span>
               <span className="text-grey-50">
                 {currencies[defaultCurrency.currency_code.toUpperCase()].name}
@@ -116,33 +116,33 @@ const DenominationForm = ({ form }: Props) => {
       <hr className="my-2 border-gray-300" />
       {!useSameValue && (
         <div>
-          <div className="gap-x-2 flex items-center py-4">
+          <div className="flex items-center gap-x-2 py-4">
             <h2 className="inter-base-semibold">Other currencies</h2>
             <InformationCircle />
           </div>
           {fields.length === 0 ? (
             <Alert
               variant="warning"
-              className="bg-yellow-50 border border-yellow-200 p-4 rounded-md flex items-center space-x-3"
+              className="flex items-center space-x-3 rounded-md border border-yellow-200 bg-yellow-50 p-4"
             >
               <h3 className="font-medium text-yellow-800">
                 No Additional Currencies
               </h3>
-              <p className="text-yellow-700 text-sm">
+              <p className="text-sm text-yellow-700">
                 To use additional currencies, please add more currencies to your
                 store settings.
               </p>
             </Alert>
           ) : (
-            <div className="gap-y-2 pt-small flex flex-col">
+            <div className="pt-small flex flex-col gap-y-2">
               {fields.map((denom, index) => {
                 return (
                   <div
                     key={denom.fieldKey}
                     className="gap-x-base rounded-rounded relative grid grid-cols-[1fr_223px] justify-between transition-colors"
                   >
-                    <div className="gap-x-4 flex items-center">
-                      <div className="gap-x-4 flex items-center">
+                    <div className="flex items-center gap-x-4">
+                      <div className="flex items-center gap-x-4">
                         <span className="inter-base-semibold">
                           {denom.currency_code.toUpperCase()}
                         </span>
