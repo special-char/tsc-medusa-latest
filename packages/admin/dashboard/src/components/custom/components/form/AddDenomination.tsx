@@ -30,8 +30,8 @@ const AddDenomination = () => {
       {fields.map((denomination, index) => {
         const currency = watch(`denominations.${index}.currency`)
         return (
-          <div key={denomination.id} className="flex  gap-4">
-            <div className="flex h-10 w-[100px] items-center ">
+          <div key={denomination.id} className="grid grid-cols-3 gap-2">
+            <div className="flex h-10 min-w-max items-center ">
               <Controller
                 control={control}
                 name={`denominations.${index}.currency`}
@@ -41,9 +41,9 @@ const AddDenomination = () => {
                       <Select name={name} onValueChange={onChange}>
                         <Select.Trigger>
                           <Select.Value
-                            placeholder={defaultCurrency?.currency_code}
+                            placeholder={defaultCurrency?.currency_code?.toUpperCase()}
                           >
-                            {value}
+                            {value.toUpperCase()}
                           </Select.Value>
                         </Select.Trigger>
                         <Select.Content>
@@ -52,7 +52,7 @@ const AddDenomination = () => {
                               key={item.id}
                               value={item.currency_code}
                             >
-                              {item.currency_code}
+                              {item.currency_code.toUpperCase()}
                             </Select.Item>
                           ))}
                         </Select.Content>
@@ -113,7 +113,7 @@ const AddDenomination = () => {
           })
         }
         variant="transparent"
-        className="flex items-center gap-2"
+        className="ml-2 flex items-center gap-2"
         type="button"
       >
         <Plus />
