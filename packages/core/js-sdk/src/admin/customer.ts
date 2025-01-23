@@ -137,7 +137,7 @@ export class Customer {
   ) {
     return this.client.fetch<
       HttpTypes.AdminCustomerListResponse
-    >(`/admin/customers`, {
+    >(`/admin/customer`, {
       headers,
       query: queryParams,
     })

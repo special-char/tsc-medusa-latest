@@ -26,7 +26,7 @@ export const useInventoryItems = (
   query?: Record<string, any>,
   options?: Omit<
     UseQueryOptions<
-      HttpTypes.AdminInventoryItemListResponse,
+      HttpTypes.AdminInventoryItemListResponse | any,
       FetchError,
       HttpTypes.AdminInventoryItemListResponse,
       QueryKey

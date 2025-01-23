@@ -19,7 +19,6 @@ type ProductCreateOrganizationSectionProps = {
 
 const fetchBrands = async () => {
   try {
-    
     const response = await sdk.admin.brand.list()
 
     const result = response

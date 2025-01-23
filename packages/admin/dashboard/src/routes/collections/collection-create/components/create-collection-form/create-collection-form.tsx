@@ -12,6 +12,7 @@ import {
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateCollection } from "../../../../../hooks/api/collections"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const CreateCollectionSchema = zod.object({
   title: zod.string().min(1),
@@ -31,9 +32,13 @@ export const CreateCollectionForm = () => {
   })
 
   const { mutateAsync, isPending } = useCreateCollection()
-
+  const salesChannelIds = getSalesChannelIds()
   const handleSubmit = form.handleSubmit(async (data) => {
-    await mutateAsync(data, {
+    const d = {
+      ...data,
+      metadata: { sales_channel_id: salesChannelIds[0] },
+    }
+    await mutateAsync(d, {
       onSuccess: ({ collection }) => {
         handleSuccess(`/collections/${collection.id}`)
         toast.success(t("collections.createSuccess"))

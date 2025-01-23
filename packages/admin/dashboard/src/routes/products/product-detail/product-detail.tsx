@@ -19,6 +19,7 @@ import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-
 import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
 import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
+import { getSalesChannelIds } from "../../../const/get-sales-channel"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -26,14 +27,20 @@ export const ProductDetail = () => {
   >
 
   const { id } = useParams()
-  const { product, isLoading, isError, error } = useProduct(
+  let { product, isLoading, isError, error } = useProduct(
     id!,
     { fields: PRODUCT_DETAIL_FIELDS },
     {
       initialData: initialData,
     }
   )
-
+  const salesChannelIds = getSalesChannelIds()
+  if (
+    salesChannelIds.length != 0 &&
+    !product?.sales_channels?.some((c) => salesChannelIds.includes(c.id))
+  ) {
+    product = null
+  }
   const { getWidgets } = useDashboardExtension()
 
   const after = getWidgets("product.details.after")

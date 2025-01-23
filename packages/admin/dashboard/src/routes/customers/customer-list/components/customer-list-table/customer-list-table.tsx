@@ -14,29 +14,56 @@ import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CustomerListTable = () => {
   const { t } = useTranslation()
-
+  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
   const { customers, count, isLoading, isError, error } = useCustomers(
     {
       ...searchParams,
+      fields: "*sales_channel.id",
+    },
+    {
+      placeholderData: keepPreviousData,
+    }
+  )
+  const { customers: allCustomer } = useCustomers(
+    {
+      limit: Number.MAX_SAFE_INTEGER,
+      fields: "*sales_channel.id",
     },
     {
       placeholderData: keepPreviousData,
     }
   )
 
+  // Filter current page data
+  const filteredCollections =
+    salesChannelIds && salesChannelIds[0]
+      ? customers?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )
+      : customers
+
+  // Calculate total filtered count
+  const filteredCount =
+    salesChannelIds && salesChannelIds[0]
+      ? allCustomer?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )?.length ?? 0
+      : count
+
   const filters = useCustomerTableFilters()
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: customers ?? [],
+    data: filteredCollections ?? [],
     columns,
-    count,
+    count: filteredCount,
     enablePagination: true,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
@@ -60,7 +87,7 @@ export const CustomerListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
+        count={filteredCount}
         filters={filters}
         orderBy={[
           { key: "email", label: t("fields.email") },

@@ -13,29 +13,61 @@ import { useCollectionTableFilters } from "../../../../../hooks/table/filters"
 import { useCollectionTableQuery } from "../../../../../hooks/table/query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { CollectionRowActions } from "./collection-row-actions"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CollectionListTable = () => {
   const { t } = useTranslation()
+  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCollectionTableQuery({ pageSize: PAGE_SIZE })
-  const { collections, count, isError, error, isLoading } = useCollections(
+
+  // Get all collections for filtering
+  delete searchParams.limit
+  console.log("🚀 ~ CollectionListTable ~ searchParams:", searchParams)
+  const {
+    collections: allCollections,
+    count,
+    isError,
+    error,
+    isLoading,
+  } = useCollections(
     {
-      ...searchParams,
-      fields: "+products.id",
+      fields: "+products.id,*sales_channel.id",
+      limit: Number.MAX_SAFE_INTEGER,
+      //TODO:::
     },
     {
       placeholderData: keepPreviousData,
     }
   )
 
+  // Filter all collections first
+  const filteredAllCollections =
+    salesChannelIds && salesChannelIds[0]
+      ? allCollections?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )
+      : allCollections
+
+  // Calculate total filtered count
+  const filteredCount = filteredAllCollections?.length ?? 0
+
+  // Apply pagination to filtered results
+  const startIndex = searchParams.offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCollections = filteredAllCollections?.slice(
+    startIndex,
+    endIndex
+  )
+
   const filters = useCollectionTableFilters()
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: collections ?? [],
+    data: paginatedCollections ?? [],
     columns,
-    count,
+    count: filteredCount,
     enablePagination: true,
     getRowId: (row, index) => row.id ?? `${index}`,
     pageSize: PAGE_SIZE,
@@ -64,7 +96,7 @@ export const CollectionListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
+        count={filteredCount}
         filters={filters}
         orderBy={[
           { key: "title", label: t("fields.title") },

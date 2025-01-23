@@ -9,6 +9,7 @@ import { useDataTable } from "../../../../hooks/use-data-table"
 import { useInventoryTableColumns } from "./use-inventory-table-columns"
 import { useInventoryTableFilters } from "./use-inventory-table-filters"
 import { useInventoryTableQuery } from "./use-inventory-table-query"
+import { getSalesChannelIds } from "../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -20,29 +21,70 @@ export const InventoryListTable = () => {
   })
 
   const {
-    inventory_items,
-    count,
-    isPending: isLoading,
-    isError,
-    error,
+    inventory_items: allItems,
+    isPending: isLoadingAll,
+    isError: isErrorAll,
+    error: errorAll,
   } = useInventoryItems({
-    ...searchParams,
+    fields: "*variants.product.sales_channels",
+    limit: Number.MAX_SAFE_INTEGER,
   })
 
+  const salesChannelIds = getSalesChannelIds()
   const filters = useInventoryTableFilters()
   const columns = useInventoryTableColumns()
 
+  // More robust filtering logic
+  const filteredItems =
+    salesChannelIds.length === 0
+      ? allItems
+      : allItems?.filter((item: any) => {
+          // Check if variants exist
+          if (!item?.variants || !Array.isArray(item.variants)) {
+            return false
+          }
+
+          // Check if any variant matches the sales channel criteria
+          return item.variants.some((variant: any) => {
+            if (!variant?.product?.sales_channels) {
+              return false
+            }
+            return variant.product.sales_channels.some((channel: any) =>
+              salesChannelIds.includes(channel.id)
+            )
+          })
+        })
+
+  const filteredCount = filteredItems?.length ?? 0
+
+  // Ensure pagination values are valid numbers
+  const offset = Math.max(0, searchParams.offset ?? 0)
+  const startIndex = offset
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedItems = filteredItems?.slice(startIndex, endIndex)
+
+  console.log({
+    totalItems: allItems?.length,
+    filteredCount,
+    startIndex,
+    endIndex,
+    paginatedCount: paginatedItems?.length,
+    salesChannelIds,
+  })
+
   const { table } = useDataTable({
-    data: (inventory_items ?? []) as InventoryTypes.InventoryItemDTO[],
+    data:
+      (paginatedItems as InventoryTypes.InventoryItemDTO[]) ??
+      ([] as InventoryTypes.InventoryItemDTO[]),
     columns,
-    count,
+    count: filteredCount,
     enablePagination: true,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
   })
 
-  if (isError) {
-    throw error
+  if (isErrorAll) {
+    throw errorAll
   }
 
   return (
@@ -62,8 +104,8 @@ export const InventoryListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
-        isLoading={isLoading}
+        count={filteredCount}
+        isLoading={isLoadingAll}
         pagination
         search
         filters={filters}

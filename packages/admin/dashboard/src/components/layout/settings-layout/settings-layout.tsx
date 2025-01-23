@@ -12,7 +12,7 @@ import { Shell } from "../shell"
 import { useDashboardExtension } from "../../../extensions"
 import { UserMenu } from "../user-menu"
 import dashboardConfig from "../../../../dashboard.config"
-
+import { isVendor } from "../../../const/get-sales-channel"
 export const SettingsLayout = () => {
   return (
     <Shell>
@@ -23,6 +23,7 @@ export const SettingsLayout = () => {
 
 const useSettingRoutes = (): INavItem[] => {
   const { t } = useTranslation()
+  const vendor = isVendor()
 
   const customSettingRoutes = [
     ...(dashboardConfig?.featureFlags?.brand
@@ -33,7 +34,7 @@ const useSettingRoutes = (): INavItem[] => {
           },
         ]
       : []),
-    ...(dashboardConfig?.featureFlags?.subscriptions
+    ...(dashboardConfig?.featureFlags?.subscriptions && !vendor
       ? [
           {
             label: "Subscription",
@@ -52,67 +53,69 @@ const useSettingRoutes = (): INavItem[] => {
   ]
 
   return useMemo(
-    () => [
-      {
-        label: t("store.domain"),
-        to: "/settings/store",
-      },
-      {
-        label: t("users.domain"),
-        to: "/settings/users",
-      },
-      {
-        label: t("regions.domain"),
-        to: "/settings/regions",
-      },
-      {
-        label: t("taxRegions.domain"),
-        to: "/settings/tax-regions",
-      },
-      {
-        label: t("returnReasons.domain"),
-        to: "/settings/return-reasons",
-      },
-      {
-        label: t("salesChannels.domain"),
-        to: "/settings/sales-channels",
-      },
-      {
-        label: t("productTypes.domain"),
-        to: "/settings/product-types",
-      },
-      {
-        label: t("productTags.domain"),
-        to: "/settings/product-tags",
-      },
-      {
-        label: t("stockLocations.domain"),
-        to: "/settings/locations",
-      },
-      ...customSettingRoutes,
-    ],
+    () =>
+      [
+        {
+          label: t("store.domain"),
+          to: "/settings/store",
+        },
+        {
+          label: t("users.domain"),
+          to: "/settings/users",
+        },
+        !vendor && {
+          label: t("regions.domain"),
+          to: "/settings/regions",
+        },
+        !vendor && {
+          label: t("taxRegions.domain"),
+          to: "/settings/tax-regions",
+        },
+        !vendor && {
+          label: t("returnReasons.domain"),
+          to: "/settings/return-reasons",
+        },
+        !vendor && {
+          label: t("salesChannels.domain"),
+          to: "/settings/sales-channels",
+        },
+        {
+          label: t("productTypes.domain"),
+          to: "/settings/product-types",
+        },
+        {
+          label: t("productTags.domain"),
+          to: "/settings/product-tags",
+        },
+        !vendor && {
+          label: t("stockLocations.domain"),
+          to: "/settings/locations",
+        },
+        ...customSettingRoutes,
+      ].filter((item): item is INavItem => item !== false),
     [t]
   )
 }
 
 const useDeveloperRoutes = (): INavItem[] => {
   const { t } = useTranslation()
-
+  const vendor = isVendor()
   return useMemo(
-    () => [
-      {
-        label: t("apiKeyManagement.domain.publishable"),
-        to: "/settings/publishable-api-keys",
-      },
-      {
-        label: t("apiKeyManagement.domain.secret"),
-        to: "/settings/secret-api-keys",
-      },
-      {
-        label: t("workflowExecutions.domain"),
-        to: "/settings/workflows",
-      },
-    ],
+    () =>
+      [
+        !vendor && {
+          label: t("apiKeyManagement.domain.publishable"),
+          to: "/settings/publishable-api-keys",
+        },
+        !vendor && {
+          label: t("apiKeyManagement.domain.secret"),
+          to: "/settings/secret-api-keys",
+        },
+        !vendor && {
+          label: t("workflowExecutions.domain"),
+          to: "/settings/workflows",
+        },
+      ].filter((item): item is INavItem => item !== false),
     [t]
   )
 }
@@ -170,10 +173,12 @@ const SettingsSidebar = () => {
           <div className="flex items-center justify-center px-3">
             <Divider variant="dashed" />
           </div>
-          <CollapsibleSection
-            label={t("app.nav.settings.developer")}
-            items={developerRoutes}
-          />
+          {developerRoutes.length > 0 && (
+            <CollapsibleSection
+              label={t("app.nav.settings.developer")}
+              items={developerRoutes}
+            />
+          )}
           <div className="flex items-center justify-center px-3">
             <Divider variant="dashed" />
           </div>

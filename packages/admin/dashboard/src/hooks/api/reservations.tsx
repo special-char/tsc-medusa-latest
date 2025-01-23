@@ -43,7 +43,7 @@ export const useReservationItem = (
 }
 
 export const useReservationItems = (
-  query?: HttpTypes.AdminGetReservationsParams,
+  query?: HttpTypes.AdminGetReservationsParams | any,
   options?: Omit<
     UseQueryOptions<
       HttpTypes.AdminGetReservationsParams,

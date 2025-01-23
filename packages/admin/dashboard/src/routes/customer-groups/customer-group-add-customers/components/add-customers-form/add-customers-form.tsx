@@ -23,6 +23,7 @@ import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type AddCustomersFormProps = {
   customerGroupId: string
@@ -39,7 +40,7 @@ export const AddCustomersForm = ({
 }: AddCustomersFormProps) => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-
+  const salesChannelIds = getSalesChannelIds()
   const form = useForm<zod.infer<typeof AddCustomersSchema>>({
     defaultValues: {
       customer_ids: [],
@@ -66,10 +67,31 @@ export const AddCustomersForm = ({
   const filters = useCustomerTableFilters()
 
   const { customers, count, isLoading, isError, error } = useCustomers({
-    fields: "id,email,first_name,last_name,*groups",
+    fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
     ...searchParams,
   })
+  console.log("🚀 ~ customers:", customers)
+  const { customers: allCustomer } = useCustomers({
+    fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
+    limit: Number.MAX_SAFE_INTEGER,
+  })
+  // Filter current page data
+  const filteredCollections =
+    salesChannelIds && salesChannelIds[0]
+      ? customers?.filter(
+          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
+        )
+      : customers
+  console.log("::::salesChannelIds[0]::::", salesChannelIds[0])
 
+  console.log("🚀 ~ filteredCollections:", filteredCollections)
+  // Calculate total filtered count
+  const filteredCount =
+    salesChannelIds && salesChannelIds[0]
+      ? allCustomer?.filter(
+          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
+        )?.length ?? 0
+      : count
   const updater: OnChangeFn<RowSelectionState> = (fn) => {
     const state = typeof fn === "function" ? fn(rowSelection) : fn
 
@@ -86,9 +108,9 @@ export const AddCustomersForm = ({
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: customers ?? [],
+    data: filteredCollections ?? [],
     columns,
-    count,
+    count: filteredCount,
     enablePagination: true,
     enableRowSelection: (row) => {
       return !row.original.groups?.map((gc) => gc.id).includes(customerGroupId)
@@ -157,7 +179,7 @@ export const AddCustomersForm = ({
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}
-            count={count}
+            count={filteredCount}
             filters={filters}
             orderBy={[
               { key: "email", label: t("fields.email") },

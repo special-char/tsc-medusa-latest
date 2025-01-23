@@ -16,6 +16,7 @@ import { useProductTagTableQuery } from "../../../../../hooks/table/query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useDeleteProductTagAction } from "../../../common/hooks/use-delete-product-tag-action"
 import { productTagListLoader } from "../../loader"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -28,21 +29,32 @@ export const ProductTagListTable = () => {
   const initialData = useLoaderData() as Awaited<
     ReturnType<typeof productTagListLoader>
   >
-
-  const { product_tags, count, isPending, isError, error } = useProductTags(
-    searchParams,
-    {
-      initialData,
-      placeholderData: keepPreviousData,
-    }
-  )
-
+  const salesChannelIds = getSalesChannelIds()
+  const { product_tags, count, isPending, isError, error } = useProductTags({
+    ...searchParams,
+    fields: "*sales_channel.id",
+  })
+  const { product_tags: allTags } = useProductTags({
+    fields: "*sales_channel.id",
+    limit: Number.MAX_SAFE_INTEGER,
+  })
+  const filteredTags =
+    salesChannelIds && salesChannelIds[0]
+      ? product_tags?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )
+      : product_tags
+  const filteredCount =
+    salesChannelIds && salesChannelIds[0]
+      ? allTags?.filter((x: any) => x.sales_channel?.id === salesChannelIds[0])
+          ?.length ?? 0
+      : count
   const columns = useColumns()
   const filters = useProductTagTableFilters()
 
   const { table } = useDataTable({
-    data: product_tags,
-    count,
+    data: filteredTags,
+    count: filteredCount,
     columns,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
@@ -67,7 +79,7 @@ export const ProductTagListTable = () => {
         isLoading={isPending}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
+        count={filteredCount}
         navigateTo={(row) => row.original.id}
         search
         pagination

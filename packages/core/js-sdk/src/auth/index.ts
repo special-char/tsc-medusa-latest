@@ -122,7 +122,7 @@ export class Auth {
     if (location) {
       return { location }
     }
-
+    this.client.setToken(token as string)
     await this.setToken_(token as string)
     return token as string
   }
@@ -143,7 +143,7 @@ export class Auth {
     if (location) {
       return { location }
     }
-
+    this.client.setToken(token as string)
     await this.setToken_(token as string)
     return token as string
   }

@@ -13,6 +13,7 @@ import { useProductTypeTableFilters } from "../../../../../hooks/table/filters/u
 import { useProductTypeTableQuery } from "../../../../../hooks/table/query/use-product-type-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { ProductTypeRowActions } from "./product-table-row-actions"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -22,20 +23,56 @@ export const ProductTypeListTable = () => {
   const { searchParams, raw } = useProductTypeTableQuery({
     pageSize: PAGE_SIZE,
   })
-  const { product_types, count, isLoading, isError, error } = useProductTypes(
-    searchParams,
+  const salesChannelIds = getSalesChannelIds()
+  const {
+    product_types,
+    count: totalCount,
+    isLoading,
+    isError,
+    error,
+  } = useProductTypes(
+    {
+      ...searchParams,
+      fields: "*sales_channel.id",
+    },
     {
       placeholderData: keepPreviousData,
     }
   )
+
+  // Get all types for accurate filtered count
+  const { product_types: allTypes } = useProductTypes(
+    {
+      fields: "*sales_channel.id",
+      limit: Number.MAX_SAFE_INTEGER,
+    },
+    {
+      placeholderData: keepPreviousData,
+    }
+  )
+
+  // Filter current page data
+  const filteredTypes =
+    salesChannelIds && salesChannelIds[0]
+      ? product_types?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )
+      : product_types
+
+  // Calculate total filtered count
+  const filteredCount =
+    salesChannelIds && salesChannelIds[0]
+      ? allTypes?.filter((x: any) => x.sales_channel?.id === salesChannelIds[0])
+          ?.length ?? 0
+      : totalCount
 
   const filters = useProductTypeTableFilters()
   const columns = useColumns()
 
   const { table } = useDataTable({
     columns,
-    data: product_types,
-    count,
+    data: filteredTypes ?? [],
+    count: filteredCount,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
   })
@@ -63,7 +100,7 @@ export const ProductTypeListTable = () => {
         isLoading={isLoading}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
+        count={filteredCount}
         orderBy={[
           { key: "value", label: t("fields.value") },
           { key: "created_at", label: t("fields.createdAt") },

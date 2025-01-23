@@ -10,6 +10,7 @@ import {
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateProductType } from "../../../../../hooks/api/product-types"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const CreateProductTypeSchema = z.object({
   value: z.string().min(1),
@@ -27,10 +28,14 @@ export const CreateProductTypeForm = () => {
   })
 
   const { mutateAsync, isPending } = useCreateProductType()
-
+  const salesChannelIds = getSalesChannelIds()
   const handleSubmit = form.handleSubmit(
     async (values: z.infer<typeof CreateProductTypeSchema>) => {
-      await mutateAsync(values, {
+      const d = {
+        ...values,
+        metadata: { sales_channel_id: salesChannelIds[0] },
+      }
+      await mutateAsync(d, {
         onSuccess: ({ product_type }) => {
           toast.success(
             t("productTypes.create.successToast", {

@@ -135,7 +135,7 @@ export class ProductCategory {
     headers?: ClientHeaders
   ) {
     return this.client.fetch<HttpTypes.AdminProductCategoryListResponse>(
-      `/admin/product-categories`,
+      `/admin/catcheck`,
       {
         headers,
         query: query,
