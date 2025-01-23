@@ -581,7 +581,7 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
-            path: "/customers",
+            path: "/clients",
             errorElement: <ErrorBoundary />,
             handle: {
               breadcrumb: () => t("customers.domain"),
@@ -642,7 +642,7 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
-            path: "/customer-groups",
+            path: "/client-groups",
             errorElement: <ErrorBoundary />,
             handle: {
               breadcrumb: () => t("customerGroups.domain"),

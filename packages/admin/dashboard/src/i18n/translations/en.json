@@ -159,8 +159,8 @@
       "loadMore": "Load {{count}} more",
       "groups": {
         "all": "All areas",
-        "customer": "Customers",
-        "customerGroup": "Customer Groups",
+        "customer": "Clients",
+        "customerGroup": "Client Groups",
         "product": "Products",
         "productVariant": "Product Variants",
         "inventory": "Inventory",
@@ -196,8 +196,8 @@
         "goToProducts": "Products",
         "goToCollections": "Collections",
         "goToCategories": "Categories",
-        "goToCustomers": "Customers",
-        "goToCustomerGroups": "Customer Groups",
+        "goToCustomers": "Clients",
+        "goToCustomerGroups": "Client Groups",
         "goToInventory": "Inventory",
         "goToReservations": "Reservations",
         "goToPriceLists": "Price Lists",
@@ -865,45 +865,45 @@
   },
 
   "customers": {
-    "domain": "Customers",
+    "domain": "Clients",
     "list": {
       "noRecordsMessage": "Your customers will show up here."
     },
     "create": {
-      "header": "Create Customer",
-      "hint": "Create a new customer and manage their details.",
-      "successToast": "Customer {{email}} was successfully created."
+      "header": "Create Client",
+      "hint": "Create a new client and manage their details.",
+      "successToast": "Client {{email}} was successfully created."
     },
     "groups": {
-      "label": "Customer groups",
-      "remove": "Are you sure you want to remove the customer from \"{{name}}\" customer group?",
-      "removeMany": "Are you sure you want to customer from following customer groups: {{groups}}?",
-      "alreadyAddedTooltip": "The customer is already in this customer group.",
+      "label": "Client groups",
+      "remove": "Are you sure you want to remove the client from \"{{name}}\" client group?",
+      "removeMany": "Are you sure you want to client from following client groups: {{groups}}?",
+      "alreadyAddedTooltip": "The client is already in this client group.",
       "list": {
-        "noRecordsMessage": "This customer doesn't belong to any group."
+        "noRecordsMessage": "This client doesn't belong to any group."
       },
       "add": {
-        "success": "Customer added to: {{groups}}.",
+        "success": "Client added to: {{groups}}.",
         "list": {
-          "noRecordsMessage": "Please create a customer group first."
+          "noRecordsMessage": "Please create a client group first."
         }
       },
       "removed": {
-        "success": "Customer removed from: {{groups}}.",
+        "success": "Client removed from: {{groups}}.",
         "list": {
-          "noRecordsMessage": "Please create a customer group first."
+          "noRecordsMessage": "Please create a client group first."
         }
       }
     },
     "edit": {
-      "header": "Edit Customer",
-      "emailDisabledTooltip": "The email address cannot be changed for registered customers.",
-      "successToast": "Customer {{email}} was successfully updated."
+      "header": "Edit Client",
+      "emailDisabledTooltip": "The email address cannot be changed for registered clients.",
+      "successToast": "Client {{email}} was successfully updated."
     },
     "delete": {
-      "title": "Delete Customer",
-      "description": "You are about to delete the customer {{email}}. This action cannot be undone.",
-      "successToast": "Customer {{email}} was successfully deleted."
+      "title": "Delete Client",
+      "description": "You are about to delete the client {{email}}. This action cannot be undone.",
+      "successToast": "Client {{email}} was successfully deleted."
     },
     "fields": {
       "guest": "Guest",
@@ -915,36 +915,36 @@
     "hasAccount": "Has account"
   },
   "customerGroups": {
-    "domain": "Customer Groups",
+    "domain": "Client Groups",
     "subtitle": "Organize customers into groups. Groups can have different promotions and prices.",
     "create": {
-      "header": "Create Customer Group",
-      "hint": "Create a new customer group to segment your customers.",
-      "successToast": "Customer group {{name}} was successfully created."
+      "header": "Create Client Group",
+      "hint": "Create a new client group to segment your customers.",
+      "successToast": "Client group {{name}} was successfully created."
     },
     "edit": {
-      "header": "Edit Customer Group",
-      "successToast": "Customer group {{name}} was successfully updated."
+      "header": "Edit Client Group",
+      "successToast": "Client group {{name}} was successfully updated."
     },
     "delete": {
-      "title": "Delete Customer Group",
-      "description": "You are about to delete the customer group {{name}}. This action cannot be undone.",
-      "successToast": "Customer group {{name}} was successfully deleted."
+      "title": "Delete Client Group",
+      "description": "You are about to delete the client group {{name}}. This action cannot be undone.",
+      "successToast": "Clients group {{name}} was successfully deleted."
     },
     "customers": {
-      "alreadyAddedTooltip": "The customer has already been added to the group.",
+      "alreadyAddedTooltip": "The client has already been added to the group.",
       "add": {
-        "successToast_one": "Customer was successfully added to the group.",
-        "successToast_other": "Customers were successfully added to the group.",
+        "successToast_one": "Client was successfully added to the group.",
+        "successToast_other": "Clients were successfully added to the group.",
         "list": {
-          "noRecordsMessage": "Create a customer first."
+          "noRecordsMessage": "Create a client first."
         }
       },
       "remove": {
-        "title_one": "Remove customer",
-        "title_other": "Remove customers",
-        "description_one": "You are about to remove {{count}} customer from the customer group. This action cannot be undone.",
-        "description_other": "You are about to remove {{count}} customers from the customer group. This action cannot be undone."
+        "title_one": "Remove client",
+        "title_other": "Remove clients",
+        "description_one": "You are about to remove {{count}} client from the client group. This action cannot be undone.",
+        "description_other": "You are about to remove {{count}} customers from the client group. This action cannot be undone."
       },
       "list": {
         "noRecordsMessage": "This group doesn't have customers."
@@ -991,13 +991,13 @@
       "requestSuccess": "Order transfer request sent to: {{email}}.",
       "currentOwner": "Current owner",
       "newOwner": "New owner",
-      "currentOwnerDescription": "The customer currently related to this order.",
-      "newOwnerDescription": "The customer to transfer this order to."
+      "currentOwnerDescription": "The client currently related to this order.",
+      "newOwnerDescription": "The client to transfer this order to."
     },
     "payment": {
       "title": "Payments",
       "isReadyToBeCaptured": "Payment <0/> is ready to be captured.",
-      "totalPaidByCustomer": "Total paid by customer",
+      "totalPaidByCustomer": "Total paid by client",
       "capture": "Capture payment",
       "capture_short": "Capture",
       "refund": "Refund",
@@ -1078,13 +1078,13 @@
       "inbound": "Inbound",
       "outbound": "Outbound",
       "sendNotification": "Send notification",
-      "sendNotificationHint": "Notify customer about return.",
+      "sendNotificationHint": "Notify client about return.",
       "returnTotal": "Return total",
       "inboundTotal": "Inbound total",
       "refundAmount": "Refund amount",
       "outstandingAmount": "Outstanding amount",
       "reason": "Reason",
-      "reasonHint": "Choose why the customer want to return items.",
+      "reasonHint": "Choose why the client want to return items.",
       "note": "Note",
       "noInventoryLevel": "No inventory level",
       "noInventoryLevelDesc": "The selected location does not have an inventory level for the selected items. The return can be requested but can’t be received until an inventory level is created for the selected location.",
@@ -1122,7 +1122,7 @@
         "restockAll": "Restock all items",
         "itemsLabel": "Items received",
         "title": "Receive items for #{{returnId}}",
-        "sendNotificationHint": "Notify customer about received return.",
+        "sendNotificationHint": "Notify client about received return.",
         "inventoryWarning": "Please note that we will automatically adjust the inventory levels based on your input above.",
         "writeOffInputLabel": "How many of the items are damaged?",
         "toast": {
@@ -1232,7 +1232,7 @@
       "trackingNumber": "Tracking number",
       "addTracking": "Add tracking number",
       "sendNotification": "Send notification",
-      "sendNotificationHint": "Notify the customer about this shipment.",
+      "sendNotificationHint": "Notify the client about this shipment.",
       "toastCreated": "Shipment created successfully."
     },
     "fulfillment": {
@@ -1254,7 +1254,7 @@
       "itemsToFulfillDesc": "Choose items and quantities to fulfill",
       "locationDescription": "Choose which location you want to fulfill items from.",
       "sendNotificationHint": "Notify customers about the created fulfillment.",
-      "methodDescription": "Choose a different shipping method from the one customer selected",
+      "methodDescription": "Choose a different shipping method from the one client selected",
       "error": {
         "wrongQuantity": "Only one item is available for fulfillment",
         "wrongQuantity_other": "Quantity should be a number between 1 and {{number}}",
@@ -1411,7 +1411,7 @@
       "noCustomItemsAddedLabel": "No custom items added yet",
       "noExistingItemsAddedLabel": "No existing items added yet",
       "chooseRegionTooltip": "Choose a region first",
-      "useExistingCustomerLabel": "Use existing customer",
+      "useExistingCustomerLabel": "Use existing client",
       "addShippingMethodsAction": "Add shipping methods",
       "unitPriceOverrideLabel": "Unit price override",
       "shippingOptionLabel": "Shipping option",
@@ -1419,10 +1419,10 @@
       "shippingPriceOverrideLabel": "Shipping price override",
       "shippingPriceOverrideHint": "Override the shipping price for the draft order.",
       "sendNotificationLabel": "Send notification",
-      "sendNotificationHint": "Send a notification to the customer when the draft order is created."
+      "sendNotificationHint": "Send a notification to the client when the draft order is created."
     },
     "validation": {
-      "requiredEmailOrCustomer": "Email or customer is required.",
+      "requiredEmailOrCustomer": "Email or client is required.",
       "requiredItems": "At least one item is required.",
       "invalidEmail": "Email must be a valid email address."
     }
@@ -1797,7 +1797,7 @@
           "productCollection": "Search for product collections",
           "productTag": "Search for product tags",
           "productType": "Search for product types",
-          "customerGroup": "Search for customer groups"
+          "customerGroup": "Search for client groups"
         },
         "tags": {
           "product": "Product",
@@ -1889,7 +1889,7 @@
       "conditions": {
         "rules": {
           "title": "Who can use this code?",
-          "description": "Which customer is allowed to use the promotion code? Promotion code can be used by all customers if left untouched."
+          "description": "Which client is allowed to use the promotion code? Promotion code can be used by all customers if left untouched."
         },
         "target-rules": {
           "title": "What items will the promotion be applied to?",
@@ -2200,7 +2200,7 @@
           },
           "override": {
             "label": "Override",
-            "description": "Overrides are usually used to create customer-specific prices."
+            "description": "Overrides are usually used to create client-specific prices."
           }
         }
       },
@@ -2213,10 +2213,10 @@
         "hint": "Schedule the price list to deactivate in the future."
       },
       "customerAvailability": {
-        "header": "Choose customer groups",
+        "header": "Choose client groups",
         "label": "Customer availability",
-        "hint": "Choose which customer groups the price list should be applied to.",
-        "placeholder": "Search for customer groups",
+        "hint": "Choose which client groups the price list should be applied to.",
+        "placeholder": "Search for client groups",
         "attribute": "Customer groups"
       }
     }
@@ -2328,9 +2328,9 @@
       "fulfillmentMethod": "Fulfillment Method",
       "type": {
         "outbound": "Outbound",
-        "outboundHint": "Use this if you are creating a shipping option for sending products to the customer.",
+        "outboundHint": "Use this if you are creating a shipping option for sending products to the client.",
         "return": "Return",
-        "returnHint": "Use this if you are creating a shipping option for the customer to return products to you."
+        "returnHint": "Use this if you are creating a shipping option for the client to return products to you."
       },
       "priceType": {
         "label": "Price Type",

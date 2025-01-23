@@ -63,7 +63,7 @@ export const CustomerGroupListTable = () => {
             {t("customerGroups.subtitle")}
           </Text>
         </div>
-        <Link to="/customer-groups/create">
+        <Link to="/client-groups/create">
           <Button size="small" variant="secondary">
             {t("actions.create")}
           </Button>
@@ -77,7 +77,7 @@ export const CustomerGroupListTable = () => {
         filters={filters}
         search
         pagination
-        navigateTo={(row) => `/customer-groups/${row.original.id}`}
+        navigateTo={(row) => `/client-groups/${row.original.id}`}
         orderBy={[
           { key: "name", label: t("fields.name") },
           { key: "created_at", label: t("fields.createdAt") },
@@ -135,7 +135,7 @@ const CustomerGroupRowActions = ({
           actions: [
             {
               label: t("actions.edit"),
-              to: `/customer-groups/${group.id}/edit`,
+              to: `/client-groups/${group.id}/edit`,
               icon: <PencilSquare />,
             },
           ],

@@ -83,7 +83,7 @@ export function VendorCreate() {
           tokenResult
         )
 
-        navigate("/vendors", {
+        navigate("/merchants", {
           replace: true,
           state: { isSubmittingSuccessful: true },
         })
@@ -101,7 +101,7 @@ export function VendorCreate() {
       <RouteFocusModal.Body className="relative w-full overflow-y-scroll px-8 py-10">
         <div className="flex flex-col pb-6">
           <Heading level="h1" className="text-xl font-semibold">
-            Create Vendor
+            Create Merchant
           </Heading>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -177,7 +177,7 @@ export function VendorCreate() {
               )}
             </div> */}
             <Heading level="h1" className="text-xl font-semibold">
-              Vendor Admin
+              Merchant Admin
             </Heading>
             <div>
               <Controller

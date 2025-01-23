@@ -240,8 +240,8 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       ? [
           {
             icon: <UsersSolid />,
-            label: "Vendors",
-            to: "/vendors",
+            label: "Merchants",
+            to: "/merchants",
           },
         ]
       : []),
@@ -321,11 +321,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
     {
       icon: <Users />,
       label: t("customers.domain"),
-      to: "/customers",
+      to: "/clients",
       items: [
         {
           label: t("customerGroups.domain"),
-          to: "/customer-groups",
+          to: "/client-groups",
         },
       ],
     },

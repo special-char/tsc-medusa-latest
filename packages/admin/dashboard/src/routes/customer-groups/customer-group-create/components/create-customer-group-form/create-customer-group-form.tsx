@@ -42,9 +42,13 @@ export const CreateCustomerGroupForm = () => {
             })
           )
 
-          handleSuccess(`/customer-groups/${customer_group.id}`)
+          handleSuccess(`/client-groups/${customer_group.id}`)
         },
         onError: (error) => {
+          if (error.message.includes("Customer")) {
+            toast.error(error.message.replace("Customer", "Client"))
+            return
+          }
           toast.error(error.message)
         },
       }

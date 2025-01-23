@@ -172,7 +172,7 @@ export const customProtectedRoutes: RouteObject[] = [
   ...(dashboardConfig?.featureFlags?.vendors
     ? [
         {
-          path: "/vendors",
+          path: "/merchants",
           errorElement: <ErrorBoundary />,
           children: [
             {

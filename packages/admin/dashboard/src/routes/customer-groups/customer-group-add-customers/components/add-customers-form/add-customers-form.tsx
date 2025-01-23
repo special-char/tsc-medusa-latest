@@ -112,7 +112,7 @@ export const AddCustomersForm = ({
           })
         )
 
-        handleSuccess(`/customer-groups/${customerGroupId}`)
+        handleSuccess(`/client-groups/${customerGroupId}`)
       },
       onError: (error) => {
         toast.error(error.message)
