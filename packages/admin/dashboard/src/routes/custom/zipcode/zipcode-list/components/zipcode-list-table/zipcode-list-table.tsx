@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { DataTable } from "../../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../../components/table/data-table"
 import { sdk } from "../../../../../../lib/client"
 import {
   ColumnFiltersState,
@@ -137,7 +137,7 @@ export const ZipcodeListTable = () => {
   })
 
   return (
-    <DataTable
+    <_DataTable
       table={table}
       columns={columns}
       count={zipcodes?.count}

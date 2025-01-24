@@ -6,7 +6,7 @@ import {
   useProductVariants,
   useUpdateProductOption,
 } from "../../../../../../hooks/api/products.tsx"
-import { useProductVariantTableQuery } from "../../../../../products/product-detail/components/product-variant-section/use-variant-table-query.tsx"
+// import { useProductVariantTableQuery } from "../../../../../products/product-detail/components/product-variant-section/use-variant-table-query.tsx"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { useStore } from "../../../../../../hooks/api/index.ts"
@@ -43,14 +43,14 @@ export const AddDenominationModal = () => {
     product?.id || ""
   )
 
-  const { searchParams } = useProductVariantTableQuery({
-    pageSize: PAGE_SIZE,
-  })
+  // const { searchParams } = useProductVariantTableQuery({
+  //   pageSize: PAGE_SIZE,
+  // })
 
   const { variants, isError, error } = useProductVariants(
     product?.id || "",
     {
-      ...searchParams,
+      // ...searchParams,
       fields: "*inventory_items.inventory.location_levels,+inventory_quantity",
     },
     {
@@ -125,7 +125,7 @@ export const AddDenominationModal = () => {
       }
 
       if (data?.denominations?.defaultDenomination) {
-        variantsData.title = `${variants.length + 1}`
+        // variantsData.title = `${variants.length + 1}`
         variantsData.options = {
           Denominations: (
             data.denominations.defaultDenomination.amount / 100
@@ -181,7 +181,7 @@ export const AddDenominationModal = () => {
         <div className="flex flex-col gap-y-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             <DenominationForm form={nestedForm(form, "denominations")} />
-            <div className="flex w-full items-center justify-end p-4 my-4">
+            <div className="my-4 flex w-full items-center justify-end p-4">
               <Button
                 variant="primary"
                 size="large"
