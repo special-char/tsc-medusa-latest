@@ -640,14 +640,39 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateLineItemsStep/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateShippingMethodsStep",
+    "newSlug": "/references/medusa-workflows/steps/updateShippingMethodsStep",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.updateShippingMethodsStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateAndReturnShippingMethodsDataStep",
+    "newSlug": "/references/medusa-workflows/steps/validateAndReturnShippingMethodsDataStep",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateAndReturnShippingMethodsDataStep/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartPaymentsStep",
     "newSlug": "/references/medusa-workflows/steps/validateCartPaymentsStep",
     "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartPaymentsStep/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartShippingOptionsPriceStep",
+    "newSlug": "/references/medusa-workflows/steps/validateCartShippingOptionsPriceStep",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartShippingOptionsPriceStep/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartShippingOptionsStep",
     "newSlug": "/references/medusa-workflows/steps/validateCartShippingOptionsStep",
     "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartShippingOptionsStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartStep",
+    "newSlug": "/references/medusa-workflows/steps/validateCartStep",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateCartStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateLineItemPricesStep",
+    "newSlug": "/references/medusa-workflows/steps/validateLineItemPricesStep",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateLineItemPricesStep/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Cart/Steps_Cart/functions/core_flows.Cart.Steps_Cart.validateVariantPricesStep",
@@ -693,6 +718,16 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.listShippingOptionsForCartWorkflow",
     "newSlug": "/references/medusa-workflows/listShippingOptionsForCartWorkflow",
     "filePath": "/www/apps/resources/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.listShippingOptionsForCartWorkflow/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartItemsWorkflow",
+    "newSlug": "/references/medusa-workflows/refreshCartItemsWorkflow",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartItemsWorkflow/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartShippingMethodsWorkflow",
+    "newSlug": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow",
+    "filePath": "/www/apps/resources/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshCartShippingMethodsWorkflow/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Cart/Workflows_Cart/functions/core_flows.Cart.Workflows_Cart.refreshPaymentCollectionForCartWorkflow",
@@ -828,6 +863,11 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Customer/Steps_Customer/functions/core_flows.Customer.Steps_Customer.updateCustomersStep",
     "newSlug": "/references/medusa-workflows/steps/updateCustomersStep",
     "filePath": "/www/apps/resources/references/core_flows/Customer/Steps_Customer/functions/core_flows.Customer.Steps_Customer.updateCustomersStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Customer/Steps_Customer/functions/core_flows.Customer.Steps_Customer.validateCustomerAccountCreation",
+    "newSlug": "/references/medusa-workflows/steps/validateCustomerAccountCreation",
+    "filePath": "/www/apps/resources/references/core_flows/Customer/Steps_Customer/functions/core_flows.Customer.Steps_Customer.validateCustomerAccountCreation/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Customer/Workflows_Customer/functions/core_flows.Customer.Workflows_Customer.createCustomerAccountWorkflow",
@@ -1030,6 +1070,16 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateFulfillmentStep/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateServiceZonesStep",
+    "newSlug": "/references/medusa-workflows/steps/updateServiceZonesStep",
+    "filePath": "/www/apps/resources/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateServiceZonesStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateShippingOptionRulesStep",
+    "newSlug": "/references/medusa-workflows/steps/updateShippingOptionRulesStep",
+    "filePath": "/www/apps/resources/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateShippingOptionRulesStep/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateShippingProfilesStep",
     "newSlug": "/references/medusa-workflows/steps/updateShippingProfilesStep",
     "filePath": "/www/apps/resources/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.updateShippingProfilesStep/page.mdx"
@@ -1043,6 +1093,11 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.validateShipmentStep",
     "newSlug": "/references/medusa-workflows/steps/validateShipmentStep",
     "filePath": "/www/apps/resources/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.validateShipmentStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.validateShippingOptionPricesStep",
+    "newSlug": "/references/medusa-workflows/steps/validateShippingOptionPricesStep",
+    "filePath": "/www/apps/resources/references/core_flows/Fulfillment/Steps_Fulfillment/functions/core_flows.Fulfillment.Steps_Fulfillment.validateShippingOptionPricesStep/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Fulfillment/Workflows_Fulfillment/functions/core_flows.Fulfillment.Workflows_Fulfillment.batchShippingOptionRulesWorkflow",
@@ -1190,6 +1245,11 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Inventory/Steps_Inventory/functions/core_flows.Inventory.Steps_Inventory.validateInventoryLocationsStep/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Inventory/Workflows_Inventory/functions/core_flows.Inventory.Workflows_Inventory.batchInventoryItemLevelsWorkflow",
+    "newSlug": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow",
+    "filePath": "/www/apps/resources/references/core_flows/Inventory/Workflows_Inventory/functions/core_flows.Inventory.Workflows_Inventory.batchInventoryItemLevelsWorkflow/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Inventory/Workflows_Inventory/functions/core_flows.Inventory.Workflows_Inventory.bulkCreateDeleteLevelsWorkflow",
     "newSlug": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow",
     "filePath": "/www/apps/resources/references/core_flows/Inventory/Workflows_Inventory/functions/core_flows.Inventory.Workflows_Inventory.bulkCreateDeleteLevelsWorkflow/page.mdx"
@@ -1288,6 +1348,16 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Line_Item/Workflows_Line_Item/functions/core_flows.Line_Item.Workflows_Line_Item.deleteLineItemsWorkflow",
     "newSlug": "/references/medusa-workflows/deleteLineItemsWorkflow",
     "filePath": "/www/apps/resources/references/core_flows/Line_Item/Workflows_Line_Item/functions/core_flows.Line_Item.Workflows_Line_Item.deleteLineItemsWorkflow/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Notification/Steps_Notification/functions/core_flows.Notification.Steps_Notification.notifyOnFailureStep",
+    "newSlug": "/references/medusa-workflows/steps/notifyOnFailureStep",
+    "filePath": "/www/apps/resources/references/core_flows/Notification/Steps_Notification/functions/core_flows.Notification.Steps_Notification.notifyOnFailureStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Notification/Steps_Notification/functions/core_flows.Notification.Steps_Notification.sendNotificationsStep",
+    "newSlug": "/references/medusa-workflows/steps/sendNotificationsStep",
+    "filePath": "/www/apps/resources/references/core_flows/Notification/Steps_Notification/functions/core_flows.Notification.Steps_Notification.sendNotificationsStep/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Order/Steps_Order/functions/core_flows.Order.Steps_Order.addOrderTransactionStep",
@@ -1753,6 +1823,11 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Order/Workflows_Order/functions/core_flows.Order.Workflows_Order.createFulfillmentValidateOrder",
     "newSlug": "/references/medusa-workflows/createFulfillmentValidateOrder",
     "filePath": "/www/apps/resources/references/core_flows/Order/Workflows_Order/functions/core_flows.Order.Workflows_Order.createFulfillmentValidateOrder/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Order/Workflows_Order/functions/core_flows.Order.Workflows_Order.createOrUpdateOrderPaymentCollectionWorkflow",
+    "newSlug": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow",
+    "filePath": "/www/apps/resources/references/core_flows/Order/Workflows_Order/functions/core_flows.Order.Workflows_Order.createOrUpdateOrderPaymentCollectionWorkflow/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Order/Workflows_Order/functions/core_flows.Order.Workflows_Order.createOrderChangeActionsWorkflow",
@@ -2360,6 +2435,11 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deletePaymentSessionsWorkflow/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deleteRefundReasonsWorkflow",
+    "newSlug": "/references/medusa-workflows/deleteRefundReasonsWorkflow",
+    "filePath": "/www/apps/resources/references/core_flows/Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.deleteRefundReasonsWorkflow/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.updateRefundReasonsWorkflow",
     "newSlug": "/references/medusa-workflows/updateRefundReasonsWorkflow",
     "filePath": "/www/apps/resources/references/core_flows/Payment_Collection/Workflows_Payment_Collection/functions/core_flows.Payment_Collection.Workflows_Payment_Collection.updateRefundReasonsWorkflow/page.mdx"
@@ -2490,6 +2570,11 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Pricing/Workflows_Pricing/functions/core_flows.Pricing.Workflows_Pricing.updatePricePreferencesWorkflow/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCategoryStep",
+    "newSlug": "/references/medusa-workflows/steps/batchLinkProductsToCategoryStep",
+    "filePath": "/www/apps/resources/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCategoryStep/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCollectionStep",
     "newSlug": "/references/medusa-workflows/steps/batchLinkProductsToCollectionStep",
     "filePath": "/www/apps/resources/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.batchLinkProductsToCollectionStep/page.mdx"
@@ -2573,6 +2658,11 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.getProductsStep",
     "newSlug": "/references/medusa-workflows/steps/getProductsStep",
     "filePath": "/www/apps/resources/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.getProductsStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.getVariantAvailabilityStep",
+    "newSlug": "/references/medusa-workflows/steps/getVariantAvailabilityStep",
+    "filePath": "/www/apps/resources/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.getVariantAvailabilityStep/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Product/Steps_Product/functions/core_flows.Product.Steps_Product.groupProductsForBatchStep",
@@ -2745,6 +2835,11 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Product/Workflows_Product/functions/core_flows.Product.Workflows_Product.upsertVariantPricesWorkflow/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Product/Workflows_Product/functions/core_flows.Product.Workflows_Product.validateProductInputStep",
+    "newSlug": "/references/medusa-workflows/validateProductInputStep",
+    "filePath": "/www/apps/resources/references/core_flows/Product/Workflows_Product/functions/core_flows.Product.Workflows_Product.validateProductInputStep/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Product_Category/Steps_Product_Category/functions/core_flows.Product_Category.Steps_Product_Category.createProductCategoriesStep",
     "newSlug": "/references/medusa-workflows/steps/createProductCategoriesStep",
     "filePath": "/www/apps/resources/references/core_flows/Product_Category/Steps_Product_Category/functions/core_flows.Product_Category.Steps_Product_Category.createProductCategoriesStep/page.mdx"
@@ -2880,6 +2975,16 @@ export const slugChanges = [
     "filePath": "/www/apps/resources/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionRulesWorkflow/page.mdx"
   },
   {
+    "origSlug": "/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionsStatusWorkflow",
+    "newSlug": "/references/medusa-workflows/updatePromotionsStatusWorkflow",
+    "filePath": "/www/apps/resources/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionsStatusWorkflow/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionsValidationStep",
+    "newSlug": "/references/medusa-workflows/updatePromotionsValidationStep",
+    "filePath": "/www/apps/resources/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionsValidationStep/page.mdx"
+  },
+  {
     "origSlug": "/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionsWorkflow",
     "newSlug": "/references/medusa-workflows/updatePromotionsWorkflow",
     "filePath": "/www/apps/resources/references/core_flows/Promotion/Workflows_Promotion/functions/core_flows.Promotion.Workflows_Promotion.updatePromotionsWorkflow/page.mdx"
@@ -2893,6 +2998,11 @@ export const slugChanges = [
     "origSlug": "/references/core_flows/Region/Steps_Region/functions/core_flows.Region.Steps_Region.deleteRegionsStep",
     "newSlug": "/references/medusa-workflows/steps/deleteRegionsStep",
     "filePath": "/www/apps/resources/references/core_flows/Region/Steps_Region/functions/core_flows.Region.Steps_Region.deleteRegionsStep/page.mdx"
+  },
+  {
+    "origSlug": "/references/core_flows/Region/Steps_Region/functions/core_flows.Region.Steps_Region.setRegionsPaymentProvidersStep",
+    "newSlug": "/references/medusa-workflows/steps/setRegionsPaymentProvidersStep",
+    "filePath": "/www/apps/resources/references/core_flows/Region/Steps_Region/functions/core_flows.Region.Steps_Region.setRegionsPaymentProvidersStep/page.mdx"
   },
   {
     "origSlug": "/references/core_flows/Region/Steps_Region/functions/core_flows.Region.Steps_Region.updateRegionsStep",

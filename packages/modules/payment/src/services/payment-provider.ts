@@ -4,20 +4,20 @@ import {
   DAL,
   IPaymentProvider,
   Logger,
+  PaymentMethodResponse,
   PaymentProviderAuthorizeResponse,
+  PaymentProviderContext,
   PaymentProviderDataInput,
   PaymentProviderError,
   PaymentProviderSessionResponse,
   PaymentSessionStatus,
   ProviderWebhookPayload,
+  SavePaymentMethod,
+  SavePaymentMethodResponse,
   UpdatePaymentProviderSession,
   WebhookActionResult,
 } from "@medusajs/framework/types"
-import {
-  isPaymentProviderError,
-  MedusaError,
-  ModulesSdkUtils,
-} from "@medusajs/framework/utils"
+import { MedusaError, ModulesSdkUtils } from "@medusajs/framework/utils"
 import { PaymentProvider } from "@models"
 import { EOL } from "os"
 
@@ -75,7 +75,7 @@ Please make sure that the provider is registered in the container and it is conf
   async updateSession(
     providerId: string,
     sessionInput: UpdatePaymentProviderSession
-  ): Promise<Record<string, unknown> | undefined> {
+  ): Promise<PaymentProviderSessionResponse["data"]> {
     const provider = this.retrieveProvider(providerId)
 
     const paymentResponse = await provider.updatePayment(sessionInput)
@@ -154,6 +154,42 @@ Please make sure that the provider is registered in the container and it is conf
     return res as Record<string, unknown>
   }
 
+  async listPaymentMethods(
+    providerId: string,
+    context: PaymentProviderContext
+  ): Promise<PaymentMethodResponse[]> {
+    const provider = this.retrieveProvider(providerId)
+    if (!provider.listPaymentMethods) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Provider ${providerId} does not support listing payment methods`
+      )
+    }
+
+    return await provider.listPaymentMethods(context)
+  }
+
+  async savePaymentMethod(
+    providerId: string,
+    input: SavePaymentMethod
+  ): Promise<SavePaymentMethodResponse> {
+    const provider = this.retrieveProvider(providerId)
+    if (!provider.savePaymentMethod) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        `Provider ${providerId} does not support saving payment methods`
+      )
+    }
+
+    const res = await provider.savePaymentMethod(input)
+
+    if (isPaymentProviderError(res)) {
+      this.throwPaymentProviderError(res)
+    }
+
+    return res as SavePaymentMethodResponse
+  }
+
   async getWebhookActionAndData(
     providerId: string,
     data: ProviderWebhookPayload["payload"]
@@ -170,4 +206,14 @@ Please make sure that the provider is registered in the container and it is conf
       errObj.code
     )
   }
+}
+
+function isPaymentProviderError(obj: any): obj is PaymentProviderError {
+  return (
+    obj &&
+    typeof obj === "object" &&
+    "error" in obj &&
+    "code" in obj &&
+    "detail" in obj
+  )
 }

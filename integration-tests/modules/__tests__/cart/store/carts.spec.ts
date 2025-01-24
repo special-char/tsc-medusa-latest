@@ -19,6 +19,7 @@ import {
   MedusaError,
   Modules,
   ProductStatus,
+  PromotionStatus,
   PromotionType,
 } from "@medusajs/utils"
 import {
@@ -1266,6 +1267,7 @@ medusaIntegrationTestRunner({
               {
                 code: "TEST",
                 type: PromotionType.STANDARD,
+                status: PromotionStatus.ACTIVE,
                 is_automatic: true,
                 campaign: {
                   campaign_identifier: "test",
@@ -1328,7 +1330,6 @@ medusaIntegrationTestRunner({
           ).data.shipping_option
 
           paymentCollection = await paymentService.createPaymentCollections({
-            region_id: region.id,
             amount: 1000,
             currency_code: "usd",
           })

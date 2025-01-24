@@ -17,10 +17,10 @@ import {
   customPublicRoutes,
 } from "./custom-routes"
 
-// TODO: Add translations for all breadcrumbs
 export const RouteMap: RouteObject[] = [
   {
     element: <ProtectedRoute />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         element: <MainLayout />,
