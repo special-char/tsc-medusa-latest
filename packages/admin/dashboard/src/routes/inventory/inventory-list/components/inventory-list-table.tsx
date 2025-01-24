@@ -63,15 +63,6 @@ export const InventoryListTable = () => {
   const endIndex = startIndex + PAGE_SIZE
   const paginatedItems = filteredItems?.slice(startIndex, endIndex)
 
-  console.log({
-    totalItems: allItems?.length,
-    filteredCount,
-    startIndex,
-    endIndex,
-    paginatedCount: paginatedItems?.length,
-    salesChannelIds,
-  })
-
   const { table } = useDataTable({
     data:
       (paginatedItems as InventoryTypes.InventoryItemDTO[]) ??

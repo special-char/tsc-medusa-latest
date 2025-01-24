@@ -15,6 +15,7 @@ import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
+import { fromLayeredEmail } from "../../../../../const/get-layered-email"
 
 const PAGE_SIZE = 20
 
@@ -22,19 +23,18 @@ export const CustomerListTable = () => {
   const { t } = useTranslation()
   const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
-  const { customers, count, isLoading, isError, error } = useCustomers(
+  const {
+    customers: allCustomer,
+    count,
+    isLoading,
+    isError,
+    error,
+  } = useCustomers(
     {
       ...searchParams,
       fields: "*sales_channel.id",
-    },
-    {
-      placeholderData: keepPreviousData,
-    }
-  )
-  const { customers: allCustomer } = useCustomers(
-    {
       limit: Number.MAX_SAFE_INTEGER,
-      fields: "*sales_channel.id",
+      offset: 0,
     },
     {
       placeholderData: keepPreviousData,
@@ -42,26 +42,33 @@ export const CustomerListTable = () => {
   )
 
   // Filter current page data
-  const filteredCollections =
-    salesChannelIds && salesChannelIds[0]
-      ? customers?.filter(
-          (x: any) => x.sales_channel?.id === salesChannelIds[0]
-        )
-      : customers
-
-  // Calculate total filtered count
-  const filteredCount =
-    salesChannelIds && salesChannelIds[0]
+  const filteredCustomer =
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
       ? allCustomer?.filter(
           (x: any) => x.sales_channel?.id === salesChannelIds[0]
-        )?.length ?? 0
-      : count
+        )
+      : allCustomer
 
+  // Calculate total filtered count
+  const filteredCount = filteredCustomer?.length ?? 0
+
+  // Apply pagination to filtered results
+  const startIndex = searchParams.offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCustomer = filteredCustomer?.slice(startIndex, endIndex)
   const filters = useCustomerTableFilters()
   const columns = useColumns()
+  const data = paginatedCustomer?.map((customer) => {
+    const { email, salesChannelId } = fromLayeredEmail(customer.email)
+    return {
+      ...customer, // Keep the existing fields
+      email, // Replace the layered email with the original email
+      salesChannelId, // Add the extracted salesChannelId
+    }
+  })
 
   const { table } = useDataTable({
-    data: filteredCollections ?? [],
+    data: data ?? [],
     columns,
     count: filteredCount,
     enablePagination: true,

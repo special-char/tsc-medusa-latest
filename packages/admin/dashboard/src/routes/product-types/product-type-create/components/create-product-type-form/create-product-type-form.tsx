@@ -33,7 +33,11 @@ export const CreateProductTypeForm = () => {
     async (values: z.infer<typeof CreateProductTypeSchema>) => {
       const d = {
         ...values,
-        metadata: { sales_channel_id: salesChannelIds[0] },
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length !== 0
+          ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+          : {}),
       }
       await mutateAsync(d, {
         onSuccess: ({ product_type }) => {

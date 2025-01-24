@@ -25,35 +25,44 @@ export const ProductTagListTable = () => {
   const { searchParams, raw } = useProductTagTableQuery({
     pageSize: PAGE_SIZE,
   })
-
+  const offset = searchParams.offset
+  delete searchParams.limit
+  delete searchParams.offset
   const initialData = useLoaderData() as Awaited<
     ReturnType<typeof productTagListLoader>
   >
   const salesChannelIds = getSalesChannelIds()
-  const { product_tags, count, isPending, isError, error } = useProductTags({
-    ...searchParams,
-    fields: "*sales_channel.id",
-  })
-  const { product_tags: allTags } = useProductTags({
-    fields: "*sales_channel.id",
-    limit: Number.MAX_SAFE_INTEGER,
-  })
+
+  const {
+    product_tags: allTags,
+    count,
+    isError,
+    error,
+    isPending,
+  } = useProductTags(
+    {
+      ...searchParams,
+      fields: "*sales_channel.id",
+      limit: Number.MAX_SAFE_INTEGER,
+      offset: 0,
+    },
+    {
+      placeholderData: keepPreviousData,
+    }
+  )
   const filteredTags =
-    salesChannelIds && salesChannelIds[0]
-      ? product_tags?.filter(
-          (x: any) => x.sales_channel?.id === salesChannelIds[0]
-        )
-      : product_tags
-  const filteredCount =
-    salesChannelIds && salesChannelIds[0]
-      ? allTags?.filter((x: any) => x.sales_channel?.id === salesChannelIds[0])
-          ?.length ?? 0
-      : count
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? allTags?.filter((x: any) => x?.sales_channel?.id === salesChannelIds[0])
+      : allTags
+  const filteredCount = filteredTags?.length ?? 0
+  const startIndex = offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCollections = filteredTags?.slice(startIndex, endIndex)
   const columns = useColumns()
   const filters = useProductTagTableFilters()
 
   const { table } = useDataTable({
-    data: filteredTags,
+    data: paginatedCollections,
     count: filteredCount,
     columns,
     getRowId: (row) => row.id,

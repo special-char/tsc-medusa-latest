@@ -36,7 +36,11 @@ export const CreateCollectionForm = () => {
   const handleSubmit = form.handleSubmit(async (data) => {
     const d = {
       ...data,
-      metadata: { sales_channel_id: salesChannelIds[0] },
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length !== 0
+        ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+        : {}),
     }
     await mutateAsync(d, {
       onSuccess: ({ collection }) => {

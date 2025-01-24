@@ -66,32 +66,33 @@ export const AddCustomersForm = ({
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
   const filters = useCustomerTableFilters()
 
-  const { customers, count, isLoading, isError, error } = useCustomers({
+  const {
+    customers: allCustomer,
+    count,
+    isLoading,
+    isError,
+    error,
+  } = useCustomers({
     fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
     ...searchParams,
-  })
-  console.log("🚀 ~ customers:", customers)
-  const { customers: allCustomer } = useCustomers({
-    fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
     limit: Number.MAX_SAFE_INTEGER,
+    offset: 0,
   })
-  // Filter current page data
-  const filteredCollections =
-    salesChannelIds && salesChannelIds[0]
-      ? customers?.filter(
-          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
-        )
-      : customers
-  console.log("::::salesChannelIds[0]::::", salesChannelIds[0])
 
-  console.log("🚀 ~ filteredCollections:", filteredCollections)
-  // Calculate total filtered count
-  const filteredCount =
+  // Filter current page data
+  const filteredCustomer =
     salesChannelIds && salesChannelIds[0]
       ? allCustomer?.filter(
           (x: any) => x?.sales_channel?.id === salesChannelIds[0]
-        )?.length ?? 0
-      : count
+        )
+      : allCustomer
+
+  // Calculate total filtered count
+  const filteredCount = filteredCustomer?.length ?? 0
+  // Apply pagination to filtered results
+  const startIndex = searchParams.offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCustomer = filteredCustomer?.slice(startIndex, endIndex)
   const updater: OnChangeFn<RowSelectionState> = (fn) => {
     const state = typeof fn === "function" ? fn(rowSelection) : fn
 
@@ -108,7 +109,7 @@ export const AddCustomersForm = ({
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: filteredCollections ?? [],
+    data: paginatedCustomer ?? [],
     columns,
     count: filteredCount,
     enablePagination: true,

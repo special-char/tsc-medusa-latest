@@ -37,43 +37,40 @@ export const CategoryListTable = () => {
           "id,name,category_children,handle,is_internal,is_active,*sales_channel.id",
         ...searchParams,
       }
+  const offset = query.offset
 
-  const { product_categories, count, isLoading, isError, error } =
-    useProductCategories(
-      {
-        ...query,
-      },
-      {
-        placeholderData: keepPreviousData,
-      }
-    )
-
-  const { product_categories: allProductCategories } = useProductCategories({
-    fields:
-      "id,name,category_children,handle,is_internal,is_active,*sales_channel.id",
+  const {
+    product_categories: allProductCategories,
+    count,
+    isLoading,
+    isError,
+    error,
+  } = useProductCategories({
+    ...query,
     limit: Number.MAX_SAFE_INTEGER,
+    offset: 0,
   })
 
-  // Filter current page data
-  const filteredCategories =
-    salesChannelIds && salesChannelIds[0]
-      ? product_categories?.filter(
-          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
-        )
-      : product_categories
-
-  // Calculate total filtered count
-  const filteredCount =
-    salesChannelIds && salesChannelIds[0]
+  // Filter all categories first
+  const filteredAllCategories =
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
       ? allProductCategories?.filter(
           (x: any) => x?.sales_channel?.id === salesChannelIds[0]
-        )?.length ?? 0
-      : count
+        )
+      : allProductCategories
+
+  // Calculate total filtered count
+  const filteredCount = filteredAllCategories?.length ?? 0
+
+  // Apply pagination to filtered results
+  const startIndex = offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCategories = filteredAllCategories?.slice(startIndex, endIndex)
 
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: filteredCategories,
+    data: paginatedCategories ?? [],
     columns,
     count: filteredCount,
     getRowId: (original) => original.id,
@@ -83,7 +80,7 @@ export const CategoryListTable = () => {
   })
 
   const showRankingAction =
-    !!product_categories && product_categories.length > 0
+    !!paginatedCategories && paginatedCategories.length > 0
 
   if (isError) {
     throw error

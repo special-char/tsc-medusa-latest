@@ -23,29 +23,53 @@ import { useCustomerGroupTableColumns } from "../../../../../hooks/table/columns
 import { useCustomerGroupTableFilters } from "../../../../../hooks/table/filters/use-customer-group-table-filters"
 import { useCustomerGroupTableQuery } from "../../../../../hooks/table/query/use-customer-group-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CustomerGroupListTable = () => {
   const { t } = useTranslation()
-
+  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCustomerGroupTableQuery({
     pageSize: PAGE_SIZE,
   })
-  const { customer_groups, count, isLoading, isError, error } =
-    useCustomerGroups({
-      ...searchParams,
-      fields: "id,name,customers.id",
-    })
+  const {
+    customer_groups: allCustomerGroup,
+    count,
+    isLoading,
+    isError,
+    error,
+  } = useCustomerGroups({
+    ...searchParams,
+    fields: "id,name,customers.id,*sales_channel",
+    limit: Number.MAX_SAFE_INTEGER,
+    offset: 0,
+  })
+  const filteredAllCustomerGroup =
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? allCustomerGroup?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )
+      : allCustomerGroup
 
+  // Calculate total filtered count
+  const filteredCount = filteredAllCustomerGroup?.length ?? 0
+
+  // Apply pagination to filtered results
+  const startIndex = searchParams.offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCustomerGroup = filteredAllCustomerGroup?.slice(
+    startIndex,
+    endIndex
+  )
   const filters = useCustomerGroupTableFilters()
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: customer_groups ?? [],
+    data: paginatedCustomerGroup ?? [],
     columns,
     enablePagination: true,
-    count,
+    count: filteredCount,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
   })
@@ -73,7 +97,7 @@ export const CustomerGroupListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
+        count={filteredCount}
         filters={filters}
         search
         pagination

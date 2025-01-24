@@ -23,8 +23,9 @@ export const CollectionListTable = () => {
   const { searchParams, raw } = useCollectionTableQuery({ pageSize: PAGE_SIZE })
 
   // Get all collections for filtering
+  const offset = searchParams.offset
   delete searchParams.limit
-  console.log("🚀 ~ CollectionListTable ~ searchParams:", searchParams)
+  delete searchParams.offset
   const {
     collections: allCollections,
     count,
@@ -35,7 +36,7 @@ export const CollectionListTable = () => {
     {
       fields: "+products.id,*sales_channel.id",
       limit: Number.MAX_SAFE_INTEGER,
-      //TODO:::
+      ...searchParams,
     },
     {
       placeholderData: keepPreviousData,
@@ -44,7 +45,7 @@ export const CollectionListTable = () => {
 
   // Filter all collections first
   const filteredAllCollections =
-    salesChannelIds && salesChannelIds[0]
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
       ? allCollections?.filter(
           (x: any) => x.sales_channel?.id === salesChannelIds[0]
         )
@@ -54,7 +55,7 @@ export const CollectionListTable = () => {
   const filteredCount = filteredAllCollections?.length ?? 0
 
   // Apply pagination to filtered results
-  const startIndex = searchParams.offset ?? 0
+  const startIndex = offset ?? 0
   const endIndex = startIndex + PAGE_SIZE
   const paginatedCollections = filteredAllCollections?.slice(
     startIndex,

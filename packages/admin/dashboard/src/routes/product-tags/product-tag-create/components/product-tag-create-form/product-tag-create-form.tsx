@@ -30,7 +30,14 @@ export const ProductTagCreateForm = () => {
   const { mutateAsync, isPending } = useCreateProductTag()
   const salesChannelIds = getSalesChannelIds()
   const handleSubmit = form.handleSubmit(async (data) => {
-    const d = { ...data, metadata: { sales_channel_id: salesChannelIds[0] } }
+    const d = {
+      ...data,
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length !== 0
+        ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+        : {}),
+    }
     await mutateAsync(d, {
       onSuccess: ({ product_tag }) => {
         toast.success(

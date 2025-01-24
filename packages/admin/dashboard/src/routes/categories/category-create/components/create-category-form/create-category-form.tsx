@@ -94,7 +94,11 @@ export const CreateCategoryForm = ({
         rank: rank ?? undefined,
         is_active: status === "active",
         is_internal: visibility === "internal",
-        metadata: { sales_channel_id: salesChannelIds[0] },
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length !== 0
+          ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+          : {}),
       },
       {
         onSuccess: ({ product_category }) => {
