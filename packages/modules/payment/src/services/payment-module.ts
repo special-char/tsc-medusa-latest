@@ -4,10 +4,12 @@ import {
   Context,
   CreateCaptureDTO,
   CreatePaymentCollectionDTO,
+  CreatePaymentMethodDTO,
   CreatePaymentSessionDTO,
   CreateRefundDTO,
   DAL,
   FilterablePaymentCollectionProps,
+  FilterablePaymentMethodProps,
   FilterablePaymentProviderProps,
   FilterablePaymentSessionProps,
   FindConfig,
@@ -20,6 +22,7 @@ import {
   PaymentCollectionDTO,
   PaymentCollectionUpdatableFields,
   PaymentDTO,
+  PaymentMethodDTO,
   PaymentProviderDTO,
   PaymentSessionDTO,
   ProviderWebhookPayload,
@@ -904,6 +907,80 @@ export default class PaymentModuleService
       }),
       count,
     ]
+  }
+
+  @InjectManager()
+  async listPaymentMethods(
+    filters: FilterablePaymentMethodProps,
+    config: FindConfig<PaymentMethodDTO> = {},
+    @MedusaContext() sharedContext?: Context
+  ): Promise<PaymentMethodDTO[]> {
+    const res = await this.paymentProviderService_.listPaymentMethods(
+      filters.provider_id,
+      filters.context
+    )
+
+    return res.map((item) => ({
+      id: item.id,
+      data: item.data,
+      provider_id: filters.provider_id,
+    }))
+  }
+
+  @InjectManager()
+  async listAndCountPaymentMethods(
+    filters: FilterablePaymentMethodProps,
+    config: FindConfig<PaymentMethodDTO> = {},
+    @MedusaContext() sharedContext?: Context
+  ): Promise<[PaymentMethodDTO[], number]> {
+    const paymentMethods =
+      await this.paymentProviderService_.listPaymentMethods(
+        filters.provider_id,
+        filters.context
+      )
+
+    const normalizedResponse = paymentMethods.map((item) => ({
+      id: item.id,
+      data: item.data,
+      provider_id: filters.provider_id,
+    }))
+
+    return [normalizedResponse, paymentMethods.length]
+  }
+
+  // @ts-ignore
+  createPaymentMethods(
+    data: CreatePaymentCollectionDTO,
+    sharedContext?: Context
+  ): Promise<PaymentCollectionDTO>
+
+  createPaymentMethods(
+    data: CreatePaymentMethodDTO[],
+    sharedContext?: Context
+  ): Promise<PaymentMethodDTO[]>
+  @InjectManager()
+  async createPaymentMethods(
+    data: CreatePaymentMethodDTO | CreatePaymentMethodDTO[],
+    @MedusaContext() sharedContext?: Context
+  ): Promise<PaymentMethodDTO | PaymentMethodDTO[]> {
+    const input = Array.isArray(data) ? data : [data]
+
+    const result = await promiseAll(
+      input.map((item) =>
+        this.paymentProviderService_.savePaymentMethod(item.provider_id, item)
+      ),
+      { aggregateErrors: true }
+    )
+
+    const normalizedResponse = result.map((item, i) => {
+      return {
+        id: item.id,
+        data: item.data,
+        provider_id: input[i].provider_id,
+      }
+    })
+
+    return Array.isArray(data) ? normalizedResponse : normalizedResponse[0]
   }
 
   @InjectManager()

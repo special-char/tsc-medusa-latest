@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { ArrowUpCircleSolid, XMark } from "@medusajs/icons"
 
-interface UploadedImage {
+export interface UploadedImage {
   id: string
   url: string
   file: File // Added for consistency if needed later
@@ -23,13 +23,13 @@ const ImageComponent = ({
   return (
     <div
       key={image.id}
-      className="relative shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]"
+      className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]"
     >
       <img src={image.url} alt="thumbnail" className="size-full object-cover" />
       <button
         onClick={() => removeImage(image.id)}
         type="button"
-        className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600"
+        className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
       >
         <XMark />
       </button>
@@ -97,7 +97,9 @@ const ImageUpload = ({
           onChange([...existingImages, ...newImages])
         }
       } else {
-        if (newImages[0]) onChange(newImages[0])
+        if (newImages[0]) {
+          onChange(newImages[0])
+        }
       }
       setInputKey((prevKey) => prevKey + 1)
     },
@@ -122,7 +124,7 @@ const ImageUpload = ({
         <></>
       ) : (
         <label
-          className="h-full p-8 bg-ui-bg-component border-ui-border-strong transition-fg group flex w-full items-center justify-center gap-y-2 rounded-lg border border-dashed hover:border-ui-border-interactive focus:border-ui-border-interactive focus:shadow-borders-focus outline-none focus:border-solid cursor-pointer"
+          className="bg-ui-bg-component border-ui-border-strong transition-fg hover:border-ui-border-interactive focus:border-ui-border-interactive focus:shadow-borders-focus group flex h-full w-full cursor-pointer items-center justify-center gap-y-2 rounded-lg border border-dashed p-8 outline-none focus:border-solid"
           onDragOver={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -130,7 +132,7 @@ const ImageUpload = ({
           onDrop={handleDrop}
         >
           <span className="flex flex-col items-center justify-center gap-2">
-            <span className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-full cursor-pointer hover:bg-gray-50">
+            <span className="flex cursor-pointer items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
               <ArrowUpCircleSolid />
               <span>Upload</span>
               <input
@@ -143,7 +145,7 @@ const ImageUpload = ({
                 multiple={multiple}
               />
             </span>
-            <p className="text-gray-600 text-center">
+            <p className="text-center text-gray-600">
               Choose images or drag & drop them here.
               <br />
               JPG, JPEG, PNG, and WEBP. Max 20 MB.

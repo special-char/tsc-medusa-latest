@@ -78,6 +78,18 @@ export type CreatePaymentProviderSession = {
   currency_code: string
 }
 
+export type SavePaymentMethod = {
+  /**
+   * Any data that should be used by the provider for saving the payment method.
+   */
+  data: Record<string, unknown>
+
+  /**
+   * The context of the payment provider, such as the customer ID.
+   */
+  context: PaymentProviderContext
+}
+
 /**
  * @interface
  *
@@ -118,6 +130,18 @@ export type PaymentProviderSessionResponse = {
   data: Record<string, unknown>
 }
 
+export type SavePaymentMethodResponse = {
+  /**
+   * The ID of the payment method in the payment provider.
+   */
+  id: string
+
+  /**
+   * The data returned from the payment provider after saving the payment method.
+   */
+  data: Record<string, unknown>
+}
+
 /**
  * @interface
  *
@@ -133,6 +157,11 @@ export type PaymentProviderAuthorizeResponse = {
    * The `data` to be stored in the payment session's `data` field.
    */
   data: PaymentProviderSessionResponse["data"]
+}
+
+export type PaymentMethodResponse = {
+  id: string
+  data: Record<string, unknown>
 }
 
 /**
@@ -248,6 +277,14 @@ export interface IPaymentProvider {
   cancelPayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<PaymentProviderError | PaymentProviderSessionResponse["data"]>
+
+  listPaymentMethods?(
+    context: PaymentProviderContext
+  ): Promise<PaymentMethodResponse[]>
+
+  savePaymentMethod?(
+    input: SavePaymentMethod
+  ): Promise<PaymentProviderError | SavePaymentMethodResponse>
 
   getPaymentStatus(
     paymentSessionData: Record<string, unknown>

@@ -845,6 +845,11 @@ medusaIntegrationTestRunner({
 
       describe("UpdateCartWorkflow", () => {
         it("should remove item with custom price when region is updated", async () => {
+          const hookCallback = jest.fn()
+          addToCartWorkflow.hooks.validate((data) => {
+            hookCallback(data)
+          })
+
           const salesChannel = await scModuleService.createSalesChannels({
             name: "Webshop",
           })
@@ -926,33 +931,50 @@ medusaIntegrationTestRunner({
             select: ["id", "region_id", "currency_code", "sales_channel_id"],
           })
 
+          const wfInput = {
+            items: [
+              {
+                variant_id: product.variants[0].id,
+                quantity: 1,
+              },
+              {
+                title: "Test item",
+                subtitle: "Test subtitle",
+                thumbnail: "some-url",
+                requires_shipping: true,
+                is_discountable: false,
+                is_tax_inclusive: false,
+                unit_price: 1500,
+                metadata: {
+                  foo: "bar",
+                },
+                quantity: 1,
+              },
+            ],
+            cart_id: cart.id,
+          }
           await addToCartWorkflow(appContainer).run({
-            input: {
-              items: [
-                {
-                  variant_id: product.variants[0].id,
-                  quantity: 1,
-                },
-                {
-                  title: "Test item",
-                  subtitle: "Test subtitle",
-                  thumbnail: "some-url",
-                  requires_shipping: true,
-                  is_discountable: false,
-                  is_tax_inclusive: false,
-                  unit_price: 1500,
-                  metadata: {
-                    foo: "bar",
-                  },
-                  quantity: 1,
-                },
-              ],
-              cart_id: cart.id,
-            },
+            input: wfInput,
           })
 
           cart = await cartModuleService.retrieveCart(cart.id, {
             relations: ["items"],
+          })
+
+          expect(hookCallback).toHaveBeenCalledWith({
+            cart: {
+              completed_at: null,
+              id: expect.stringContaining("cart_"),
+              sales_channel_id: expect.stringContaining("sc_"),
+              currency_code: "usd",
+              region_id: expect.stringContaining("reg_"),
+              shipping_address: null,
+              item_total: 0,
+              total: 0,
+              email: null,
+              customer_id: null,
+            },
+            input: wfInput,
           })
 
           expect(cart).toEqual(
@@ -2036,6 +2058,121 @@ medusaIntegrationTestRunner({
           )
         })
 
+        it("should throw insufficient inventory", async () => {
+          const salesChannel = await scModuleService.createSalesChannels({
+            name: "Webshop",
+          })
+
+          const location = await stockLocationModule.createStockLocations({
+            name: "Warehouse",
+          })
+
+          const [product] = await productModule.createProducts([
+            {
+              title: "Test product",
+              variants: [
+                {
+                  title: "Test variant",
+                },
+              ],
+            },
+          ])
+
+          const inventoryItem = await inventoryModule.createInventoryItems({
+            sku: "inv-1234",
+          })
+
+          await inventoryModule.createInventoryLevels([
+            {
+              inventory_item_id: inventoryItem.id,
+              location_id: location.id,
+              stocked_quantity: 2,
+            },
+          ])
+
+          const priceSet = await pricingModule.createPriceSets({
+            prices: [
+              {
+                amount: 3000,
+                currency_code: "usd",
+              },
+            ],
+          })
+
+          await remoteLink.create([
+            {
+              [Modules.PRODUCT]: {
+                variant_id: product.variants[0].id,
+              },
+              [Modules.PRICING]: {
+                price_set_id: priceSet.id,
+              },
+            },
+            {
+              [Modules.SALES_CHANNEL]: {
+                sales_channel_id: salesChannel.id,
+              },
+              [Modules.STOCK_LOCATION]: {
+                stock_location_id: location.id,
+              },
+            },
+            {
+              [Modules.PRODUCT]: {
+                variant_id: product.variants[0].id,
+              },
+              [Modules.INVENTORY]: {
+                inventory_item_id: inventoryItem.id,
+              },
+            },
+          ])
+
+          let cart = await cartModuleService.createCarts({
+            currency_code: "usd",
+            sales_channel_id: salesChannel.id,
+            items: [
+              {
+                variant_id: product.variants[0].id,
+                quantity: 1,
+                unit_price: 5000,
+                title: "Test item",
+              },
+            ],
+          })
+
+          cart = await cartModuleService.retrieveCart(cart.id, {
+            select: ["id", "region_id", "currency_code"],
+            relations: ["items", "items.variant_id", "items.metadata"],
+          })
+
+          const item = cart.items?.[0]!
+
+          const { errors } = await updateLineItemInCartWorkflow(
+            appContainer
+          ).run({
+            input: {
+              cart_id: cart.id,
+              item_id: item.id,
+              update: {
+                metadata: {
+                  foo: "bar",
+                },
+                quantity: 3,
+              },
+            },
+            throwOnError: false,
+          })
+
+          expect(errors).toEqual([
+            {
+              action: "confirm-item-inventory-as-step",
+              handlerType: "invoke",
+              error: expect.objectContaining({
+                message: `Some variant does not have the required inventory`,
+              }),
+            },
+          ])
+        })
+
         describe("compensation", () => {
           it("should revert line item update to original state", async () => {
             expect.assertions(2)
@@ -2075,7 +2212,6 @@ medusaIntegrationTestRunner({
                 inventory_item_id: inventoryItem.id,
                 location_id: location.id,
                 stocked_quantity: 2,
-                reserved_quantity: 0,
               },
             ])
 
@@ -2408,7 +2544,6 @@ medusaIntegrationTestRunner({
             await paymentModule.createPaymentCollections({
               amount: 5001,
               currency_code: "dkk",
-              region_id: defaultRegion.id,
             })
 
           const paymentSession = await paymentModule.createPaymentSession(
@@ -2480,7 +2615,6 @@ medusaIntegrationTestRunner({
               await paymentModule.createPaymentCollections({
                 amount: 5000,
                 currency_code: "dkk",
-                region_id: defaultRegion.id,
               })
 
             const paymentSession = await paymentModule.createPaymentSession(

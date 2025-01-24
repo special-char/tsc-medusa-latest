@@ -1,4 +1,4 @@
-import { AdminOrderLineItem } from "@medusajs/types"
+import { AdminOrderLineItem, PaymentStatus } from "@medusajs/types"
 import { Client } from "../client"
 type OrderResendMailProps = {
   phone: string
@@ -6,6 +6,7 @@ type OrderResendMailProps = {
   template: string
   data: AdminOrderLineItem
   redemptionData: Record<string, any>
+  payment_status: PaymentStatus
 }
 export class OrderResendMail {
   /**

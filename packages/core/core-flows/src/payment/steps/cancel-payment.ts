@@ -6,7 +6,13 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to cancel one or more payments.
+ */
 export type CancelPaymentStepInput = {
+  /**
+   * The ID(s) of the payment(s) to cancel.
+   */
   paymentIds: string | string[]
 }
 
@@ -27,6 +33,7 @@ export const cancelPaymentStep = createStep(
       : [input.paymentIds]
 
     const promises: Promise<any>[] = []
+
     for (const id of paymentIds) {
       promises.push(
         paymentModule.cancelPayment(id).catch((e) => {
@@ -36,6 +43,7 @@ export const cancelPaymentStep = createStep(
         })
       )
     }
+
     await promiseAll(promises)
   }
 )

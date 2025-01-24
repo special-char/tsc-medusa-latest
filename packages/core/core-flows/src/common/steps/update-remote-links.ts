@@ -1,4 +1,4 @@
-import { RemoteLink } from "@medusajs/framework/modules-sdk"
+import { Link } from "@medusajs/framework/modules-sdk"
 import { LinkDefinition } from "@medusajs/framework/types"
 import {
   ContainerRegistrationKeys,
@@ -7,6 +7,28 @@ import {
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
 export const updateRemoteLinksStepId = "update-remote-links-step"
+/**
+ * This step updates remote links between two records of linked data models.
+ *
+ * Learn more in the [Remote Link documentation.](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#create-link).
+ *
+ * @example
+ * const data = updateRemoteLinksStep([
+ *   {
+ *     [Modules.PRODUCT]: {
+ *       product_id: "prod_321",
+ *     },
+ *     "helloModuleService": {
+ *       my_custom_id: "mc_321",
+ *     },
+ *     data: {
+ *       metadata: {
+ *         test: false
+ *       }
+ *     }
+ *   }
+ * ])
+ */
 export const updateRemoteLinksStep = createStep(
   updateRemoteLinksStepId,
   async (data: LinkDefinition[], { container }) => {
@@ -14,9 +36,7 @@ export const updateRemoteLinksStep = createStep(
       return new StepResponse([], [])
     }
 
-    const link = container.resolve<RemoteLink>(
-      ContainerRegistrationKeys.REMOTE_LINK
-    )
+    const link = container.resolve<Link>(ContainerRegistrationKeys.LINK)
 
     // Fetch all existing links and throw an error if any weren't found
     const dataBeforeUpdate = (await link.list(data, {
@@ -43,9 +63,7 @@ export const updateRemoteLinksStep = createStep(
       return
     }
 
-    const link = container.resolve<RemoteLink>(
-      ContainerRegistrationKeys.REMOTE_LINK
-    )
+    const link = container.resolve<Link>(ContainerRegistrationKeys.LINK)
 
     await link.create(dataBeforeUpdate)
   }

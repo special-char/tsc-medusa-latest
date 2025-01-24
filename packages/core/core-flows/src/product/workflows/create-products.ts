@@ -22,15 +22,53 @@ import { associateProductsWithSalesChannelsStep } from "../../sales-channel"
 import { createProductsStep } from "../steps/create-products"
 import { createProductVariantsWorkflow } from "./create-product-variants"
 
-interface ValidateProductInputStepInput {
+/**
+ * The product's data to validate.
+ */
+export interface ValidateProductInputStepInput {
+  /**
+   * The products to validate.
+   */
   products: CreateProductWorkflowInputDTO[]
 }
 
 const validateProductInputStepId = "validate-product-input"
 /**
- * This step validates a product data before creation.
+ * This step validates that all provided products have options.
+ * If a product is missing options, an error is thrown.
+ * 
+ * @example
+ * const data = validateProductInputStep({
+ *   products: [
+ *     {
+ *       title: "Shirt",
+ *       options: [
+ *         {
+ *           title: "Size",
+ *           values: ["S", "M", "L"]
+ *         }
+ *       ],
+ *       variants: [
+ *         {
+ *           title: "Small Shirt",
+ *           sku: "SMALLSHIRT",
+ *           options: {
+ *             Size: "S"
+ *           },
+ *           prices: [
+ *             {
+ *               amount: 10,
+ *               currency_code: "usd"
+ *             }
+ *           ],
+ *           manage_inventory: true,
+ *         },
+ *       ]
+ *     }
+ *   ]
+ * })
  */
-const validateProductInputStep = createStep(
+export const validateProductInputStep = createStep(
   validateProductInputStepId,
   async (data: ValidateProductInputStepInput) => {
     const { products } = data
@@ -50,13 +88,67 @@ const validateProductInputStep = createStep(
   }
 )
 
+/**
+ * The data to create one or more products, along with custom data that's passed to the workflow's hooks.
+ */
 export type CreateProductsWorkflowInput = {
+  /**
+   * The products to create.
+   */
   products: CreateProductWorkflowInputDTO[]
 } & AdditionalData
 
 export const createProductsWorkflowId = "create-products"
 /**
- * This workflow creates one or more products.
+ * This workflow creates one or more products. It's used by the [Create Product Admin API Route](https://docs.medusajs.com/api/admin#products_postproducts).
+ * It can also be useful to you when creating [seed scripts](https://docs.medusajs.com/learn/fundamentals/custom-cli-scripts/seed-data), for example.
+ * 
+ * This workflow has a hook that allows you to perform custom actions on the created products. You can see an example in [this guide](https://docs.medusajs.com/resources/commerce-modules/product/extend).
+ * 
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product creation.
+ * 
+ * @example
+ * const { result } = await createProductsWorkflow(container)
+ * .run({
+ *   input: {
+ *     products: [
+ *       {
+ *         title: "Shirt",
+ *         options: [
+ *           {
+ *             title: "Size",
+ *             values: ["S", "M", "L"]
+ *           }
+ *         ],
+ *         variants: [
+ *           {
+ *             title: "Small Shirt",
+ *             sku: "SMALLSHIRT",
+ *             options: {
+ *               Size: "S"
+ *             },
+ *             prices: [
+ *               {
+ *                 amount: 10,
+ *                 currency_code: "usd"
+ *               }
+ *             ],
+ *             manage_inventory: true,
+ *           },
+ *         ]
+ *       }
+ *     ],
+ *     additional_data: {
+ *       erp_id: "123"
+ *     }
+ *   }
+ * })
+ * 
+ * @summary
+ * 
+ * Create one or more products with options and variants.
+ * 
+ * @property hooks.productCreated - This hook is executed after the products are created. You can consume this hook to perform custom actions on the created products.
  */
 export const createProductsWorkflow = createWorkflow(
   createProductsWorkflowId,

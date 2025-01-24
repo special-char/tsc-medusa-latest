@@ -1,4 +1,4 @@
-import { IconButton, Label, Button } from "@medusajs/ui"
+import { IconButton, Label, Button, Select } from "@medusajs/ui"
 import { Plus, Trash } from "@medusajs/icons"
 import { Controller, useFieldArray, useFormContext } from "react-hook-form"
 import ErrorMessage from "./DynamicForm/ErrorMessage"
@@ -8,10 +8,9 @@ import PriceFormInput from "./PriceFormInput"
 
 const AddDenomination = () => {
   const { store } = useStore()
-  const { control } = useFormContext()
+  const { control, watch } = useFormContext()
 
   const defaultCurrency = store?.supported_currencies.find((c) => c.is_default)
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: "denominations",
@@ -20,7 +19,7 @@ const AddDenomination = () => {
   useEffect(() => {
     if (fields.length === 0 && defaultCurrency) {
       append({
-        amount: null,
+        amount: 1,
         currency: defaultCurrency.currency_code,
       })
     }
@@ -29,12 +28,41 @@ const AddDenomination = () => {
   return (
     <div className="pt-4">
       {fields.map((denomination, index) => {
+        const currency = watch(`denominations.${index}.currency`)
         return (
-          <div key={denomination.id} className="flex  gap-4">
-            <div className="bg-grey-5 border-gray-20 p-2 rounded-md flex h-10 w-[100px] items-center border uppercase">
-              {defaultCurrency?.currency_code}
+          <div key={denomination.id} className="grid grid-cols-3 gap-2">
+            <div className="flex h-10 min-w-max items-center ">
+              <Controller
+                control={control}
+                name={`denominations.${index}.currency`}
+                render={({ field: { value, onChange, name } }) => {
+                  return (
+                    <>
+                      <Select name={name} onValueChange={onChange}>
+                        <Select.Trigger>
+                          <Select.Value
+                            placeholder={defaultCurrency?.currency_code?.toUpperCase()}
+                          >
+                            {value.toUpperCase()}
+                          </Select.Value>
+                        </Select.Trigger>
+                        <Select.Content>
+                          {store?.supported_currencies?.map((item) => (
+                            <Select.Item
+                              key={item.id}
+                              value={item.currency_code}
+                            >
+                              {item.currency_code.toUpperCase()}
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select>
+                    </>
+                  )
+                }}
+              />
             </div>
-            <div className="flex items-center mb-4 gap-4">
+            <div className="mb-4 flex items-center gap-4">
               <div>
                 <Controller
                   control={control}
@@ -53,7 +81,10 @@ const AddDenomination = () => {
                         <PriceFormInput
                           onChange={onChange}
                           amount={value !== null ? value : undefined}
-                          currencyCode={defaultCurrency?.currency_code || ""}
+                          currencyCode={
+                            currency ??
+                            (defaultCurrency?.currency_code as string)
+                          }
                         />
                         <ErrorMessage
                           name={name}
@@ -82,11 +113,11 @@ const AddDenomination = () => {
           })
         }
         variant="transparent"
-        className="flex items-center gap-2"
+        className="ml-2 flex items-center gap-2"
         type="button"
       >
         <Plus />
-        <Label className="font-medium font-sans">Add Denomination</Label>
+        <Label className="font-sans font-medium">Add Denomination</Label>
       </Button>
     </div>
   )

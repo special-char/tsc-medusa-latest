@@ -1,5 +1,19 @@
 # @medusajs/promotion
 
+## 2.3.1
+
+## 2.3.0
+
+### Patch Changes
+
+- [#10950](https://github.com/medusajs/medusa/pull/10950) [`5eab9e739919594ae7e7e416942ec93d84b699fd`](https://github.com/medusajs/medusa/commit/5eab9e739919594ae7e7e416942ec93d84b699fd) Thanks [@riqwan](https://github.com/riqwan)! - feat(promotion,dashboard,types,utils,medusa): Add statuses to promotions
+
+## 2.2.0
+
+### Patch Changes
+
+- [#10795](https://github.com/medusajs/medusa/pull/10795) [`f7ffa3540f6e293507a1a96c0993b784a58ea507`](https://github.com/medusajs/medusa/commit/f7ffa3540f6e293507a1a96c0993b784a58ea507) Thanks [@riqwan](https://github.com/riqwan)! - fix(promotion): don't evaluate rule condition if conditions to evaluate is empty
+
 ## 2.1.3
 
 ## 2.1.2

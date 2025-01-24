@@ -228,12 +228,12 @@
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_stock_location_address_id",
+          "keyName": "IDX_stock_location_address_id_unique",
           "columnNames": [],
           "composite": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_stock_location_address_id\" ON \"stock_location\" (address_id) WHERE deleted_at IS NULL"
+          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_stock_location_address_id_unique\" ON \"stock_location\" (address_id) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "IDX_stock_location_deleted_at",

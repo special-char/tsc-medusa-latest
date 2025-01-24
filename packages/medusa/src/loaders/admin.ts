@@ -1,5 +1,9 @@
 import { logger } from "@medusajs/framework/logger"
-import { AdminOptions, ConfigModule } from "@medusajs/framework/types"
+import {
+  AdminOptions,
+  ConfigModule,
+  PluginDetails,
+} from "@medusajs/framework/types"
 import { Express } from "express"
 import fs from "fs"
 import path from "path"
@@ -9,6 +13,7 @@ type Options = {
   app: Express
   configModule: ConfigModule
   rootDirectory: string
+  plugins: PluginDetails[]
 }
 
 type IntializedOptions = Required<Pick<AdminOptions, "path" | "disable">> &
@@ -23,16 +28,15 @@ export default async function adminLoader({
   app,
   configModule,
   rootDirectory,
+  plugins,
 }: Options) {
   const { admin } = configModule
 
   const sources: string[] = []
-
-  const projectSource = path.join(rootDirectory, "src", "admin")
-
-  // check if the projectSource exists
-  if (fs.existsSync(projectSource)) {
-    sources.push(projectSource)
+  for (const plugin of plugins) {
+    if (fs.existsSync(plugin.adminResolve)) {
+      sources.push(plugin.adminResolve)
+    }
   }
 
   const adminOptions: IntializedOptions = {

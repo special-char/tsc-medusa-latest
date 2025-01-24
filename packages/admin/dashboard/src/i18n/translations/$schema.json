@@ -258,11 +258,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header_one",
-            "header_other",
-            "description"
-          ],
+          "required": ["header_one", "header_other", "description"],
           "additionalProperties": false
         }
       },
@@ -311,11 +307,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "insertRowAbove",
-                "insertRowBelow",
-                "deleteRow"
-              ],
+              "required": ["insertRowAbove", "insertRowBelow", "deleteRow"],
               "additionalProperties": false
             },
             "labels": {
@@ -328,10 +320,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "key",
-                "value"
-              ],
+              "required": ["key", "value"],
               "additionalProperties": false
             },
             "complexRow": {
@@ -347,11 +336,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "description",
-                "tooltip"
-              ],
+              "required": ["label", "description", "tooltip"],
               "additionalProperties": false
             }
           },
@@ -366,12 +351,7 @@
           "additionalProperties": false
         }
       },
-      "required": [
-        "header",
-        "numberOfKeys_one",
-        "numberOfKeys_other",
-        "edit"
-      ],
+      "required": ["header", "numberOfKeys_one", "numberOfKeys_other", "edit"],
       "additionalProperties": false
     },
     "validation": {
@@ -384,10 +364,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "mustBeInt",
-        "mustBePositive"
-      ],
+      "required": ["mustBeInt", "mustBePositive"],
       "additionalProperties": false
     },
     "actions": {
@@ -573,9 +550,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "in"
-      ],
+      "required": ["in"],
       "additionalProperties": false
     },
     "app": {
@@ -926,12 +901,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "label",
-                    "dark",
-                    "light",
-                    "system"
-                  ],
+                  "required": ["label", "dark", "light", "system"],
                   "additionalProperties": false
                 }
               },
@@ -954,10 +924,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "storeSettings"
-              ],
+              "required": ["label", "storeSettings"],
               "additionalProperties": false
             },
             "actions": {
@@ -967,17 +934,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "logout"
-              ],
+              "required": ["logout"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "user",
-            "store",
-            "actions"
-          ],
+          "required": ["user", "store", "actions"],
           "additionalProperties": false
         },
         "nav": {
@@ -993,10 +954,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "common": {
@@ -1006,9 +964,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "extensions"
-              ],
+              "required": ["extensions"],
               "additionalProperties": false
             },
             "main": {
@@ -1021,10 +977,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "store",
-                "storeSettings"
-              ],
+              "required": ["store", "storeSettings"],
               "additionalProperties": false
             },
             "settings": {
@@ -1043,30 +996,15 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "general",
-                "developer",
-                "myAccount"
-              ],
+              "required": ["header", "general", "developer", "myAccount"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "accessibility",
-            "common",
-            "main",
-            "settings"
-          ],
+          "required": ["accessibility", "common", "main", "settings"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "search",
-        "keyboardShortcuts",
-        "menus",
-        "nav"
-      ],
+      "required": ["search", "keyboardShortcuts", "menus", "nav"],
       "additionalProperties": false
     },
     "dataGrid": {
@@ -1085,11 +1023,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "view",
-            "resetToDefault",
-            "disabled"
-          ],
+          "required": ["view", "resetToDefault", "disabled"],
           "additionalProperties": false
         },
         "shortcuts": {
@@ -1183,10 +1117,7 @@
               "additionalProperties": false
             }
           },
-          "required": [
-            "label",
-            "commands"
-          ],
+          "required": ["label", "commands"],
           "additionalProperties": false
         },
         "errors": {
@@ -1202,24 +1133,25 @@
               "type": "string"
             }
           },
-          "required": [
-            "fixError",
-            "count_one",
-            "count_other"
-          ],
+          "required": ["fixError", "count_one", "count_other"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "columns",
-        "shortcuts",
-        "errors"
-      ],
+      "required": ["columns", "shortcuts", "errors"],
       "additionalProperties": false
     },
     "filters": {
       "type": "object",
       "properties": {
+        "sortLabel": {
+          "type": "string"
+        },
+        "filterLabel": {
+          "type": "string"
+        },
+        "searchLabel": {
+          "type": "string"
+        },
         "date": {
           "type": "object",
           "properties": {
@@ -1246,6 +1178,12 @@
             },
             "to": {
               "type": "string"
+            },
+            "starting": {
+              "type": "string"
+            },
+            "ending": {
+              "type": "string"
             }
           },
           "required": [
@@ -1256,7 +1194,9 @@
             "lastTwelveMonths",
             "custom",
             "from",
-            "to"
+            "to",
+            "starting",
+            "ending"
           ],
           "additionalProperties": false
         },
@@ -1296,13 +1236,61 @@
           ],
           "additionalProperties": false
         },
+        "sorting": {
+          "type": "object",
+          "properties": {
+            "alphabeticallyAsc": {
+              "type": "string"
+            },
+            "alphabeticallyDesc": {
+              "type": "string"
+            },
+            "dateAsc": {
+              "type": "string"
+            },
+            "dateDesc": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "alphabeticallyAsc",
+            "alphabeticallyDesc",
+            "dateAsc",
+            "dateDesc"
+          ],
+          "additionalProperties": false
+        },
+        "radio": {
+          "type": "object",
+          "properties": {
+            "yes": {
+              "type": "string"
+            },
+            "no": {
+              "type": "string"
+            },
+            "true": {
+              "type": "string"
+            },
+            "false": {
+              "type": "string"
+            }
+          },
+          "required": ["yes", "no", "true", "false"],
+          "additionalProperties": false
+        },
         "addFilter": {
           "type": "string"
         }
       },
       "required": [
+        "sortLabel",
+        "filterLabel",
+        "searchLabel",
         "date",
         "compare",
+        "sorting",
+        "radio",
         "addFilter"
       ],
       "additionalProperties": false
@@ -1374,12 +1362,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "editHeader",
-            "editLabel",
-            "label"
-          ],
+          "required": ["header", "editHeader", "editLabel", "label"],
           "additionalProperties": false
         },
         "billingAddress": {
@@ -1438,11 +1421,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "editHeader",
-        "editLabel",
-        "label"
-      ],
+      "required": ["editHeader", "editLabel", "label"],
       "additionalProperties": false
     },
     "transferOwnership": {
@@ -1464,10 +1443,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "order",
-            "draft"
-          ],
+          "required": ["order", "draft"],
           "additionalProperties": false
         },
         "currentOwner": {
@@ -1480,10 +1456,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "label",
-            "hint"
-          ],
+          "required": ["label", "hint"],
           "additionalProperties": false
         },
         "newOwner": {
@@ -1496,10 +1469,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "label",
-            "hint"
-          ],
+          "required": ["label", "hint"],
           "additionalProperties": false
         },
         "validation": {
@@ -1512,10 +1482,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "mustBeDifferent",
-            "required"
-          ],
+          "required": ["mustBeDifferent", "required"],
           "additionalProperties": false
         }
       },
@@ -1536,9 +1503,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "availableIn"
-      ],
+      "required": ["availableIn"],
       "additionalProperties": false
     },
     "notification": {
@@ -1572,9 +1537,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "noRecordsMessage"
-          ],
+          "required": ["noRecordsMessage"],
           "additionalProperties": false
         },
         "edit": {
@@ -1590,11 +1553,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "description",
-            "successToast"
-          ],
+          "required": ["header", "description", "successToast"],
           "additionalProperties": false
         },
         "create": {
@@ -1625,12 +1584,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "details",
-                "organize",
-                "variants",
-                "inventory"
-              ],
+              "required": ["details", "organize", "variants", "inventory"],
               "additionalProperties": false
             },
             "errors": {
@@ -1646,11 +1600,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "variants",
-                "options",
-                "uniqueSku"
-              ],
+              "required": ["variants", "options", "uniqueSku"],
               "additionalProperties": false
             },
             "inventory": {
@@ -1696,9 +1646,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "placeholder"
-                  ],
+                  "required": ["placeholder"],
                   "additionalProperties": false
                 },
                 "optionValues": {
@@ -1708,9 +1656,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "placeholder"
-                  ],
+                  "required": ["placeholder"],
                   "additionalProperties": false
                 },
                 "productVariants": {
@@ -1729,12 +1675,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "label",
-                    "hint",
-                    "alert",
-                    "tip"
-                  ],
+                  "required": ["label", "hint", "alert", "tip"],
                   "additionalProperties": false
                 },
                 "productOptions": {
@@ -1747,10 +1688,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "label",
-                    "hint"
-                  ],
+                  "required": ["label", "hint"],
                   "additionalProperties": false
                 }
               },
@@ -1800,10 +1738,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "filters": {
@@ -1816,10 +1751,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "columns": {
@@ -1832,10 +1764,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             }
           },
@@ -1873,10 +1802,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "upload": {
@@ -1917,10 +1843,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             }
           },
@@ -1939,7 +1862,40 @@
           "type": "string"
         },
         "variants": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "header": {
+              "type": "string"
+            },
+            "empty": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            },
+            "filtered": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["header", "empty", "filtered"],
+          "additionalProperties": false
         },
         "attributes": {
           "type": "string"
@@ -2014,11 +1970,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "description",
-                "action"
-              ],
+              "required": ["header", "description", "action"],
               "additionalProperties": false
             },
             "successToast": {
@@ -2077,12 +2029,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "draft",
-            "published",
-            "proposed",
-            "rejected"
-          ],
+          "required": ["draft", "published", "proposed", "rejected"],
           "additionalProperties": false
         },
         "fields": {
@@ -2098,10 +2045,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "subtitle": {
@@ -2111,9 +2055,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "handle": {
@@ -2126,10 +2068,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "tooltip"
-              ],
+              "required": ["label", "tooltip"],
               "additionalProperties": false
             },
             "description": {
@@ -2142,10 +2081,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "discountable": {
@@ -2158,10 +2094,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "type": {
@@ -2171,9 +2104,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "collection": {
@@ -2183,9 +2114,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "categories": {
@@ -2195,9 +2124,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "tags": {
@@ -2207,9 +2134,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "sales_channels": {
@@ -2222,10 +2147,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "countryOrigin": {
@@ -2235,9 +2157,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "material": {
@@ -2247,9 +2167,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "width": {
@@ -2259,9 +2177,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "length": {
@@ -2271,9 +2187,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "height": {
@@ -2283,9 +2197,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "weight": {
@@ -2295,9 +2207,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "options": {
@@ -2346,10 +2256,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "mid_code": {
@@ -2359,9 +2266,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "hs_code": {
@@ -2371,9 +2276,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             }
           },
@@ -2414,10 +2317,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "success"
-              ],
+              "required": ["header", "success"],
               "additionalProperties": false
             },
             "create": {
@@ -2427,9 +2327,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header"
-              ],
+              "required": ["header"],
               "additionalProperties": false
             },
             "deleteWarning": {
@@ -2475,10 +2373,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "inventoryItems",
-                    "inventoryKit"
-                  ],
+                  "required": ["inventoryItems", "inventoryKit"],
                   "additionalProperties": false
                 },
                 "inventoryKit": {
@@ -2497,10 +2392,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "itemId",
-                    "quantity"
-                  ],
+                  "required": ["itemId", "quantity"],
                   "additionalProperties": false
                 },
                 "header": {
@@ -2595,10 +2487,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "successToast"
-              ],
+              "required": ["header", "successToast"],
               "additionalProperties": false
             },
             "create": {
@@ -2611,22 +2500,14 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "successToast"
-              ],
+              "required": ["header", "successToast"],
               "additionalProperties": false
             },
             "deleteWarning": {
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "edit",
-            "create",
-            "deleteWarning"
-          ],
+          "required": ["header", "edit", "create", "deleteWarning"],
           "additionalProperties": false
         },
         "organization": {
@@ -2648,23 +2529,44 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "success"
-                  ],
+                  "required": ["success"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "header",
-                "toasts"
-              ],
+              "required": ["header", "toasts"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "edit"
-          ],
+          "required": ["header", "edit"],
+          "additionalProperties": false
+        },
+        "stock": {
+          "type": "object",
+          "properties": {
+            "heading": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "loading": {
+              "type": "string"
+            },
+            "tooltips": {
+              "type": "object",
+              "properties": {
+                "alreadyManaged": {
+                  "type": "string"
+                },
+                "alreadyManagedWithSku": {
+                  "type": "string"
+                }
+              },
+              "required": ["alreadyManaged", "alreadyManagedWithSku"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["heading", "description", "loading", "tooltips"],
           "additionalProperties": false
         },
         "toasts": {
@@ -2683,10 +2585,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "header",
-                    "description"
-                  ],
+                  "required": ["header", "description"],
                   "additionalProperties": false
                 },
                 "error": {
@@ -2696,22 +2595,15 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "header"
-                  ],
+                  "required": ["header"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "success",
-                "error"
-              ],
+              "required": ["success", "error"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "delete"
-          ],
+          "required": ["delete"],
           "additionalProperties": false
         }
       },
@@ -2739,6 +2631,7 @@
         "variant",
         "options",
         "organization",
+        "stock",
         "toasts"
       ],
       "additionalProperties": false
@@ -2789,9 +2682,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             },
             "add": {
@@ -2804,10 +2695,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "successToast_one",
-                "successToast_other"
-              ],
+              "required": ["successToast_one", "successToast_other"],
               "additionalProperties": false
             },
             "remove": {
@@ -2820,18 +2708,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "successToast_one",
-                "successToast_other"
-              ],
+              "required": ["successToast_one", "successToast_other"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "list",
-            "add",
-            "remove"
-          ],
+          "required": ["list", "add", "remove"],
           "additionalProperties": false
         }
       },
@@ -2879,22 +2760,14 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "details",
-                "organize"
-              ],
+              "required": ["details", "organize"],
               "additionalProperties": false
             },
             "successToast": {
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "tabs",
-            "successToast"
-          ],
+          "required": ["header", "hint", "tabs", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -2910,11 +2783,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "description",
-            "successToast"
-          ],
+          "required": ["header", "description", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -2927,10 +2796,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation",
-            "successToast"
-          ],
+          "required": ["confirmation", "successToast"],
           "additionalProperties": false
         },
         "products": {
@@ -2987,17 +2853,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "add",
-            "remove",
-            "list"
-          ],
+          "required": ["add", "remove", "list"],
           "additionalProperties": false
         },
         "organize": {
@@ -3010,10 +2870,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "action"
-          ],
+          "required": ["header", "action"],
           "additionalProperties": false
         },
         "fields": {
@@ -3032,11 +2889,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "internal",
-                "public"
-              ],
+              "required": ["label", "internal", "public"],
               "additionalProperties": false
             },
             "status": {
@@ -3052,11 +2905,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "active",
-                "inactive"
-              ],
+              "required": ["label", "active", "inactive"],
               "additionalProperties": false
             },
             "path": {
@@ -3069,10 +2918,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "tooltip"
-              ],
+              "required": ["label", "tooltip"],
               "additionalProperties": false
             },
             "children": {
@@ -3082,9 +2928,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             },
             "new": {
@@ -3094,19 +2938,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label"
-              ],
+              "required": ["label"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "visibility",
-            "status",
-            "path",
-            "children",
-            "new"
-          ],
+          "required": ["visibility", "status", "path", "children", "new"],
           "additionalProperties": false
         }
       },
@@ -3256,10 +3092,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noAvaliableQuantity",
-                "quantityOutOfRange"
-              ],
+              "required": ["noAvaliableQuantity", "quantityOutOfRange"],
               "additionalProperties": false
             }
           },
@@ -3295,15 +3128,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "stockedQuantity"
-              ],
+              "required": ["stockedQuantity"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "errors"
-          ],
+          "required": ["errors"],
           "additionalProperties": false
         },
         "toast": {
@@ -3319,10 +3148,46 @@
               "type": "string"
             }
           },
+          "required": ["updateLocations", "updateLevel", "updateItem"],
+          "additionalProperties": false
+        },
+        "stock": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "action": {
+              "type": "string"
+            },
+            "placeholder": {
+              "type": "string"
+            },
+            "disablePrompt_one": {
+              "type": "string"
+            },
+            "disablePrompt_other": {
+              "type": "string"
+            },
+            "disabledToggleTooltip": {
+              "type": "string"
+            },
+            "successToast": {
+              "type": "string"
+            }
+          },
           "required": [
-            "updateLocations",
-            "updateLevel",
-            "updateItem"
+            "title",
+            "description",
+            "action",
+            "placeholder",
+            "disablePrompt_one",
+            "disablePrompt_other",
+            "disabledToggleTooltip",
+            "successToast"
           ],
           "additionalProperties": false
         }
@@ -3340,7 +3205,8 @@
         "create",
         "reservation",
         "adjustInventory",
-        "toast"
+        "toast",
+        "stock"
       ],
       "additionalProperties": false
     },
@@ -3515,9 +3381,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "noRecordsMessage"
-          ],
+          "required": ["noRecordsMessage"],
           "additionalProperties": false
         },
         "create": {
@@ -3533,11 +3397,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "successToast"
-          ],
+          "required": ["header", "hint", "successToast"],
           "additionalProperties": false
         },
         "groups": {
@@ -3562,9 +3422,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             },
             "add": {
@@ -3580,16 +3438,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "noRecordsMessage"
-                  ],
+                  "required": ["noRecordsMessage"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "success",
-                "list"
-              ],
+              "required": ["success", "list"],
               "additionalProperties": false
             },
             "removed": {
@@ -3605,16 +3458,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "noRecordsMessage"
-                  ],
+                  "required": ["noRecordsMessage"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "success",
-                "list"
-              ],
+              "required": ["success", "list"],
               "additionalProperties": false
             }
           },
@@ -3642,11 +3490,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "emailDisabledTooltip",
-            "successToast"
-          ],
+          "required": ["header", "emailDisabledTooltip", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -3662,11 +3506,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "description",
-            "successToast"
-          ],
+          "required": ["title", "description", "successToast"],
           "additionalProperties": false
         },
         "fields": {
@@ -3682,11 +3522,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "guest",
-            "registered",
-            "groups"
-          ],
+          "required": ["guest", "registered", "groups"],
           "additionalProperties": false
         },
         "registered": {
@@ -3722,6 +3558,39 @@
         "subtitle": {
           "type": "string"
         },
+        "list": {
+          "type": "object",
+          "properties": {
+            "empty": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            },
+            "filtered": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["empty", "filtered"],
+          "additionalProperties": false
+        },
         "create": {
           "type": "object",
           "properties": {
@@ -3735,11 +3604,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "successToast"
-          ],
+          "required": ["header", "hint", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -3752,10 +3617,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "successToast"
-          ],
+          "required": ["header", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -3771,11 +3633,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "description",
-            "successToast"
-          ],
+          "required": ["title", "description", "successToast"],
           "additionalProperties": false
         },
         "customers": {
@@ -3800,17 +3658,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "noRecordsMessage"
-                  ],
+                  "required": ["noRecordsMessage"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "successToast_one",
-                "successToast_other",
-                "list"
-              ],
+              "required": ["successToast_one", "successToast_other", "list"],
               "additionalProperties": false
             },
             "remove": {
@@ -3844,24 +3696,18 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "alreadyAddedTooltip",
-            "add",
-            "remove",
-            "list"
-          ],
+          "required": ["alreadyAddedTooltip", "add", "remove", "list"],
           "additionalProperties": false
         }
       },
       "required": [
         "domain",
         "subtitle",
+        "list",
         "create",
         "edit",
         "delete",
@@ -3887,6 +3733,9 @@
         "cancelWarning": {
           "type": "string"
         },
+        "orderCanceled": {
+          "type": "string"
+        },
         "onDateFromSalesChannel": {
           "type": "string"
         },
@@ -3897,8 +3746,42 @@
               "type": "string"
             }
           },
+          "required": ["noRecordsMessage"],
+          "additionalProperties": false
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "not_paid": {
+              "type": "string"
+            },
+            "pending": {
+              "type": "string"
+            },
+            "completed": {
+              "type": "string"
+            },
+            "draft": {
+              "type": "string"
+            },
+            "archived": {
+              "type": "string"
+            },
+            "canceled": {
+              "type": "string"
+            },
+            "requires_action": {
+              "type": "string"
+            }
+          },
           "required": [
-            "noRecordsMessage"
+            "not_paid",
+            "pending",
+            "completed",
+            "draft",
+            "archived",
+            "canceled",
+            "requires_action"
           ],
           "additionalProperties": false
         },
@@ -4191,10 +4074,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "titlePending"
-              ],
+              "required": ["title", "titlePending"],
               "additionalProperties": false
             },
             "toast": {
@@ -4207,10 +4087,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "canceledSuccessfully",
-                "confirmedSuccessfully"
-              ],
+              "required": ["canceledSuccessfully", "confirmedSuccessfully"],
               "additionalProperties": false
             },
             "validation": {
@@ -4220,9 +4097,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "quantityLowerThanFulfillment"
-              ],
+              "required": ["quantityLowerThanFulfillment"],
               "additionalProperties": false
             }
           },
@@ -4263,10 +4138,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "requestSuccess"
-              ],
+              "required": ["title", "requestSuccess"],
               "additionalProperties": false
             },
             "shippingAddress": {
@@ -4279,10 +4151,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "requestSuccess"
-              ],
+              "required": ["title", "requestSuccess"],
               "additionalProperties": false
             },
             "billingAddress": {
@@ -4295,18 +4164,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "requestSuccess"
-              ],
+              "required": ["title", "requestSuccess"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "email",
-            "shippingAddress",
-            "billingAddress"
-          ],
+          "required": ["email", "shippingAddress", "billingAddress"],
           "additionalProperties": false
         },
         "returns": {
@@ -4412,10 +4274,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "placeholders": {
@@ -4431,10 +4290,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "hint"
-                  ],
+                  "required": ["title", "hint"],
                   "additionalProperties": false
                 },
                 "outboundShippingOptions": {
@@ -4447,10 +4303,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "hint"
-                  ],
+                  "required": ["title", "hint"],
                   "additionalProperties": false
                 }
               },
@@ -4535,10 +4388,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "canceledSuccessfully",
-                "confirmedSuccessfully"
-              ],
+              "required": ["canceledSuccessfully", "confirmedSuccessfully"],
               "additionalProperties": false
             },
             "panel": {
@@ -4551,10 +4401,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             }
           },
@@ -4643,15 +4490,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "successToast"
-                  ],
+                  "required": ["successToast"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "cancelClaim"
-              ],
+              "required": ["cancelClaim"],
               "additionalProperties": false
             },
             "cancel": {
@@ -4664,10 +4507,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "tooltips": {
@@ -4677,9 +4517,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "onlyReturnShippingOptions"
-              ],
+              "required": ["onlyReturnShippingOptions"],
               "additionalProperties": false
             },
             "toast": {
@@ -4692,10 +4530,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "canceledSuccessfully",
-                "confirmedSuccessfully"
-              ],
+              "required": ["canceledSuccessfully", "confirmedSuccessfully"],
               "additionalProperties": false
             },
             "panel": {
@@ -4708,10 +4543,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             }
           },
@@ -4781,15 +4613,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "successToast"
-                  ],
+                  "required": ["successToast"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "cancelExchange"
-              ],
+              "required": ["cancelExchange"],
               "additionalProperties": false
             },
             "cancel": {
@@ -4802,10 +4630,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "tooltips": {
@@ -4815,9 +4640,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "onlyReturnShippingOptions"
-              ],
+              "required": ["onlyReturnShippingOptions"],
               "additionalProperties": false
             },
             "toast": {
@@ -4830,10 +4653,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "canceledSuccessfully",
-                "confirmedSuccessfully"
-              ],
+              "required": ["canceledSuccessfully", "confirmedSuccessfully"],
               "additionalProperties": false
             },
             "panel": {
@@ -4846,10 +4666,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             }
           },
@@ -4883,10 +4700,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "allocatedLabel",
-            "notAllocatedLabel"
-          ],
+          "required": ["allocatedLabel", "notAllocatedLabel"],
           "additionalProperties": false
         },
         "allocateItems": {
@@ -4923,9 +4737,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "created"
-              ],
+              "required": ["created"],
               "additionalProperties": false
             },
             "error": {
@@ -4935,9 +4747,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "quantityNotAllocated"
-              ],
+              "required": ["quantityNotAllocated"],
               "additionalProperties": false
             }
           },
@@ -5060,11 +4870,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "wrongQuantity",
-                "wrongQuantity_other",
-                "noItems"
-              ],
+              "required": ["wrongQuantity", "wrongQuantity_other", "noItems"],
               "additionalProperties": false
             },
             "status": {
@@ -5210,11 +5016,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "amountToLarge",
-                "amountNegative",
-                "reasonRequired"
-              ],
+              "required": ["amountToLarge", "amountNegative", "reasonRequired"],
               "additionalProperties": false
             }
           },
@@ -5310,10 +5112,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "toReturn",
-                    "toSend"
-                  ],
+                  "required": ["toReturn", "toSend"],
                   "additionalProperties": false
                 },
                 "placed": {
@@ -5326,10 +5125,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "fromSalesChannel"
-                  ],
+                  "required": ["title", "fromSalesChannel"],
                   "additionalProperties": false
                 },
                 "canceled": {
@@ -5339,9 +5135,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title"
-                  ],
+                  "required": ["title"],
                   "additionalProperties": false
                 },
                 "payment": {
@@ -5360,12 +5154,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "awaiting",
-                    "captured",
-                    "canceled",
-                    "refunded"
-                  ],
+                  "required": ["awaiting", "captured", "canceled", "refunded"],
                   "additionalProperties": false
                 },
                 "fulfillment": {
@@ -5438,10 +5227,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "comment",
-                    "byLine"
-                  ],
+                  "required": ["comment", "byLine"],
                   "additionalProperties": false
                 },
                 "claim": {
@@ -5502,10 +5288,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "requested",
-                    "confirmed"
-                  ],
+                  "required": ["requested", "confirmed"],
                   "additionalProperties": false
                 },
                 "transfer": {
@@ -5521,11 +5304,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "requested",
-                    "confirmed",
-                    "declined"
-                  ],
+                  "required": ["requested", "confirmed", "declined"],
                   "additionalProperties": false
                 },
                 "update_order": {
@@ -5541,11 +5320,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "shipping_address",
-                    "billing_address",
-                    "email"
-                  ],
+                  "required": ["shipping_address", "billing_address", "email"],
                   "additionalProperties": false
                 }
               },
@@ -5590,11 +5365,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "displayId",
-            "refundableAmount",
-            "returnableQuantity"
-          ],
+          "required": ["displayId", "refundableAmount", "returnableQuantity"],
           "additionalProperties": false
         }
       },
@@ -5604,8 +5375,10 @@
         "exchange",
         "return",
         "cancelWarning",
+        "orderCanceled",
         "onDateFromSalesChannel",
         "list",
+        "status",
         "summary",
         "transfer",
         "payment",
@@ -5653,11 +5426,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "label",
-            "warningTitle",
-            "warningDescription"
-          ],
+          "required": ["label", "warningTitle", "warningDescription"],
           "additionalProperties": false
         },
         "status": {
@@ -5670,10 +5439,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "open",
-            "completed"
-          ],
+          "required": ["open", "completed"],
           "additionalProperties": false
         },
         "create": {
@@ -5814,9 +5580,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "description"
-          ],
+          "required": ["description"],
           "additionalProperties": false
         },
         "create": {
@@ -5832,11 +5596,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "successToast"
-          ],
+          "required": ["header", "hint", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -5852,11 +5612,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "viewInventory",
-            "successToast"
-          ],
+          "required": ["header", "viewInventory", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -5866,9 +5622,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation"
-          ],
+          "required": ["confirmation"],
           "additionalProperties": false
         },
         "fulfillmentProviders": {
@@ -5917,9 +5671,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header"
-              ],
+              "required": ["header"],
               "additionalProperties": false
             },
             "shipping": {
@@ -5929,9 +5681,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header"
-              ],
+              "required": ["header"],
               "additionalProperties": false
             },
             "disable": {
@@ -5947,11 +5697,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "confirmation",
-                "pickup",
-                "shipping"
-              ],
+              "required": ["confirmation", "pickup", "shipping"],
               "additionalProperties": false
             },
             "enable": {
@@ -5964,19 +5710,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "pickup",
-                "shipping"
-              ],
+              "required": ["pickup", "shipping"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "pickup",
-            "shipping",
-            "disable",
-            "enable"
-          ],
+          "required": ["pickup", "shipping", "disable", "enable"],
           "additionalProperties": false
         },
         "sidebar": {
@@ -5995,17 +5733,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "description"
-              ],
+              "required": ["label", "description"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "shippingProfiles"
-          ],
+          "required": ["header", "shippingProfiles"],
           "additionalProperties": false
         },
         "salesChannels": {
@@ -6062,12 +5794,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "header",
-                    "hint",
-                    "label",
-                    "successToast"
-                  ],
+                  "required": ["header", "hint", "label", "successToast"],
                   "additionalProperties": false
                 },
                 "returns": {
@@ -6086,12 +5813,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "header",
-                    "hint",
-                    "label",
-                    "successToast"
-                  ],
+                  "required": ["header", "hint", "label", "successToast"],
                   "additionalProperties": false
                 },
                 "tabs": {
@@ -6104,22 +5826,14 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "details",
-                    "prices"
-                  ],
+                  "required": ["details", "prices"],
                   "additionalProperties": false
                 },
                 "action": {
                   "type": "string"
                 }
               },
-              "required": [
-                "shipping",
-                "returns",
-                "tabs",
-                "action"
-              ],
+              "required": ["shipping", "returns", "tabs", "action"],
               "additionalProperties": false
             },
             "delete": {
@@ -6132,10 +5846,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "confirmation",
-                "successToast"
-              ],
+              "required": ["confirmation", "successToast"],
               "additionalProperties": false
             },
             "edit": {
@@ -6151,11 +5862,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "action",
-                "successToast"
-              ],
+              "required": ["header", "action", "successToast"],
               "additionalProperties": false
             },
             "pricing": {
@@ -6165,9 +5872,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "action"
-              ],
+              "required": ["action"],
               "additionalProperties": false
             },
             "conditionalPrices": {
@@ -6186,9 +5891,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "cartItemTotal"
-                  ],
+                  "required": ["cartItemTotal"],
                   "additionalProperties": false
                 },
                 "summaries": {
@@ -6204,11 +5907,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "range",
-                    "greaterThan",
-                    "lessThan"
-                  ],
+                  "required": ["range", "greaterThan", "lessThan"],
                   "additionalProperties": false
                 },
                 "actions": {
@@ -6221,10 +5920,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "addPrice",
-                    "manageConditionalPrices"
-                  ],
+                  "required": ["addPrice", "manageConditionalPrices"],
                   "additionalProperties": false
                 },
                 "rules": {
@@ -6240,11 +5936,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "amount",
-                    "gte",
-                    "lte"
-                  ],
+                  "required": ["amount", "gte", "lte"],
                   "additionalProperties": false
                 },
                 "customRules": {
@@ -6266,13 +5958,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "label",
-                    "tooltip",
-                    "eq",
-                    "gt",
-                    "lt"
-                  ],
+                  "required": ["label", "tooltip", "eq", "gt", "lt"],
                   "additionalProperties": false
                 },
                 "errors": {
@@ -6362,10 +6048,7 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "label",
-                            "hint"
-                          ],
+                          "required": ["label", "hint"],
                           "additionalProperties": false
                         },
                         "calculated": {
@@ -6378,24 +6061,15 @@
                               "type": "string"
                             }
                           },
-                          "required": [
-                            "label",
-                            "hint"
-                          ],
+                          "required": ["label", "hint"],
                           "additionalProperties": false
                         }
                       },
-                      "required": [
-                        "fixed",
-                        "calculated"
-                      ],
+                      "required": ["fixed", "calculated"],
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "label",
-                    "options"
-                  ],
+                  "required": ["label", "options"],
                   "additionalProperties": false
                 },
                 "enableInStore": {
@@ -6408,10 +6082,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "label",
-                    "hint"
-                  ],
+                  "required": ["label", "hint"],
                   "additionalProperties": false
                 },
                 "provider": {
@@ -6482,10 +6153,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "successToast"
-              ],
+              "required": ["header", "successToast"],
               "additionalProperties": false
             },
             "delete": {
@@ -6498,10 +6166,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "confirmation",
-                "successToast"
-              ],
+              "required": ["confirmation", "successToast"],
               "additionalProperties": false
             },
             "manageAreas": {
@@ -6523,13 +6188,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "action",
-                "label",
-                "hint",
-                "successToast"
-              ],
+              "required": ["header", "action", "label", "hint", "successToast"],
               "additionalProperties": false
             },
             "fields": {
@@ -6542,20 +6201,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecords",
-                "tip"
-              ],
+              "required": ["noRecords", "tip"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "create",
-            "edit",
-            "delete",
-            "manageAreas",
-            "fields"
-          ],
+          "required": ["create", "edit", "delete", "manageAreas", "fields"],
           "additionalProperties": false
         }
       },
@@ -6596,11 +6246,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "successToast"
-          ],
+          "required": ["header", "hint", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -6616,11 +6262,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "description",
-            "successToast"
-          ],
+          "required": ["title", "description", "successToast"],
           "additionalProperties": false
         },
         "tooltip": {
@@ -6630,19 +6272,11 @@
               "type": "string"
             }
           },
-          "required": [
-            "type"
-          ],
+          "required": ["type"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "domain",
-        "subtitle",
-        "create",
-        "delete",
-        "tooltip"
-      ],
+      "required": ["domain", "subtitle", "create", "delete", "tooltip"],
       "additionalProperties": false
     },
     "taxRegions": {
@@ -6658,9 +6292,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "hint"
-          ],
+          "required": ["hint"],
           "additionalProperties": false
         },
         "delete": {
@@ -6673,10 +6305,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation",
-            "successToast"
-          ],
+          "required": ["confirmation", "successToast"],
           "additionalProperties": false
         },
         "create": {
@@ -6698,22 +6327,14 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "rateIsRequired",
-                "nameIsRequired"
-              ],
+              "required": ["rateIsRequired", "nameIsRequired"],
               "additionalProperties": false
             },
             "successToast": {
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "errors",
-            "successToast"
-          ],
+          "required": ["header", "hint", "errors", "successToast"],
           "additionalProperties": false
         },
         "province": {
@@ -6732,17 +6353,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "state": {
@@ -6761,17 +6376,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "stateOrTerritory": {
@@ -6790,17 +6399,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "county": {
@@ -6819,17 +6422,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "region": {
@@ -6848,17 +6445,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "department": {
@@ -6877,17 +6468,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "territory": {
@@ -6906,17 +6491,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "prefecture": {
@@ -6935,17 +6514,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "district": {
@@ -6964,17 +6537,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "governorate": {
@@ -6993,17 +6560,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "canton": {
@@ -7022,17 +6583,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "emirate": {
@@ -7051,17 +6606,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "sublevel": {
@@ -7080,17 +6629,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create"
-          ],
+          "required": ["header", "create"],
           "additionalProperties": false
         },
         "taxOverrides": {
@@ -7109,10 +6652,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             },
             "edit": {
@@ -7125,18 +6665,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint"
-              ],
+              "required": ["header", "hint"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "create",
-            "edit"
-          ],
+          "required": ["header", "create", "edit"],
           "additionalProperties": false
         },
         "taxRates": {
@@ -7155,11 +6688,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint",
-                "successToast"
-              ],
+              "required": ["header", "hint", "successToast"],
               "additionalProperties": false
             },
             "edit": {
@@ -7175,11 +6704,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "hint",
-                "successToast"
-              ],
+              "required": ["header", "hint", "successToast"],
               "additionalProperties": false
             },
             "delete": {
@@ -7192,18 +6717,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "confirmation",
-                "successToast"
-              ],
+              "required": ["confirmation", "successToast"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "create",
-            "edit",
-            "delete"
-          ],
+          "required": ["create", "edit", "delete"],
           "additionalProperties": false
         },
         "fields": {
@@ -7225,12 +6743,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint",
-                "true",
-                "false"
-              ],
+              "required": ["label", "hint", "true", "false"],
               "additionalProperties": false
             },
             "defaultTaxRate": {
@@ -7246,11 +6759,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "tooltip",
-                "action"
-              ],
+              "required": ["label", "tooltip", "action"],
               "additionalProperties": false
             },
             "taxRate": {
@@ -7309,11 +6818,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "in",
-                    "on",
-                    "and"
-                  ],
+                  "required": ["in", "on", "and"],
                   "additionalProperties": false
                 },
                 "placeholders": {
@@ -7379,9 +6884,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "header"
-                  ],
+                  "required": ["header"],
                   "additionalProperties": false
                 },
                 "values_one": {
@@ -7553,10 +7056,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "sublevel",
-                    "notPartOfCountry"
-                  ],
+                  "required": ["sublevel", "notPartOfCountry"],
                   "additionalProperties": false
                 },
                 "alert": {
@@ -7572,20 +7072,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "header",
-                    "description",
-                    "action"
-                  ],
+                  "required": ["header", "description", "action"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "labels",
-                "placeholders",
-                "tooltips",
-                "alert"
-              ],
+              "required": ["labels", "placeholders", "tooltips", "alert"],
               "additionalProperties": false
             },
             "noDefaultRate": {
@@ -7598,10 +7089,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "tooltip"
-              ],
+              "required": ["label", "tooltip"],
               "additionalProperties": false
             }
           },
@@ -7654,9 +7142,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "details"
-          ],
+          "required": ["details"],
           "additionalProperties": false
         },
         "tabs": {
@@ -7672,11 +7158,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "template",
-            "details",
-            "campaign"
-          ],
+          "required": ["template", "details", "campaign"],
           "additionalProperties": false
         },
         "fields": {
@@ -7713,9 +7195,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "tooltip"
-              ],
+              "required": ["tooltip"],
               "additionalProperties": false
             },
             "conditions": {
@@ -7731,10 +7211,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "target-rules": {
@@ -7747,10 +7224,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "buy-rules": {
@@ -7763,18 +7237,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "rules",
-                "target-rules",
-                "buy-rules"
-              ],
+              "required": ["rules", "target-rules", "buy-rules"],
               "additionalProperties": false
             }
           },
@@ -7799,9 +7266,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "campaignType"
-          ],
+          "required": ["campaignType"],
           "additionalProperties": false
         },
         "errors": {
@@ -7814,10 +7279,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "requiredField",
-            "promotionTabError"
-          ],
+          "required": ["requiredField", "promotionTabError"],
           "additionalProperties": false
         },
         "toasts": {
@@ -7827,9 +7289,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "promotionCreateSuccess"
-          ],
+          "required": ["promotionCreateSuccess"],
           "additionalProperties": false
         },
         "create": {
@@ -7851,9 +7311,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title"
-              ],
+              "required": ["title"],
               "additionalProperties": false
             },
             "target-rules": {
@@ -7863,9 +7321,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title"
-              ],
+              "required": ["title"],
               "additionalProperties": false
             },
             "buy-rules": {
@@ -7875,18 +7331,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title"
-              ],
+              "required": ["title"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "title",
-            "rules",
-            "target-rules",
-            "buy-rules"
-          ],
+          "required": ["title", "rules", "target-rules", "buy-rules"],
           "additionalProperties": false
         },
         "campaign": {
@@ -7905,10 +7354,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "successToast"
-              ],
+              "required": ["header", "successToast"],
               "additionalProperties": false
             },
             "actions": {
@@ -7918,17 +7364,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "goToCampaign"
-              ],
+              "required": ["goToCampaign"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "edit",
-            "actions"
-          ],
+          "required": ["header", "edit", "actions"],
           "additionalProperties": false
         },
         "campaign_currency": {
@@ -7938,9 +7378,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "tooltip"
-          ],
+          "required": ["tooltip"],
           "additionalProperties": false
         },
         "form": {
@@ -7977,18 +7415,11 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "title",
-                        "desc"
-                      ],
+                      "required": ["title", "desc"],
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "title",
-                    "description",
-                    "placeholder"
-                  ],
+                  "required": ["title", "description", "placeholder"],
                   "additionalProperties": false
                 },
                 "new": {
@@ -8001,10 +7432,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "none": {
@@ -8017,30 +7445,60 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "existing",
-                "new",
-                "none"
-              ],
+              "required": ["existing", "new", "none"],
               "additionalProperties": false
             },
             "status": {
               "type": "object",
               "properties": {
-                "title": {
+                "label": {
                   "type": "string"
+                },
+                "draft": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["title", "description"],
+                  "additionalProperties": false
+                },
+                "active": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["title", "description"],
+                  "additionalProperties": false
+                },
+                "inactive": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["title", "description"],
+                  "additionalProperties": false
                 }
               },
-              "required": [
-                "title"
-              ],
+              "required": ["label", "draft", "active", "inactive"],
               "additionalProperties": false
             },
             "method": {
@@ -8059,10 +7517,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "automatic": {
@@ -8075,18 +7530,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "label",
-                "code",
-                "automatic"
-              ],
+              "required": ["label", "code", "automatic"],
               "additionalProperties": false
             },
             "max_quantity": {
@@ -8099,10 +7547,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "type": {
@@ -8118,10 +7563,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "buyget": {
@@ -8134,17 +7576,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "standard",
-                "buyget"
-              ],
+              "required": ["standard", "buyget"],
               "additionalProperties": false
             },
             "allocation": {
@@ -8160,10 +7596,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "across": {
@@ -8176,17 +7609,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "each",
-                "across"
-              ],
+              "required": ["each", "across"],
               "additionalProperties": false
             },
             "code": {
@@ -8199,10 +7626,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "value": {
@@ -8212,9 +7636,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title"
-              ],
+              "required": ["title"],
               "additionalProperties": false
             },
             "value_type": {
@@ -8230,10 +7652,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "percentage": {
@@ -8246,17 +7665,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "fixed",
-                "percentage"
-              ],
+              "required": ["fixed", "percentage"],
               "additionalProperties": false
             }
           },
@@ -8298,16 +7711,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "add",
-            "list"
-          ],
+          "required": ["add", "list"],
           "additionalProperties": false
         }
       },
@@ -8353,11 +7761,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "active",
-            "expired",
-            "scheduled"
-          ],
+          "required": ["active", "expired", "scheduled"],
           "additionalProperties": false
         },
         "delete": {
@@ -8373,11 +7777,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "description",
-            "successToast"
-          ],
+          "required": ["title", "description", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -8393,11 +7793,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "description",
-            "successToast"
-          ],
+          "required": ["header", "description", "successToast"],
           "additionalProperties": false
         },
         "configuration": {
@@ -8419,18 +7815,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "description",
-                "successToast"
-              ],
+              "required": ["header", "description", "successToast"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "edit"
-          ],
+          "required": ["header", "edit"],
           "additionalProperties": false
         },
         "create": {
@@ -8492,9 +7881,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "hint"
-              ],
+              "required": ["hint"],
               "additionalProperties": false
             }
           },
@@ -8523,10 +7910,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "hint",
-                "header"
-              ],
+              "required": ["hint", "header"],
               "additionalProperties": false
             },
             "details": {
@@ -8548,12 +7932,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "type",
-                "currency",
-                "limit",
-                "used"
-              ],
+              "required": ["type", "currency", "limit", "used"],
               "additionalProperties": false
             },
             "type": {
@@ -8569,10 +7948,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 },
                 "usage": {
@@ -8585,17 +7961,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "title",
-                    "description"
-                  ],
+                  "required": ["title", "description"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "spend",
-                "usage"
-              ],
+              "required": ["spend", "usage"],
               "additionalProperties": false
             },
             "edit": {
@@ -8605,19 +7975,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header"
-              ],
+              "required": ["header"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "create",
-            "details",
-            "fields",
-            "type",
-            "edit"
-          ],
+          "required": ["create", "details", "fields", "type", "edit"],
           "additionalProperties": false
         },
         "promotions": {
@@ -8633,10 +7995,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "title",
-                "description"
-              ],
+              "required": ["title", "description"],
               "additionalProperties": false
             },
             "alreadyAdded": {
@@ -8655,9 +8014,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "success"
-              ],
+              "required": ["success"],
               "additionalProperties": false
             },
             "add": {
@@ -8670,15 +8027,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "noRecordsMessage"
-                  ],
+                  "required": ["noRecordsMessage"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "list"
-              ],
+              "required": ["list"],
               "additionalProperties": false
             },
             "list": {
@@ -8688,9 +8041,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             }
           },
@@ -8747,10 +8098,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation",
-            "successToast"
-          ],
+          "required": ["confirmation", "successToast"],
           "additionalProperties": false
         },
         "create": {
@@ -8775,11 +8123,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "details",
-                "products",
-                "prices"
-              ],
+              "required": ["details", "products", "prices"],
               "additionalProperties": false
             },
             "successToast": {
@@ -8795,15 +8139,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "noRecordsMessage"
-                  ],
+                  "required": ["noRecordsMessage"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "list"
-              ],
+              "required": ["list"],
               "additionalProperties": false
             }
           },
@@ -8826,10 +8166,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "successToast"
-          ],
+          "required": ["header", "successToast"],
           "additionalProperties": false
         },
         "configuration": {
@@ -8851,18 +8188,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "header",
-                "description",
-                "successToast"
-              ],
+              "required": ["header", "description", "successToast"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "edit"
-          ],
+          "required": ["header", "edit"],
           "additionalProperties": false
         },
         "products": {
@@ -8881,10 +8211,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "addProducts",
-                "editPrices"
-              ],
+              "required": ["addProducts", "editPrices"],
               "additionalProperties": false
             },
             "delete": {
@@ -8918,9 +8245,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "successToast"
-              ],
+              "required": ["successToast"],
               "additionalProperties": false
             },
             "edit": {
@@ -8930,19 +8255,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "successToast"
-              ],
+              "required": ["successToast"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "header",
-            "actions",
-            "delete",
-            "add",
-            "edit"
-          ],
+          "required": ["header", "actions", "delete", "add", "edit"],
           "additionalProperties": false
         },
         "fields": {
@@ -8958,10 +8275,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "header"
-              ],
+              "required": ["label", "header"],
               "additionalProperties": false
             },
             "status": {
@@ -8986,19 +8300,11 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "active",
-                    "draft",
-                    "expired",
-                    "scheduled"
-                  ],
+                  "required": ["active", "draft", "expired", "scheduled"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "label",
-                "options"
-              ],
+              "required": ["label", "options"],
               "additionalProperties": false
             },
             "type": {
@@ -9023,10 +8329,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "label",
-                        "description"
-                      ],
+                      "required": ["label", "description"],
                       "additionalProperties": false
                     },
                     "override": {
@@ -9039,25 +8342,15 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "label",
-                        "description"
-                      ],
+                      "required": ["label", "description"],
                       "additionalProperties": false
                     }
                   },
-                  "required": [
-                    "sale",
-                    "override"
-                  ],
+                  "required": ["sale", "override"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "label",
-                "hint",
-                "options"
-              ],
+              "required": ["label", "hint", "options"],
               "additionalProperties": false
             },
             "startsAt": {
@@ -9070,10 +8363,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "endsAt": {
@@ -9086,10 +8376,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             },
             "customerAvailability": {
@@ -9163,10 +8450,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "languageLabel",
-            "usageInsightsLabel"
-          ],
+          "required": ["languageLabel", "usageInsightsLabel"],
           "additionalProperties": false
         },
         "edit": {
@@ -9200,9 +8484,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "edit"
-          ],
+          "required": ["edit"],
           "additionalProperties": false
         }
       },
@@ -9267,11 +8549,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "accepted",
-            "pending",
-            "expired"
-          ],
+          "required": ["accepted", "pending", "expired"],
           "additionalProperties": false
         },
         "roles": {
@@ -9287,14 +8565,46 @@
               "type": "string"
             }
           },
-          "required": [
-            "admin",
-            "developer",
-            "member"
-          ],
+          "required": ["admin", "developer", "member"],
+          "additionalProperties": false
+        },
+        "list": {
+          "type": "object",
+          "properties": {
+            "empty": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            },
+            "filtered": {
+              "type": "object",
+              "properties": {
+                "heading": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["heading", "description"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["empty", "filtered"],
           "additionalProperties": false
         },
         "deleteUserWarning": {
+          "type": "string"
+        },
+        "deleteUserSuccess": {
           "type": "string"
         },
         "invite": {
@@ -9316,7 +8626,9 @@
         "acceptedOnDate",
         "inviteStatus",
         "roles",
+        "list",
         "deleteUserWarning",
+        "deleteUserSuccess",
         "invite"
       ],
       "additionalProperties": false
@@ -9376,9 +8688,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header"
-          ],
+          "required": ["header"],
           "additionalProperties": false
         },
         "toast": {
@@ -9500,9 +8810,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "noRecordsMessage"
-          ],
+          "required": ["noRecordsMessage"],
           "additionalProperties": false
         },
         "toast": {
@@ -9521,12 +8829,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "delete",
-            "edit",
-            "create",
-            "countries"
-          ],
+          "required": ["delete", "edit", "create", "countries"],
           "additionalProperties": false
         },
         "shippingOption": {
@@ -9560,12 +8863,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "outbound",
-                "outboundHint",
-                "return",
-                "returnHint"
-              ],
+              "required": ["outbound", "outboundHint", "return", "returnHint"],
               "additionalProperties": false
             },
             "priceType": {
@@ -9581,11 +8879,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "flatRate",
-                "calculated"
-              ],
+              "required": ["label", "flatRate", "calculated"],
               "additionalProperties": false
             },
             "availability": {
@@ -9598,10 +8892,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "adminOnly",
-                "adminOnlyHint"
-              ],
+              "required": ["adminOnly", "adminOnlyHint"],
               "additionalProperties": false
             },
             "taxInclusiveHint": {
@@ -9617,10 +8908,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "hint"
-              ],
+              "required": ["label", "hint"],
               "additionalProperties": false
             }
           },
@@ -9682,9 +8970,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "taxCountriesHint"
-          ],
+          "required": ["taxCountriesHint"],
           "additionalProperties": false
         },
         "settings": {
@@ -9738,9 +9024,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "sectionTitle"
-          ],
+          "required": ["sectionTitle"],
           "additionalProperties": false
         },
         "taxRate": {
@@ -9890,11 +9174,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "create",
-            "update",
-            "removeChannel"
-          ],
+          "required": ["create", "update", "removeChannel"],
           "additionalProperties": false
         }
       },
@@ -9924,11 +9204,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "domain",
-        "subtitle",
-        "deleteWarning"
-      ],
+      "required": ["domain", "subtitle", "deleteWarning"],
       "additionalProperties": false
     },
     "salesChannels": {
@@ -9980,11 +9256,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "create",
-            "update",
-            "delete"
-          ],
+          "required": ["create", "update", "delete"],
           "additionalProperties": false
         },
         "tooltip": {
@@ -9994,9 +9266,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "cannotDeleteDefault"
-          ],
+          "required": ["cannotDeleteDefault"],
           "additionalProperties": false
         },
         "products": {
@@ -10009,9 +9279,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             },
             "add": {
@@ -10024,22 +9292,15 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "noRecordsMessage"
-                  ],
+                  "required": ["noRecordsMessage"],
                   "additionalProperties": false
                 }
               },
-              "required": [
-                "list"
-              ],
+              "required": ["list"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "list",
-            "add"
-          ],
+          "required": ["list", "add"],
           "additionalProperties": false
         }
       },
@@ -10074,10 +9335,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "publishable",
-            "secret"
-          ],
+          "required": ["publishable", "secret"],
           "additionalProperties": false
         },
         "subtitle": {
@@ -10090,10 +9348,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "publishable",
-            "secret"
-          ],
+          "required": ["publishable", "secret"],
           "additionalProperties": false
         },
         "status": {
@@ -10106,10 +9361,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "active",
-            "revoked"
-          ],
+          "required": ["active", "revoked"],
           "additionalProperties": false
         },
         "type": {
@@ -10122,10 +9374,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "publishable",
-            "secret"
-          ],
+          "required": ["publishable", "secret"],
           "additionalProperties": false
         },
         "create": {
@@ -10185,11 +9434,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "description",
-            "successToast"
-          ],
+          "required": ["header", "description", "successToast"],
           "additionalProperties": false
         },
         "salesChannels": {
@@ -10217,9 +9462,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             }
           },
@@ -10243,10 +9486,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "warning",
-            "successToast"
-          ],
+          "required": ["warning", "successToast"],
           "additionalProperties": false
         },
         "revoke": {
@@ -10259,10 +9499,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "warning",
-            "successToast"
-          ],
+          "required": ["warning", "successToast"],
           "additionalProperties": false
         },
         "addSalesChannels": {
@@ -10275,15 +9512,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "noRecordsMessage"
-              ],
+              "required": ["noRecordsMessage"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "list"
-          ],
+          "required": ["list"],
           "additionalProperties": false
         },
         "removeSalesChannel": {
@@ -10331,11 +9564,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "revoke",
-            "copy",
-            "copySuccessToast"
-          ],
+          "required": ["revoke", "copy", "copySuccessToast"],
           "additionalProperties": false
         },
         "table": {
@@ -10348,10 +9577,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "lastUsedAtHeader",
-            "createdAtHeader"
-          ],
+          "required": ["lastUsedAtHeader", "createdAtHeader"],
           "additionalProperties": false
         },
         "fields": {
@@ -10428,12 +9654,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "subtitle",
-            "hint",
-            "successToast"
-          ],
+          "required": ["header", "subtitle", "hint", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -10449,11 +9670,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "subtitle",
-            "successToast"
-          ],
+          "required": ["header", "subtitle", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -10466,10 +9683,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation",
-            "successToast"
-          ],
+          "required": ["confirmation", "successToast"],
           "additionalProperties": false
         },
         "fields": {
@@ -10488,11 +9702,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "placeholder",
-                "tooltip"
-              ],
+              "required": ["label", "placeholder", "tooltip"],
               "additionalProperties": false
             },
             "label": {
@@ -10505,10 +9715,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "placeholder"
-              ],
+              "required": ["label", "placeholder"],
               "additionalProperties": false
             },
             "description": {
@@ -10521,18 +9728,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "label",
-                "placeholder"
-              ],
+              "required": ["label", "placeholder"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "value",
-            "label",
-            "description"
-          ],
+          "required": ["value", "label", "description"],
           "additionalProperties": false
         }
       },
@@ -10561,11 +9761,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "forgotPassword",
-        "title",
-        "hint"
-      ],
+      "required": ["forgotPassword", "title", "hint"],
       "additionalProperties": false
     },
     "invite": {
@@ -10617,9 +9813,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "accepted"
-          ],
+          "required": ["accepted"],
           "additionalProperties": false
         }
       },
@@ -10764,9 +9958,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "noRecordsMessage"
-          ],
+          "required": ["noRecordsMessage"],
           "additionalProperties": false
         },
         "history": {
@@ -10863,15 +10055,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "waitingToCompensate"
-              ],
+              "required": ["waitingToCompensate"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "state"
-          ],
+          "required": ["state"],
           "additionalProperties": false
         },
         "step": {
@@ -10893,18 +10081,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "skipped",
-                "skippedFailure",
-                "dormant",
-                "timeout"
-              ],
+              "required": ["skipped", "skippedFailure", "dormant", "timeout"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "state"
-          ],
+          "required": ["state"],
           "additionalProperties": false
         }
       },
@@ -10946,11 +10127,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "hint",
-            "successToast"
-          ],
+          "required": ["header", "hint", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -10963,10 +10140,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "successToast"
-          ],
+          "required": ["header", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -10979,10 +10153,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation",
-            "successToast"
-          ],
+          "required": ["confirmation", "successToast"],
           "additionalProperties": false
         },
         "fields": {
@@ -10992,20 +10163,11 @@
               "type": "string"
             }
           },
-          "required": [
-            "value"
-          ],
+          "required": ["value"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "domain",
-        "subtitle",
-        "create",
-        "edit",
-        "delete",
-        "fields"
-      ],
+      "required": ["domain", "subtitle", "create", "edit", "delete", "fields"],
       "additionalProperties": false
     },
     "productTags": {
@@ -11027,11 +10189,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "subtitle",
-            "successToast"
-          ],
+          "required": ["header", "subtitle", "successToast"],
           "additionalProperties": false
         },
         "edit": {
@@ -11047,11 +10205,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "header",
-            "subtitle",
-            "successToast"
-          ],
+          "required": ["header", "subtitle", "successToast"],
           "additionalProperties": false
         },
         "delete": {
@@ -11064,10 +10218,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "confirmation",
-            "successToast"
-          ],
+          "required": ["confirmation", "successToast"],
           "additionalProperties": false
         },
         "fields": {
@@ -11077,19 +10228,11 @@
               "type": "string"
             }
           },
-          "required": [
-            "value"
-          ],
+          "required": ["value"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "domain",
-        "create",
-        "edit",
-        "delete",
-        "fields"
-      ],
+      "required": ["domain", "create", "edit", "delete", "fields"],
       "additionalProperties": false
     },
     "notifications": {
@@ -11108,10 +10251,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "description"
-          ],
+          "required": ["title", "description"],
           "additionalProperties": false
         },
         "accessibility": {
@@ -11121,17 +10261,11 @@
               "type": "string"
             }
           },
-          "required": [
-            "description"
-          ],
+          "required": ["description"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "domain",
-        "emptyState",
-        "accessibility"
-      ],
+      "required": ["domain", "emptyState", "accessibility"],
       "additionalProperties": false
     },
     "errors": {
@@ -11144,10 +10278,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "serverError",
-        "invalidCredentials"
-      ],
+      "required": ["serverError", "invalidCredentials"],
       "additionalProperties": false
     },
     "statuses": {
@@ -11162,6 +10293,12 @@
         "active": {
           "type": "string"
         },
+        "inactive": {
+          "type": "string"
+        },
+        "draft": {
+          "type": "string"
+        },
         "enabled": {
           "type": "string"
         },
@@ -11173,6 +10310,8 @@
         "scheduled",
         "expired",
         "active",
+        "inactive",
+        "draft",
         "enabled",
         "disabled"
       ],

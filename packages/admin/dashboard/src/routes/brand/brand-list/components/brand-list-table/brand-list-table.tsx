@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table"
 import { useMemo, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import { DataTable } from "../../../../../components/table/data-table"
 import { useProductTypeTableFilters } from "../../../../../hooks/table/filters/use-product-type-table-filters"
 import { useProductTypeTableQuery } from "../../../../../hooks/table/query/use-product-type-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
@@ -13,6 +12,7 @@ import { BrandRowActions } from "./brand-row-actions"
 import { HttpTypes } from "@medusajs/types"
 import { sdk } from "../../../../../lib/client/client"
 import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
+import { _DataTable } from "../../../../../components/table/data-table"
 
 const PAGE_SIZE = 20
 
@@ -127,7 +127,7 @@ export const BrandListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         isLoading={isLoading}

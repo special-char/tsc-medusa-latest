@@ -52,7 +52,6 @@ const createPaymentCollectionStep = createStep(
     const paymentModuleService = container.resolve(Modules.PAYMENT)
 
     const paymentCollection = await paymentModuleService.createPaymentCollections({
-      region_id: "reg_123",
       currency_code: "usd",
       amount: 5000,
     })
@@ -172,4 +171,4 @@ Medusa provides the following payment providers out-of-the-box. You can use them
 
 ---
 
-<CommerceModuleSections name="Payment" />
+<CommerceModuleSections />

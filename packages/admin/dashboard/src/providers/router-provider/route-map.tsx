@@ -17,10 +17,10 @@ import {
   customPublicRoutes,
 } from "./custom-routes"
 
-// TODO: Add translations for all breadcrumbs
 export const RouteMap: RouteObject[] = [
   {
     element: <ProtectedRoute />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         element: <MainLayout />,
@@ -133,6 +133,11 @@ export const RouteMap: RouteObject[] = [
                           import(
                             "../../routes/products/product-create-variant"
                           ),
+                      },
+                      {
+                        path: "stock",
+                        lazy: () =>
+                          import("../../routes/products/product-stock"),
                       },
                       {
                         path: "metadata/edit",
@@ -768,6 +773,11 @@ export const RouteMap: RouteObject[] = [
                     path: "create",
                     lazy: () =>
                       import("../../routes/inventory/inventory-create"),
+                  },
+                  {
+                    path: "stock",
+                    lazy: () =>
+                      import("../../routes/inventory/inventory-stock"),
                   },
                 ],
               },

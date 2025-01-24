@@ -19,6 +19,7 @@ export class BulkOrder {
     sales_channel_id: string
     region_id: string
     user: AdminUser
+    sendCorporateEmail: boolean
   }) {
     const formData = new FormData()
     if (body.files instanceof File || body.files instanceof Blob) {
@@ -30,6 +31,10 @@ export class BulkOrder {
     }
     if (body.user) {
       formData.append("user", JSON.stringify(body.user))
+      formData.append(
+        "sendCorporateEmail",
+        body.sendCorporateEmail as unknown as string
+      )
     }
 
     return await this.client.fetch(`/admin/bulk-order`, {

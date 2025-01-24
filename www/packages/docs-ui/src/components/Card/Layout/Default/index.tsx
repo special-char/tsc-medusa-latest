@@ -16,8 +16,35 @@ export const CardDefaultLayout = ({
   iconClassName,
   children,
   badge,
+  rightIcon: RightIconComponent,
+  highlightText = [],
 }: CardProps) => {
   const isExternal = useIsExternalLink({ href })
+
+  const getHighlightedText = (textToHighlight: string) => {
+    if (!highlightText.length) {
+      return textToHighlight
+    }
+
+    const parts = textToHighlight.split(
+      new RegExp(`(${highlightText.join("|")})`, "gi")
+    )
+    return parts.map((part, index) => {
+      const isHighlighted = highlightText.some((highlight) => {
+        return part.toLowerCase() === highlight.toLowerCase()
+      })
+      return isHighlighted ? (
+        <span
+          key={index}
+          className="bg-medusa-tag-blue-bg px-px rounded-s-docs_xxs"
+        >
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    })
+  }
 
   return (
     <div
@@ -51,17 +78,21 @@ export const CardDefaultLayout = ({
       >
         {title && (
           <div className="text-small-plus text-medusa-fg-base truncate">
-            {title}
+            {getHighlightedText(title)}
           </div>
         )}
         {text && (
-          <span className="text-small-plus text-medusa-fg-subtle">{text}</span>
+          <span className="text-small-plus text-medusa-fg-subtle">
+            {getHighlightedText(text)}
+          </span>
         )}
         {children}
       </div>
       {badge && <Badge {...badge} />}
       <span className="text-medusa-fg-subtle">
-        {isExternal ? <ArrowUpRightOnBox /> : <TriangleRightMini />}
+        {RightIconComponent && <RightIconComponent />}
+        {!RightIconComponent && isExternal && <ArrowUpRightOnBox />}
+        {!RightIconComponent && !isExternal && <TriangleRightMini />}
       </span>
 
       {href && (

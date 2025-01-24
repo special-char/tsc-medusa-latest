@@ -1,9 +1,10 @@
 import { Button, Container, Heading, Text } from "@medusajs/ui"
 
-import { DataTable } from "../../../../../components/table/data-table"
+import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import { useDataTable } from "../../../../../hooks/use-data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useReservationItems } from "../../../../../hooks/api/reservations"
+import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useReservationTableColumns } from "./use-reservation-table-columns"
 import { useReservationTableFilters } from "./use-reservation-table-filters"
 import { useReservationTableQuery } from "./use-reservation-table-query"
@@ -78,7 +79,7 @@ export const ReservationListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}

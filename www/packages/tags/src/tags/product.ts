@@ -1,5 +1,9 @@
 export const product = [
   {
+    "title": "Inventory Kits",
+    "path": "/commerce-modules/inventory/inventory-kit"
+  },
+  {
     "title": "Get Variant Prices",
     "path": "/commerce-modules/product/guides/price"
   },
@@ -66,6 +70,10 @@ export const product = [
   {
     "title": "Select Product Variants in Storefront",
     "path": "/storefront-development/products/variants"
+  },
+  {
+    "title": "batchLinkProductsToCategoryStep",
+    "path": "/references/medusa-workflows/steps/batchLinkProductsToCategoryStep"
   },
   {
     "title": "batchLinkProductsToCollectionStep",
@@ -154,6 +162,10 @@ export const product = [
   {
     "title": "updateProductsStep",
     "path": "/references/medusa-workflows/steps/updateProductsStep"
+  },
+  {
+    "title": "batchLinkProductsToCategoryWorkflow",
+    "path": "/references/medusa-workflows/batchLinkProductsToCategoryWorkflow"
   },
   {
     "title": "batchLinkProductsToCollectionWorkflow",

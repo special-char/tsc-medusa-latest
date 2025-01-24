@@ -30,7 +30,9 @@ const ProductOptions = ({
       {options?.map((option) => {
         return (
           <div key={option.id}>
-            <h3 className="inter-base-semibold mb-xsmall">{option.title}</h3>
+            <Heading level="h3" className="inter-base-semibold mb-xsmall mb-2">
+              {option.title}
+            </Heading>
             <ul className="flex flex-wrap items-center gap-1">
               {option.values
                 ?.filter(
@@ -77,23 +79,25 @@ const ProductOptionImagesWidget = ({
     setOptionvalueToEdit(value)
   }
   return (
-    <Container>
-      <Heading level="h1" className="font-xl pb-2">
-        <span>Option Values</span>
+    <Container className="divide-y p-0 font-sans">
+      <Heading level="h2" className="px-6 py-4 font-medium">
+        Option Values
       </Heading>
-      <ProductOptions
-        options={options}
-        handleEditOptionvalue={handleEditOptionvalue}
-        optionvalueToEdit={optionvalueToEdit}
-      />
-
-      {optionvalueToEdit && (
-        <EditOptionvalueModal
-          optionvalue={optionvalueToEdit}
+      <div className="px-6 py-4">
+        <ProductOptions
           options={options}
-          onClose={() => setOptionvalueToEdit(undefined)}
+          handleEditOptionvalue={handleEditOptionvalue}
+          optionvalueToEdit={optionvalueToEdit}
         />
-      )}
+
+        {optionvalueToEdit && (
+          <EditOptionvalueModal
+            optionvalue={optionvalueToEdit}
+            options={options}
+            onClose={() => setOptionvalueToEdit(undefined)}
+          />
+        )}
+      </div>
     </Container>
   )
 }

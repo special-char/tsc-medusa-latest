@@ -24,7 +24,7 @@ const PriceFormInput = ({
   required,
 }: Props) => {
   const { symbol_native, decimal_digits } =
-    currencies[currencyCode.toUpperCase()]
+    currencies?.[currencyCode?.toUpperCase()]
 
   const getFormattedValue = useCallback(
     (value: number) => {
@@ -62,7 +62,7 @@ const PriceFormInput = ({
       {label && <Label {...{ label, required }} className="mb-xsmall" />}
       <div
         className={clsx(
-          "bg-grey-5 border-gray-20 p-2 rounded-md flex h-10 w-full items-center border",
+          "bg-grey-5 border-gray-20 flex h-10 w-full items-center rounded-md border p-2",
           {
             "border-rose-50": errors && name && errors[name],
           }
