@@ -1,11 +1,16 @@
-import { Button, Container, Heading, Table } from "@medusajs/ui"
+import { Button, Container, Heading } from "@medusajs/ui"
 import { useEffect, useState } from "react"
-
 import { sdk } from "../../../../../lib/client"
-import { DateCell } from "../../../../../components/table/table-cells/common/date-cell"
 import BlogActions from "../blog-actions/blog.actions"
 import { Link, Outlet } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import CustomTable from "../../../../../components/common/CustomTable"
+import {
+  createColumnHelper,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 
 export type BlogProps = {
   id: string
@@ -18,6 +23,7 @@ export type BlogProps = {
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
+  product_categories: { id: string }[]
 }
 
 export const BlogListTable = () => {
@@ -34,6 +40,53 @@ export const BlogListTable = () => {
   useEffect(() => {
     LoadBlogData()
   }, [])
+
+  const columnHelper = createColumnHelper<any>()
+  const columns = [
+    columnHelper.display({
+      header: "Sr. No.",
+      id: "sr_no",
+      cell: (info) => info.row.index + 1,
+    }),
+    columnHelper.accessor("title", {
+      header: "Title",
+      cell: (info) => (
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
+      ),
+    }),
+    columnHelper.accessor("subtitle", {
+      header: "Subtitle",
+      cell: (info) => (
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
+      ),
+    }),
+    columnHelper.accessor("handle", {
+      header: "Handle",
+      cell: (info) => (
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
+      ),
+    }),
+    columnHelper.accessor("updated_at", {
+      header: "Last Updated",
+      cell: (info) => (
+        <span className="line-clamp-1 overflow-hidden">{info.getValue()}</span>
+      ),
+    }),
+    columnHelper.display({
+      header: "Actions",
+      id: "actions",
+      cell: (info) => {
+        return <BlogActions blog={info.row.original} />
+      },
+    }),
+  ]
+
+  const table = useReactTable<any>({
+    data: blogs,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  })
 
   const { t } = useTranslation()
   return (
@@ -57,44 +110,7 @@ export const BlogListTable = () => {
           </Button>
         </div>
       ) : (
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Sr. No</Table.HeaderCell>
-              <Table.HeaderCell>Title</Table.HeaderCell>
-              <Table.HeaderCell>subtitle</Table.HeaderCell>
-              <Table.HeaderCell>Handle</Table.HeaderCell>
-              <Table.HeaderCell>Last Updated</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {blogs
-              ?.sort(
-                (a: BlogProps, b: BlogProps) =>
-                  new Date(b.updated_at).getTime() -
-                  new Date(a.updated_at).getTime()
-              )
-              .map((blog: BlogProps, index) => {
-                return (
-                  <Table.Row
-                    key={blog.id}
-                    className="[&_td:last-child]:w-[1%] [&_td:last-child]:whitespace-nowrap"
-                  >
-                    <Table.Cell>{index + 1}</Table.Cell>
-                    <Table.Cell>{blog.title}</Table.Cell>
-                    <Table.Cell>{blog.subtitle}</Table.Cell>
-                    <Table.Cell>{blog.handle}</Table.Cell>
-                    <Table.Cell>
-                      <DateCell date={blog.updated_at} />
-                    </Table.Cell>
-                    <Table.Cell>
-                      <BlogActions blogId={blog.id} />
-                    </Table.Cell>
-                  </Table.Row>
-                )
-              })}
-          </Table.Body>
-        </Table>
+        <CustomTable PAGE_SIZE={10} data={blogs} table={table} />
       )}
       <Outlet />
     </Container>

@@ -1,6 +1,6 @@
 import { toast, Toaster } from "@medusajs/ui"
 import { RouteFocusModal } from "../../../components/modals"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { FieldValues, useForm } from "react-hook-form"
 import { sdk } from "../../../lib/client"
 import { useEffect, useState } from "react"
@@ -9,26 +9,19 @@ import DynamicForm, {
 } from "../../../components/custom/components/form/DynamicForm"
 import { blogSchema } from "../blogSchema"
 
-const fetchBlogById = async (id: string) => {
-  const response = await sdk.admin.blog.retrieve(id)
-
-  if (!response) {
-    throw new Error("Failed to fetch blog data")
-  }
-  return response
-}
-
 export const BlogEdit = () => {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { state } = useLocation()
   const [schema, setSchema] = useState<Record<string, SchemaField>>({})
   const form = useForm<FieldValues>({
     defaultValues: {
-      title: "",
-      subtitle: "",
-      handle: "",
-      content: "",
-      categories: [],
+      title: state.title,
+      subtitle: state.subtitle,
+      handle: state.handle,
+      content: state.content,
+      categories:
+        state?.product_categories?.map((x: { id: string }) => x.id) || [],
     },
   })
 
@@ -43,24 +36,6 @@ export const BlogEdit = () => {
       }
     }
     loadSchema()
-  }, [])
-
-  useEffect(() => {
-    const loadBlog = async () => {
-      try {
-        const blogData = await fetchBlogById(id!)
-        form.reset({
-          title: blogData.title || "",
-          subtitle: blogData.subtitle || "",
-          handle: blogData.handle || "",
-          content: blogData.content || "",
-          categories: blogData?.product_categories?.map((x) => x.id) || [],
-        })
-      } catch (error) {
-        console.error("Error loading blog:", error)
-      }
-    }
-    loadBlog()
   }, [])
 
   const onSubmit = async (data: FieldValues) => {
