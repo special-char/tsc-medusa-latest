@@ -4,7 +4,7 @@ import getInputElement from "../getInputElement"
 import { Input, Label, clx, Button } from "@medusajs/ui"
 import ErrorMessage from "./ErrorMessage"
 
-type SchemaField = {
+export type SchemaField = {
   label?: string
   fieldType: string
   props?: any

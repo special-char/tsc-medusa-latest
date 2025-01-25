@@ -10,6 +10,7 @@ import SelectSalesChannel from "./SelectSalesChannel"
 import CustomCombobox from "./CustomCombobox"
 import CustomRichTextInput from "./CustomRichTextInput"
 import CustomMetaData from "./CustomMetaData"
+import NestedMultiSelect from "./CustomNestedMultiSelect"
 
 type InputElementType = React.ComponentType<any>
 
@@ -27,6 +28,8 @@ const getInputElement = (type: string): InputElementType => {
       return CustomRichTextInput
     case "combobox":
       return CustomCombobox
+    case "nested-select":
+      return NestedMultiSelect
     case "metadata":
       return CustomMetaData
     case "toggle":

@@ -31,7 +31,7 @@ const dashboardConfig: ConfigType = {
     productCategoryDetails: true,
     wishlist: true,
     brand: true,
-    blogs: false,
+    blogs: true,
     faqs: false,
     giftCards: true,
     giftTemplates: true,

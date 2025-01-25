@@ -1,75 +1,25 @@
-import { Toaster } from "@medusajs/ui"
+import { toast, Toaster } from "@medusajs/ui"
 import { RouteFocusModal } from "../../../components/modals"
 import { FieldValues, useForm } from "react-hook-form"
-import { sdk } from "../../../lib/client"
 import { useNavigate } from "react-router-dom"
-import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-export const blogCreateSchema = {
-  title: {
-    label: "Blog Title",
-    fieldType: "input",
-    validation: {
-      required: {
-        value: true,
-        message: "Title is required",
-      },
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Title should not contain only numbers",
-      },
-    },
-  },
-  subtitle: {
-    label: "Blog Subtitle",
-    fieldType: "input",
-    validation: {
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Subtitle should not contain only numbers",
-      },
-    },
-  },
-  handle: {
-    label: "Blog Handle",
-    fieldType: "input",
-    validation: {
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Handle should not contain only numbers",
-      },
-    },
-  },
-  content: {
-    label: "Blog Content",
-    fieldType: "markdown-editor",
-    validation: {
-      required: {
-        value: true,
-        message: "content is required",
-      },
-    },
-  },
-}
+import DynamicForm, {
+  SchemaField,
+} from "../../../components/custom/components/form/DynamicForm"
+import { sdk } from "../../../lib/client"
+import { useEffect, useState } from "react"
+import { blogSchema } from "../blogSchema"
 
 export const BlogCreate = () => {
   const navigate = useNavigate()
-
+  const [schema, setSchema] = useState<Record<string, SchemaField>>({})
   const onSubmit = async (data: FieldValues) => {
     try {
-      // const createBlogResponse = await fetch(`${backendUrl}/admin/blogs`, {
-      //   method: "POST",
-      //   credentials: "include",
-      //   body: JSON.stringify(data),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      // const createBlogResponseJson = await createBlogResponse.json()
       const createBlogData = {
         title: data.title,
         subtitle: data.subtitle,
         handle: data.handle,
         content: data.content,
+        categories: data.categories,
       }
       const createBlogResponse = await sdk.admin.blog.create(createBlogData)
       if (createBlogResponse) {
@@ -77,15 +27,33 @@ export const BlogCreate = () => {
         navigate(0)
       }
     } catch (error: any) {
-      console.log(`failed to create blog : ${error.message}`)
+      toast.error("Failed to Create Blog", {
+        description: error.message,
+        duration: 5000,
+      })
+      console.error(`failed to create blog : ${error.message}`)
     }
   }
+
+  useEffect(() => {
+    const loadSchema = async () => {
+      try {
+        const schemaData = await blogSchema()
+        setSchema(schemaData)
+      } catch (error) {
+        console.error("Error loading schema:", error)
+        toast.error("Failed to load schema")
+      }
+    }
+    loadSchema()
+  }, [])
   const form = useForm<FieldValues>({
     defaultValues: {
       title: "",
       subtitle: "",
       handle: "",
       content: "",
+      categories: [],
     },
   })
 
@@ -93,12 +61,13 @@ export const BlogCreate = () => {
     <RouteFocusModal>
       <Toaster />
       <RouteFocusModal.Header />
-      <RouteFocusModal.Body>
+      <RouteFocusModal.Body className="overflow-auto">
         <div className="w-full p-5">
           <DynamicForm
             form={form}
             onSubmit={onSubmit}
-            schema={blogCreateSchema}
+            schema={schema}
+            isPending={form.formState.isSubmitting}
           />
         </div>
       </RouteFocusModal.Body>

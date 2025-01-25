@@ -1,11 +1,13 @@
-import { Toaster } from "@medusajs/ui"
+import { toast, Toaster } from "@medusajs/ui"
 import { RouteFocusModal } from "../../../components/modals"
 import { useNavigate, useParams } from "react-router-dom"
 import { FieldValues, useForm } from "react-hook-form"
 import { sdk } from "../../../lib/client"
-import { blogCreateSchema } from "../blog-create/blog-create"
-import { useEffect } from "react"
-import DynamicForm from "../../../components/custom/components/form/DynamicForm"
+import { useEffect, useState } from "react"
+import DynamicForm, {
+  SchemaField,
+} from "../../../components/custom/components/form/DynamicForm"
+import { blogSchema } from "../blogSchema"
 
 const fetchBlogById = async (id: string) => {
   const response = await sdk.admin.blog.retrieve(id)
@@ -14,31 +16,34 @@ const fetchBlogById = async (id: string) => {
     throw new Error("Failed to fetch blog data")
   }
   return response
-
-  // const response = await fetch(`${backendUrl}/admin/blogs/${id}`, {
-  //   method: "GET",
-  //   credentials: "include",
-  // })
-
-  // if (!response.ok) {
-  //   throw new Error("Failed to fetch blog data")
-  // }
-
-  // return response.json()
 }
 
 export const BlogEdit = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-
+  const [schema, setSchema] = useState<Record<string, SchemaField>>({})
   const form = useForm<FieldValues>({
     defaultValues: {
       title: "",
       subtitle: "",
       handle: "",
       content: "",
+      categories: [],
     },
   })
+
+  useEffect(() => {
+    const loadSchema = async () => {
+      try {
+        const schemaData = await blogSchema()
+        setSchema(schemaData)
+      } catch (error) {
+        console.error("Error loading schema:", error)
+        toast.error("Failed to load schema")
+      }
+    }
+    loadSchema()
+  }, [])
 
   useEffect(() => {
     const loadBlog = async () => {
@@ -49,6 +54,7 @@ export const BlogEdit = () => {
           subtitle: blogData.subtitle || "",
           handle: blogData.handle || "",
           content: blogData.content || "",
+          categories: blogData?.product_categories?.map((x) => x.id) || [],
         })
       } catch (error) {
         console.error("Error loading blog:", error)
@@ -59,24 +65,18 @@ export const BlogEdit = () => {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      // const response = await fetch(`${backendUrl}/admin/blogs/${id}`, {
-      //   method: "PUT",
-      //   credentials: "include",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // })
       const response = await sdk.admin.blog.update(id!, data)
 
       if (response) {
         navigate("/blogs")
         navigate(0)
-      } else {
-        console.error("Failed to update blog")
       }
-    } catch (error) {
-      console.error("Error updating blog:", error)
+    } catch (error: any) {
+      toast.error("Failed to Update Blog", {
+        description: error.message,
+        duration: 5000,
+      })
+      console.error("Error updating blog:", error.message)
     }
   }
 
@@ -84,12 +84,13 @@ export const BlogEdit = () => {
     <RouteFocusModal>
       <Toaster />
       <RouteFocusModal.Header />
-      <RouteFocusModal.Body>
+      <RouteFocusModal.Body className="overflow-auto">
         <div className="w-full p-5">
           <DynamicForm
             form={form}
             onSubmit={onSubmit}
-            schema={blogCreateSchema}
+            schema={schema}
+            isPending={form.formState.isSubmitting}
           />
         </div>
       </RouteFocusModal.Body>
