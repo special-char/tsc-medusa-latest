@@ -13,7 +13,7 @@ async function build() {
     const bundler = await import("@medusajs/admin-bundler")
 
     const sources = [path.resolve(__dirname, "../..")]
-    const outDir = path.join(__dirname, "../public/admin")
+    const outDir = path.join(__dirname, "../public")
 
     await bundler.build({
       path: "/",
