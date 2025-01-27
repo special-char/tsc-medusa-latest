@@ -5,11 +5,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import CustomTable from "../../../components/common/CustomTable"
-import { Container, Heading } from "@medusajs/ui"
+import { Container, Heading, Tooltip } from "@medusajs/ui"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { sdk } from "../../../lib/client"
-import { useProduct } from "../../../hooks/api"
+import { useOrder, useProduct } from "../../../hooks/api"
 
 const listRedemptions = async () => {
   try {
@@ -44,6 +44,23 @@ export function RedemptionList() {
               {product?.title}
             </a>
           </span>
+        )
+      },
+    }),
+    columnHelper.accessor("order_id", {
+      header: "Order Id",
+      cell: (info) => {
+        return (
+          <Tooltip maxWidth={260} content={info.row.original.order_id}>
+            <span className="line-clamp-1 w-[90px] overflow-hidden">
+              <a
+                href={`/orders/${info.row.original.order_id}`}
+                className="text-blue-500 underline"
+              >
+                {info.row.original.order_id.slice(-7)}
+              </a>
+            </span>
+          </Tooltip>
         )
       },
     }),
