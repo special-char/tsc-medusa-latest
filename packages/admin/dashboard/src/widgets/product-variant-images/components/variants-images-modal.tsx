@@ -1,4 +1,4 @@
-import { createElement, useState } from "react"
+import { createElement, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Button, FocusModal } from "@medusajs/ui"
 import { CustomProduct, CustomProductVariant } from "../../../types/custom"
@@ -107,6 +107,21 @@ const VariantsImagesModal = ({
 
   // const selectedImages = watch("selectedImages");
 
+  const images = useMemo(() => {
+    const allImages = [
+      ...(variant.variant_images?.images?.map((x) => ({ id: x, url: x })) ||
+        []),
+      ...(product?.images || []),
+    ]
+    // Filter to keep only unique URLs
+    const uniqueImages = Array.from(
+      new Map(allImages.map((item) => [item.url, item])).values()
+    )
+    return uniqueImages
+  }, [variant, product])
+
+  console.log({ variant, product })
+
   return (
     <FocusModal open={open} onOpenChange={onClose} modal>
       <FocusModal.Content>
@@ -138,7 +153,7 @@ const VariantsImagesModal = ({
                 </p>
               </div>
               <div className="grid grid-cols-[repeat(auto-fill,minmax(128px,1fr))] gap-4 py-2">
-                {product?.images?.map((image) => (
+                {images?.map((image) => (
                   <div
                     key={image.id}
                     className="shadow-elevation-card-rest hover:shadow-elevation-card-hover 
