@@ -19,6 +19,12 @@ export class Redemption {
       headers,
     })
   }
+  async retrieveHistories(headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/admin/redemption/history`, {
+      method: "GET",
+      headers,
+    })
+  }
   async retrieve(redemptionId: string, headers?: ClientHeaders) {
     return this.client.fetch<any>(`/admin/redemption/${redemptionId}`, {
       method: "GET",
