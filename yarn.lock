@@ -5861,6 +5861,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@medusajs/admin-deploy@workspace:packages/admin/admin-deploy":
+  version: 0.0.0-use.local
+  resolution: "@medusajs/admin-deploy@workspace:packages/admin/admin-deploy"
+  dependencies:
+    dotenv: ^16.4.7
+    ts-node: ^10.9.2
+    typescript: ^5.7.3
+  languageName: unknown
+  linkType: soft
+
 "@medusajs/admin-sdk@workspace:packages/admin/admin-sdk":
   version: 0.0.0-use.local
   resolution: "@medusajs/admin-sdk@workspace:packages/admin/admin-sdk"
@@ -19422,7 +19432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:16.4.7":
+"dotenv@npm:16.4.7, dotenv@npm:^16.4.7":
   version: 16.4.7
   resolution: "dotenv@npm:16.4.7"
   checksum: be9f597e36a8daf834452daa1f4cc30e5375a5968f98f46d89b16b983c567398a330580c88395069a77473943c06b877d1ca25b4afafcdd6d4adb549e8293462
@@ -33783,7 +33793,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.9.1":
+"ts-node@npm:^10.9.1, ts-node@npm:^10.9.2":
   version: 10.9.2
   resolution: "ts-node@npm:10.9.2"
   dependencies:
@@ -34374,6 +34384,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^5.7.3":
+  version: 5.7.3
+  resolution: "typescript@npm:5.7.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: b7580d716cf1824736cc6e628ab4cd8b51877408ba2be0869d2866da35ef8366dd6ae9eb9d0851470a39be17cbd61df1126f9e211d8799d764ea7431d5435afa
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@4.9.5#~builtin<compat/typescript>, typescript@patch:typescript@^4.1.3#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=7ad353"
@@ -34431,6 +34451,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: e6c1662e4852e22fe4bbdca471dca3e3edc74f6f1df043135c44a18a7902037023ccb0abdfb754595ca9028df8920f2f8492c00fc3cbb4309079aae8b7de71cd
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^5.7.3#~builtin<compat/typescript>":
+  version: 5.7.3
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#~builtin<compat/typescript>::version=5.7.3&hash=7ad353"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 3b56d6afa03d9f6172d0b9cdb10e6b1efc9abc1608efd7a3d2f38773d5d8cfb9bbc68dfb72f0a7de5e8db04fc847f4e4baeddcd5ad9c9feda072234f0d788896
   languageName: node
   linkType: hard
 
