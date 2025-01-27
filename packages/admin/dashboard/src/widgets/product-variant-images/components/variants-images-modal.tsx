@@ -91,7 +91,9 @@ const VariantsImagesModal = ({
 
       const updateProductVariantRes =
         await sdk.admin.productVariantImages.updateProductVariant(variant.id, {
-          ...(type === "thumbnail" ? { thumbnail: selectedImages[0] } : {}),
+          ...(type === "thumbnail"
+            ? { thumbnail: selectedImages[0] ?? "" }
+            : {}),
           ...(type === "media" ? { images: selectedImages } : {}),
         })
 
