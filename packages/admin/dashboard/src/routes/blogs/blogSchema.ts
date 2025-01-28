@@ -128,9 +128,8 @@ export const blogSEOSchema = ({
     },
     metaImage: {
       label: "Meta Image",
-      fieldType: "image-upload",
+      fieldType: "file-upload",
       props: {
-        placeholder: "Upload a image (up to 10MB)",
         multiple: false,
       },
       validation: {},

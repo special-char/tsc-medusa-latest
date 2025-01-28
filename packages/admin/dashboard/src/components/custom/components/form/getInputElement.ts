@@ -1,7 +1,6 @@
 import { Input, Textarea, Checkbox } from "@medusajs/ui"
 import CustomMarkdownEdit from "./CustomMarkdownEdit"
 import CustomToggleButton from "./CustomToggleButton"
-import FileUploadField from "./FileUploadField"
 import CustomSelect from "./CustomSelect"
 import CustomColorField from "./CustomColorField"
 import ImageUpload from "./ImageUpload"
@@ -12,6 +11,7 @@ import CustomRichTextInput from "./CustomRichTextInput"
 import CustomMetaData from "./CustomMetaData"
 import NestedMultiSelect from "./CustomNestedMultiSelect"
 import SocialFieldArray from "../../../../routes/products/product-detail/components/product-seo/components/seo/SocialFieldArray"
+import FileUploadField from "../../../../routes/products/product-detail/components/product-seo/components/form/FileUploadField"
 
 type InputElementType = React.ComponentType<any>
 

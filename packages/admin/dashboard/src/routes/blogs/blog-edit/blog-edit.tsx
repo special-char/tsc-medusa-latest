@@ -30,7 +30,20 @@ export const BlogEdit = () => {
       metaTitle: state.seo_details?.metaTitle ?? "",
       metaDescription: state.seo_details?.metaDescription ?? "",
       metaImage: state.seo_details?.metaImage ?? "",
-      metaSocial: state.seo_details?.metaSocial || [],
+      metaSocial:
+        Array.isArray(state.seo_details?.metaSocial) &&
+        state.seo_details?.metaSocial?.length > 0
+          ? [
+              ...state.seo_details.metaSocial.map((item: any) => ({
+                ...item,
+                socialNetwork: item.socialNetwork || "Facebook",
+                title: item.title || "",
+                description: item.description || "",
+                image: item.image || "",
+              })),
+            ]
+          : undefined,
+      // metaSocial: state.seo_details?.metaSocial || [],
       keywords: state.seo_details?.keywords ?? "",
       metaRobots: state.seo_details?.metaRobots ?? "",
       structuredData: JSON.stringify(
@@ -91,16 +104,16 @@ export const BlogEdit = () => {
       console.log("====================================")
       if (toggle && updateBlogResponse) {
         if (state.seo_details) {
-          await sdk.admin.blogSeo.update({
-            id: updateBlogResponse.id,
-            seoId: state.seo_details.id,
-            body: updateSeoBlogData,
-          })
+          await sdk.admin.blogSeo.update(
+            updateBlogResponse.id,
+            state.seo_details.id,
+            updateSeoBlogData
+          )
         } else {
-          await sdk.admin.blogSeo.create({
-            id: updateBlogResponse.id,
-            body: updateSeoBlogData,
-          })
+          await sdk.admin.blogSeo.create(
+            updateBlogResponse.id,
+            updateSeoBlogData
+          )
         }
       }
       navigate("/blogs")

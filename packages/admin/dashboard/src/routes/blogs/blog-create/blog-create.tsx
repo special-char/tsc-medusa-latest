@@ -40,10 +40,7 @@ export const BlogCreate = () => {
         createBlogData
       )) as BlogProps
       if (toggle && createBlogResponse) {
-        await sdk.admin.blogSeo.create({
-          id: createBlogResponse.id,
-          body: createSeoBlogData,
-        })
+        await sdk.admin.blogSeo.create(createBlogResponse.id, createSeoBlogData)
       }
       navigate("/blogs")
       navigate(0)

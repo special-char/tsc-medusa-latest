@@ -20,11 +20,8 @@ export class BlogSeo {
     })
   }
 
-  async create({
-    id,
-    body,
-  }: {
-    id: string
+  async create(
+    id: string,
     body: {
       metaTitle: string
       metaDescription: string
@@ -33,32 +30,38 @@ export class BlogSeo {
       metaRobots: string
       structuredData: string
       canonicalURL: string
-      metaImage: { file: File | Blob }
+      metaImage: File | Blob
       metaSocial: {
         id?: string
         title: string | null
         description: string | null
         image?: string | null
-        socialNetwork: "Facebook" | "Twitter"
+        socialNetwork: "Facebook" | "Twitter" | "Instagram"
         seo_details_id?: string
       }
-    }
-  }) {
-    const formdata = new FormData()
-    formdata.append("metaTitle", body.metaTitle)
-    formdata.append("metaDescription", body.metaDescription)
-    formdata.append("metaImage", body.metaImage.file)
-    formdata.append("keywords", body.keywords)
-    formdata.append("metaRobots", body.metaRobots)
-    formdata.append("structuredData", body.structuredData)
-    formdata.append("metaViewport", body.metaViewport)
-    formdata.append("canonicalURL", body.canonicalURL)
+    },
+    headers?: ClientHeaders
+  ) {
+    console.log("body:::::::::::", body)
+
+    const formData = new FormData()
+
+    formData.append("metaTitle", body.metaTitle || "")
+    formData.append("metaDescription", body.metaDescription || "")
+    formData.append("keywords", body.keywords || "")
+    formData.append("metaViewport", body.metaViewport || "")
+    formData.append("metaRobots", body.metaRobots || "")
+    formData.append("structuredData", body.structuredData || "")
+    formData.append("canonicalURL", body.canonicalURL || "")
+
     if (
       body.metaSocial &&
       Array.isArray(body.metaSocial) &&
       body.metaSocial.length > 0
     ) {
-      formdata.append(
+      console.log({ body })
+
+      formData.append(
         "metaSocial",
         JSON.stringify(
           body.metaSocial.map((item: any, index: number) => ({
@@ -67,30 +70,49 @@ export class BlogSeo {
           }))
         )
       )
-      body.metaSocial.forEach((item: any) => {
+      body.metaSocial.forEach((item: any, index) => {
         if (item.image?.[0] && item.image?.[0] instanceof File) {
-          formdata.append("metaSocialImage", item.image?.[0])
+          formData.append(
+            "files",
+            item.image?.[0],
+            `${item.id ?? `new_item_${index}_newMetaSocial`}.metaSocial.image.${
+              item.image?.[0]?.name
+            }`
+          )
         }
       })
     }
-    console.log("createSeoData", formdata)
+    console.log({ formData })
+
+    if (typeof body.metaImage === "string" || !body.metaImage) {
+      console.log("deleted imagecanonical_URL", body.metaImage)
+      formData.append("metaImage", body.metaImage ?? null)
+    }
+
+    if (body.metaImage?.[0] && body.metaImage?.[0] instanceof File) {
+      formData.append("files", body.metaImage?.[0], body.metaImage?.[0]?.name)
+    }
+
+    console.log(
+      "formData:::::::::::;;;",
+      formData.get("metaTitle"),
+      formData.forEach((value) => {
+        console.log(value)
+      })
+    )
 
     return this.client.fetch<any>(`/admin/blog-seo/${id}`, {
       method: "POST",
       headers: {
         "content-type": null,
       },
-      body: formdata,
+      body: formData,
     })
   }
 
-  async update({
-    id,
-    seoId,
-    body,
-  }: {
-    id: string
-    seoId: string
+  async update(
+    id: string,
+    seoId: string,
     body: {
       metaTitle: string
       metaDescription: string
@@ -99,38 +121,34 @@ export class BlogSeo {
       metaRobots: string
       structuredData: string
       canonicalURL: string
-      metaImage: { file: File | Blob } | string
+      metaImage: File | Blob
       metaSocial: {
         id?: string
         title: string | null
         description: string | null
         image?: string | null
-        socialNetwork: "Facebook" | "Twitter"
+        socialNetwork: "Facebook" | "Twitter" | "Instagram"
         seo_details_id?: string
       }
-    }
-  }) {
-    console.log("====================================")
-    console.log("body", body)
-    console.log("====================================")
-    const formdata = new FormData()
-    formdata.append("metaTitle", body.metaTitle)
-    formdata.append("metaDescription", body.metaDescription)
-    formdata.append(
-      "metaImage",
-      typeof body.metaImage === "string" ? body.metaImage : body.metaImage.file
-    )
-    formdata.append("keywords", body.keywords)
-    formdata.append("metaRobots", body.metaRobots)
-    formdata.append("structuredData", body.structuredData)
-    formdata.append("metaViewport", body.metaViewport)
-    formdata.append("canonicalURL", body.canonicalURL)
+    },
+    headers?: ClientHeaders
+  ) {
+    const formData = new FormData()
+
+    formData.append("metaTitle", body.metaTitle || "")
+    formData.append("metaDescription", body.metaDescription || "")
+    formData.append("keywords", body.keywords || "")
+    formData.append("metaViewport", body.metaViewport || "")
+    formData.append("metaRobots", body.metaRobots || "")
+    formData.append("structuredData", body.structuredData || "")
+    formData.append("canonicalURL", body.canonicalURL || "")
+
     if (
       body.metaSocial &&
       Array.isArray(body.metaSocial) &&
       body.metaSocial.length > 0
     ) {
-      formdata.append(
+      formData.append(
         "metaSocial",
         JSON.stringify(
           body.metaSocial.map((item: any, index: number) => ({
@@ -139,23 +157,34 @@ export class BlogSeo {
           }))
         )
       )
-      body.metaSocial.forEach((item: any) => {
-        if (typeof item.image === "string") {
-          formdata.append("metaSocialImage", item.image)
-        } else {
-          if (item.image?.[0] && item.image?.[0] instanceof File) {
-            formdata.append("metaSocialImage", item.image?.[0])
-          }
+      body.metaSocial.forEach((item: any, index) => {
+        if (item.image?.[0] && item.image?.[0] instanceof File) {
+          formData.append(
+            "files",
+            item.image?.[0],
+            `${item.id ?? `new_item_${index}_newMetaSocial`}.metaSocial.image.${
+              item.image?.[0]?.name
+            }`
+          )
         }
       })
     }
-    console.log("updateSeoData", formdata)
+
+    if (typeof body.metaImage === "string" || !body.metaImage) {
+      console.log("deleted imagecanonical_URL", body.metaImage)
+      formData.append("metaImage", body.metaImage ?? null)
+    }
+
+    if (body.metaImage?.[0] && body.metaImage?.[0] instanceof File) {
+      formData.append("files", body.metaImage?.[0], body.metaImage?.[0]?.name)
+    }
+
     return this.client.fetch<any>(`/admin/blog-seo/${id}/${seoId}`, {
       method: "PUT",
       headers: {
         "content-type": null,
       },
-      body: formdata,
+      body: formData,
     })
   }
 }
