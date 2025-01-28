@@ -22,6 +22,7 @@ export const BlogEdit = () => {
     defaultValues: {
       title: state.title,
       subtitle: state.subtitle,
+      image: state.image,
       handle: state.handle,
       content: state.content,
       categories:
@@ -79,6 +80,7 @@ export const BlogEdit = () => {
       const updateBlogData = {
         title: data.title,
         subtitle: data.subtitle,
+        image: data.image,
         handle: data.handle,
         content: data.content,
         categories: data.categories,
@@ -126,19 +128,6 @@ export const BlogEdit = () => {
         duration: 5000,
       })
       console.error(`failed to Update blog : ${error.message}`)
-    }
-    try {
-      const response = await sdk.admin.blog.update(id!, data)
-      if (response) {
-        navigate("/blogs")
-        navigate(0)
-      }
-    } catch (error: any) {
-      toast.error("Failed to Update Blog", {
-        description: error.message,
-        duration: 5000,
-      })
-      console.error("Error updating blog:", error.message)
     }
   }
 

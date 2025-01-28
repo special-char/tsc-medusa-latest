@@ -21,6 +21,7 @@ export const BlogCreate = () => {
       const createBlogData = {
         title: data.title,
         subtitle: data.subtitle,
+        image: data.image,
         handle: data.handle,
         content: data.content,
         categories: data.categories,
@@ -36,6 +37,7 @@ export const BlogCreate = () => {
         metaImage: data.metaImage,
         metaSocial: data.metaSocial,
       }
+
       const createBlogResponse = (await sdk.admin.blog.create(
         createBlogData
       )) as BlogProps
@@ -56,6 +58,7 @@ export const BlogCreate = () => {
     defaultValues: {
       title: "",
       subtitle: "",
+      image: "",
       handle: "",
       content: "",
       categories: [],

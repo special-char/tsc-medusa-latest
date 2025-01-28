@@ -49,6 +49,14 @@ export const blogSchema = async () => {
         },
       },
     },
+    image: {
+      label: "Blog Image",
+      fieldType: "file-upload",
+      props: {
+        multiple: false,
+      },
+      validation: {},
+    },
     handle: {
       label: "Blog Handle",
       fieldType: "input",
