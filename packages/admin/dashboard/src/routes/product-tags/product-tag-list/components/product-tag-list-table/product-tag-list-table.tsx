@@ -25,45 +25,31 @@ export const ProductTagListTable = () => {
   const { searchParams, raw } = useProductTagTableQuery({
     pageSize: PAGE_SIZE,
   })
-  const offset = searchParams.offset
-  delete searchParams.limit
-  delete searchParams.offset
+  const salesChannelIds = getSalesChannelIds()
   const initialData = useLoaderData() as Awaited<
     ReturnType<typeof productTagListLoader>
   >
-  const salesChannelIds = getSalesChannelIds()
-
-  const {
-    product_tags: allTags,
-    count,
-    isError,
-    error,
-    isPending,
-  } = useProductTags(
+  const { product_tags, count, isPending, isError, error } = useProductTags(
     {
       ...searchParams,
-      fields: "*sales_channel.id",
-      limit: Number.MAX_SAFE_INTEGER,
-      offset: 0,
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length != 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
     },
     {
+      initialData,
       placeholderData: keepPreviousData,
     }
   )
-  const filteredTags =
-    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
-      ? allTags?.filter((x: any) => x?.sales_channel?.id === salesChannelIds[0])
-      : allTags
-  const filteredCount = filteredTags?.length ?? 0
-  const startIndex = offset ?? 0
-  const endIndex = startIndex + PAGE_SIZE
-  const paginatedCollections = filteredTags?.slice(startIndex, endIndex)
+
   const columns = useColumns()
   const filters = useProductTagTableFilters()
 
   const { table } = useDataTable({
-    data: paginatedCollections,
-    count: filteredCount,
+    data: product_tags,
+    count,
     columns,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
@@ -88,7 +74,7 @@ export const ProductTagListTable = () => {
         isLoading={isPending}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={filteredCount}
+        count={count}
         navigateTo={(row) => row.original.id}
         search
         pagination

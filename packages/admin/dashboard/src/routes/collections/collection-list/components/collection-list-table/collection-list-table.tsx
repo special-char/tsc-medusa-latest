@@ -19,56 +19,30 @@ const PAGE_SIZE = 20
 
 export const CollectionListTable = () => {
   const { t } = useTranslation()
-  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCollectionTableQuery({ pageSize: PAGE_SIZE })
-
-  // Get all collections for filtering
-  const offset = searchParams.offset
-  delete searchParams.limit
-  delete searchParams.offset
-  const {
-    collections: allCollections,
-    count,
-    isError,
-    error,
-    isLoading,
-  } = useCollections(
+  const salesChannelIds = getSalesChannelIds()
+  const { collections, count, isError, error, isLoading } = useCollections(
     {
-      fields: "+products.id,*sales_channel.id",
-      limit: Number.MAX_SAFE_INTEGER,
       ...searchParams,
+      fields: "+products.id",
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length != 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
     },
     {
       placeholderData: keepPreviousData,
     }
   )
 
-  // Filter all collections first
-  const filteredAllCollections =
-    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
-      ? allCollections?.filter(
-          (x: any) => x.sales_channel?.id === salesChannelIds[0]
-        )
-      : allCollections
-
-  // Calculate total filtered count
-  const filteredCount = filteredAllCollections?.length ?? 0
-
-  // Apply pagination to filtered results
-  const startIndex = offset ?? 0
-  const endIndex = startIndex + PAGE_SIZE
-  const paginatedCollections = filteredAllCollections?.slice(
-    startIndex,
-    endIndex
-  )
-
   const filters = useCollectionTableFilters()
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: paginatedCollections ?? [],
+    data: collections ?? [],
     columns,
-    count: filteredCount,
+    count,
     enablePagination: true,
     getRowId: (row, index) => row.id ?? `${index}`,
     pageSize: PAGE_SIZE,
@@ -97,7 +71,7 @@ export const CollectionListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={filteredCount}
+        count={count}
         filters={filters}
         orderBy={[
           { key: "title", label: t("fields.title") },

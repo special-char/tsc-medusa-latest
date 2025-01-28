@@ -24,45 +24,27 @@ export const ProductTypeListTable = () => {
     pageSize: PAGE_SIZE,
   })
   const salesChannelIds = getSalesChannelIds()
-  const {
-    product_types: allTypes,
-    count: totalCount,
-    isLoading,
-    isError,
-    error,
-  } = useProductTypes(
+  const { product_types, count, isLoading, isError, error } = useProductTypes(
     {
       ...searchParams,
-      fields: "*sales_channel.id",
-      limit: Number.MAX_SAFE_INTEGER,
-      offset: 0,
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length != 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
     },
     {
       placeholderData: keepPreviousData,
     }
   )
 
-  // Filter current page data
-  const filteredTypes =
-    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
-      ? allTypes?.filter((x: any) => x.sales_channel?.id === salesChannelIds[0])
-      : allTypes
-
-  // Calculate total filtered count
-  const filteredCount = filteredTypes?.length ?? 0
-
-  // Apply pagination to filtered results
-  const startIndex = searchParams.offset ?? 0
-  const endIndex = startIndex + PAGE_SIZE
-  const paginatedTypes = filteredTypes?.slice(startIndex, endIndex)
-
   const filters = useProductTypeTableFilters()
   const columns = useColumns()
 
   const { table } = useDataTable({
     columns,
-    data: paginatedTypes ?? [],
-    count: filteredCount,
+    data: product_types,
+    count,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
   })
@@ -90,7 +72,7 @@ export const ProductTypeListTable = () => {
         isLoading={isLoading}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={filteredCount}
+        count={count}
         orderBy={[
           { key: "value", label: t("fields.value") },
           { key: "created_at", label: t("fields.createdAt") },

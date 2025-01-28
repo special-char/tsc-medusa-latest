@@ -17,13 +17,6 @@ import { SingleColumnPage } from "../../../../../components/layout/pages"
 import { useDashboardExtension } from "../../../../../extensions"
 import {
   useCustomerGroups,
-  useDeleteCustomerGroup,
-} from "../../../../../hooks/api/customer-groups"
-import { useCustomerGroupTableColumns } from "../../../../../hooks/table/columns/use-customer-group-table-columns"
-import { useCustomerGroupTableFilters } from "../../../../../hooks/table/filters/use-customer-group-table-filters"
-import { useCustomerGroupTableQuery } from "../../../../../hooks/table/query/use-customer-group-table-query"
-import { useDataTable } from "../../../../../hooks/use-data-table"
-import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
   useDeleteCustomerGroupLazy,
 } from "../../../../../hooks/api"
 import { useDate } from "../../../../../hooks/use-date"

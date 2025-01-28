@@ -26,53 +26,37 @@ export const CategoryListTable = () => {
   const query = raw.q
     ? {
         include_ancestors_tree: true,
-        fields:
-          "id,name,handle,is_active,is_internal,parent_category,*sales_channel.id",
+        fields: "id,name,handle,is_active,is_internal,parent_category",
         ...searchParams,
       }
     : {
         include_descendants_tree: true,
         parent_category_id: "null",
-        fields:
-          "id,name,category_children,handle,is_internal,is_active,*sales_channel.id",
+        fields: "id,name,category_children,handle,is_internal,is_active",
         ...searchParams,
       }
-  const offset = query.offset
 
-  const {
-    product_categories: allProductCategories,
-    count,
-    isLoading,
-    isError,
-    error,
-  } = useProductCategories({
-    ...query,
-    limit: Number.MAX_SAFE_INTEGER,
-    offset: 0,
-  })
-
-  // Filter all categories first
-  const filteredAllCategories =
-    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
-      ? allProductCategories?.filter(
-          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
-        )
-      : allProductCategories
-
-  // Calculate total filtered count
-  const filteredCount = filteredAllCategories?.length ?? 0
-
-  // Apply pagination to filtered results
-  const startIndex = offset ?? 0
-  const endIndex = startIndex + PAGE_SIZE
-  const paginatedCategories = filteredAllCategories?.slice(startIndex, endIndex)
+  const { product_categories, count, isLoading, isError, error } =
+    useProductCategories(
+      {
+        ...query,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      },
+      {
+        placeholderData: keepPreviousData,
+      }
+    )
 
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: paginatedCategories ?? [],
+    data: product_categories || [],
     columns,
-    count: filteredCount,
+    count,
     getRowId: (original) => original.id,
     getSubRows: (original) => original.category_children,
     enableExpandableRows: true,
@@ -80,7 +64,7 @@ export const CategoryListTable = () => {
   })
 
   const showRankingAction =
-    !!paginatedCategories && paginatedCategories.length > 0
+    !!product_categories && product_categories.length > 0
 
   if (isError) {
     throw error
@@ -109,7 +93,7 @@ export const CategoryListTable = () => {
       <_DataTable
         table={table}
         columns={columns}
-        count={filteredCount}
+        count={count}
         pageSize={PAGE_SIZE}
         isLoading={isLoading}
         navigateTo={(row) => row.id}

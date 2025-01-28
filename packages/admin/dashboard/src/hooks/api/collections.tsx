@@ -50,7 +50,7 @@ export const useCollections = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: collectionsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.productCollection.list(query),
+    queryFn: async () => sdk.vendor.productCollection.list(query),
     ...options,
   })
 
