@@ -1,3 +1,4 @@
+import { HttpTypes } from "@medusajs/types"
 import { Client } from "../client"
 import { ClientHeaders } from "../types"
 
@@ -19,10 +20,14 @@ export class Redemption {
       headers,
     })
   }
-  async retrieveHistories(headers?: ClientHeaders) {
+  async retrieveHistories(
+    queryParams?: HttpTypes.AdminOrderFilters,
+    headers?: ClientHeaders
+  ) {
     return this.client.fetch<any>(`/admin/redemption/history`, {
       method: "GET",
       headers,
+      query: queryParams,
     })
   }
   async retrieve(redemptionId: string, headers?: ClientHeaders) {
