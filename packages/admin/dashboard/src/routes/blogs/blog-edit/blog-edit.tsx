@@ -53,12 +53,14 @@ export const BlogEdit = () => {
       canonicalURL: state.seo_details?.canonicalURL ?? "",
     },
   })
-
   useEffect(() => {
     const loadSchema = async () => {
       try {
         const schemaData = await blogSchema()
-        const schemaSeoData = blogSEOSchema({ form, blogSeo: state })
+        const schemaSeoData = blogSEOSchema({
+          form,
+          blogSeo: state?.seo_details || {},
+        })
         setSchema(schemaData)
         setSeoSchema(schemaSeoData)
       } catch (error) {
@@ -181,7 +183,36 @@ export const BlogEdit = () => {
                     </Accordion.Trigger>
                   </Accordion.Header>
                   <Accordion.Content className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden py-5 pl-[88px] pr-6">
-                    <GenerateFormFields form={form} schema={seoSchema} />
+                    <div className="flex flex-col gap-4 ">
+                      <GenerateFormFields form={form} schema={seoSchema} />
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        disabled={
+                          form.formState.isLoading ||
+                          form.formState.isSubmitting
+                        }
+                        onClick={() => {
+                          const metaSocial = form.getValues("metaSocial")
+                          form.reset({
+                            metaTitle: " ",
+                            metaDescription: " ",
+                            metaImage: null,
+                            metaSocial: metaSocial.map((item: any) => ({
+                              ...item,
+                              isDeleted: true,
+                            })),
+                            keywords: " ",
+                            metaRobots: " ",
+                            structuredData: JSON.stringify({}),
+                            metaViewport: " ",
+                            canonicalURL: " ",
+                          })
+                        }}
+                      >
+                        Reset Seo Form
+                      </Button>
+                    </div>
                   </Accordion.Content>
                 </Accordion.Item>
               </Accordion.Root>
