@@ -1,30 +1,19 @@
-import { FieldValues, UseFormReturn } from "react-hook-form"
-import { memo } from "react"
-import { Button } from "@medusajs/ui"
-import GenerateFormFields from "./GenerateFormFields"
+import { Controller, FieldValues, UseFormReturn } from "react-hook-form"
+import React from "react"
+import getInputElement from "../getInputElement"
+import { Input, Label, clx } from "@medusajs/ui"
+import ErrorMessage from "./ErrorMessage"
 
-export type SchemaField = {
-  label?: string
-  fieldType: string
-  props?: any
-  validation: Record<string, any>
-}
-
-type Props = {
+const GenerateFormFields = ({
+  schema,
+  form,
+}: {
   form: UseFormReturn<FieldValues, any, undefined>
-  onSubmit: (data: FieldValues) => void
-  onReset?: () => void
-  schema: Record<string, SchemaField>
-  isPending: boolean
-}
-
-const DynamicForm = ({ form, onSubmit, onReset, schema, isPending }: Props) => {
+  schema: Record<string, any>
+}) => {
   return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="flex w-full flex-col gap-y-3"
-    >
-      {/* {Object.entries(schema).map(([key, fields]) => {
+    <>
+      {Object.entries(schema).map(([key, fields]) => {
         return (
           <Controller
             key={key}
@@ -62,25 +51,9 @@ const DynamicForm = ({ form, onSubmit, onReset, schema, isPending }: Props) => {
             }}
           />
         )
-      })} */}
-      <GenerateFormFields form={form} schema={schema} />
-      <div className="flex items-center gap-4">
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Submitting..." : "Submit"}
-        </Button>
-        {onReset && (
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={isPending}
-            onClick={onReset}
-          >
-            Reset
-          </Button>
-        )}
-      </div>
-    </form>
+      })}
+    </>
   )
 }
 
-export default memo(DynamicForm)
+export default GenerateFormFields

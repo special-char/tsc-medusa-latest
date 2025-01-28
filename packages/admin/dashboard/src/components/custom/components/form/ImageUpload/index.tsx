@@ -25,7 +25,11 @@ const ImageComponent = ({
       key={image.id}
       className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]"
     >
-      <img src={image.url} alt="thumbnail" className="size-full object-cover" />
+      <img
+        src={typeof image === "string" ? image : image.url}
+        alt="thumbnail"
+        className="size-full object-cover"
+      />
       <button
         onClick={() => removeImage(image.id)}
         type="button"

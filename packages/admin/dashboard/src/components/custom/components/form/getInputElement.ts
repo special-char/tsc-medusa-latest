@@ -11,6 +11,7 @@ import CustomCombobox from "./CustomCombobox"
 import CustomRichTextInput from "./CustomRichTextInput"
 import CustomMetaData from "./CustomMetaData"
 import NestedMultiSelect from "./CustomNestedMultiSelect"
+import SocialFieldArray from "../../../../routes/products/product-detail/components/product-seo/components/seo/SocialFieldArray"
 
 type InputElementType = React.ComponentType<any>
 
@@ -36,16 +37,18 @@ const getInputElement = (type: string): InputElementType => {
       return CustomToggleButton
     case "file-upload":
       return FileUploadField
-    case "image-upload":
-      return ImageUpload
     case "select":
       return CustomSelect
+    case "image-upload":
+      return ImageUpload
     case "color-picker":
       return CustomColorField
     case "add-denomination":
       return AddDenomination
     case "SalesChannel":
       return SelectSalesChannel
+    case "socialfieldArray":
+      return SocialFieldArray
     default:
       return Input
   }
