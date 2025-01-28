@@ -21,6 +21,7 @@ async function build() {
       storefrontUrl: process.env.MEDUSA_STOREFRONT_URL,
       sources,
       outDir,
+      vite: undefined,
     })
 
     // const adminRoute = await bundler.serve({
@@ -35,6 +36,8 @@ async function build() {
   } catch (error) {
     console.log(error)
   }
+
+  return true
 }
 
 build()
