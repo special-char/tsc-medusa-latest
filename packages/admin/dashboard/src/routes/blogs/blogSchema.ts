@@ -51,7 +51,7 @@ export const blogSchema = async () => {
     },
     image: {
       label: "Blog Image",
-      fieldType: "file-upload",
+      fieldType: "seo-file-upload",
       props: {
         multiple: false,
       },
@@ -136,7 +136,7 @@ export const blogSEOSchema = ({
     },
     metaImage: {
       label: "Meta Image",
-      fieldType: "file-upload",
+      fieldType: "seo-file-upload",
       props: {
         multiple: false,
       },

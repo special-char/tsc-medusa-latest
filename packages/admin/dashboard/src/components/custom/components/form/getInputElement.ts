@@ -11,8 +11,8 @@ import CustomRichTextInput from "./CustomRichTextInput"
 import CustomMetaData from "./CustomMetaData"
 import NestedMultiSelect from "./CustomNestedMultiSelect"
 import SocialFieldArray from "../../../../routes/products/product-detail/components/product-seo/components/seo/SocialFieldArray"
-import FileUploadField from "../../../../routes/products/product-detail/components/product-seo/components/form/FileUploadField"
-
+import SeoFileUploadField from "../../../../routes/products/product-detail/components/product-seo/components/form/FileUploadField"
+import FileUploadField from "./FileUploadField"
 type InputElementType = React.ComponentType<any>
 
 const getInputElement = (type: string): InputElementType => {
@@ -49,6 +49,8 @@ const getInputElement = (type: string): InputElementType => {
       return SelectSalesChannel
     case "socialfieldArray":
       return SocialFieldArray
+    case "seo-file-upload":
+      return SeoFileUploadField
     default:
       return Input
   }
