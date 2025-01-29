@@ -36,7 +36,7 @@ export const useInventoryItems = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.inventoryItem.list(query),
+    queryFn: () => sdk.vendor.inventoryItem.list(query),
     queryKey: inventoryItemsQueryKeys.list(query),
     ...options,
   })

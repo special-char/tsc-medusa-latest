@@ -11,6 +11,7 @@ import { DEFAULT_FIELDS } from "../../orders/order-list/const"
 import { _DataTable } from "../../../components/table/data-table"
 import { useTranslation } from "react-i18next"
 import { useMemo } from "react"
+import { getSalesChannelIds } from "../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -18,11 +19,16 @@ export const BulkbuyComponent = () => {
   const { searchParams, raw } = useOrderTableQuery({
     pageSize: PAGE_SIZE,
   })
-
+  const salesChannelIds = getSalesChannelIds()
   const { orders, count, isError, error, isLoading } = useOrders(
     {
       fields: DEFAULT_FIELDS,
       ...searchParams,
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length !== 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
     },
     {
       placeholderData: keepPreviousData,

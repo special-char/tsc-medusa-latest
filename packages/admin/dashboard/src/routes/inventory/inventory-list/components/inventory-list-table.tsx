@@ -25,56 +25,29 @@ export const InventoryListTable = () => {
   const { searchParams, raw } = useInventoryTableQuery({
     pageSize: PAGE_SIZE,
   })
+  const salesChannelIds = getSalesChannelIds()
 
   const {
-    inventory_items: allItems,
-    isPending: isLoadingAll,
-    isError: isErrorAll,
-    error: errorAll,
+    inventory_items,
+    count,
+    isPending: isLoading,
+    isError,
+    error,
   } = useInventoryItems({
+    ...searchParams,
     fields: "*variants.product.sales_channels",
-    limit: Number.MAX_SAFE_INTEGER,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { sales_channel_id: salesChannelIds[0] }
+      : {}),
   })
 
-  const salesChannelIds = getSalesChannelIds()
   const filters = useInventoryTableFilters()
   const columns = useInventoryTableColumns()
 
-  // More robust filtering logic
-  const filteredItems =
-    salesChannelIds.length === 0
-      ? allItems
-      : allItems?.filter((item: any) => {
-          // Check if variants exist
-          if (!item?.variants || !Array.isArray(item.variants)) {
-            return false
-          }
-
-          // Check if any variant matches the sales channel criteria
-          return item.variants.some((variant: any) => {
-            if (!variant?.product?.sales_channels) {
-              return false
-            }
-            return variant.product.sales_channels.some((channel: any) =>
-              salesChannelIds.includes(channel.id)
-            )
-          })
-        })
-
-  const filteredCount = filteredItems?.length ?? 0
-
-  // Ensure pagination values are valid numbers
-  const offset = Math.max(0, searchParams.offset ?? 0)
-  const startIndex = offset
-  const endIndex = startIndex + PAGE_SIZE
-  const paginatedItems = filteredItems?.slice(startIndex, endIndex)
-
   const { table } = useDataTable({
-    data:
-      (paginatedItems as InventoryTypes.InventoryItemDTO[]) ??
-      ([] as InventoryTypes.InventoryItemDTO[]),
+    data: (inventory_items ?? []) as InventoryTypes.InventoryItemDTO[],
     columns,
-    count: filteredCount,
+    count,
     enablePagination: true,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
@@ -85,8 +58,8 @@ export const InventoryListTable = () => {
     },
   })
 
-  if (isErrorAll) {
-    throw errorAll
+  if (isError) {
+    throw error
   }
 
   return (
@@ -106,8 +79,8 @@ export const InventoryListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={filteredCount}
-        isLoading={isLoadingAll}
+        count={count}
+        isLoading={isLoading}
         pagination
         search
         filters={filters}
