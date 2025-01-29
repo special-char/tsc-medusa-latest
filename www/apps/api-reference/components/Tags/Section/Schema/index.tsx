@@ -30,10 +30,8 @@ export type TagSectionSchemaProps = {
 }
 
 const TagSectionSchema = ({ schema, tagName }: TagSectionSchemaProps) => {
-  const paramsRef = useRef<HTMLDivElement>(null)
   const { addItems, setActivePath, activePath } = useSidebar()
   const { displayedArea } = useArea()
-  const tagSlugName = useMemo(() => getSectionId([tagName]), [tagName])
   const formattedName = useMemo(
     () => singular(tagName).replaceAll(" ", ""),
     [tagName]
@@ -73,8 +71,9 @@ const TagSectionSchema = ({ schema, tagName }: TagSectionSchemaProps) => {
       {
         section: SidebarItemSections.DEFAULT,
         parent: {
+          type: "category",
           title: tagName,
-          path: tagSlugName,
+          path: "",
           changeLoaded: true,
         },
         indexPosition: 0,
@@ -128,7 +127,7 @@ const TagSectionSchema = ({ schema, tagName }: TagSectionSchemaProps) => {
         root={root}
         threshold={0.1}
       >
-        <SectionContainer ref={paramsRef}>
+        <SectionContainer>
           <DividedLayout
             mainContent={
               <div>
