@@ -15,6 +15,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@medusajs/admin-bundler": "workspace:^",
     "dotenv": "^16.4.7"
   }
 }
