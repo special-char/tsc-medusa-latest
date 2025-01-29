@@ -56,6 +56,7 @@ import { GiftTemplate } from "./gift-template"
 import { BulkOrder } from "./bulkorder"
 import { ProductSeo } from "./product-seo"
 import { ProductOptionValue } from "./product-option-value"
+import { CategorySeo } from "./category-seo"
 
 export class Admin {
   /**
@@ -70,6 +71,10 @@ export class Admin {
    * @tags productSeo
    */
   public productSeo: ProductSeo
+  /**
+   * @tags categorySeo
+   */
+  public categorySeo: CategorySeo
   /**
    * @tags redemption
    */
@@ -294,6 +299,7 @@ export class Admin {
 
   constructor(client: Client) {
     this.faq = new Faq(client)
+    this.categorySeo = new CategorySeo(client)
     this.productSeo = new ProductSeo(client)
     this.orderResendMail = new OrderResendMail(client)
     this.blog = new Blog(client)
