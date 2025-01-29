@@ -6,6 +6,7 @@ type BlogType = {
   handle: string
   image?: string
   content: string
+  categories?: string[]
 }
 
 type BlogProps = {
@@ -19,6 +20,9 @@ type BlogProps = {
   created_at: Date
   updated_at: Date
   deleted_at: Date | null
+  product_categories: {
+    id: string
+  }[]
 }
 
 type UPDATE_BLOG_TYPE = {
@@ -27,6 +31,7 @@ type UPDATE_BLOG_TYPE = {
   handle?: string
   image?: string
   content?: string
+  categories?: string[]
 }
 
 export class Blog {

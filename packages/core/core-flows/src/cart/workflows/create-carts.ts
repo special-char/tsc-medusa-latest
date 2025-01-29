@@ -35,21 +35,23 @@ import { confirmVariantInventoryWorkflow } from "./confirm-variant-inventory"
 import { refreshPaymentCollectionForCartWorkflow } from "./refresh-payment-collection"
 import { updateCartPromotionsWorkflow } from "./update-cart-promotions"
 import { updateTaxLinesWorkflow } from "./update-tax-lines"
+import { validateSalesChannelStep } from "../steps/validate-sales-channel"
 
 /**
- * The data to create the cart, along with custom data that's later passed to the cart's hooks.
+ * The data to create the cart, along with custom data that's passed to the workflow's hooks.
  */
-export type CreateCartWorkflowInput = CreateCartWorkflowInputDTO & AdditionalData
+export type CreateCartWorkflowInput = CreateCartWorkflowInputDTO &
+  AdditionalData
 
 export const createCartWorkflowId = "create-cart"
 /**
- * This workflow creates and returns a cart. You can set the cart's items, region, customer, and other details. This workflow is executed by the 
+ * This workflow creates and returns a cart. You can set the cart's items, region, customer, and other details. This workflow is executed by the
  * [Create Cart Store API Route](https://docs.medusajs.com/api/store#carts_postcarts).
- * 
+ *
  * This workflow has a hook that allows you to perform custom actions on the created cart. You can see an example in [this guide](https://docs.medusajs.com/resources/commerce-modules/cart/extend#step-4-consume-cartcreated-workflow-hook).
- * 
- * You can also use this workflow within your own custom workflows, allowing you to wrap custom logic around cart creation.
- * 
+ *
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around cart creation.
+ *
  * @example
  * const { result } = await createCartWorkflow(container)
  *   .run({
@@ -61,13 +63,19 @@ export const createCartWorkflowId = "create-cart"
  *           quantity: 1,
  *         }
  *       ],
- *       customer_id: "cus_123"
+ *       customer_id: "cus_123",
+ *       additional_data: {
+ *         external_id: "123"
+ *       }
  *     }
  *   })
- * 
+ *
  * @summary
- * 
+ *
  * Create a cart specifying region, items, and more.
+ *
+ * @property hooks.validate - This hook is executed before all operations. You can consume this hook to perform any custom validation. If validation fails, you can throw an error to stop the workflow execution.
+ * @property hooks.cartCreated - This hook is executed after a cart is created. You can consume this hook to perform custom actions on the created cart.
  */
 export const createCartWorkflow = createWorkflow(
   createCartWorkflowId,
@@ -88,6 +96,8 @@ export const createCartWorkflow = createWorkflow(
         email: input.email,
       })
     )
+
+    validateSalesChannelStep({ salesChannel })
 
     // TODO: This is on par with the context used in v1.*, but we can be more flexible.
     const pricingContext = transform(
@@ -148,9 +158,7 @@ export const createCartWorkflow = createWorkflow(
           data_.email = data.input?.email ?? data.customerData.customer.email
         }
 
-        if (data.salesChannel?.id) {
-          data_.sales_channel_id = data.salesChannel.id
-        }
+        data_.sales_channel_id = data.salesChannel!.id
 
         // If there is only one country in the region, we prepare a shipping address with that country's code.
         if (
@@ -201,6 +209,11 @@ export const createCartWorkflow = createWorkflow(
       }
     })
 
+    const validate = createHook("validate", {
+      input: cartInput,
+      cart: cartToCreate,
+    })
+
     const carts = createCartsStep([cartToCreate])
     const cart = transform({ carts }, (data) => data.carts?.[0])
 
@@ -229,17 +242,13 @@ export const createCartWorkflow = createWorkflow(
       })
     )
 
-    /**
-     * This hook is executed after a cart is created. You can consume this hook to perform
-     * custom actions on the created cart.
-     */
     const cartCreated = createHook("cartCreated", {
       cart,
       additional_data: input.additional_data,
     })
 
     return new WorkflowResponse(cart, {
-      hooks: [cartCreated],
+      hooks: [validate, cartCreated],
     })
   }
 )

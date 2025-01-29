@@ -27,21 +27,59 @@ import {
 } from "../../common"
 import { upsertVariantPricesWorkflow } from "./upsert-variant-prices"
 
+/**
+ * Update products that match a specified selector, along with custom data that's passed to the workflow's hooks.
+ */
 export type UpdateProductsWorkflowInputSelector = {
+  /**
+   * The filters to find products to update.
+   */
   selector: ProductTypes.FilterableProductProps
+  /**
+   * The data to update the products with.
+   */
   update: Omit<ProductTypes.UpdateProductDTO, "variants"> & {
+    /**
+     * The sales channels that the products are available in.
+     */
     sales_channels?: { id: string }[]
+    /**
+     * The variants to update.
+     */
     variants?: UpdateProductVariantWorkflowInputDTO[]
+    /**
+     * The shipping profile to set.
+     */
+    shipping_profile_id?: string
   }
 } & AdditionalData
 
+/**
+ * Update one or more products, along with custom data that's passed to the workflow's hooks.
+ */
 export type UpdateProductsWorkflowInputProducts = {
+  /**
+   * The products to update.
+   */
   products: (Omit<ProductTypes.UpsertProductDTO, "variants"> & {
+    /**
+     * The sales channels that the products are available in.
+     */
     sales_channels?: { id: string }[]
+    /**
+     * The variants to update.
+     */
     variants?: UpdateProductVariantWorkflowInputDTO[]
+    /**
+     * The shipping profile to set.
+     */
+    shipping_profile_id?: string
   })[]
 } & AdditionalData
 
+/**
+ * The data to update one or more products, along with custom data that's passed to the workflow's hooks.
+ */
 export type UpdateProductWorkflowInput =
   | UpdateProductsWorkflowInputSelector
   | UpdateProductsWorkflowInputProducts
@@ -60,6 +98,7 @@ function prepareUpdateProductInput({
       products: input.products.map((p) => ({
         ...p,
         sales_channels: undefined,
+        shipping_profile_id: undefined,
         variants: p.variants?.map((v) => ({
           ...v,
           prices: undefined,
@@ -73,6 +112,7 @@ function prepareUpdateProductInput({
     update: {
       ...input.update,
       sales_channels: undefined,
+      shipping_profile_id: undefined,
       variants: input.update?.variants?.map((v) => ({
         ...v,
         prices: undefined,
@@ -138,6 +178,44 @@ function prepareSalesChannelLinks({
         },
       }))
     )
+  }
+
+  return []
+}
+
+function prepareShippingProfileLinks({
+  input,
+  updatedProducts,
+}: {
+  updatedProducts: ProductTypes.ProductDTO[]
+  input: UpdateProductWorkflowInput
+}): Record<string, Record<string, any>>[] {
+  if ("products" in input) {
+    if (!input.products.length) {
+      return []
+    }
+
+    return input.products
+      .filter((p) => p.shipping_profile_id)
+      .map((p) => ({
+        [Modules.PRODUCT]: {
+          product_id: p.id,
+        },
+        [Modules.FULFILLMENT]: {
+          shipping_profile_id: p.shipping_profile_id,
+        },
+      }))
+  }
+
+  if (input.selector && input.update?.shipping_profile_id) {
+    return updatedProducts.map((p) => ({
+      [Modules.PRODUCT]: {
+        product_id: p.id,
+      },
+      [Modules.FULFILLMENT]: {
+        shipping_profile_id: input.update.shipping_profile_id,
+      },
+    }))
   }
 
   return []
@@ -213,9 +291,94 @@ function prepareToDeleteSalesChannelLinks({
   }))
 }
 
+function prepareToDeleteShippingProfileLinks({
+  currentShippingProfileLinks,
+}: {
+  currentShippingProfileLinks: {
+    product_id: string
+    shipping_profile_id: string
+  }[]
+}) {
+  if (!currentShippingProfileLinks.length) {
+    return []
+  }
+
+  return currentShippingProfileLinks.map(
+    ({ product_id, shipping_profile_id }) => ({
+      [Modules.PRODUCT]: {
+        product_id,
+      },
+      [Modules.FULFILLMENT]: {
+        shipping_profile_id,
+      },
+    })
+  )
+}
+
 export const updateProductsWorkflowId = "update-products"
 /**
- * This workflow updates one or more products.
+ * This workflow updates one or more products. It's used by the [Update Product Admin API Route](https://docs.medusajs.com/api/admin#products_postproductsid).
+ *
+ * This workflow has a hook that allows you to perform custom actions on the updated products. For example, you can pass under `additional_data` custom data that
+ * allows you to update custom data models linked to the products.
+ *
+ * You can also use this workflow within your customizations or your own custom workflows, allowing you to wrap custom logic around product update.
+ *
+ * @example
+ * To update products by their IDs:
+ *
+ * ```ts
+ * const { result } = await updateProductsWorkflow(container)
+ * .run({
+ *   input: {
+ *     products: [
+ *       {
+ *         id: "prod_123",
+ *         title: "Shirts"
+ *       },
+ *       {
+ *         id: "prod_321",
+ *         variants: [
+ *           {
+ *             id: "variant_123",
+ *             options: {
+ *               Size: "S"
+ *             }
+ *           }
+ *         ]
+ *       }
+ *     ],
+ *     additional_data: {
+ *       erp_id: "erp_123"
+ *     }
+ *   }
+ * })
+ * ```
+ *
+ * You can also update products by a selector:
+ *
+ * ```ts
+ * const { result } = await updateProductsWorkflow(container)
+ * .run({
+ *   input: {
+ *     selector: {
+ *       type_id: ["ptyp_123"]
+ *     },
+ *     update: {
+ *       description: "This is a shirt product"
+ *     },
+ *     additional_data: {
+ *       erp_id: "erp_123"
+ *     }
+ *   }
+ * })
+ * ```
+ *
+ * @summary
+ *
+ * Update one or more products with options and variants.
+ *
+ * @property hooks.productsUpdated - This hook is executed after the products are updated. You can consume this hook to perform custom actions on the updated products.
  */
 export const updateProductsWorkflow = createWorkflow(
   updateProductsWorkflowId,
@@ -254,9 +417,18 @@ export const updateProductsWorkflow = createWorkflow(
     const toUpdateInput = transform({ input }, prepareUpdateProductInput)
     const updatedProducts = updateProductsStep(toUpdateInput)
 
+    const updatedPorductIds = transform({ updatedProducts }, (data) => {
+      return data.updatedProducts.map((p) => p.id)
+    })
+
     const salesChannelLinks = transform(
       { input, updatedProducts },
       prepareSalesChannelLinks
+    )
+
+    const shippingProfileLinks = transform(
+      { input, updatedProducts },
+      prepareShippingProfileLinks
     )
 
     const variantPrices = transform(
@@ -275,16 +447,33 @@ export const updateProductsWorkflow = createWorkflow(
       variables: { filters: { product_id: productsWithSalesChannels } },
     }).config({ name: "get-current-sales-channel-links-step" })
 
+    const currentShippingProfileLinks = useRemoteQueryStep({
+      entry_point: "product_shipping_profile",
+      fields: ["product_id", "shipping_profile_id"],
+      variables: { filters: { product_id: updatedPorductIds } },
+    }).config({ name: "get-current-shipping-profile-links-step" })
+
     const toDeleteSalesChannelLinks = transform(
       { currentSalesChannelLinks },
       prepareToDeleteSalesChannelLinks
+    )
+
+    const toDeleteShippingProfileLinks = transform(
+      { currentShippingProfileLinks },
+      prepareToDeleteShippingProfileLinks
     )
 
     upsertVariantPricesWorkflow.runAsStep({
       input: { variantPrices, previousVariantIds },
     })
 
-    dismissRemoteLinkStep(toDeleteSalesChannelLinks)
+    dismissRemoteLinkStep(toDeleteSalesChannelLinks).config({
+      name: "delete-sales-channel-links-step",
+    })
+
+    dismissRemoteLinkStep(toDeleteShippingProfileLinks).config({
+      name: "delete-shipping-profile-links-step",
+    })
 
     const productIdEvents = transform(
       { updatedProducts },
@@ -296,7 +485,12 @@ export const updateProductsWorkflow = createWorkflow(
     )
 
     parallelize(
-      createRemoteLinkStep(salesChannelLinks),
+      createRemoteLinkStep(salesChannelLinks).config({
+        name: "create-sales-channel-links-step",
+      }),
+      createRemoteLinkStep(shippingProfileLinks).config({
+        name: "create-shipping-profile-links-step",
+      }),
       emitEventStep({
         eventName: ProductWorkflowEvents.UPDATED,
         data: productIdEvents,

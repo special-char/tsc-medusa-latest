@@ -4,7 +4,7 @@ import { ClientHeaders } from "../types"
 
 type UpdateProductType = {
   images?: string[] | undefined
-  thumbnail?: string | undefined
+  thumbnail?: string | undefined | null
 }
 
 export class ProductVariantImages {
@@ -25,6 +25,8 @@ export class ProductVariantImages {
     query?: SelectParams,
     headers?: ClientHeaders
   ) {
+    console.log({ updateProductVariantBody: body })
+
     return await this.client.fetch<{
       product_variant: HttpTypes.AdminProductVariant
     }>(`/admin/product-variant-images/product-variant/${variantId}`, {
