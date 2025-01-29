@@ -5834,7 +5834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/admin-bundler@workspace:packages/admin/admin-bundler, @medusajs/admin-bundler@~2.4.0":
+"@medusajs/admin-bundler@workspace:^, @medusajs/admin-bundler@workspace:packages/admin/admin-bundler, @medusajs/admin-bundler@~2.4.0":
   version: 0.0.0-use.local
   resolution: "@medusajs/admin-bundler@workspace:packages/admin/admin-bundler"
   dependencies:
@@ -5865,6 +5865,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@medusajs/admin-deploy@workspace:packages/admin/admin-deploy"
   dependencies:
+    "@medusajs/admin-bundler": "workspace:^"
     dotenv: ^16.4.7
     ts-node: ^10.9.2
     typescript: ^5.7.3
