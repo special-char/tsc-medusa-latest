@@ -201,7 +201,7 @@ export const ProductCreateOrganizationSection = ({
               <Form.Item>
                 <div className="flex items-start justify-between gap-x-4">
                   <div>
-                    <Form.Label optional>
+                    <Form.Label>
                       {t("products.fields.sales_channels.label")}
                     </Form.Label>
                     <Form.Hint>
@@ -235,6 +235,7 @@ export const ProductCreateOrganizationSection = ({
                       </ChipGroup>
                     )}
                 </Form.Control>
+                <Form.ErrorMessage />
               </Form.Item>
             )
           }}

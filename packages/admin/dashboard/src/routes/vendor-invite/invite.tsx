@@ -12,6 +12,8 @@ import { Form } from "../../components/common/form"
 import AvatarBox from "../../components/common/logo-box/avatar-box"
 import { useVendorSignUpWithToken } from "../../hooks/api/auth"
 import { isFetchError } from "../../lib/is-fetch-error"
+import { useRegionsVendor } from "../../hooks/api"
+import { Combobox } from "../../components/inputs/combobox/combobox"
 
 const CreateAccountSchema = z
   .object({
@@ -20,6 +22,7 @@ const CreateAccountSchema = z
     last_name: z.string().min(1),
     password: z.string().min(1),
     repeat_password: z.string().min(1),
+    regions: z.array(z.string()).min(1, "At least one region must be selected"),
   })
   .superRefine(({ password, repeat_password }, ctx) => {
     if (password !== repeat_password) {
@@ -38,6 +41,8 @@ type DecodedInvite = {
   exp: string
   iat: number
   email: string
+  first_name: string
+  last_name: string
 }
 
 export const Invite = () => {
@@ -173,17 +178,17 @@ const CreateView = ({
 }) => {
   const { t } = useTranslation()
   const [invalid, setInvalid] = useState(false)
-
+  const { regions } = useRegionsVendor()
   const [params] = useSearchParams()
 
   const form = useForm<z.infer<typeof CreateAccountSchema>>({
     resolver: zodResolver(CreateAccountSchema),
     defaultValues: {
       email: invite.email || "",
-      first_name: "",
-      last_name: "",
+      first_name: invite.first_name || "",
+      last_name: invite.last_name || "",
       password: "",
-      repeat_password: "",
+      regions: [],
     },
   })
 
@@ -198,15 +203,16 @@ const CreateView = ({
         last_name: data.last_name,
         password: data.password,
         invite_token: token,
+        regions: data.regions,
       })
       toast.success(t("invite.toast.accepted"))
 
       onSuccess()
     } catch (error) {
-      if (isFetchError(error) && error.status === 400) {
+      if (isFetchError(error)) {
         form.setError("root", {
           type: "manual",
-          message: t("invite.invalidInvite"),
+          message: error.message || t("invite.invalidInvite"),
         })
         setInvalid(true)
         return
@@ -226,6 +232,12 @@ const CreateView = ({
     form.formState.errors.repeat_password?.message ||
     form.formState.errors.first_name?.message ||
     form.formState.errors.last_name?.message
+
+  const regionOptions =
+    regions?.map((region) => ({
+      value: region.id,
+      label: region.name,
+    })) || []
 
   return (
     <div className="flex w-full flex-col items-center">
@@ -296,6 +308,25 @@ const CreateView = ({
             />
             <Form.Field
               control={form.control}
+              name="regions"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Control>
+                      <Combobox
+                        {...field}
+                        options={regionOptions}
+                        placeholder="Select a region"
+                        multiple={false}
+                      />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
               name="password"
               render={({ field }) => {
                 return (
@@ -332,6 +363,7 @@ const CreateView = ({
                 )
               }}
             />
+
             {validationError && (
               <div className="mt-6 text-center">
                 <Hint className="inline-flex" variant={"error"}>
@@ -390,15 +422,4 @@ const SuccessView = () => {
       </Link>
     </div>
   )
-}
-
-const InviteSchema = z.object({
-  id: z.string(),
-  jti: z.string(),
-  exp: z.number(),
-  iat: z.number(),
-})
-
-const validateDecodedInvite = (decoded: any): decoded is DecodedInvite => {
-  return InviteSchema.safeParse(decoded).success
 }

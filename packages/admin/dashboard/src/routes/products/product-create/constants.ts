@@ -75,7 +75,7 @@ export const ProductCreateSchema = z
           name: z.string(),
         })
       )
-      .optional(),
+      .min(1),
     origin_country: z.string().optional(),
     material: z.string().optional(),
     width: z.string().optional(),

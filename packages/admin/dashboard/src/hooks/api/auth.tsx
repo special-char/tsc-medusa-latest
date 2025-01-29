@@ -46,6 +46,7 @@ type inviteToken = {
   invite_token: string
   first_name: string
   last_name: string
+  regions: string[]
 }
 
 export const useVendorSignUpWithToken = (

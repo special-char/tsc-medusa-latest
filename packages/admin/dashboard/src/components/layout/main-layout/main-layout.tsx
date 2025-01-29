@@ -236,7 +236,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           },
         ]
       : []),
-    ...(dashboardConfig?.featureFlags?.vendors
+    ...(dashboardConfig?.featureFlags?.vendors && !vendor
       ? [
           {
             icon: <UsersSolid />,

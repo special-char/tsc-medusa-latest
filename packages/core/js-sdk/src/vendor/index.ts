@@ -5,6 +5,7 @@ import { InventoryItem } from "./inventory-item"
 import { ProductCategory } from "./product-category"
 import { ProductTags } from "./product-tag"
 import { ProductTypes } from "./product-type";
+import { Region } from "./region"
 import Reservation from "./reservation"
 export class Vendor {
   /**
@@ -20,6 +21,7 @@ export class Vendor {
   public productType: ProductTypes
   public inventoryItem: InventoryItem
   public reservation: Reservation
+  public region: Region
   constructor(client: Client) {
     this.client = client
     this.productCollection = new Collection(client)
@@ -28,6 +30,7 @@ export class Vendor {
     this.productType = new ProductTypes(client)
     this.inventoryItem = new InventoryItem(client)
     this.reservation = new Reservation(client)
+    this.region = new Region(client)
   }
 
   async create(data: any, headers?: ClientHeaders) {

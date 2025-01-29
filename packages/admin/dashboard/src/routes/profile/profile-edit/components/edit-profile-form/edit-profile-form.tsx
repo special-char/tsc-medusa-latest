@@ -81,7 +81,6 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
         },
       }
     )
-
   })
 
   return (

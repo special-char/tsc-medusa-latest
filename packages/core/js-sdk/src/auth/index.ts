@@ -54,7 +54,7 @@ export class Auth {
   }
 
   vendorInvite = async (
-    payload: { email: string, password: string, invite_token: string, first_name: string, last_name: string },
+    payload: { email: string, password: string, invite_token: string, first_name: string, last_name: string, regions: string[] },
     headers?: ClientHeaders
   ) => {
     const { invite_token, ...rest } = payload
