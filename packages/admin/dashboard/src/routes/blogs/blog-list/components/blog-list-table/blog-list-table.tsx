@@ -24,6 +24,31 @@ export type BlogProps = {
   updated_at: Date
   deleted_at: Date | null
   product_categories: { id: string }[]
+  seo_details?: {
+    id: string
+    metaTitle: string
+    metaDescription: string
+    metaImage: string
+    keywords: string
+    metaRobots: string
+    structuredData: string
+    metaViewport: string
+    canonicalURL: string
+    created_at: Date | string
+    updated_at: Date | string
+    deleted_at: Date | null
+    metaSocial: {
+      id: string
+      title: string
+      description: string
+      image: string
+      socialNetwork: "Twitter" | "Facebook"
+      seo_details_id: string
+      created_at: Date | string
+      updated_at: Date | string
+      deleted_at: Date | null
+    }[]
+  }
 }
 
 export const BlogListTable = () => {

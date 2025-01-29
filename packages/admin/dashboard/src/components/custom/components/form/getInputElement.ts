@@ -37,10 +37,10 @@ const getInputElement = (type: string): InputElementType => {
       return CustomToggleButton
     case "file-upload":
       return FileUploadField
-    case "image-upload":
-      return ImageUpload
     case "select":
       return CustomSelect
+    case "image-upload":
+      return ImageUpload
     case "color-picker":
       return CustomColorField
     case "add-denomination":

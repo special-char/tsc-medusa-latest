@@ -1,74 +1,75 @@
-import { toast, Toaster } from "@medusajs/ui"
-import { RouteFocusModal } from "../../../components/modals"
+import { FieldValues } from "react-hook-form"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { FieldValues, useForm } from "react-hook-form"
 import { sdk } from "../../../lib/client"
-import { useEffect, useState } from "react"
-import DynamicForm, {
-  SchemaField,
-} from "../../../components/custom/components/form/DynamicForm"
-import { blogSchema } from "../blogSchema"
+import { BlogProps } from "../blog-list/components/blog-list-table"
+import { toast } from "@medusajs/ui"
+import { BlogForm } from "../blog-form"
+import { useState } from "react"
 
 export const BlogEdit = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { state } = useLocation()
-  const [schema, setSchema] = useState<Record<string, SchemaField>>({})
-  const form = useForm<FieldValues>({
-    defaultValues: {
-      title: state.title,
-      subtitle: state.subtitle,
-      handle: state.handle,
-      content: state.content,
-      categories:
-        state?.product_categories?.map((x: { id: string }) => x.id) || [],
-    },
-  })
-
-  useEffect(() => {
-    const loadSchema = async () => {
-      try {
-        const schemaData = await blogSchema()
-        setSchema(schemaData)
-      } catch (error) {
-        console.error("Error loading schema:", error)
-        toast.error("Failed to load schema")
-      }
-    }
-    loadSchema()
-  }, [])
+  const [toggle, setToggle] = useState(false)
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      const response = await sdk.admin.blog.update(id!, data)
-
-      if (response) {
-        navigate("/blogs")
-        navigate(0)
+      const updateBlogData = {
+        title: data.title,
+        subtitle: data.subtitle,
+        image: data.image,
+        handle: data.handle,
+        content: data.content,
+        categories: data.categories,
       }
+      const updateSeoBlogData = {
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        keywords: data.keywords,
+        metaViewport: data.metaViewport,
+        metaRobots: data.metaRobots,
+        structuredData: data.structuredData,
+        canonicalURL: data.canonicalURL,
+        metaImage: data.metaImage,
+        metaSocial: data.metaSocial,
+      }
+
+      const updateBlogResponse = (await sdk.admin.blog.update(
+        id!,
+        updateBlogData
+      )) as BlogProps
+      if (toggle && updateBlogResponse) {
+        if (state.seo_details) {
+          await sdk.admin.blogSeo.update(
+            updateBlogResponse.id,
+            state.seo_details.id,
+            updateSeoBlogData
+          )
+        } else {
+          await sdk.admin.blogSeo.create(
+            updateBlogResponse.id,
+            updateSeoBlogData
+          )
+        }
+      }
+      navigate("/blogs")
+      navigate(0)
     } catch (error: any) {
       toast.error("Failed to Update Blog", {
         description: error.message,
         duration: 5000,
       })
-      console.error("Error updating blog:", error.message)
+      console.error(`failed to Update blog : ${error.message}`)
     }
   }
 
   return (
-    <RouteFocusModal>
-      <Toaster />
-      <RouteFocusModal.Header />
-      <RouteFocusModal.Body className="overflow-auto">
-        <div className="w-full p-5">
-          <DynamicForm
-            form={form}
-            onSubmit={onSubmit}
-            schema={schema}
-            isPending={form.formState.isSubmitting}
-          />
-        </div>
-      </RouteFocusModal.Body>
-    </RouteFocusModal>
+    <BlogForm
+      initialData={state}
+      onSubmit={onSubmit}
+      isEditMode={true}
+      setToggle={setToggle}
+      toggle={toggle}
+    />
   )
 }

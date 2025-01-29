@@ -1,31 +1,44 @@
-import { toast, Toaster } from "@medusajs/ui"
-import { RouteFocusModal } from "../../../components/modals"
-import { FieldValues, useForm } from "react-hook-form"
+import { FieldValues } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
-import DynamicForm, {
-  SchemaField,
-} from "../../../components/custom/components/form/DynamicForm"
+import { BlogProps } from "../blog-list/components/blog-list-table"
+import { toast } from "@medusajs/ui"
 import { sdk } from "../../../lib/client"
-import { useEffect, useState } from "react"
-import { blogSchema } from "../blogSchema"
+import { BlogForm } from "../blog-form"
+import { useState } from "react"
 
 export const BlogCreate = () => {
   const navigate = useNavigate()
-  const [schema, setSchema] = useState<Record<string, SchemaField>>({})
+  const [toggle, setToggle] = useState(false)
   const onSubmit = async (data: FieldValues) => {
     try {
       const createBlogData = {
         title: data.title,
         subtitle: data.subtitle,
+        image: data.image,
         handle: data.handle,
         content: data.content,
         categories: data.categories,
       }
-      const createBlogResponse = await sdk.admin.blog.create(createBlogData)
-      if (createBlogResponse) {
-        navigate("/blogs")
-        navigate(0)
+      const createSeoBlogData = {
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        keywords: data.keywords,
+        metaViewport: data.metaViewport,
+        metaRobots: data.metaRobots,
+        structuredData: data.structuredData,
+        canonicalURL: data.canonicalURL,
+        metaImage: data.metaImage,
+        metaSocial: data.metaSocial,
       }
+
+      const createBlogResponse = (await sdk.admin.blog.create(
+        createBlogData
+      )) as BlogProps
+      if (toggle && createBlogResponse) {
+        await sdk.admin.blogSeo.create(createBlogResponse.id, createSeoBlogData)
+      }
+      navigate("/blogs")
+      navigate(0)
     } catch (error: any) {
       toast.error("Failed to Create Blog", {
         description: error.message,
@@ -35,42 +48,12 @@ export const BlogCreate = () => {
     }
   }
 
-  useEffect(() => {
-    const loadSchema = async () => {
-      try {
-        const schemaData = await blogSchema()
-        setSchema(schemaData)
-      } catch (error) {
-        console.error("Error loading schema:", error)
-        toast.error("Failed to load schema")
-      }
-    }
-    loadSchema()
-  }, [])
-  const form = useForm<FieldValues>({
-    defaultValues: {
-      title: "",
-      subtitle: "",
-      handle: "",
-      content: "",
-      categories: [],
-    },
-  })
-
   return (
-    <RouteFocusModal>
-      <Toaster />
-      <RouteFocusModal.Header />
-      <RouteFocusModal.Body className="overflow-auto">
-        <div className="w-full p-5">
-          <DynamicForm
-            form={form}
-            onSubmit={onSubmit}
-            schema={schema}
-            isPending={form.formState.isSubmitting}
-          />
-        </div>
-      </RouteFocusModal.Body>
-    </RouteFocusModal>
+    <BlogForm
+      onSubmit={onSubmit}
+      isEditMode={false}
+      setToggle={setToggle}
+      toggle={toggle}
+    />
   )
 }
