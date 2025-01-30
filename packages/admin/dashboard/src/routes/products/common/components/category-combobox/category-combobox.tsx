@@ -26,6 +26,7 @@ import { Divider } from "../../../../../components/common/divider"
 import { TextSkeleton } from "../../../../../components/common/skeleton"
 import { useProductCategories } from "../../../../../hooks/api/categories"
 import { useDebouncedSearch } from "../../../../../hooks/use-debounced-search"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 interface CategoryComboboxProps
   extends Omit<
@@ -55,6 +56,7 @@ export const CategoryCombobox = forwardRef<
     () => innerRef.current,
     []
   )
+  const salesChannelIds = getSalesChannelIds()
 
   const [open, setOpen] = useState(false)
 
@@ -69,6 +71,9 @@ export const CategoryCombobox = forwardRef<
         q: query,
         parent_category_id: !searchValue ? getParentId(level) : undefined,
         include_descendants_tree: !searchValue ? true : false,
+        ...(salesChannelIds[0] && salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
       },
       {
         enabled: open,

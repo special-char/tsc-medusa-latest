@@ -29,20 +29,12 @@ export const ProductTagListTable = () => {
   const initialData = useLoaderData() as Awaited<
     ReturnType<typeof productTagListLoader>
   >
-  const { product_tags, count, isPending, isError, error } = useProductTags(
-    {
-      ...searchParams,
-      ...(salesChannelIds &&
-      salesChannelIds[0] &&
-      salesChannelIds[0].length != 0
-        ? { sales_channel_id: salesChannelIds[0] }
-        : {}),
-    },
-    {
-      initialData,
-      placeholderData: keepPreviousData,
-    }
-  )
+  const { product_tags, count, isPending, isError, error } = useProductTags({
+    ...searchParams,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { sales_channel_id: salesChannelIds[0] }
+      : {}),
+  })
 
   const columns = useColumns()
   const filters = useProductTagTableFilters()

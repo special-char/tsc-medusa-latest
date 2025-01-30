@@ -18,9 +18,13 @@ type ProductCreateOrganizationSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
 }
 
-const fetchBrands = async () => {
+const fetchBrands = async (salesChannelIds: string[]) => {
   try {
-    const response = await sdk.admin.brand.list()
+    const queryString = new URLSearchParams()
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? queryString.append("sales_channel", salesChannelIds[0].toString())
+      : null
+    const response = await sdk.admin.brand.list(queryString)
 
     const result = response
     return { brands: result.brands }
@@ -40,7 +44,7 @@ export const ProductCreateOrganizationSection = ({
   useEffect(() => {
     const fetchBrandsData = async () => {
       try {
-        const fetchedBrands = await fetchBrands()
+        const fetchedBrands = await fetchBrands(salesChannelIds)
         setBrands(fetchedBrands)
       } catch (error) {
         console.error("Failed to fetch brands:", error)
@@ -54,7 +58,15 @@ export const ProductCreateOrganizationSection = ({
 
   const collections = useComboboxData({
     queryKey: ["product_collections"],
-    queryFn: (params) => sdk.admin.productCollection.list(params),
+    queryFn: (params) =>
+      sdk.vendor.productCollection.list({
+        ...params,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      }),
     getOptions: (data) =>
       data.collections.map((collection) => ({
         label: collection.title!,
@@ -64,7 +76,15 @@ export const ProductCreateOrganizationSection = ({
 
   const types = useComboboxData({
     queryKey: ["product_types"],
-    queryFn: (params) => sdk.admin.productType.list(params),
+    queryFn: (params) =>
+      sdk.vendor.productType.list({
+        ...params,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      }),
     getOptions: (data) =>
       data.product_types.map((type) => ({
         label: type.value,
@@ -74,7 +94,15 @@ export const ProductCreateOrganizationSection = ({
 
   const tags = useComboboxData({
     queryKey: ["product_tags"],
-    queryFn: (params) => sdk.admin.productTag.list(params),
+    queryFn: (params) =>
+      sdk.vendor.productTag.list({
+        ...params,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      }),
     getOptions: (data) =>
       data.product_tags.map((tag) => ({
         label: tag.value,

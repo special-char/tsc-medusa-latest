@@ -15,7 +15,11 @@ export const ProductSalesChannelSection = ({
   product,
 }: ProductSalesChannelSectionProps) => {
   const salesChannelIds = getSalesChannelIds()
-  const { count } = useSalesChannels({ id: salesChannelIds })
+  const { count } = useSalesChannels({
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { id: salesChannelIds }
+      : {}),
+  })
   const { t } = useTranslation()
 
   const availableInSalesChannels =

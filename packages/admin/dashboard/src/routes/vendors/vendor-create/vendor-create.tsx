@@ -19,15 +19,15 @@ import { InformationCircleSolid } from "@medusajs/icons"
 import { sdk } from "../../../lib/client"
 import { useNavigate } from "react-router-dom"
 
-const postVendor = async (data: any) => {
-  try {
-    const response = await sdk.vendor.create(data)
-    return response
-  } catch (error: any) {
-    toast.error(error.message)
-    console.log(error, "error")
-  }
-}
+// const postVendor = async (data: any) => {
+//   try {
+//     const response = await sdk.vendor.create(data)
+//     return response
+//   } catch (error: any) {
+//     toast.error(error.message)
+//     console.log(error, "error")
+//   }
+// }
 
 export function VendorCreate() {
   const {
@@ -51,7 +51,7 @@ export function VendorCreate() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      await postVendor({
+      await await sdk.vendor.create({
         name: data.name,
         handle: data.handle,
         // logo: data.logo,
@@ -59,7 +59,7 @@ export function VendorCreate() {
         first_name: data.first_name,
         last_name: data.last_name,
       })
-      toast.success("Vendor created successfully")
+      toast.success("Vendor created successfully.")
       navigate("/vendors", {
         replace: true,
         state: { isSubmittingSuccessful: true },

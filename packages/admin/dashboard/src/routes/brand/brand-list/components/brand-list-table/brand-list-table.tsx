@@ -40,8 +40,10 @@ const fetchBrands = async (
         }
       }
     }
-    queryString.append("sales_channel", salesChannelIds[0].toString())
-    console.log("🚀 ~ queryString:", queryString.toString())
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? queryString.append("sales_channel", salesChannelIds[0].toString())
+      : null
+
     // Convert searchParams to query string
 
     const response = await sdk.admin.brand.list(queryString)
