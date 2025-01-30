@@ -84,7 +84,6 @@ const OrderResendNotificationSection = ({
       console.log(error)
     } finally {
       setLoading(false)
-      setEmail("")
     }
   }
 
@@ -103,8 +102,8 @@ const OrderResendNotificationSection = ({
       <Heading level="h2" className="px-6 py-4">
         Email Notification Status
       </Heading>
-      <div className="gap-4 px-6 py-4">
-        {order?.items.map((orderItem) => {
+      <div className="max-w-full gap-4 overflow-scroll px-6 py-4">
+        {order?.items.map((orderItem, index) => {
           const scheduledDate = orderItem?.metadata?.sendDate as string
           const differenceInMilliseconds =
             getTimeDifferenceInMilliseconds(scheduledDate)
@@ -124,46 +123,51 @@ const OrderResendNotificationSection = ({
 
           return (
             <div
-              className="p-4 hover:bg-gray-50 flex flex-col gap-3"
+              // className="gap-3 p-4 hover:bg-gray-50"
+              className={`mb-3 flex flex-col gap-3 ${order.items.length - 1 === index ? "border-b-[1px]" : ""}border-b-2 p-4 hover:bg-gray-50`}
               key={orderItem.id}
             >
-              <div className="flex flex-row gap-5 rounded-lg items-center">
+              <div className="flex flex-wrap items-center gap-5 rounded-lg">
+                {/* <div className="flex flex-row items-center gap-5 rounded-lg"> */}
                 {orderItem.thumbnail ? (
-                  <img src={orderItem.thumbnail} className="h-10 w-10" />
+                  <img src={orderItem.thumbnail} className="h-10 w-10 " />
                 ) : (
                   <PhotoSolid />
                 )}
-                <div>
-                  <Text size="base" className="text-gray-90 text-small">
+                <div className="flex gap-4">
+                  <Text
+                    size="base"
+                    className="text-gray-90 text-small text-left"
+                  >
                     {orderItem.title}
                   </Text>
-                  {/* <Text size="small" className="text-gray-90 text-small">
-                    {orderItem.variant?.title}
-                  </Text> */}
+                  <Text
+                    size="base"
+                    className="text-gray-90 text-small text-left"
+                  >
+                    {orderItem.total * orderItem.quantity}
+                  </Text>
                 </div>
               </div>
               {orderItem.variant?.product?.is_giftcard === true ||
               orderItem?.metadata?.is_giftcard === true ? (
-                <div className="flex gap-4 items-center justify-between">
+                <div className="flex flex-wrap justify-evenly gap-4">
                   {typeof orderItem?.metadata?.email === "string" && (
-                    <Text>
+                    <Text className="">
                       {orderItem.metadata.email.trim()
                         ? orderItem.metadata.email
                         : "No email provided"}
                     </Text>
                   )}
                   {typeof orderItem?.metadata?.phone === "string" && (
-                    <Text>
+                    <Text className="">
                       {orderItem.metadata.phone.trim()
                         ? orderItem.metadata.phone
                         : "No phone provided"}
                     </Text>
                   )}
-                  <Text> Notification Status</Text>
-                  <Alert
-                    variant={alertVariant}
-                    className="flex items-center px-2 py-1"
-                  >
+                  <Text className=""> Notification Status</Text>
+                  <Alert variant={alertVariant} className=" px-2 py-1">
                     {alertStatus}
                   </Alert>
                   <Prompt variant="confirmation">
@@ -171,12 +175,21 @@ const OrderResendNotificationSection = ({
                       <Button
                         disabled={differenceInMilliseconds > 0}
                         size="small"
+                        className=""
                         onClick={async () => {
+                          if (orderItem?.metadata.email) {
+                            setEmail(orderItem?.metadata.email as string)
+                          }
+                          if (orderItem?.metadata.phone) {
+                            setPhone(orderItem?.metadata.phone as string)
+                          }
                           if (orderItem?.metadata?.redemptionId) {
                             const redemptionData = await getRedemption(
                               orderItem?.metadata?.redemptionId as string
                             )
                             setRedemption(redemptionData)
+                            // setEmail(orderItem?.metadata?.email as string)
+                            // setPhone(orderItem?.metadata?.phone as string)
                           }
                         }}
                       >
@@ -191,17 +204,19 @@ const OrderResendNotificationSection = ({
                           <Label>Email</Label>
                           <Input
                             className="mb-2"
-                            defaultValue={orderItem?.metadata?.email as string}
+                            defaultValue={email as string}
                             onChange={(e) => {
                               setEmail(e.target.value)
                             }}
+                            value={email}
                           />
                           <Label>Phone</Label>
                           <Input
-                            defaultValue={orderItem?.metadata?.phone as string}
+                            defaultValue={phone as string}
                             onChange={(e) => {
                               setPhone(e.target.value)
                             }}
+                            value={phone}
                           />
                         </Prompt.Description>
                       </Prompt.Header>
