@@ -170,105 +170,109 @@ const OrderResendNotificationSection = ({
                   <Alert variant={alertVariant} className=" px-2 py-1">
                     {alertStatus}
                   </Alert>
-                  <Prompt variant="confirmation">
-                    <Prompt.Trigger asChild>
-                      <Button
-                        disabled={differenceInMilliseconds > 0}
-                        size="small"
-                        className=""
-                        onClick={async () => {
-                          if (orderItem?.metadata.email) {
-                            setEmail(orderItem?.metadata.email as string)
-                          }
-                          if (orderItem?.metadata.phone) {
-                            setPhone(orderItem?.metadata.phone as string)
-                          }
-                          if (orderItem?.metadata?.redemptionId) {
-                            const redemptionData = await getRedemption(
-                              orderItem?.metadata?.redemptionId as string
-                            )
-                            setRedemption(redemptionData)
-                            // setEmail(orderItem?.metadata?.email as string)
-                            // setPhone(orderItem?.metadata?.phone as string)
-                          }
-                        }}
-                      >
-                        <PencilSquare />
-                      </Button>
-                    </Prompt.Trigger>
-
-                    <Prompt.Content>
-                      <Prompt.Header>
-                        <Prompt.Title>Edit Email</Prompt.Title>
-                        <Prompt.Description>
-                          <Label>Email</Label>
-                          <Input
-                            className="mb-2"
-                            defaultValue={email as string}
-                            onChange={(e) => {
-                              setEmail(e.target.value)
-                            }}
-                            value={email}
-                          />
-                          <Label>Phone</Label>
-                          <Input
-                            defaultValue={phone as string}
-                            onChange={(e) => {
-                              setPhone(e.target.value)
-                            }}
-                            value={phone}
-                          />
-                        </Prompt.Description>
-                      </Prompt.Header>
-                      <Prompt.Footer>
-                        <Prompt.Cancel>Cancel</Prompt.Cancel>
-                        <Button
-                          type="submit"
-                          size="small"
-                          isLoading={loading}
-                          onClick={() =>
-                            handleSendNotification({
-                              template: "gift-card-order-default",
-                              data: orderItem,
-                            })
-                          }
-                        >
-                          Submit
-                        </Button>
-                      </Prompt.Footer>
-                    </Prompt.Content>
-                  </Prompt>
-                  {order.payment_status !== "captured" && (
-                    <Prompt>
+                  <div className="flex gap-4">
+                    <Prompt variant="confirmation">
                       <Prompt.Trigger asChild>
-                        <IconButton>
-                          <Trash className="text-ui-tag-red-icon" />
-                        </IconButton>
+                        <Button
+                          disabled={differenceInMilliseconds > 0}
+                          size="small"
+                          className=""
+                          onClick={async () => {
+                            if (orderItem?.metadata.email) {
+                              setEmail(orderItem?.metadata.email as string)
+                            }
+                            if (orderItem?.metadata.phone) {
+                              setPhone(orderItem?.metadata.phone as string)
+                            }
+                            if (orderItem?.metadata?.redemptionId) {
+                              const redemptionData = await getRedemption(
+                                orderItem?.metadata?.redemptionId as string
+                              )
+                              setRedemption(redemptionData)
+                              // setEmail(orderItem?.metadata?.email as string)
+                              // setPhone(orderItem?.metadata?.phone as string)
+                            }
+                          }}
+                        >
+                          <PencilSquare />
+                        </Button>
                       </Prompt.Trigger>
+
                       <Prompt.Content>
                         <Prompt.Header>
-                          <Prompt.Title>Delete {orderItem.title}</Prompt.Title>
+                          <Prompt.Title>Edit Email</Prompt.Title>
                           <Prompt.Description>
-                            Are you sure? This cannot be undone.
+                            <Label>Email</Label>
+                            <Input
+                              className="mb-2"
+                              defaultValue={email as string}
+                              onChange={(e) => {
+                                setEmail(e.target.value)
+                              }}
+                              value={email}
+                            />
+                            <Label>Phone</Label>
+                            <Input
+                              defaultValue={phone as string}
+                              onChange={(e) => {
+                                setPhone(e.target.value)
+                              }}
+                              value={phone}
+                            />
                           </Prompt.Description>
                         </Prompt.Header>
                         <Prompt.Footer>
                           <Prompt.Cancel>Cancel</Prompt.Cancel>
-                          <Prompt.Action
-                            onClick={async () => {
-                              await sdk.admin.order.removeLineItem(
-                                orderItem.id,
-                                order.id
-                              )
-                              navigate(0)
-                            }}
+                          <Button
+                            type="submit"
+                            size="small"
+                            isLoading={loading}
+                            onClick={() =>
+                              handleSendNotification({
+                                template: "gift-card-order-default",
+                                data: orderItem,
+                              })
+                            }
                           >
-                            Delete
-                          </Prompt.Action>
+                            Submit
+                          </Button>
                         </Prompt.Footer>
                       </Prompt.Content>
                     </Prompt>
-                  )}
+                    {order.payment_status !== "captured" && (
+                      <Prompt>
+                        <Prompt.Trigger asChild>
+                          <IconButton>
+                            <Trash className="text-ui-tag-red-icon" />
+                          </IconButton>
+                        </Prompt.Trigger>
+                        <Prompt.Content>
+                          <Prompt.Header>
+                            <Prompt.Title>
+                              Delete {orderItem.title}
+                            </Prompt.Title>
+                            <Prompt.Description>
+                              Are you sure? This cannot be undone.
+                            </Prompt.Description>
+                          </Prompt.Header>
+                          <Prompt.Footer>
+                            <Prompt.Cancel>Cancel</Prompt.Cancel>
+                            <Prompt.Action
+                              onClick={async () => {
+                                await sdk.admin.order.removeLineItem(
+                                  orderItem.id,
+                                  order.id
+                                )
+                                navigate(0)
+                              }}
+                            >
+                              Delete
+                            </Prompt.Action>
+                          </Prompt.Footer>
+                        </Prompt.Content>
+                      </Prompt>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <Text>
