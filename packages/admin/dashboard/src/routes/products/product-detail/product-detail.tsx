@@ -20,6 +20,7 @@ import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
 import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
 import { getSalesChannelIds } from "../../../const/get-sales-channel"
+import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -92,6 +93,7 @@ export const ProductDetail = () => {
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />
+        <ProductShippingProfileSection product={product} />
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
         {dashboardConfig?.featureFlags?.productSeo && (

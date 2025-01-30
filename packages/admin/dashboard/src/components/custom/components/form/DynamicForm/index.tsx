@@ -1,8 +1,7 @@
-import { Controller, FieldValues, UseFormReturn } from "react-hook-form"
-import React, { memo } from "react"
-import getInputElement from "../getInputElement"
-import { Input, Label, clx, Button } from "@medusajs/ui"
-import ErrorMessage from "./ErrorMessage"
+import { FieldValues, UseFormReturn } from "react-hook-form"
+import { memo } from "react"
+import { Button } from "@medusajs/ui"
+import GenerateFormFields from "./GenerateFormFields"
 
 export type SchemaField = {
   label?: string
@@ -25,7 +24,7 @@ const DynamicForm = ({ form, onSubmit, onReset, schema, isPending }: Props) => {
       onSubmit={form.handleSubmit(onSubmit)}
       className="flex w-full flex-col gap-y-3"
     >
-      {Object.entries(schema).map(([key, fields]) => {
+      {/* {Object.entries(schema).map(([key, fields]) => {
         return (
           <Controller
             key={key}
@@ -63,7 +62,8 @@ const DynamicForm = ({ form, onSubmit, onReset, schema, isPending }: Props) => {
             }}
           />
         )
-      })}
+      })} */}
+      <GenerateFormFields form={form} schema={schema} />
       <div className="flex items-center gap-4">
         <Button type="submit" disabled={isPending}>
           {isPending ? "Submitting..." : "Submit"}
