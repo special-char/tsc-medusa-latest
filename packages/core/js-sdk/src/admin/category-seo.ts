@@ -1,6 +1,24 @@
 import { Client } from "../client"
 import { ClientHeaders } from "../types"
-
+type SeoDetails = {
+  metaTitle: string
+  metaDescription: string
+  keywords: string
+  metaViewport: string
+  metaRobots: string
+  structuredData: string
+  feedData: string
+  canonicalURL: string
+  metaImage: File | Blob
+  metaSocial: {
+    id?: string
+    title: string | null
+    description: string | null
+    image?: string | null
+    socialNetwork: "Facebook" | "Twitter" | "Instagram"
+    seo_details_id?: string
+  }
+}
 export class CategorySeo {
   /**
    * @ignore
@@ -20,28 +38,7 @@ export class CategorySeo {
     })
   }
 
-  async create(
-    id: string,
-    body: {
-      metaTitle: string
-      metaDescription: string
-      keywords: string
-      metaViewport: string
-      metaRobots: string
-      structuredData: string
-      canonicalURL: string
-      metaImage: File | Blob
-      metaSocial: {
-        id?: string
-        title: string | null
-        description: string | null
-        image?: string | null
-        socialNetwork: "Facebook" | "Twitter"
-        seo_details_id?: string
-      }
-    },
-    headers?: ClientHeaders
-  ) {
+  async create(id: string, body: SeoDetails, headers?: ClientHeaders) {
     console.log("body:::::::::::", body)
 
     const formData = new FormData()
@@ -52,6 +49,7 @@ export class CategorySeo {
     formData.append("metaViewport", body.metaViewport || "")
     formData.append("metaRobots", body.metaRobots || "")
     formData.append("structuredData", body.structuredData || "")
+    formData.append("feedData", body.feedData || "")
     formData.append("canonicalURL", body.canonicalURL || "")
 
     if (
@@ -113,24 +111,7 @@ export class CategorySeo {
   async update(
     id: string,
     seoId: string,
-    body: {
-      metaTitle: string
-      metaDescription: string
-      keywords: string
-      metaViewport: string
-      metaRobots: string
-      structuredData: string
-      canonicalURL: string
-      metaImage: File | Blob
-      metaSocial: {
-        id?: string
-        title: string | null
-        description: string | null
-        image?: string | null
-        socialNetwork: "Facebook" | "Twitter"
-        seo_details_id?: string
-      }
-    },
+    body: SeoDetails,
     headers?: ClientHeaders
   ) {
     const formData = new FormData()
@@ -141,6 +122,7 @@ export class CategorySeo {
     formData.append("metaViewport", body.metaViewport || "")
     formData.append("metaRobots", body.metaRobots || "")
     formData.append("structuredData", body.structuredData || "")
+    formData.append("feedData", body.feedData || "")
     formData.append("canonicalURL", body.canonicalURL || "")
 
     if (
