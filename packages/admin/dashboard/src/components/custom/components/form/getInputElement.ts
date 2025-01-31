@@ -1,7 +1,6 @@
 import { Input, Textarea, Checkbox } from "@medusajs/ui"
 import CustomMarkdownEdit from "./CustomMarkdownEdit"
 import CustomToggleButton from "./CustomToggleButton"
-import FileUploadField from "./FileUploadField"
 import CustomSelect from "./CustomSelect"
 import CustomColorField from "./CustomColorField"
 import ImageUpload from "./ImageUpload"
@@ -11,7 +10,9 @@ import CustomCombobox from "./CustomCombobox"
 import CustomRichTextInput from "./CustomRichTextInput"
 import CustomMetaData from "./CustomMetaData"
 import NestedMultiSelect from "./CustomNestedMultiSelect"
-
+import SocialFieldArray from "../../../../routes/products/product-detail/components/product-seo/components/seo/SocialFieldArray"
+import SeoFileUploadField from "../../../../routes/products/product-detail/components/product-seo/components/form/FileUploadField"
+import FileUploadField from "./FileUploadField"
 type InputElementType = React.ComponentType<any>
 
 const getInputElement = (type: string): InputElementType => {
@@ -36,16 +37,20 @@ const getInputElement = (type: string): InputElementType => {
       return CustomToggleButton
     case "file-upload":
       return FileUploadField
-    case "image-upload":
-      return ImageUpload
     case "select":
       return CustomSelect
+    case "image-upload":
+      return ImageUpload
     case "color-picker":
       return CustomColorField
     case "add-denomination":
       return AddDenomination
     case "SalesChannel":
       return SelectSalesChannel
+    case "socialfieldArray":
+      return SocialFieldArray
+    case "seo-file-upload":
+      return SeoFileUploadField
     default:
       return Input
   }
