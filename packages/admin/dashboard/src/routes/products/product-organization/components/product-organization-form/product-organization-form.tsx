@@ -127,6 +127,7 @@ export const ProductOrganizationForm = ({
         value: tag.id,
       })),
   })
+  console.log("🚀 ~ product.categories:", product.categories)
 
   const form = useExtendableForm({
     defaultValues: {
@@ -144,6 +145,8 @@ export const ProductOrganizationForm = ({
   const { mutateAsync, isPending } = useUpdateProduct(product.id)
 
   const handleSubmit = form.handleSubmit(async (data) => {
+    console.log("🚀 ~ handleSubmit ~ data:", data)
+    console.log("🚀 ~ handleSubmit ~ data.category_ids:", data.category_ids)
     await mutateAsync(
       {
         type_id: data.type_id || null,
@@ -151,6 +154,7 @@ export const ProductOrganizationForm = ({
         brand_id: data.brand_id || null,
         categories: data.category_ids.map((c) => ({ id: c })),
         tags: data.tag_ids?.map((t) => ({ id: t })),
+        old_brand_id: product.brand?.id,
       },
       {
         onSuccess: ({ product }) => {
