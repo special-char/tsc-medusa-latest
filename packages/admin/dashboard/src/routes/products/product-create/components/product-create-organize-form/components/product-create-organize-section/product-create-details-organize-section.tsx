@@ -281,25 +281,19 @@ export const ProductCreateOrganizationSection = ({
                   </StackedFocusModal.Trigger>
                 </div>
                 <Form.Control className="mt-0">
-                  {fields.length > 0 &&
-                    fields.some((element) =>
-                      salesChannelIds.includes(element.id)
-                    ) && (
-                      <ChipGroup
-                        onClearAll={handleClearAllSalesChannels}
-                        onRemove={remove}
-                        className="py-4"
-                      >
-                        {fields.map(
-                          (field, index) =>
-                            salesChannelIds.includes(field.id) && (
-                              <ChipGroup.Chip key={field.key} index={index}>
-                                {field.name}
-                              </ChipGroup.Chip>
-                            )
-                        )}
-                      </ChipGroup>
-                    )}
+                  {fields.length > 0 && (
+                    <ChipGroup
+                      onClearAll={handleClearAllSalesChannels}
+                      onRemove={remove}
+                      className="py-4"
+                    >
+                      {fields.map((field, index) => (
+                        <ChipGroup.Chip key={field.key} index={index}>
+                          {field.name}
+                        </ChipGroup.Chip>
+                      ))}
+                    </ChipGroup>
+                  )}
                 </Form.Control>
                 <Form.ErrorMessage />
               </Form.Item>

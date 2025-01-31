@@ -199,6 +199,13 @@ export const ProductCreateForm = ({
         })
         return
       }
+      if (!form.getValues("sales_channels")) {
+        form.setError("sales_channels", {
+          type: "required",
+          message: "Sales channel is required.",
+        })
+        return
+      }
 
       setTab(Tab.VARIANTS)
     }
