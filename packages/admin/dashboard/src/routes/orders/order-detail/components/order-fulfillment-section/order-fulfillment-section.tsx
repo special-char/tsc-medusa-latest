@@ -43,9 +43,11 @@ export const OrderFulfillmentSection = ({
   return (
     <div className="flex flex-col gap-y-3">
       <UnfulfilledItemBreakdown order={order} />
-      {fulfillments.map((f, index) => (
-        <Fulfillment key={f.id} index={index} fulfillment={f} order={order} />
-      ))}
+      {fulfillments.map((f, index) => {
+        return (
+          <Fulfillment key={f.id} index={index} fulfillment={f} order={order} />
+        )
+      })}
     </div>
   )
 }
@@ -345,13 +347,21 @@ const Fulfillment = ({
           {t("orders.fulfillment.itemsLabel")}
         </Text>
         <ul>
-          {fulfillment.items.map((f_item) => (
-            <li key={f_item.line_item_id}>
-              <Text size="small" leading="compact">
-                {f_item.quantity}x {f_item.title}
-              </Text>
-            </li>
-          ))}
+          {fulfillment?.items?.map((f_item) => {
+            if (
+              order?.items?.find(
+                (orderItem) => orderItem?.id === f_item?.line_item_id
+              )
+            ) {
+              return (
+                <li key={f_item.line_item_id}>
+                  <Text size="small" leading="compact">
+                    {f_item.quantity}x {f_item.title}
+                  </Text>
+                </li>
+              )
+            }
+          })}
         </ul>
       </div>
       {showLocation && (
