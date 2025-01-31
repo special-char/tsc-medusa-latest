@@ -13,6 +13,7 @@ import { keepPreviousData } from "@tanstack/react-query"
 import { useDataTable } from "../../../hooks/use-data-table"
 import { DEFAULT_FIELDS } from "../const"
 import { NoRecords } from "../../../components/common/empty-table-content"
+import { getVendorId } from "../../../const/get-sales-channel"
 
 const listVendors = async () => {
   const response = await sdk.vendor.retrieve()
@@ -26,10 +27,13 @@ export function RedemptionDetail() {
     pageSize: PAGE_SIZE,
   })
 
+  const vendorId = getVendorId()
+  console.log("🚀 ~ RedemptionDetail ~ vendorId:", vendorId)
   const { histories, count, isError, error, isLoading } = useRedemption(
     {
       fields: DEFAULT_FIELDS,
       ...searchParams,
+      ...(vendorId?.trim() ? { vendor_id: vendorId } : {}),
     },
     {
       placeholderData: keepPreviousData,

@@ -19,3 +19,10 @@ export const isVendor = (): boolean => {
     const decodedData: any = decodeToken(token as string)
     return decodedData.role == "vendor" ? true : false
 }
+
+export const getVendorId = (): string => {
+    const storageKey = "medusa_auth_token"
+    const token = window.localStorage.getItem(storageKey)
+    const decodedData: any = decodeToken(token as string)
+    return decodedData.app_metadata.vendor_id
+}
