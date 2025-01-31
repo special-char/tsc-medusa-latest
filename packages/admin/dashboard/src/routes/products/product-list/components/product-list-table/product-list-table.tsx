@@ -18,22 +18,23 @@ import { useProductTableFilters } from "../../../../../hooks/table/filters/use-p
 import { useProductTableQuery } from "../../../../../hooks/table/query/use-product-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { productsLoader } from "../../loader"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const ProductListTable = () => {
   const { t } = useTranslation()
   const location = useLocation()
-
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof productsLoader>>
   >
-
+  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useProductTableQuery({ pageSize: PAGE_SIZE })
   const { products, count, isLoading, isError, error } = useProducts(
     {
       ...searchParams,
       is_giftcard: false,
+      sales_channel_id: salesChannelIds,
     },
     {
       initialData,

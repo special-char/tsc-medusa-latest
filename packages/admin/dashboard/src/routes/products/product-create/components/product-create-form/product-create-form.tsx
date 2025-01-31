@@ -23,6 +23,8 @@ import { ProductCreateDetailsForm } from "../product-create-details-form"
 import { ProductCreateInventoryKitForm } from "../product-create-inventory-kit-form"
 import { ProductCreateOrganizeForm } from "../product-create-organize-form"
 import { ProductCreateVariantsForm } from "../product-create-variants-form"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
+import { useSalesChannels } from "../../../../../hooks/api"
 
 enum Tab {
   DETAILS = "details",
@@ -55,7 +57,12 @@ export const ProductCreateForm = ({
     [Tab.VARIANTS]: "not-started",
     [Tab.INVENTORY]: "not-started",
   })
-
+  const salesChannelIds = getSalesChannelIds()
+  const { sales_channels } = useSalesChannels({
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? { id: salesChannelIds[0] }
+      : {}),
+  })
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const { getFormConfigs } = useDashboardExtension()
@@ -64,9 +71,12 @@ export const ProductCreateForm = ({
   const form = useExtendableForm({
     defaultValues: {
       ...PRODUCT_CREATE_FORM_DEFAULTS,
-      sales_channels: defaultChannel
-        ? [{ id: defaultChannel.id, name: defaultChannel.name }]
-        : [],
+      sales_channels:
+        sales_channels && sales_channels.length > 0
+          ? [{ id: sales_channels[0].id, name: sales_channels[0].name }]
+          : defaultChannel
+            ? [{ id: defaultChannel.id, name: defaultChannel.name }]
+            : [],
     },
     schema: ProductCreateSchema,
     configs,

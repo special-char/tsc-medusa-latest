@@ -14,29 +14,63 @@ import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
+import { fromLayeredEmail } from "../../../../../const/get-layered-email"
 
 const PAGE_SIZE = 20
 
 export const CustomerListTable = () => {
   const { t } = useTranslation()
-
+  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
-  const { customers, count, isLoading, isError, error } = useCustomers(
+  const {
+    customers: allCustomer,
+    count,
+    isLoading,
+    isError,
+    error,
+  } = useCustomers(
     {
       ...searchParams,
+      fields: "*sales_channel.id",
+      limit: Number.MAX_SAFE_INTEGER,
+      offset: 0,
     },
     {
       placeholderData: keepPreviousData,
     }
   )
 
+  // Filter current page data
+  const filteredCustomer =
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? allCustomer?.filter(
+          (x: any) => x.sales_channel?.id === salesChannelIds[0]
+        )
+      : allCustomer
+
+  // Calculate total filtered count
+  const filteredCount = filteredCustomer?.length ?? 0
+
+  // Apply pagination to filtered results
+  const startIndex = searchParams.offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCustomer = filteredCustomer?.slice(startIndex, endIndex)
   const filters = useCustomerTableFilters()
   const columns = useColumns()
+  const data = paginatedCustomer?.map((customer) => {
+    const { email, salesChannelId } = fromLayeredEmail(customer.email)
+    return {
+      ...customer, // Keep the existing fields
+      email, // Replace the layered email with the original email
+      salesChannelId, // Add the extracted salesChannelId
+    }
+  })
 
   const { table } = useDataTable({
-    data: customers ?? [],
+    data: data ?? [],
     columns,
-    count,
+    count: filteredCount,
     enablePagination: true,
     getRowId: (row) => row.id,
     pageSize: PAGE_SIZE,
@@ -60,7 +94,7 @@ export const CustomerListTable = () => {
         table={table}
         columns={columns}
         pageSize={PAGE_SIZE}
-        count={count}
+        count={filteredCount}
         filters={filters}
         orderBy={[
           { key: "email", label: t("fields.email") },

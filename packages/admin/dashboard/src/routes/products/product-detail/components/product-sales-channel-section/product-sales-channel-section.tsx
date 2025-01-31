@@ -4,6 +4,7 @@ import { Trans, useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useSalesChannels } from "../../../../../hooks/api/sales-channels"
 import { HttpTypes } from "@medusajs/types"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type ProductSalesChannelSectionProps = {
   product: HttpTypes.AdminProduct
@@ -13,7 +14,12 @@ type ProductSalesChannelSectionProps = {
 export const ProductSalesChannelSection = ({
   product,
 }: ProductSalesChannelSectionProps) => {
-  const { count } = useSalesChannels()
+  const salesChannelIds = getSalesChannelIds()
+  const { count } = useSalesChannels({
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { id: salesChannelIds }
+      : {}),
+  })
   const { t } = useTranslation()
 
   const availableInSalesChannels =

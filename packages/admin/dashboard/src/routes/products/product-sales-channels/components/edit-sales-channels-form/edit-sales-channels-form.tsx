@@ -19,6 +19,7 @@ import { useSalesChannelTableColumns } from "../../../../../hooks/table/columns/
 import { useSalesChannelTableFilters } from "../../../../../hooks/table/filters/use-sales-channel-table-filters"
 import { useSalesChannelTableQuery } from "../../../../../hooks/table/query/use-sales-channel-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type EditSalesChannelsFormProps = {
   product: HttpTypes.AdminProduct
@@ -65,9 +66,11 @@ export const EditSalesChannelsForm = ({
   const { searchParams, raw } = useSalesChannelTableQuery({
     pageSize: PAGE_SIZE,
   })
+  const salesChannelIds = getSalesChannelIds()
   const { sales_channels, count, isLoading, isError, error } = useSalesChannels(
     {
       ...searchParams,
+      id: salesChannelIds,
     },
     {
       placeholderData: keepPreviousData,

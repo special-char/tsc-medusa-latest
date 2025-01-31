@@ -11,6 +11,7 @@ import {
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateCustomerGroup } from "../../../../../hooks/api/customer-groups"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 export const CreateCustomerGroupSchema = zod.object({
   name: zod.string().min(1),
@@ -28,11 +29,16 @@ export const CreateCustomerGroupForm = () => {
   })
 
   const { mutateAsync, isPending } = useCreateCustomerGroup()
-
+  const salesChannelIds = getSalesChannelIds()
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
       {
         name: data.name,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length !== 0
+          ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+          : {}),
       },
       {
         onSuccess: ({ customer_group }) => {

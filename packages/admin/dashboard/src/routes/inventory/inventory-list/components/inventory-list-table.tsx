@@ -12,6 +12,7 @@ import { INVENTORY_ITEM_IDS_KEY } from "../../common/constants"
 import { useInventoryTableColumns } from "./use-inventory-table-columns"
 import { useInventoryTableFilters } from "./use-inventory-table-filters"
 import { useInventoryTableQuery } from "./use-inventory-table-query"
+import { getSalesChannelIds } from "../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -24,6 +25,7 @@ export const InventoryListTable = () => {
   const { searchParams, raw } = useInventoryTableQuery({
     pageSize: PAGE_SIZE,
   })
+  const salesChannelIds = getSalesChannelIds()
 
   const {
     inventory_items,
@@ -33,6 +35,10 @@ export const InventoryListTable = () => {
     error,
   } = useInventoryItems({
     ...searchParams,
+    fields: "*variants.product.sales_channels",
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { sales_channel_id: salesChannelIds[0] }
+      : {}),
   })
 
   const filters = useInventoryTableFilters()

@@ -17,6 +17,7 @@ import {
 } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { getSalesChannelIds } from "../../../const/get-sales-channel"
 
 const RenderItem = ({ product }: { product: HttpTypes.AdminProduct }) => {
   const { mutateAsync: updateMutate } = useUpdateProduct(product.id)
@@ -118,7 +119,14 @@ const RenderItem = ({ product }: { product: HttpTypes.AdminProduct }) => {
 
 export const GiftCardList = () => {
   const { t } = useTranslation()
-  const { products } = useProducts({ is_giftcard: true })
+
+  const salesChannelIds = getSalesChannelIds()
+  const { products } = useProducts({
+    is_giftcard: true,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { sales_channel_id: salesChannelIds[0] }
+      : {}),
+  })
 
   return (
     <div className="p-0 flex flex-col gap-4">

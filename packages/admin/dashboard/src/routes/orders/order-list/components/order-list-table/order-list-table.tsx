@@ -10,6 +10,7 @@ import { useOrderTableQuery } from "../../../../../hooks/table/query/use-order-t
 import { useDataTable } from "../../../../../hooks/use-data-table"
 
 import { DEFAULT_FIELDS } from "../../const"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -18,11 +19,12 @@ export const OrderListTable = () => {
   const { searchParams, raw } = useOrderTableQuery({
     pageSize: PAGE_SIZE,
   })
-
+  const salesChannelIds = getSalesChannelIds()
   const { orders, count, isError, error, isLoading } = useOrders(
     {
       fields: DEFAULT_FIELDS,
       ...searchParams,
+      sales_channel_id: salesChannelIds,
     },
     {
       placeholderData: keepPreviousData,

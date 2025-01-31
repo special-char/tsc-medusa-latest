@@ -25,7 +25,7 @@ import { Skeleton } from "../../common/skeleton"
 
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useLogout, useMe } from "../../../hooks/api"
+import { useLogout, useMe, useVendorMe } from "../../../hooks/api"
 import { queryClient } from "../../../lib/query-client"
 import { useGlobalShortcuts } from "../../../providers/keybind-provider/hooks"
 import { useTheme } from "../../../providers/theme-provider"
@@ -85,13 +85,19 @@ export const UserMenu = () => {
 
 const UserBadge = () => {
   const { user, isPending, isError, error } = useMe()
+  const {
+    user: vendorUser,
+    isPending: isVendorPending,
+    isError: isVendorError,
+    error: vendorError,
+  } = useVendorMe()
 
   const name = [user?.first_name, user?.last_name].filter(Boolean).join(" ")
-  const displayName = name || user?.email
+  const displayName = name || user?.email || vendorUser?.name
 
   const fallback = displayName ? displayName[0].toUpperCase() : null
 
-  if (isPending) {
+  if (isPending || isVendorPending) {
     return (
       <button className="shadow-borders-base flex max-w-[192px] select-none items-center gap-x-2 overflow-hidden text-ellipsis whitespace-nowrap rounded-full py-1 pl-1 pr-2.5">
         <Skeleton className="h-5 w-5 rounded-full" />
@@ -101,7 +107,9 @@ const UserBadge = () => {
   }
 
   if (isError) {
-    throw error
+    if (isVendorError) {
+      throw vendorError
+    }
   }
 
   return (
@@ -294,20 +302,28 @@ const GlobalKeybindsModal = (props: {
 
 const UserItem = () => {
   const { user, isPending, isError, error } = useMe()
-
-  const loaded = !isPending && !!user
+  const {
+    user: vendorUser,
+    isPending: isVendorPending,
+    isError: isVendorError,
+    error: vendorError,
+  } = useVendorMe()
+  const loaded = !isPending && !!user && !isVendorPending && !!vendorUser
 
   if (!loaded) {
     return <div></div>
   }
 
   const name = [user.first_name, user.last_name].filter(Boolean).join(" ")
-  const email = user.email
+
+  const email = user.email || vendorUser?.name
   const fallback = name ? name[0].toUpperCase() : email[0].toUpperCase()
-  const avatar = user.avatar_url
+  const avatar = user.avatar_url || vendorUser?.avatar_url
 
   if (isError) {
-    throw error
+    if (isVendorError) {
+      throw vendorError
+    }
   }
 
   return (

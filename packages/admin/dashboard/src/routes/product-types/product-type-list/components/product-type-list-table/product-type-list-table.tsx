@@ -13,6 +13,7 @@ import { useProductTypeTableFilters } from "../../../../../hooks/table/filters/u
 import { useProductTypeTableQuery } from "../../../../../hooks/table/query/use-product-type-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { ProductTypeRowActions } from "./product-table-row-actions"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -22,8 +23,16 @@ export const ProductTypeListTable = () => {
   const { searchParams, raw } = useProductTypeTableQuery({
     pageSize: PAGE_SIZE,
   })
+  const salesChannelIds = getSalesChannelIds()
   const { product_types, count, isLoading, isError, error } = useProductTypes(
-    searchParams,
+    {
+      ...searchParams,
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length != 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
+    },
     {
       placeholderData: keepPreviousData,
     }

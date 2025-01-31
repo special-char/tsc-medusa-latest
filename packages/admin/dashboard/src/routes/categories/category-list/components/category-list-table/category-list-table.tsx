@@ -14,12 +14,13 @@ import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useDeleteProductCategoryAction } from "../../../common/hooks/use-delete-product-category-action"
 import { useCategoryTableColumns } from "./use-category-table-columns"
 import { useCategoryTableQuery } from "./use-category-table-query"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CategoryListTable = () => {
   const { t } = useTranslation()
-
+  const salesChannelIds = getSalesChannelIds()
   const { raw, searchParams } = useCategoryTableQuery({ pageSize: PAGE_SIZE })
 
   const query = raw.q
@@ -39,6 +40,11 @@ export const CategoryListTable = () => {
     useProductCategories(
       {
         ...query,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
       },
       {
         placeholderData: keepPreviousData,

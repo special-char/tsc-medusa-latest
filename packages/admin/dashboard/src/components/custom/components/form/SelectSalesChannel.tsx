@@ -1,6 +1,7 @@
 import { Checkbox, Text } from "@medusajs/ui"
 import { useSalesChannels } from "../../../../hooks/api"
 import { AdminSalesChannel } from "@medusajs/types"
+import { getSalesChannelIds } from "../../../../const/get-sales-channel"
 
 type Props = {
   onChange: (value: AdminSalesChannel[]) => void
@@ -8,7 +9,13 @@ type Props = {
 }
 
 const SelectSalesChannel = (props: Props) => {
-  const { sales_channels } = useSalesChannels()
+  const salesChannelIds = getSalesChannelIds()
+
+  const { sales_channels } = useSalesChannels({
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? { id: salesChannelIds[0] }
+      : {}),
+  })
 
   const handleCurrencyChange = (value: AdminSalesChannel) => {
     const newValue = Array.isArray(props.value)

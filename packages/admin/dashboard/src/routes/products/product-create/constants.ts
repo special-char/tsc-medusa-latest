@@ -66,7 +66,7 @@ export const ProductCreateSchema = z
     type_id: z.string().optional(),
     collection_id: z.string().optional(),
     brand_id: z.string().optional(),
-    shipping_profile_id: z.string(), // TODO: require min(1) when partial validation per tab is added
+    shipping_profile_id: z.string().optional(), // TODO: require min(1) when partial validation per tab is added
     categories: z.array(z.string()),
     tags: z.array(z.string()).optional(),
     sales_channels: z
@@ -76,7 +76,7 @@ export const ProductCreateSchema = z
           name: z.string(),
         })
       )
-      .optional(),
+      .min(1),
     origin_country: z.string().optional(),
     material: z.string().optional(),
     width: z.string().optional(),

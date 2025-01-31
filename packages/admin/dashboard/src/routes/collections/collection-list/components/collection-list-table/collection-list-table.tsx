@@ -13,16 +13,23 @@ import { useCollectionTableFilters } from "../../../../../hooks/table/filters"
 import { useCollectionTableQuery } from "../../../../../hooks/table/query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { CollectionRowActions } from "./collection-row-actions"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CollectionListTable = () => {
   const { t } = useTranslation()
   const { searchParams, raw } = useCollectionTableQuery({ pageSize: PAGE_SIZE })
+  const salesChannelIds = getSalesChannelIds()
   const { collections, count, isError, error, isLoading } = useCollections(
     {
       ...searchParams,
       fields: "+products.id",
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length != 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
     },
     {
       placeholderData: keepPreviousData,

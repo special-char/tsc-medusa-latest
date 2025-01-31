@@ -10,6 +10,7 @@ import {
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateProductTag } from "../../../../../hooks/api"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const ProductTagCreateSchema = z.object({
   value: z.string().min(1),
@@ -27,9 +28,17 @@ export const ProductTagCreateForm = () => {
   })
 
   const { mutateAsync, isPending } = useCreateProductTag()
-
+  const salesChannelIds = getSalesChannelIds()
   const handleSubmit = form.handleSubmit(async (data) => {
-    await mutateAsync(data, {
+    const d = {
+      ...data,
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length !== 0
+        ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+        : {}),
+    }
+    await mutateAsync(d, {
       onSuccess: ({ product_tag }) => {
         toast.success(
           t("productTags.create.successToast", {

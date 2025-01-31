@@ -11,6 +11,7 @@ import { DateCell } from "../../../../../components/table/table-cells/common/dat
 import { BrandRowActions } from "./brand-row-actions"
 import { HttpTypes } from "@medusajs/types"
 import { sdk } from "../../../../../lib/client/client"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 import { _DataTable } from "../../../../../components/table/data-table"
 
 const PAGE_SIZE = 20
@@ -21,7 +22,7 @@ const fetchBrands = async (
 ) => {
   try {
     const queryString = new URLSearchParams()
-
+    const salesChannelIds = getSalesChannelIds()
     // Iterate over the searchParams object to build the query string
     for (const [key, value] of Object.entries(searchParams)) {
       if (value !== undefined) {
@@ -39,8 +40,10 @@ const fetchBrands = async (
         }
       }
     }
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? queryString.append("sales_channel", salesChannelIds[0].toString())
+      : null
 
-    console.log("🚀 ~ queryString:", queryString.toString())
     // Convert searchParams to query string
 
     const response = await sdk.admin.brand.list(queryString)

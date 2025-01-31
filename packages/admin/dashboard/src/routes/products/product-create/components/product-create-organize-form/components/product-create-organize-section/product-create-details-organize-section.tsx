@@ -12,15 +12,19 @@ import { sdk } from "../../../../../../../lib/client"
 import { CategoryCombobox } from "../../../../../common/components/category-combobox"
 import { ProductCreateSchemaType } from "../../../../types"
 import { useEffect, useState } from "react"
+import { getSalesChannelIds } from "../../../../../../../const/get-sales-channel"
 
 type ProductCreateOrganizationSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
 }
 
-const fetchBrands = async () => {
+const fetchBrands = async (salesChannelIds: string[]) => {
   try {
-    
-    const response = await sdk.admin.brand.list()
+    const queryString = new URLSearchParams()
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? queryString.append("sales_channel", salesChannelIds[0].toString())
+      : null
+    const response = await sdk.admin.brand.list(queryString)
 
     const result = response
     return { brands: result.brands }
@@ -36,11 +40,11 @@ export const ProductCreateOrganizationSection = ({
   const { t } = useTranslation()
   const [brands, setBrands] = useState<{ brands: any[] }>({ brands: [] }) // State for brands
   const [loadingBrands, setLoadingBrands] = useState(true) // State for loading brands
-
+  const salesChannelIds = getSalesChannelIds()
   useEffect(() => {
     const fetchBrandsData = async () => {
       try {
-        const fetchedBrands = await fetchBrands()
+        const fetchedBrands = await fetchBrands(salesChannelIds)
         setBrands(fetchedBrands)
       } catch (error) {
         console.error("Failed to fetch brands:", error)
@@ -54,7 +58,15 @@ export const ProductCreateOrganizationSection = ({
 
   const collections = useComboboxData({
     queryKey: ["product_collections"],
-    queryFn: (params) => sdk.admin.productCollection.list(params),
+    queryFn: (params) =>
+      sdk.vendor.productCollection.list({
+        ...params,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      }),
     getOptions: (data) =>
       data.collections.map((collection) => ({
         label: collection.title!,
@@ -64,7 +76,15 @@ export const ProductCreateOrganizationSection = ({
 
   const types = useComboboxData({
     queryKey: ["product_types"],
-    queryFn: (params) => sdk.admin.productType.list(params),
+    queryFn: (params) =>
+      sdk.vendor.productType.list({
+        ...params,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      }),
     getOptions: (data) =>
       data.product_types.map((type) => ({
         label: type.value,
@@ -74,7 +94,15 @@ export const ProductCreateOrganizationSection = ({
 
   const tags = useComboboxData({
     queryKey: ["product_tags"],
-    queryFn: (params) => sdk.admin.productTag.list(params),
+    queryFn: (params) =>
+      sdk.vendor.productTag.list({
+        ...params,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
+      }),
     getOptions: (data) =>
       data.product_tags.map((tag) => ({
         label: tag.value,
@@ -239,7 +267,7 @@ export const ProductCreateOrganizationSection = ({
               <Form.Item>
                 <div className="flex items-start justify-between gap-x-4">
                   <div>
-                    <Form.Label optional>
+                    <Form.Label>
                       {t("products.fields.sales_channels.label")}
                     </Form.Label>
                     <Form.Hint>
@@ -253,20 +281,27 @@ export const ProductCreateOrganizationSection = ({
                   </StackedFocusModal.Trigger>
                 </div>
                 <Form.Control className="mt-0">
-                  {fields.length > 0 && (
-                    <ChipGroup
-                      onClearAll={handleClearAllSalesChannels}
-                      onRemove={remove}
-                      className="py-4"
-                    >
-                      {fields.map((field, index) => (
-                        <ChipGroup.Chip key={field.key} index={index}>
-                          {field.name}
-                        </ChipGroup.Chip>
-                      ))}
-                    </ChipGroup>
-                  )}
+                  {fields.length > 0 &&
+                    fields.some((element) =>
+                      salesChannelIds.includes(element.id)
+                    ) && (
+                      <ChipGroup
+                        onClearAll={handleClearAllSalesChannels}
+                        onRemove={remove}
+                        className="py-4"
+                      >
+                        {fields.map(
+                          (field, index) =>
+                            salesChannelIds.includes(field.id) && (
+                              <ChipGroup.Chip key={field.key} index={index}>
+                                {field.name}
+                              </ChipGroup.Chip>
+                            )
+                        )}
+                      </ChipGroup>
+                    )}
                 </Form.Control>
+                <Form.ErrorMessage />
               </Form.Item>
             )
           }}

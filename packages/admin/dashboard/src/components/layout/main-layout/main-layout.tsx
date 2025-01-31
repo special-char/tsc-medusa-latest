@@ -39,7 +39,7 @@ import { queryClient } from "../../../lib/query-client"
 import { useSearch } from "../../../providers/search-provider"
 import { UserMenu } from "../user-menu"
 import dashboardConfig from "../../../../dashboard.config"
-
+import { isVendor } from "../../../const/get-sales-channel"
 export const MainLayout = () => {
   return (
     <Shell>
@@ -187,7 +187,7 @@ const Header = () => {
 
 const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
   const { t } = useTranslation()
-
+  const vendor = isVendor()
   const customCoreRoutes = [
     ...(dashboardConfig?.featureFlags?.digitalProducts
       ? [
@@ -236,7 +236,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           },
         ]
       : []),
-    ...(dashboardConfig?.featureFlags?.vendors
+    ...(dashboardConfig?.featureFlags?.vendors && !vendor
       ? [
           {
             icon: <UsersSolid />,
@@ -329,7 +329,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
         },
       ],
     },
-    {
+    !vendor && {
       icon: <ReceiptPercent />,
       label: t("promotions.domain"),
       to: "/promotions",
@@ -346,7 +346,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       to: "/price-lists",
     },
     ...customCoreRoutes,
-  ]
+  ].filter((item) => item !== false)
 }
 
 const Searchbar = () => {

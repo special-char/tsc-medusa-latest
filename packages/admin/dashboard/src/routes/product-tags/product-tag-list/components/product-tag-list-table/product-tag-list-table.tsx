@@ -16,6 +16,7 @@ import { useProductTagTableQuery } from "../../../../../hooks/table/query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useDeleteProductTagAction } from "../../../common/hooks/use-delete-product-tag-action"
 import { productTagListLoader } from "../../loader"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -24,18 +25,16 @@ export const ProductTagListTable = () => {
   const { searchParams, raw } = useProductTagTableQuery({
     pageSize: PAGE_SIZE,
   })
-
+  const salesChannelIds = getSalesChannelIds()
   const initialData = useLoaderData() as Awaited<
     ReturnType<typeof productTagListLoader>
   >
-
-  const { product_tags, count, isPending, isError, error } = useProductTags(
-    searchParams,
-    {
-      initialData,
-      placeholderData: keepPreviousData,
-    }
-  )
+  const { product_tags, count, isPending, isError, error } = useProductTags({
+    ...searchParams,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { sales_channel_id: salesChannelIds[0] }
+      : {}),
+  })
 
   const columns = useColumns()
   const filters = useProductTagTableFilters()

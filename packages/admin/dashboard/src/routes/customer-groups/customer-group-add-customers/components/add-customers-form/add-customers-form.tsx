@@ -23,6 +23,7 @@ import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type AddCustomersFormProps = {
   customerGroupId: string
@@ -39,7 +40,7 @@ export const AddCustomersForm = ({
 }: AddCustomersFormProps) => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-
+  const salesChannelIds = getSalesChannelIds()
   const form = useForm<zod.infer<typeof AddCustomersSchema>>({
     defaultValues: {
       customer_ids: [],
@@ -65,11 +66,33 @@ export const AddCustomersForm = ({
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
   const filters = useCustomerTableFilters()
 
-  const { customers, count, isLoading, isError, error } = useCustomers({
-    fields: "id,email,first_name,last_name,*groups",
+  const {
+    customers: allCustomer,
+    count,
+    isLoading,
+    isError,
+    error,
+  } = useCustomers({
+    fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
     ...searchParams,
+    limit: Number.MAX_SAFE_INTEGER,
+    offset: 0,
   })
 
+  // Filter current page data
+  const filteredCustomer =
+    salesChannelIds && salesChannelIds[0]
+      ? allCustomer?.filter(
+          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
+        )
+      : allCustomer
+
+  // Calculate total filtered count
+  const filteredCount = filteredCustomer?.length ?? 0
+  // Apply pagination to filtered results
+  const startIndex = searchParams.offset ?? 0
+  const endIndex = startIndex + PAGE_SIZE
+  const paginatedCustomer = filteredCustomer?.slice(startIndex, endIndex)
   const updater: OnChangeFn<RowSelectionState> = (fn) => {
     const state = typeof fn === "function" ? fn(rowSelection) : fn
 
@@ -86,9 +109,9 @@ export const AddCustomersForm = ({
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: customers ?? [],
+    data: paginatedCustomer ?? [],
     columns,
-    count,
+    count: filteredCount,
     enablePagination: true,
     enableRowSelection: (row) => {
       return !row.original.groups?.map((gc) => gc.id).includes(customerGroupId)
@@ -157,7 +180,7 @@ export const AddCustomersForm = ({
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}
-            count={count}
+            count={filteredCount}
             filters={filters}
             orderBy={[
               { key: "email", label: t("fields.email") },

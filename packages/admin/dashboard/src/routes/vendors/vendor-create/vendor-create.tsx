@@ -19,30 +19,15 @@ import { InformationCircleSolid } from "@medusajs/icons"
 import { sdk } from "../../../lib/client"
 import { useNavigate } from "react-router-dom"
 
-const getAuthToken = async (data: any) => {
-  try {
-    const response = await sdk.auth.register("vendor", "emailpass", {
-      email: data.email,
-      password: data.email,
-    })
-    return response
-  } catch (error: any) {
-    toast.error(error.message)
-    console.log(error, "erroradmin")
-  }
-}
-
-const postVendor = async (data: any, tokenResult?: string) => {
-  try {
-    const response = await sdk.vendor.create(data, {
-      Authorization: `Bearer ${tokenResult}`,
-    })
-    return response
-  } catch (error: any) {
-    toast.error(error.message)
-    console.log(error, "error")
-  }
-}
+// const postVendor = async (data: any) => {
+//   try {
+//     const response = await sdk.vendor.create(data)
+//     return response
+//   } catch (error: any) {
+//     toast.error(error.message)
+//     console.log(error, "error")
+//   }
+// }
 
 export function VendorCreate() {
   const {
@@ -66,29 +51,19 @@ export function VendorCreate() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const tokenResult = await getAuthToken(data)
-
-      if (tokenResult) {
-        await postVendor(
-          {
-            name: data.name,
-            handle: data.handle,
-            // logo: data.logo,
-            admin: {
-              email: data.email,
-              first_name: data.first_name,
-              last_name: data.last_name,
-            },
-          },
-          tokenResult
-        )
-
-        navigate("/vendors", {
-          replace: true,
-          state: { isSubmittingSuccessful: true },
-        })
-        navigate(0)
-      }
+      await await sdk.vendor.create({
+        name: data.name,
+        handle: data.handle,
+        // logo: data.logo,
+        email: data.email,
+        first_name: data.first_name,
+        last_name: data.last_name,
+      })
+      toast.success("Vendor created successfully.")
+      navigate("/vendors", {
+        replace: true,
+        state: { isSubmittingSuccessful: true },
+      })
     } catch (error: any) {
       toast.error(error.message)
       console.log(error)

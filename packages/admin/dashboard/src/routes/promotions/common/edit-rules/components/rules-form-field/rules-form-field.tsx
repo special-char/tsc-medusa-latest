@@ -42,7 +42,7 @@ export const RulesFormField = ({
   const { t } = useTranslation()
   const formData = form.getValues()
   const { attributes } = usePromotionRuleAttributes(ruleType, formData.type)
-
+  
   const { fields, append, remove, update, replace } = useFieldArray({
     control: form.control,
     name: scope,

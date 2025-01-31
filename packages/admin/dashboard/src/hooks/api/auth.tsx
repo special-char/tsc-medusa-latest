@@ -22,6 +22,50 @@ export const useSignInWithEmailPass = (
   })
 }
 
+export const useVendorSignInWithEmailPass = (
+  options?: UseMutationOptions<
+    | string
+    | {
+        location: string
+      },
+    FetchError,
+    HttpTypes.AdminSignUpWithEmailPassword
+  >
+) => {
+  return useMutation({
+    mutationFn: (payload) => sdk.auth.vendorLogin(payload),
+    onSuccess: async (data, variables, context) => {
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+type inviteToken = {
+  email: string
+  password: string
+  invite_token: string
+  first_name: string
+  last_name: string
+  regions: string[]
+}
+
+export const useVendorSignUpWithToken = (
+  options?: UseMutationOptions<string, FetchError, inviteToken>
+) => {
+  return useMutation({
+    mutationFn: (payload) => {
+      const { invite_token } = payload
+      return sdk.auth.vendorInvite(payload, {
+        Authorization: `Bearer ${invite_token}`,
+      })
+    },
+    onSuccess: async (data, variables, context) => {
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+
 export const useSignUpWithEmailPass = (
   options?: UseMutationOptions<
     string,
