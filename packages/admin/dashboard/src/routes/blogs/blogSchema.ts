@@ -229,6 +229,29 @@ export const blogSEOSchema = ({
         },
       },
     },
+    feedData: {
+      label: "Feed Data",
+      fieldType: "textarea",
+      validation: {
+        maxLength: { value: 10000, message: "max. 10000 characters" },
+        validate: {
+          isValidJson: (value: string) => {
+            if (typeof value !== "string") {
+              return "Feed Data must be a valid JSON string"
+            }
+            try {
+              const parsed = JSON.parse(value)
+              if (typeof parsed !== "object" || parsed === null) {
+                return "Feed Data must be a valid JSON object or array"
+              }
+              return true
+            } catch {
+              return "Invalid JSON format"
+            }
+          },
+        },
+      },
+    },
     metaViewport: {
       label: "Meta Viewport",
       fieldType: "input",

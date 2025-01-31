@@ -58,9 +58,8 @@ export const BlogForm = ({
                 : undefined,
             keywords: initialData?.seo_details?.keywords ?? "",
             metaRobots: initialData?.seo_details?.metaRobots ?? "",
-            structuredData: JSON.stringify(
-              initialData?.seo_details?.structuredData?.structuredData || {}
-            ),
+            structuredData: initialData?.seo_details?.structuredData || "{}",
+            feedData: initialData?.seo_details?.feedData || "{}",
             metaViewport: initialData?.seo_details?.metaViewport ?? "",
             canonicalURL: initialData?.seo_details?.canonicalURL ?? "",
           }
@@ -79,6 +78,7 @@ export const BlogForm = ({
             keywords: "",
             metaRobots: "",
             structuredData: "{}",
+            feedData: "{}",
             metaViewport: "",
             canonicalURL: "",
           },
@@ -164,6 +164,7 @@ export const BlogForm = ({
                             keywords: " ",
                             metaRobots: " ",
                             structuredData: JSON.stringify({}),
+                            feedData: JSON.stringify({}),
                             metaViewport: " ",
                             canonicalURL: " ",
                           })
