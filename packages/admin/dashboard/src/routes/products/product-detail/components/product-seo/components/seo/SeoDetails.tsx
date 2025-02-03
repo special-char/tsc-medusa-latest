@@ -3,7 +3,7 @@ import CustomImage from "./CustomImage"
 
 const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
   return (
-    <div className="rounded-md border p-4">
+    <div className="overflow-scroll rounded-md border p-4">
       <p className="grid grid-cols-[1fr_1fr] gap-4">
         <span className="font-bold">Name:</span>
         <span className="inter-base-regular text-grey-50">
@@ -44,6 +44,12 @@ const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
         <span className="font-bold">Structured Data:</span>
         <pre className="inter-base-regular text-grey-50">
           {JSON.stringify(productSeo?.structuredData, null, 2)}
+        </pre>
+      </p>
+      <p className="grid grid-cols-[1fr_1fr] gap-4">
+        <span className="font-bold">Feed Data:</span>
+        <pre className="inter-base-regular text-grey-50">
+          {JSON.stringify(productSeo?.feedData, null, 2)}
         </pre>
       </p>
       <p className="grid grid-cols-[1fr_1fr] gap-4">

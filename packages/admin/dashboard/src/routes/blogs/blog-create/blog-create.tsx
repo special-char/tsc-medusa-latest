@@ -26,6 +26,7 @@ export const BlogCreate = () => {
         metaViewport: data.metaViewport,
         metaRobots: data.metaRobots,
         structuredData: data.structuredData,
+        feedData: data.feedData,
         canonicalURL: data.canonicalURL,
         metaImage: data.metaImage,
         metaSocial: data.metaSocial,

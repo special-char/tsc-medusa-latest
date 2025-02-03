@@ -32,9 +32,8 @@ const CategorySeoForm = ({ categorySeo, category }: Props) => {
           : undefined,
       keywords: categorySeo?.keywords ?? "",
       metaRobots: categorySeo?.metaRobots ?? "",
-      structuredData: JSON.stringify(
-        categorySeo?.structuredData?.structuredData || {}
-      ),
+      structuredData: categorySeo?.structuredData || "{}",
+      feedData: categorySeo?.feedData || "{}",
       metaViewport: categorySeo?.metaViewport ?? "",
       canonicalURL: categorySeo?.canonicalURL ?? "",
     },
@@ -134,6 +133,29 @@ const CategorySeoForm = ({ categorySeo, category }: Props) => {
         },
       },
     },
+    feedData: {
+      label: "Feed Data",
+      fieldType: "textarea",
+      validation: {
+        maxLength: { value: 10000, message: "max. 10000 characters" },
+        validate: {
+          isValidJson: (value: string) => {
+            if (typeof value !== "string") {
+              return "Feed Data must be a valid JSON string"
+            }
+            try {
+              const parsed = JSON.parse(value)
+              if (typeof parsed !== "object" || parsed === null) {
+                return "Feed Data must be a valid JSON object or array"
+              }
+              return true
+            } catch {
+              return "Invalid JSON format"
+            }
+          },
+        },
+      },
+    },
     metaViewport: {
       label: "Meta Viewport",
       fieldType: "input",
@@ -207,6 +229,7 @@ const CategorySeoForm = ({ categorySeo, category }: Props) => {
             keywords: " ",
             metaRobots: " ",
             structuredData: JSON.stringify({}),
+            feedData: JSON.stringify({}),
             metaViewport: " ",
             canonicalURL: " ",
           })
