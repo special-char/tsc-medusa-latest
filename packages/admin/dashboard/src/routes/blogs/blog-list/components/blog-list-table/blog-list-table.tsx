@@ -32,6 +32,7 @@ export type BlogProps = {
     keywords: string
     metaRobots: string
     structuredData: string
+    feedData: string
     metaViewport: string
     canonicalURL: string
     created_at: Date | string
