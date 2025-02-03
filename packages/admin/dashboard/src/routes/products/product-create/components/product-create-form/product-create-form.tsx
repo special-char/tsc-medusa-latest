@@ -63,6 +63,13 @@ export const ProductCreateForm = ({
       ? { id: salesChannelIds[0] }
       : {}),
   })
+
+  const defaultSalesChannel =
+    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? [{ id: salesChannelIds[0][0].id, name: salesChannelIds[0][0].name }]
+      : defaultChannel
+        ? [{ id: defaultChannel.id, name: defaultChannel.name }]
+        : []
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const { getFormConfigs } = useDashboardExtension()
@@ -74,9 +81,7 @@ export const ProductCreateForm = ({
       sales_channels:
         sales_channels && sales_channels.length > 0
           ? [{ id: sales_channels[0].id, name: sales_channels[0].name }]
-          : defaultChannel
-            ? [{ id: defaultChannel.id, name: defaultChannel.name }]
-            : [],
+          : defaultSalesChannel,
     },
     schema: ProductCreateSchema,
     configs,

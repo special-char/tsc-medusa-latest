@@ -24,19 +24,12 @@ export const ProductTypeListTable = () => {
     pageSize: PAGE_SIZE,
   })
   const salesChannelIds = getSalesChannelIds()
-  const { product_types, count, isLoading, isError, error } = useProductTypes(
-    {
-      ...searchParams,
-      ...(salesChannelIds &&
-      salesChannelIds[0] &&
-      salesChannelIds[0].length != 0
-        ? { sales_channel_id: salesChannelIds[0] }
-        : {}),
-    },
-    {
-      placeholderData: keepPreviousData,
-    }
-  )
+  const { product_types, count, isLoading, isError, error } = useProductTypes({
+    ...searchParams,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+      ? { sales_channel_id: salesChannelIds[0] }
+      : {}),
+  })
 
   const filters = useProductTypeTableFilters()
   const columns = useColumns()

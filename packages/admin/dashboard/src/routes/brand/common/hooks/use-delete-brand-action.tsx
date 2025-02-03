@@ -1,6 +1,7 @@
 import { toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import { sdk } from "../../../../lib/client"
+import { getSalesChannelIds } from "../../../../const/get-sales-channel"
 
 const deleteBrand = async (brandId: string) => {
   try {
@@ -23,7 +24,28 @@ const handleDeleteBrand = async (
     // toast.success(`Brand ${brandId}`)
     toast.success("Brand deleted successfully")
     if (setBrands) {
-      setBrands(res.brand)
+      try {
+        const queryString = new URLSearchParams()
+        const salesChannelIds = getSalesChannelIds()
+        // Iterate over the searchParams object to build the query string
+
+        salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length != 0
+          ? queryString.append("sales_channel", salesChannelIds[0].toString())
+          : null
+
+        // Convert searchParams to query string
+
+        const response = await sdk.admin.brand.list(queryString)
+        if (!response) {
+          const errorData = await response.json()
+          throw new Error(errorData.message || "Failed to fetch brands")
+        }
+        const result = response
+        setBrands(result.brands) // Return the brands array
+      } catch (error) {
+        console.error(error)
+        throw error // Rethrow the error for handling in the component
+      }
     }
     if (setBrand) {
       setBrand(null)
