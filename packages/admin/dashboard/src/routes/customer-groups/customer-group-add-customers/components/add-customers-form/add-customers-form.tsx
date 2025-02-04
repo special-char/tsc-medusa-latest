@@ -66,33 +66,14 @@ export const AddCustomersForm = ({
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
   const filters = useCustomerTableFilters()
 
-  const {
-    customers: allCustomer,
-    count,
-    isLoading,
-    isError,
-    error,
-  } = useCustomers({
+  const { customers, count, isLoading, isError, error } = useCustomers({
     fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
     ...searchParams,
-    limit: Number.MAX_SAFE_INTEGER,
-    offset: 0,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+      : {}),
   })
 
-  // Filter current page data
-  const filteredCustomer =
-    salesChannelIds && salesChannelIds[0]
-      ? allCustomer?.filter(
-          (x: any) => x?.sales_channel?.id === salesChannelIds[0]
-        )
-      : allCustomer
-
-  // Calculate total filtered count
-  const filteredCount = filteredCustomer?.length ?? 0
-  // Apply pagination to filtered results
-  const startIndex = searchParams.offset ?? 0
-  const endIndex = startIndex + PAGE_SIZE
-  const paginatedCustomer = filteredCustomer?.slice(startIndex, endIndex)
   const updater: OnChangeFn<RowSelectionState> = (fn) => {
     const state = typeof fn === "function" ? fn(rowSelection) : fn
 
@@ -109,9 +90,9 @@ export const AddCustomersForm = ({
   const columns = useColumns()
 
   const { table } = useDataTable({
-    data: paginatedCustomer ?? [],
+    data: customers ?? [],
     columns,
-    count: filteredCount,
+    count,
     enablePagination: true,
     enableRowSelection: (row) => {
       return !row.original.groups?.map((gc) => gc.id).includes(customerGroupId)
@@ -180,7 +161,7 @@ export const AddCustomersForm = ({
             table={table}
             columns={columns}
             pageSize={PAGE_SIZE}
-            count={filteredCount}
+            count={count}
             filters={filters}
             orderBy={[
               { key: "email", label: t("fields.email") },
