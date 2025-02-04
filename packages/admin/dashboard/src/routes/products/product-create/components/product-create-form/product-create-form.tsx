@@ -57,19 +57,7 @@ export const ProductCreateForm = ({
     [Tab.VARIANTS]: "not-started",
     [Tab.INVENTORY]: "not-started",
   })
-  const salesChannelIds = getSalesChannelIds()
-  const { sales_channels } = useSalesChannels({
-    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
-      ? { id: salesChannelIds[0] }
-      : {}),
-  })
 
-  const defaultSalesChannel =
-    salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
-      ? [{ id: salesChannelIds[0][0].id, name: salesChannelIds[0][0].name }]
-      : defaultChannel
-        ? [{ id: defaultChannel.id, name: defaultChannel.name }]
-        : []
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const { getFormConfigs } = useDashboardExtension()
@@ -78,10 +66,9 @@ export const ProductCreateForm = ({
   const form = useExtendableForm({
     defaultValues: {
       ...PRODUCT_CREATE_FORM_DEFAULTS,
-      sales_channels:
-        sales_channels && sales_channels.length > 0
-          ? [{ id: sales_channels[0].id, name: sales_channels[0].name }]
-          : defaultSalesChannel,
+      sales_channels: defaultChannel
+        ? [{ id: defaultChannel.id, name: defaultChannel.name }]
+        : [],
     },
     schema: ProductCreateSchema,
     configs,
