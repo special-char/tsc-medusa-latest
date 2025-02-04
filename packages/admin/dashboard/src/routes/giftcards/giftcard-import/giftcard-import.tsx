@@ -5,11 +5,17 @@ import { useState } from "react"
 import { UploadImport } from "./components/upload-import"
 import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
-import { useMe, useOrders, useStore } from "../../../hooks/api"
+import {
+  useMe,
+  useOrders,
+  useSalesChannels,
+  useStore,
+} from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/client"
 import { DEFAULT_FIELDS } from "../../orders/order-list/const"
 import { AdminUser } from "@medusajs/types"
+import { getSalesChannelIds } from "../../../const/get-sales-channel"
 
 export const GiftCardImport = () => {
   const { t } = useTranslation()
@@ -51,6 +57,12 @@ const ProductImportContent = () => {
   const handleUploaded = async (file: File) => {
     setFile(file)
   }
+  const salesChannelIds = getSalesChannelIds()
+  const { sales_channels } = useSalesChannels({
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? { id: salesChannelIds[0] }
+      : {}),
+  })
 
   const handleConfirm = async () => {
     try {
@@ -63,11 +75,20 @@ const ProductImportContent = () => {
         toast.error("Please upload a valid CSV file")
         return
       }
+      let s =
+        salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length !== 0 &&
+        sales_channels &&
+        sales_channels.length > 0
+          ? sales_channels[0].id || ""
+          : store?.default_sales_channel_id || ""
+      console.log("s::::", s)
 
       const formData = {
         files: file,
         currency_code: supportedCurrencies?.[0] || "",
-        sales_channel_id: store?.default_sales_channel_id || "",
+        sales_channel_id: s,
         region_id: store?.default_region_id || "",
         user: user as unknown as AdminUser,
         sendCorporateEmail,
