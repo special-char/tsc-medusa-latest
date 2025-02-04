@@ -20,20 +20,13 @@ export const BulkbuyComponent = () => {
     pageSize: PAGE_SIZE,
   })
   const salesChannelIds = getSalesChannelIds()
-  const { orders, count, isError, error, isLoading } = useOrders(
-    {
-      fields: DEFAULT_FIELDS,
-      ...searchParams,
-      ...(salesChannelIds &&
-      salesChannelIds[0] &&
-      salesChannelIds[0].length !== 0
-        ? { sales_channel_id: salesChannelIds[0] }
-        : {}),
-    },
-    {
-      placeholderData: keepPreviousData,
-    }
-  )
+  const { orders, count, isError, error, isLoading } = useOrders({
+    fields: DEFAULT_FIELDS,
+    ...searchParams,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? { sales_channel_id: salesChannelIds }
+      : {}),
+  })
 
   const filters = useOrderTableFilters()
   const columns = useOrderTableColumns({})
