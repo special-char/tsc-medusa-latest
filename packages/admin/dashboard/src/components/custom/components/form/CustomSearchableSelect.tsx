@@ -1,3 +1,10 @@
+import React, {
+  ForwardedRef,
+  useMemo,
+  useState,
+  useDeferredValue,
+  useCallback,
+} from "react"
 import {
   Combobox as PrimitiveCombobox,
   ComboboxDisclosure as PrimitiveComboboxDisclosure,
@@ -6,8 +13,6 @@ import {
   ComboboxProvider as PrimitiveComboboxProvider,
 } from "@ariakit/react"
 import { clx } from "@medusajs/ui"
-import { matchSorter } from "match-sorter"
-import React, { ForwardedRef, useEffect, useMemo, useState } from "react"
 
 type ComboboxOption = {
   value: string
@@ -21,6 +26,7 @@ type ComboboxProps = {
   options: ComboboxOption[]
   placeholder?: string
   className?: any
+  displayCount?: number
 }
 
 const CustomSearchableSelect = React.forwardRef(
@@ -30,28 +36,62 @@ const CustomSearchableSelect = React.forwardRef(
       onChange,
       options,
       placeholder = "Search...",
+      displayCount = 100,
       className,
     }: ComboboxProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const [searchValue, setSearchValue] = useState(value || "")
     const [open, setOpen] = useState(false)
+    const [visibleOptions, setVisibleOptions] = useState<ComboboxOption[]>([])
 
-    useEffect(() => {
-      setSearchValue(value || "")
-    }, [value])
-
-    const trimmedSearchValue = searchValue.trim()
+    const deferredSearchValue = useDeferredValue(
+      searchValue.trim().toLowerCase()
+    )
 
     const filteredOptions = useMemo(() => {
-      return matchSorter(options, trimmedSearchValue, { keys: ["label"] })
-    }, [options, trimmedSearchValue])
+      if (!deferredSearchValue) {
+        return options
+      }
+      return options
+        .filter(({ label }) =>
+          label.toLowerCase().includes(deferredSearchValue)
+        )
+        .sort((a, b) => {
+          const aStarts = a.label.toLowerCase().startsWith(deferredSearchValue)
+          const bStarts = b.label.toLowerCase().startsWith(deferredSearchValue)
+          return aStarts === bStarts ? 0 : aStarts ? -1 : 1
+        })
+    }, [options, deferredSearchValue])
 
-    const handleValueChange = (selectedValue: string) => {
-      onChange?.(selectedValue)
-      setSearchValue(selectedValue)
-      setOpen(false)
-    }
+    React.useEffect(() => {
+      setVisibleOptions(filteredOptions.slice(0, displayCount))
+    }, [filteredOptions])
+
+    const handleScroll = useCallback(
+      (e: React.UIEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLDivElement
+        const bottom =
+          target.scrollHeight - target.scrollTop === target.clientHeight
+
+        if (bottom && visibleOptions.length < filteredOptions.length) {
+          setVisibleOptions((prev) => [
+            ...prev,
+            ...filteredOptions.slice(prev.length, prev.length + displayCount),
+          ])
+        }
+      },
+      [filteredOptions, visibleOptions]
+    )
+
+    const handleValueChange = useCallback(
+      (selectedValue: string) => {
+        onChange?.(selectedValue)
+        setSearchValue(selectedValue)
+        setOpen(false)
+      },
+      [onChange]
+    )
 
     return (
       <PrimitiveComboboxProvider
@@ -75,6 +115,8 @@ const CustomSearchableSelect = React.forwardRef(
             ref={ref}
             onFocus={() => setOpen(true)}
             placeholder={placeholder}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             className="txt-compact-small text-ui-fg-base !placeholder:text-ui-fg-muted transition-fg size-full cursor-pointer bg-transparent pl-2 pr-8 outline-none focus:cursor-text"
           />
           <PrimitiveComboboxDisclosure className="absolute right-2" />
@@ -83,24 +125,34 @@ const CustomSearchableSelect = React.forwardRef(
           gutter={4}
           sameWidth
           role="listbox"
-          className="shadow-elevation-flyout bg-ui-bg-base data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-10 max-h-52 overflow-y-auto"
+          className="shadow-elevation-flyout bg-ui-bg-base z-10"
         >
-          {filteredOptions.length === 0 ? (
-            <div className="p-2 text-sm text-gray-500">No options found</div>
-          ) : (
-            filteredOptions.map(({ value: optValue, label, disabled }) => (
-              <PrimitiveComboboxItem
-                focusOnHover
-                key={optValue}
-                value={optValue}
-                disabled={disabled}
-                onClick={() => handleValueChange(optValue)}
-                className="transition-fg bg-ui-bg-base data-[active-item=true]:bg-ui-bg-base-hover group flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm"
-              >
-                {label}
-              </PrimitiveComboboxItem>
-            ))
-          )}
+          <div
+            onScroll={handleScroll}
+            style={{ height: "200px" }}
+            className="overflow-y-auto"
+          >
+            {visibleOptions.length === 0 ? (
+              <div className="flex h-full items-center justify-center p-2 text-gray-500">
+                No options found
+              </div>
+            ) : (
+              <div>
+                {visibleOptions.map(({ value: optValue, label, disabled }) => (
+                  <PrimitiveComboboxItem
+                    focusOnHover
+                    key={optValue}
+                    value={optValue}
+                    disabled={disabled}
+                    onClick={() => handleValueChange(optValue)}
+                    className="transition-fg bg-ui-bg-base data-[active-item=true]:bg-ui-bg-base-hover group flex cursor-pointer items-center gap-x-2 rounded-[4px] px-2 py-1 text-sm"
+                  >
+                    {label}
+                  </PrimitiveComboboxItem>
+                ))}
+              </div>
+            )}
+          </div>
         </PrimitiveComboboxPopover>
       </PrimitiveComboboxProvider>
     )

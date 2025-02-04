@@ -62,6 +62,7 @@ const ProductGoogleCategoryForm = ({ product }: Props) => {
         props: {
           options: optionsForCategory,
           placeholder: "Select a Google Category...",
+          displayCount: 100,
         },
         validation: {
           required: {
