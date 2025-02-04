@@ -26,13 +26,15 @@ export const CategoryListTable = () => {
   const query = raw.q
     ? {
         include_ancestors_tree: true,
-        fields: "id,name,handle,is_active,is_internal,parent_category",
+        fields:
+          "id,name,handle,is_active,is_internal,parent_category,*sales_channel.id",
         ...searchParams,
       }
     : {
         include_descendants_tree: true,
         parent_category_id: "null",
-        fields: "id,name,category_children,handle,is_internal,is_active",
+        fields:
+          "id,name,category_children,handle,is_internal,is_active,*sales_channel.id",
         ...searchParams,
       }
 
