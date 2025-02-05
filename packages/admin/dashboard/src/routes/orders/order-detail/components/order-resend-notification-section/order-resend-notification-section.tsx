@@ -40,6 +40,11 @@ const getRedemption = async (id: string) => {
     console.log(error)
   }
 }
+
+const validateEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
 const OrderResendNotificationSection = ({
   order,
 }: orderResendNotificationSectionProps) => {
@@ -205,12 +210,17 @@ const OrderResendNotificationSection = ({
                             <Label>Email</Label>
                             <Input
                               className="mb-2"
-                              defaultValue={email as string}
-                              onChange={(e) => {
-                                setEmail(e.target.value)
-                              }}
+                              defaultValue={email}
+                              onChange={(e) => setEmail(e.target.value)}
                               value={email}
+                              placeholder="Enter a valid email address"
                             />
+                            {!validateEmail(email) && email.trim() !== "" && (
+                              <Text className="text-ui-tag-red-text text-sm">
+                                Please enter a valid email address
+                              </Text>
+                            )}
+
                             <Label>Phone</Label>
                             <Input
                               defaultValue={phone as string}
@@ -227,6 +237,7 @@ const OrderResendNotificationSection = ({
                             type="submit"
                             size="small"
                             isLoading={loading}
+                            disabled={!validateEmail(email)}
                             onClick={() =>
                               handleSendNotification({
                                 template: "gift-card-order-default",
