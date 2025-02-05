@@ -142,6 +142,29 @@ const formFields = (
       },
     },
   },
+  feedData: {
+    label: "Feed Data",
+    fieldType: "textarea",
+    validation: {
+      maxLength: { value: 10000, message: "max. 10000 characters" },
+      validate: {
+        isValidJson: (value: string) => {
+          if (typeof value !== "string") {
+            return "Feed Data must be a valid JSON string"
+          }
+          try {
+            const parsed = JSON.parse(value)
+            if (typeof parsed !== "object" || parsed === null) {
+              return "Feed Data must be a valid JSON object or array"
+            }
+            return true
+          } catch {
+            return "Invalid JSON format"
+          }
+        },
+      },
+    },
+  },
   metaViewport: {
     label: "Meta Viewport",
     fieldType: "input",
@@ -192,7 +215,8 @@ const SeoForm = ({ product, productSeo }: Props) => {
           : undefined,
       keywords: productSeo?.keywords,
       metaRobots: productSeo?.metaRobots,
-      structuredData: JSON.stringify(productSeo?.structuredData || {}),
+      structuredData: productSeo?.structuredData || "{}",
+      feedData: productSeo?.feedData || "{}",
       metaViewport: productSeo?.metaViewport,
       canonicalURL: productSeo?.canonicalURL,
     },
@@ -231,9 +255,9 @@ const SeoForm = ({ product, productSeo }: Props) => {
     }
   }
   return (
-    <div className="w-full max-w-4xl mx-auto px-10">
+    <div className="mx-auto w-full max-w-4xl px-10">
       {/* <div className="bg-white p-8 border border-gray-200 rounded-lg"> */}
-      <h3 className="text-2xl font-semibold mb-6">SEO for - {product.title}</h3>
+      <h3 className="mb-6 text-2xl font-semibold">SEO for - {product.title}</h3>
       <DynamicForm
         form={form}
         onSubmit={onSubmit}
@@ -251,6 +275,7 @@ const SeoForm = ({ product, productSeo }: Props) => {
               keywords: " ",
               metaRobots: " ",
               structuredData: JSON.stringify({}),
+              feedData: JSON.stringify({}),
               metaViewport: " ",
               canonicalURL: " ",
             },

@@ -1,107 +1,60 @@
-import { Toaster } from "@medusajs/ui"
-import { RouteFocusModal } from "../../../components/modals"
-import { FieldValues, useForm } from "react-hook-form"
-import { sdk } from "../../../lib/client"
+import { FieldValues } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
-import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-export const blogCreateSchema = {
-  title: {
-    label: "Blog Title",
-    fieldType: "input",
-    validation: {
-      required: {
-        value: true,
-        message: "Title is required",
-      },
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Title should not contain only numbers",
-      },
-    },
-  },
-  subtitle: {
-    label: "Blog Subtitle",
-    fieldType: "input",
-    validation: {
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Subtitle should not contain only numbers",
-      },
-    },
-  },
-  handle: {
-    label: "Blog Handle",
-    fieldType: "input",
-    validation: {
-      pattern: {
-        value: /^(?!^\d+$)^.+$/,
-        message: "Handle should not contain only numbers",
-      },
-    },
-  },
-  content: {
-    label: "Blog Content",
-    fieldType: "markdown-editor",
-    validation: {
-      required: {
-        value: true,
-        message: "content is required",
-      },
-    },
-  },
-}
+import { BlogProps } from "../blog-list/components/blog-list-table"
+import { toast } from "@medusajs/ui"
+import { sdk } from "../../../lib/client"
+import { BlogForm } from "../blog-form"
+import { useState } from "react"
 
 export const BlogCreate = () => {
   const navigate = useNavigate()
-
+  const [toggle, setToggle] = useState(false)
   const onSubmit = async (data: FieldValues) => {
     try {
-      // const createBlogResponse = await fetch(`${backendUrl}/admin/blogs`, {
-      //   method: "POST",
-      //   credentials: "include",
-      //   body: JSON.stringify(data),
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      // const createBlogResponseJson = await createBlogResponse.json()
       const createBlogData = {
         title: data.title,
         subtitle: data.subtitle,
+        image: data.image,
         handle: data.handle,
         content: data.content,
+        categories: data.categories,
       }
-      const createBlogResponse = await sdk.admin.blog.create(createBlogData)
-      if (createBlogResponse) {
-        navigate("/blogs")
-        navigate(0)
+      const createSeoBlogData = {
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        keywords: data.keywords,
+        metaViewport: data.metaViewport,
+        metaRobots: data.metaRobots,
+        structuredData: data.structuredData,
+        feedData: data.feedData,
+        canonicalURL: data.canonicalURL,
+        metaImage: data.metaImage,
+        metaSocial: data.metaSocial,
       }
+
+      const createBlogResponse = (await sdk.admin.blog.create(
+        createBlogData
+      )) as BlogProps
+      if (toggle && createBlogResponse) {
+        await sdk.admin.blogSeo.create(createBlogResponse.id, createSeoBlogData)
+      }
+      navigate("/blogs")
+      navigate(0)
     } catch (error: any) {
-      console.log(`failed to create blog : ${error.message}`)
+      toast.error("Failed to Create Blog", {
+        description: error.message,
+        duration: 5000,
+      })
+      console.error(`failed to create blog : ${error.message}`)
     }
   }
-  const form = useForm<FieldValues>({
-    defaultValues: {
-      title: "",
-      subtitle: "",
-      handle: "",
-      content: "",
-    },
-  })
 
   return (
-    <RouteFocusModal>
-      <Toaster />
-      <RouteFocusModal.Header />
-      <RouteFocusModal.Body>
-        <div className="w-full p-5">
-          <DynamicForm
-            form={form}
-            onSubmit={onSubmit}
-            schema={blogCreateSchema}
-          />
-        </div>
-      </RouteFocusModal.Body>
-    </RouteFocusModal>
+    <BlogForm
+      onSubmit={onSubmit}
+      isEditMode={false}
+      setToggle={setToggle}
+      toggle={toggle}
+    />
   )
 }

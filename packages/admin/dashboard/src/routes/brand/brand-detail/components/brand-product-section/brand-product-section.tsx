@@ -3,7 +3,7 @@
 import { Container, Heading } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import { useProducts } from "../../../../../hooks/api/products"
 import { useProductTableColumns } from "../../../../../hooks/table/columns/use-product-table-columns"
 import { useProductTableFilters } from "../../../../../hooks/table/filters/use-product-table-filters"
@@ -25,19 +25,10 @@ export const BrandProductSection = ({ Brand }: BrandProductSectionProps) => {
   })
   const productIds = Brand.products.map((product: any) => product.id)
 
-  const { products, count, isPending, isError, error } =
-    productIds.length > 0
-      ? useProducts({
-          ...searchParams,
-          id: productIds,
-        })
-      : {
-          products: [],
-          count: 0,
-          isPending: false,
-          isError: false,
-          error: null,
-        }
+  const { products, count, isPending, isError, error } = useProducts({
+    ...searchParams,
+    id: productIds,
+  })
 
   const filters = useProductTableFilters(["product_types"])
   const columns = useProductTableColumns()
@@ -59,7 +50,7 @@ export const BrandProductSection = ({ Brand }: BrandProductSectionProps) => {
       <div className="px-6 py-4">
         <Heading level="h2">{t("products.domain")}</Heading>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         isLoading={isPending}

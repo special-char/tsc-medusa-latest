@@ -8,7 +8,7 @@ import { useOrderTableFilters } from "../../../hooks/table/filters"
 import { useOrderTableColumns } from "../../../hooks/table/columns"
 import { useDataTable } from "../../../hooks/use-data-table"
 import { DEFAULT_FIELDS } from "../../orders/order-list/const"
-import { DataTable } from "../../../components/table/data-table"
+import { _DataTable } from "../../../components/table/data-table"
 import { useTranslation } from "react-i18next"
 import { useMemo } from "react"
 
@@ -59,7 +59,7 @@ export const BulkbuyComponent = () => {
           </Button>
           <Outlet />
         </div>
-        <DataTable
+        <_DataTable
           columns={columns}
           table={table}
           pagination

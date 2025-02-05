@@ -150,6 +150,10 @@ const UnfulfilledItemDisplay = ({
 }) => {
   const { t } = useTranslation()
 
+  if (order.status === "canceled") {
+    return
+  }
+
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
@@ -261,17 +265,14 @@ const Fulfillment = ({
     })
 
     if (res) {
-      await markAsDelivered(
-        {},
-        {
-          onSuccess: () => {
-            toast.success(t("orders.fulfillment.toast.fulfillmentDelivered"))
-          },
-          onError: (e) => {
-            toast.error(e.message)
-          },
-        }
-      )
+      await markAsDelivered(undefined, {
+        onSuccess: () => {
+          toast.success(t("orders.fulfillment.toast.fulfillmentDelivered"))
+        },
+        onError: (e) => {
+          toast.error(e.message)
+        },
+      })
     }
   }
 

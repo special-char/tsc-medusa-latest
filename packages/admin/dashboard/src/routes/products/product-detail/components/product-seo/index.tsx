@@ -25,6 +25,7 @@ export type SeoDetailsTypes = {
   keywords: string | null
   metaRobots: string | null
   structuredData: Record<string, any> | null
+  feedData: Record<string, any> | null
   metaViewport: string | null
   canonicalURL: string | null
 }

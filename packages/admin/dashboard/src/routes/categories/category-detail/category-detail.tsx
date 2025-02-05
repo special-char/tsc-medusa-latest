@@ -10,6 +10,7 @@ import { TwoColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
 import ProductCategoryWidget from "../../../widgets/product-category-details/product-category-details"
 import dashboardConfig from "../../../../dashboard.config"
+import CategorySeoWidget from "./components/category-seo"
 
 export const CategoryDetail = () => {
   const { id } = useParams()
@@ -64,6 +65,9 @@ export const CategoryDetail = () => {
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <CategoryOrganizeSection category={product_category} />
+        {dashboardConfig?.featureFlags?.categorySeo && (
+          <CategorySeoWidget category={product_category} />
+        )}
       </TwoColumnPage.Sidebar>
     </TwoColumnPage>
   )

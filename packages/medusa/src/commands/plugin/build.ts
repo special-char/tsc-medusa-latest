@@ -1,12 +1,9 @@
-import { logger } from "@medusajs/framework/logger"
 import { Compiler } from "@medusajs/framework/build-tools"
-
+import { logger } from "@medusajs/framework/logger"
 export default async function build({
   directory,
-  adminOnly,
 }: {
   directory: string
-  adminOnly: boolean
 }): Promise<boolean> {
   logger.info("Starting build...")
   const compiler = new Compiler(directory, logger)
@@ -17,6 +14,8 @@ export default async function build({
     return false
   }
 
+  const bundler = await import("@medusajs/admin-bundler")
   await compiler.buildPluginBackend(tsConfig)
+  await compiler.buildPluginAdminExtensions(bundler)
   return true
 }

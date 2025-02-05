@@ -152,7 +152,7 @@ export const customProtectedRoutes: RouteObject[] = [
           children: [
             {
               path: "",
-              lazy: () => import("../../routes/redemption/redemption-list"),
+              lazy: () => import("../../routes/redemption/redemption-detail"),
               // children: [
               //   {
               //     path: "detail",

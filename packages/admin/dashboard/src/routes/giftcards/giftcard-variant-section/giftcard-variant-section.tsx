@@ -1,4 +1,4 @@
-import { Buildings, PencilSquare, Plus } from "@medusajs/icons"
+import { PencilSquare, Plus } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { Container, Heading } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
@@ -7,15 +7,15 @@ import { useTranslation } from "react-i18next"
 import { RowSelectionState } from "@tanstack/react-table"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { useProductVariantTableQuery } from "../../products/product-detail/components/product-variant-section/use-variant-table-query"
+// import { useProductVariantTableQuery } from "../../products/product-detail/components/product-variant-section/use-variant-table-query"
 import { useProductVariants } from "../../../hooks/api"
-import { useProductVariantTableFilters } from "../../products/product-detail/components/product-variant-section/use-variant-table-filters"
+// import { useProductVariantTableFilters } from "../../products/product-detail/components/product-variant-section/use-variant-table-filters"
 
 import { useDataTable } from "../../../hooks/use-data-table"
-import { DataTable } from "../../../components/table/data-table"
 import { PRODUCT_VARIANT_IDS_KEY } from "../../products/common/constants"
 import { ActionMenu } from "../../../components/common/action-menu"
 import { useProductGiftVariantTableColumns } from "./use-variant-section"
+import { DataTable } from "../../../components/data-table"
 
 type ProductVariantSectionProps = {
   product: HttpTypes.AdminProduct
@@ -27,13 +27,13 @@ export const GiftVariantSection = ({ product }: ProductVariantSectionProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const { searchParams, raw } = useProductVariantTableQuery({
-    pageSize: PAGE_SIZE,
-  })
+  // const { searchParams, raw } = useProductVariantTableQuery({
+  //   pageSize: PAGE_SIZE,
+  // })
   const { variants, count, isLoading, isError, error } = useProductVariants(
     product.id,
     {
-      ...searchParams,
+      // ...searchParams,
       fields: "*inventory_items.inventory.location_levels,+inventory_quantity",
     },
     {
@@ -43,7 +43,7 @@ export const GiftVariantSection = ({ product }: ProductVariantSectionProps) => {
 
   const [selection, setSelection] = useState<RowSelectionState>({})
 
-  const filters = useProductVariantTableFilters()
+  // const filters = useProductVariantTableFilters()
   const columns = useProductGiftVariantTableColumns(product)
 
   const { table } = useDataTable({
@@ -96,10 +96,9 @@ export const GiftVariantSection = ({ product }: ProductVariantSectionProps) => {
           ]}
         />
       </div>
-      <DataTable
+      {/* <DataTable
         table={table}
         columns={columns}
-        filters={filters}
         count={count}
         pageSize={PAGE_SIZE}
         isLoading={isLoading}
@@ -127,7 +126,7 @@ export const GiftVariantSection = ({ product }: ProductVariantSectionProps) => {
             shortcut: "i",
           },
         ]}
-      />
+      /> */}
     </Container>
   )
 }

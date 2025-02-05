@@ -1,5 +1,6 @@
 type ConfigType = {
   featureFlags: {
+    categorySeo?: boolean
     productSeo?: boolean
     productVariantImages?: boolean
     productAdditionalDetails?: boolean
@@ -26,12 +27,13 @@ type ConfigType = {
 const dashboardConfig: ConfigType = {
   featureFlags: {
     productSeo: true,
+    categorySeo: true,
     productVariantImages: true,
     productAdditionalDetails: true,
     productCategoryDetails: true,
     wishlist: true,
     brand: true,
-    blogs: false,
+    blogs: true,
     faqs: false,
     giftCards: true,
     giftTemplates: true,
