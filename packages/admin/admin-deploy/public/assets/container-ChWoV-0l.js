@@ -1,0 +1,1 @@
+import{r as e,a7 as o}from"./index-CozdGtcA.js";const s=e.forwardRef(({className:a,...r},t)=>e.createElement("div",{ref:t,className:o("shadow-elevation-card-rest bg-ui-bg-base w-full rounded-lg px-6 py-4",a),...r}));s.displayName="Container";export{s as C};
