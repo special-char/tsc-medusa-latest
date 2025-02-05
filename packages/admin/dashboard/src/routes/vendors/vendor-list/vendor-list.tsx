@@ -87,11 +87,11 @@ export function VendorList() {
   return (
     <Container>
       <div className="flex items-center justify-between">
-        <Heading>Vendor list</Heading>
+        <Heading>Merchant list</Heading>
         <Button
           variant="primary"
           onClick={() => {
-            navigate(`/vendors/create`)
+            navigate(`/merchants/create`)
           }}
         >
           Create

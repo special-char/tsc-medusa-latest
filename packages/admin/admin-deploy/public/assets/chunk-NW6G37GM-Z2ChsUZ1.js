@@ -1,0 +1,1 @@
+var a=["id","status","created_at","email","display_id","payment_status","fulfillment_status","total","currency_code","metadata"],t=["*customer","*sales_channel"],e=`${a.join(",")},${t.join(",")}`;export{e as D};

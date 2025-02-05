@@ -89,7 +89,7 @@ export const CustomerGroupCustomerSection = ({
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h2">{t("customers.domain")}</Heading>
-        <Link to={`/customer-groups/${group.id}/add-customers`}>
+        <Link to={`/client-groups/${group.id}/add-customers`}>
           <Button variant="secondary" size="small">
             {t("general.add")}
           </Button>
@@ -101,7 +101,7 @@ export const CustomerGroupCustomerSection = ({
         pageSize={PAGE_SIZE}
         isLoading={isLoading}
         count={count}
-        navigateTo={(row) => `/customers/${row.id}`}
+        navigateTo={(row) => `/clients/${row.id}`}
         filters={filters}
         search
         pagination
@@ -168,7 +168,7 @@ const CustomerActions = ({
             {
               icon: <PencilSquare />,
               label: t("actions.edit"),
-              to: `/customers/${customer.id}/edit`,
+              to: `/clients/${customer.id}/edit`,
             },
           ],
         },

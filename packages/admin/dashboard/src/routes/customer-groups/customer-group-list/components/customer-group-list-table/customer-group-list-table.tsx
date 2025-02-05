@@ -80,10 +80,10 @@ export const CustomerGroupListTable = () => {
           heading={t("customerGroups.domain")}
           rowCount={count}
           getRowId={(row) => row.id}
-          rowHref={(row) => `/customer-groups/${row.id}`}
+          rowHref={(row) => `/client-groups/${row.id}`}
           action={{
             label: t("actions.create"),
-            to: "/customer-groups/create",
+            to: "/client-groups/create",
           }}
           emptyState={{
             empty: {
