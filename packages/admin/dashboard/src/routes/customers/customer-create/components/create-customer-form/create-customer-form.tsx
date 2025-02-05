@@ -56,6 +56,10 @@ export const CreateCustomerForm = () => {
           handleSuccess(`/customers/${customer.id}`)
         },
         onError: (error) => {
+          if (error.message.includes("Customer")) {
+            toast.error(error.message.replace("Customer", "Client"))
+            return
+          }
           toast.error(error.message)
         },
       }

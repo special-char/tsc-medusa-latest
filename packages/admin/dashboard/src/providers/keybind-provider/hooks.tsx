@@ -149,7 +149,7 @@ export const useGlobalShortcuts = () => {
       },
       label: t("app.keyboardShortcuts.navigation.goToCustomers"),
       type: "pageShortcut",
-      to: "/customers",
+      to: "/clients",
     },
     {
       keys: {
@@ -157,7 +157,7 @@ export const useGlobalShortcuts = () => {
       },
       label: t("app.keyboardShortcuts.navigation.goToCustomerGroups"),
       type: "pageShortcut",
-      to: "/customer-groups",
+      to: "/client-groups",
     },
     {
       keys: {

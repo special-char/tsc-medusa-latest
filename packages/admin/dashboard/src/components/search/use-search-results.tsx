@@ -565,8 +565,8 @@ const transformMap: TransformMap = {
         id: customer.id,
         title: name || customer.email,
         subtitle: name ? customer.email : undefined,
-        to: `/customers/${customer.id}`,
-        value: `customer:${customer.id}`,
+        to: `/clients/${customer.id}`,
+        value: `client:${customer.id}`,
       }
     },
   },
@@ -575,8 +575,8 @@ const transformMap: TransformMap = {
     transform: (customerGroup: HttpTypes.AdminCustomerGroup) => ({
       id: customerGroup.id,
       title: customerGroup.name!,
-      to: `/customer-groups/${customerGroup.id}`,
-      value: `customerGroup:${customerGroup.id}`,
+      to: `/client-groups/${customerGroup.id}`,
+      value: `clientGroup:${customerGroup.id}`,
     }),
   },
   collection: {
