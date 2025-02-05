@@ -123,7 +123,7 @@ export class Client {
 
     this.logger = {
       ...logger,
-      debug: config.debug ? logger.debug : () => {},
+      debug: config.debug ? logger.debug : () => { },
     }
 
     this.fetch_ = this.initClient()

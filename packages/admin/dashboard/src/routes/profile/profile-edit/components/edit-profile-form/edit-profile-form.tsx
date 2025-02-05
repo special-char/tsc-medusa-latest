@@ -8,7 +8,7 @@ import { HttpTypes } from "@medusajs/types"
 import { Form } from "../../../../../components/common/form"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { useUpdateUser } from "../../../../../hooks/api/users"
+import { useUpdateUser, useUpdateVendor } from "../../../../../hooks/api/users"
 import { languages } from "../../../../../i18n/languages"
 
 type EditProfileProps = {
@@ -46,7 +46,8 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
   )
 
   const { mutateAsync, isPending } = useUpdateUser(user.id!)
-
+  const { mutateAsync: vendormutateAsync, isPending: vendorisPending } =
+    useUpdateVendor(user.id!)
   const handleSubmit = form.handleSubmit(async (values) => {
     await mutateAsync(
       {
@@ -54,17 +55,32 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
         last_name: values.last_name,
       },
       {
-        onError: (error) => {
-          toast.error(error.message)
-          return
+        onError: async (error) => {
+          await vendormutateAsync(
+            {
+              first_name: values.first_name,
+              last_name: values.last_name,
+            },
+            {
+              onSuccess: async () => {
+                await changeLanguage(values.language)
+                toast.success(t("profile.toast.edit"))
+                handleSuccess()
+              },
+              onError: (e) => {
+                toast.error(e.message || error.message)
+                return
+              },
+            }
+          )
+        },
+        onSuccess: async () => {
+          await changeLanguage(values.language)
+          toast.success(t("profile.toast.edit"))
+          handleSuccess()
         },
       }
     )
-
-    await changeLanguage(values.language)
-
-    toast.success(t("profile.toast.edit"))
-    handleSuccess()
   })
 
   return (
@@ -188,7 +204,17 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                 {t("actions.cancel")}
               </Button>
             </RouteDrawer.Close>
-            <Button size="small" type="submit" isLoading={isPending}>
+            <Button
+              size="small"
+              type="submit"
+              isLoading={
+                isPending
+                  ? isPending
+                  : vendorisPending
+                    ? vendorisPending
+                    : false
+              }
+            >
               {t("actions.save")}
             </Button>
           </div>

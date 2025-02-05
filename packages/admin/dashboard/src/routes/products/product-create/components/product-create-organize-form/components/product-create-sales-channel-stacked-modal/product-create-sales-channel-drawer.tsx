@@ -21,6 +21,7 @@ import { useSalesChannelTableQuery } from "../../../../../../../hooks/table/quer
 import { useDataTable } from "../../../../../../../hooks/use-data-table"
 import { ProductCreateSchemaType } from "../../../../types"
 import { SC_STACKED_MODAL_ID } from "../../constants"
+import { getSalesChannelIds } from "../../../../../../../const/get-sales-channel"
 
 type ProductCreateSalesChannelStackedModalProps = {
   form: UseFormReturn<ProductCreateSchemaType>
@@ -42,9 +43,11 @@ export const ProductCreateSalesChannelStackedModal = ({
     pageSize: PAGE_SIZE,
     prefix: SC_STACKED_MODAL_ID,
   })
+  const salesChannelIds = getSalesChannelIds()
   const { sales_channels, count, isLoading, isError, error } = useSalesChannels(
     {
       ...searchParams,
+      id: salesChannelIds,
     }
   )
 

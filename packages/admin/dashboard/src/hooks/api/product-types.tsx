@@ -49,7 +49,7 @@ export const useProductTypes = (
   >
 ) => {
   const { data, ...rest } = useQuery({
-    queryFn: () => sdk.admin.productType.list(query),
+    queryFn: () => sdk.vendor.productType.list(query),
     queryKey: productTypesQueryKeys.list(query),
     ...options,
   })

@@ -21,13 +21,14 @@ import {
 } from "../../../../../hooks/api"
 import { useDate } from "../../../../../hooks/use-date"
 import { useQueryParams } from "../../../../../hooks/use-query-params"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 10
 
 export const CustomerGroupListTable = () => {
   const { t } = useTranslation()
   const { getWidgets } = useDashboardExtension()
-
+  const salesChannelIds = getSalesChannelIds()
   const { q, order, offset, created_at, updated_at } = useQueryParams([
     "q",
     "order",
@@ -48,7 +49,12 @@ export const CustomerGroupListTable = () => {
         limit: PAGE_SIZE,
         created_at: created_at ? JSON.parse(created_at) : undefined,
         updated_at: updated_at ? JSON.parse(updated_at) : undefined,
-        fields: "id,name,created_at,updated_at,customers.id",
+        fields: "id,name,created_at,updated_at,customers.id,*sales_channel.id",
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length !== 0
+          ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+          : {}),
       },
       {
         placeholderData: keepPreviousData,

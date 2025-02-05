@@ -14,6 +14,7 @@ import { transformNullableFormData } from "../../../../../lib/form-helpers"
 import { CreateCategoryDetails } from "./create-category-details"
 import { CreateCategoryNesting } from "./create-category-nesting"
 import { CreateCategoryDetailsSchema, CreateCategorySchema } from "./schema"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type CreateCategoryFormProps = {
   parentCategoryId: string | null
@@ -84,7 +85,7 @@ export const CreateCategoryForm = ({
     const parsedData = transformNullableFormData(rest, false)
 
     setShouldFreeze(true)
-
+    const salesChannelIds = getSalesChannelIds()
     mutateAsync(
       {
         name: name,
@@ -93,6 +94,11 @@ export const CreateCategoryForm = ({
         rank: rank ?? undefined,
         is_active: status === "active",
         is_internal: visibility === "internal",
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length !== 0
+          ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+          : {}),
       },
       {
         onSuccess: ({ product_category }) => {

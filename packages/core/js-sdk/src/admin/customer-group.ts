@@ -113,7 +113,7 @@ export class CustomerGroup {
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<HttpTypes.AdminCustomerGroupListResponse>(
-      `/admin/customer-groups`,
+      `/admin/customer-group`,
       {
         method: "GET",
         headers,
@@ -146,7 +146,7 @@ export class CustomerGroup {
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<HttpTypes.AdminCustomerGroupResponse>(
-      `/admin/customer-groups`,
+      `/admin/customer-group`,
       {
         method: "POST",
         headers,

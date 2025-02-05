@@ -29,6 +29,7 @@ export class BulkOrder {
       formData.append("sales_channel_id", body.sales_channel_id)
       formData.append("region_id", body.region_id)
     }
+    formData.append("sales_channel_id", body.sales_channel_id)
     if (body.user) {
       formData.append("user", JSON.stringify(body.user))
       formData.append(

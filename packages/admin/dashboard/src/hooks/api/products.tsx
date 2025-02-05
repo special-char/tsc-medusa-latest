@@ -284,7 +284,6 @@ export const useProduct = (
     queryFn: () => {
       return sdk.admin.product.retrieve(id, {
         ...query,
-        fields: "brand.*",
       })
     },
     queryKey: productsQueryKeys.detail(id, query),
@@ -356,11 +355,12 @@ export const useUpdateProduct = (
   return useMutation({
     mutationFn: (payload) => {
       console.log("id", id)
-      const { brand_id, ...rest } = payload
+      const { brand_id, old_brand_id, ...rest } = payload
       return sdk.admin.product.update(id, {
         ...rest,
         additional_data: {
           brand_id,
+          old_brand_id,
         },
       })
     },

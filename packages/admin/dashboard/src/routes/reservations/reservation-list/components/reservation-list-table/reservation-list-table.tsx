@@ -8,6 +8,7 @@ import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useReservationTableColumns } from "./use-reservation-table-columns"
 import { useReservationTableFilters } from "./use-reservation-table-filters"
 import { useReservationTableQuery } from "./use-reservation-table-query"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
@@ -17,9 +18,17 @@ export const ReservationListTable = () => {
   const { searchParams } = useReservationTableQuery({
     pageSize: PAGE_SIZE,
   })
+  const salesChannelIds = getSalesChannelIds()
+
   const { reservations, count, isPending, isError, error } =
     useReservationItems({
       ...searchParams,
+      fields: "*variants.product.sales_channels",
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length != 0
+        ? { sales_channel_id: salesChannelIds[0] }
+        : {}),
     })
 
   const filters = useReservationTableFilters()

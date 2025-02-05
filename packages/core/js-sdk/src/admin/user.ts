@@ -31,6 +31,23 @@ export class User {
     )
   }
 
+  async updateVendor(
+    id: string,
+    body: HttpTypes.AdminUpdateUser,
+    query?: HttpTypes.AdminUserParams,
+    headers?: ClientHeaders
+  ) {
+    return this.client.fetch<HttpTypes.AdminUserResponse>(
+      `/vendors/${id}`,
+      {
+        method: "POST",
+        headers,
+        body,
+        query,
+      }
+    )
+  }
+
   async list(
     queryParams?: HttpTypes.AdminUserListParams,
     headers?: ClientHeaders
@@ -67,6 +84,13 @@ export class User {
 
   async me(query?: HttpTypes.AdminUserParams, headers?: ClientHeaders) {
     return this.client.fetch<HttpTypes.AdminUserResponse>(`/admin/users/me`, {
+      query,
+      headers,
+    })
+  }
+
+  async vendorMe(query?: HttpTypes.AdminUserParams, headers?: ClientHeaders) {
+    return this.client.fetch<HttpTypes.AdminUserResponse>(`/vendors/me`, {
       query,
       headers,
     })

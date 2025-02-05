@@ -23,6 +23,7 @@ import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type AddCustomersFormProps = {
   customerGroupId: string
@@ -39,7 +40,7 @@ export const AddCustomersForm = ({
 }: AddCustomersFormProps) => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-
+  const salesChannelIds = getSalesChannelIds()
   const form = useForm<zod.infer<typeof AddCustomersSchema>>({
     defaultValues: {
       customer_ids: [],
@@ -66,8 +67,11 @@ export const AddCustomersForm = ({
   const filters = useCustomerTableFilters()
 
   const { customers, count, isLoading, isError, error } = useCustomers({
-    fields: "id,email,first_name,last_name,*groups",
+    fields: "id,email,first_name,last_name,*groups,*sales_channel.id",
     ...searchParams,
+    ...(salesChannelIds && salesChannelIds[0] && salesChannelIds[0].length !== 0
+      ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+      : {}),
   })
 
   const updater: OnChangeFn<RowSelectionState> = (fn) => {

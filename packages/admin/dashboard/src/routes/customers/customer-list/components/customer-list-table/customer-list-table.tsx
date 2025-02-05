@@ -14,16 +14,23 @@ import { useCustomerTableColumns } from "../../../../../hooks/table/columns/use-
 import { useCustomerTableFilters } from "../../../../../hooks/table/filters/use-customer-table-filters"
 import { useCustomerTableQuery } from "../../../../../hooks/table/query/use-customer-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CustomerListTable = () => {
   const { t } = useTranslation()
-
+  const salesChannelIds = getSalesChannelIds()
   const { searchParams, raw } = useCustomerTableQuery({ pageSize: PAGE_SIZE })
   const { customers, count, isLoading, isError, error } = useCustomers(
     {
       ...searchParams,
+      fields: "*sales_channel.id",
+      ...(salesChannelIds &&
+      salesChannelIds[0] &&
+      salesChannelIds[0].length !== 0
+        ? { metadata: { sales_channel_id: salesChannelIds[0] } }
+        : {}),
     },
     {
       placeholderData: keepPreviousData,

@@ -17,6 +17,7 @@ import { useProductTableQuery } from "../../../../../hooks/table/query/use-produ
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { PriceListCreateProductsSchema } from "../../../common/schemas"
 import { PriceListPricesAddSchema } from "./schema"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 type PriceListPricesAddProductIdsFormProps = {
   form: UseFormReturn<PriceListPricesAddSchema>
@@ -68,8 +69,9 @@ export const PriceListPricesAddProductIdsForm = ({
     pageSize: PAGE_SIZE,
     prefix: PREFIX,
   })
+  const salesChannelIds = getSalesChannelIds()
   const { products, count, isLoading, isError, error } = useProducts(
-    searchParams,
+    { ...searchParams, sales_channel_id: salesChannelIds },
     {
       placeholderData: keepPreviousData,
     }

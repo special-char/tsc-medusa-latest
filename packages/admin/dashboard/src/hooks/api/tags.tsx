@@ -50,7 +50,7 @@ export const useProductTags = (
 ) => {
   const { data, ...rest } = useQuery({
     queryKey: productTagsQueryKeys.list(query),
-    queryFn: async () => sdk.admin.productTag.list(query),
+    queryFn: async () => sdk.vendor.productTag.list(query),
     ...options,
   })
 

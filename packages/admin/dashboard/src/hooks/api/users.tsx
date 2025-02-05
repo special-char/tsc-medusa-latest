@@ -38,6 +38,22 @@ export const useMe = (
   }
 }
 
+export const useVendorMe = (
+  query?: HttpTypes.AdminUserParams,
+  options?: UseQueryOptions<any, FetchError, any, QueryKey>
+) => {
+  const { data, ...rest } = useQuery({
+    queryFn: () => sdk.admin.user.vendorMe(query),
+    queryKey: usersQueryKeys.me(),
+    ...options,
+  })
+
+  return {
+    ...data,
+    ...rest,
+  }
+}
+
 export const useUser = (
   id: string,
   query?: HttpTypes.AdminUserParams,
@@ -120,6 +136,26 @@ export const useUpdateUser = (
       // We invalidate the me query in case the user updates their own profile
       queryClient.invalidateQueries({ queryKey: usersQueryKeys.me() })
 
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
+export const useUpdateVendor = (
+  id: string,
+  query?: HttpTypes.AdminUserParams,
+  options?: UseMutationOptions<
+    HttpTypes.AdminUserResponse,
+    FetchError,
+    HttpTypes.AdminUpdateUser,
+    QueryKey
+  >
+) => {
+  return useMutation({
+    mutationFn: (payload) => sdk.admin.user.updateVendor(id, payload, query),
+    onSuccess: (data, variables, context) => {
+      // // We invalidate the me query in case the user updates their own profile
+      queryClient.invalidateQueries({ queryKey: usersQueryKeys.me() })
       options?.onSuccess?.(data, variables, context)
     },
     ...options,

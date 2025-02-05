@@ -14,24 +14,27 @@ import { useDataTable } from "../../../../../hooks/use-data-table"
 import { useDeleteProductCategoryAction } from "../../../common/hooks/use-delete-product-category-action"
 import { useCategoryTableColumns } from "./use-category-table-columns"
 import { useCategoryTableQuery } from "./use-category-table-query"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
 
 const PAGE_SIZE = 20
 
 export const CategoryListTable = () => {
   const { t } = useTranslation()
-
+  const salesChannelIds = getSalesChannelIds()
   const { raw, searchParams } = useCategoryTableQuery({ pageSize: PAGE_SIZE })
 
   const query = raw.q
     ? {
         include_ancestors_tree: true,
-        fields: "id,name,handle,is_active,is_internal,parent_category",
+        fields:
+          "id,name,handle,is_active,is_internal,parent_category,*sales_channel.id",
         ...searchParams,
       }
     : {
         include_descendants_tree: true,
         parent_category_id: "null",
-        fields: "id,name,category_children,handle,is_internal,is_active",
+        fields:
+          "id,name,category_children,handle,is_internal,is_active,*sales_channel.id",
         ...searchParams,
       }
 
@@ -39,6 +42,11 @@ export const CategoryListTable = () => {
     useProductCategories(
       {
         ...query,
+        ...(salesChannelIds &&
+        salesChannelIds[0] &&
+        salesChannelIds[0].length != 0
+          ? { sales_channel_id: salesChannelIds[0] }
+          : {}),
       },
       {
         placeholderData: keepPreviousData,

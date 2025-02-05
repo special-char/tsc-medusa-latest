@@ -23,6 +23,8 @@ import { ProductCreateDetailsForm } from "../product-create-details-form"
 import { ProductCreateInventoryKitForm } from "../product-create-inventory-kit-form"
 import { ProductCreateOrganizeForm } from "../product-create-organize-form"
 import { ProductCreateVariantsForm } from "../product-create-variants-form"
+import { getSalesChannelIds } from "../../../../../const/get-sales-channel"
+import { useSalesChannels } from "../../../../../hooks/api"
 
 enum Tab {
   DETAILS = "details",
@@ -186,6 +188,13 @@ export const ProductCreateForm = ({
         form.setError("shipping_profile_id", {
           type: "required",
           message: t("products.shippingProfile.create.errors.required"),
+        })
+        return
+      }
+      if (!form.getValues("sales_channels")) {
+        form.setError("sales_channels", {
+          type: "required",
+          message: "Sales channel is required.",
         })
         return
       }

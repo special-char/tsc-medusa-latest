@@ -1676,6 +1676,10 @@ export const RouteMap: RouteObject[] = [
             lazy: () => import("../../routes/invite"),
           },
           {
+            path: "/vendor-invite",
+            lazy: () => import("../../routes/vendor-invite"),
+          },
+          {
             path: "*",
             lazy: () => import("../../routes/no-match"),
           },

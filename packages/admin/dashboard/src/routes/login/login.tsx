@@ -8,7 +8,10 @@ import * as z from "zod"
 import { Form } from "../../components/common/form"
 import AvatarBox from "../../components/common/logo-box/avatar-box"
 import { useDashboardExtension } from "../../extensions"
-import { useSignInWithEmailPass } from "../../hooks/api"
+import {
+  useSignInWithEmailPass,
+  useVendorSignInWithEmailPass,
+} from "../../hooks/api"
 import { isFetchError } from "../../lib/is-fetch-error"
 
 const LoginSchema = z.object({
@@ -33,36 +36,44 @@ export const Login = () => {
   })
 
   const { mutateAsync, isPending } = useSignInWithEmailPass()
+  const { mutateAsync: vendorMutateAsync, isPending: vendorIsPending } =
+    useVendorSignInWithEmailPass()
 
   const handleSubmit = form.handleSubmit(async ({ email, password }) => {
-    await mutateAsync(
-      {
-        email,
-        password,
-      },
-      {
-        onError: (error) => {
-          if (isFetchError(error)) {
-            if (error.status === 401) {
-              form.setError("email", {
-                type: "manual",
-                message: error.message,
-              })
-
-              return
-            }
+    try {
+      // First attempt regular login
+      await mutateAsync(
+        { email, password },
+        {
+          onSuccess: () => {
+            navigate(from, { replace: true })
+          },
+        }
+      )
+    } catch (error) {
+      // If regular login fails, attempt vendor login
+      try {
+        await vendorMutateAsync(
+          { email, password },
+          {
+            onSuccess: () => {
+              navigate(from, { replace: true })
+            },
           }
-
-          form.setError("root.serverError", {
-            type: "manual",
-            message: error.message,
-          })
-        },
-        onSuccess: () => {
-          navigate(from, { replace: true })
-        },
+        )
+      } catch (vendorError) {
+        // Handle errors from either login attempt
+        if (isFetchError(vendorError)) {
+          if (vendorError.status === 401) {
+            form.setError("email", {
+              type: "manual",
+              message: vendorError.message,
+            })
+            return
+          }
+        }
       }
-    )
+    }
   })
 
   const serverError = form.formState.errors?.root?.serverError?.message
@@ -145,7 +156,11 @@ export const Login = () => {
                   {serverError}
                 </Alert>
               )}
-              <Button className="w-full" type="submit" isLoading={isPending}>
+              <Button
+                className="w-full"
+                type="submit"
+                isLoading={isPending || vendorIsPending}
+              >
                 {t("actions.continueWithEmail")}
               </Button>
             </form>
