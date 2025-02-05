@@ -124,7 +124,7 @@ const OrderResendNotificationSection = ({
           return (
             <div
               // className="gap-3 p-4 hover:bg-gray-50"
-              className={`mb-3 flex flex-col gap-3 ${order.items.length - 1 === index ? "border-b-[1px]" : ""}border-b-2 p-4 hover:bg-gray-50`}
+              className={`mb-3 flex flex-col gap-3 ${order.items.length - 1 === index ? "border-b-[1px]" : ""}border-b-2 p-4`}
               key={orderItem.id}
             >
               <div className="flex flex-wrap items-center gap-5 rounded-lg">

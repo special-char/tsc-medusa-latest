@@ -28,7 +28,7 @@ const SelectSalesChannel = (props: Props) => {
   }
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex h-32 w-full flex-col gap-2 overflow-y-scroll">
       {sales_channels?.map((item) => (
         <div key={item.id} className="flex gap-4">
           <Checkbox

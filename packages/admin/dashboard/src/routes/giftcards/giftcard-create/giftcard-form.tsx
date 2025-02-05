@@ -39,7 +39,6 @@ const formSchema = {
     fieldType: "input",
     props: {
       placeholder: "Enter Days",
-      defaultValue: 30,
       type: "number",
       min: 30,
       step: 1,
@@ -108,6 +107,8 @@ const GiftcardForm = ({ defaultValues, regions }: Props) => {
   }, [regions])
 
   const onSubmit = form.handleSubmit(async (data) => {
+    console.log("🚀 ~ onSubmit ~ data.expiryDay:", data.expiryDay)
+
     let uploadedMedia: (HttpTypes.AdminFile & { isThumbnail: boolean })[] = []
     try {
       const fileReqs = []

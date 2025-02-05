@@ -62,6 +62,7 @@ export const GiftCardCreate = () => {
       denominations: [
         { amount: null, currency: defaultCurrency?.currency_code },
       ],
+      expiryDay: 30,
     }
   }, [store, defaultCurrency?.currency_code])
 
