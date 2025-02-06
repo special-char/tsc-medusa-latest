@@ -13,6 +13,7 @@ import NestedMultiSelect from "./CustomNestedMultiSelect"
 import SocialFieldArray from "../../../../routes/products/product-detail/components/product-seo/components/seo/SocialFieldArray"
 import SeoFileUploadField from "../../../../routes/products/product-detail/components/product-seo/components/form/FileUploadField"
 import FileUploadField from "./FileUploadField"
+import CustomSearchableSelect from "./CustomSearchableSelect"
 type InputElementType = React.ComponentType<any>
 
 const getInputElement = (type: string): InputElementType => {
@@ -29,6 +30,8 @@ const getInputElement = (type: string): InputElementType => {
       return CustomRichTextInput
     case "combobox":
       return CustomCombobox
+    case "searchable-select":
+      return CustomSearchableSelect
     case "nested-select":
       return NestedMultiSelect
     case "metadata":
