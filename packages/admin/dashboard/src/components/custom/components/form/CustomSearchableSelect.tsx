@@ -4,6 +4,7 @@ import React, {
   useState,
   useDeferredValue,
   useCallback,
+  useEffect,
 } from "react"
 import {
   Combobox as PrimitiveCombobox,
@@ -64,7 +65,7 @@ const CustomSearchableSelect = React.forwardRef(
         })
     }, [options, deferredSearchValue])
 
-    React.useEffect(() => {
+    useEffect(() => {
       setVisibleOptions(filteredOptions.slice(0, displayCount))
     }, [filteredOptions])
 
