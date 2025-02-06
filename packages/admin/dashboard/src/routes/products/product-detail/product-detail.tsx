@@ -20,6 +20,7 @@ import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
 import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
 import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
+import ProductGoogleCategoryWidget from "../../../widgets/product-google-categories/product-google-categories"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -74,6 +75,9 @@ export const ProductDetail = () => {
         <ProductMediaSection product={product} />
         <ProductOptionSection product={product} />
         <ProductVariantSection product={product} />
+        {dashboardConfig?.featureFlags?.productGoogleCategory && (
+          <ProductGoogleCategoryWidget data={product} />
+        )}
         {dashboardConfig?.featureFlags?.productVariantImages && (
           <ProductVariantImagesWidget data={product} />
         )}
