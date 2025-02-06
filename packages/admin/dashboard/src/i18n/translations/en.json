@@ -298,6 +298,9 @@
     }
   },
   "filters": {
+    "sortLabel": "Sort",
+    "filterLabel": "Filter",
+    "searchLabel": "Search",
     "date": {
       "today": "Today",
       "lastSevenDays": "Last 7 days",
@@ -306,7 +309,9 @@
       "lastTwelveMonths": "Last 12 months",
       "custom": "Custom",
       "from": "From",
-      "to": "To"
+      "to": "To",
+      "starting": "Starting",
+      "ending": "Ending"
     },
     "compare": {
       "lessThan": "Less than",
@@ -316,6 +321,18 @@
       "lessThanLabel": "less than {{value}}",
       "greaterThanLabel": "greater than {{value}}",
       "andLabel": "and"
+    },
+    "sorting": {
+      "alphabeticallyAsc": "A to Z",
+      "alphabeticallyDesc": "Z to A",
+      "dateAsc": "Newest first",
+      "dateDesc": "Oldest first"
+    },
+    "radio": {
+      "yes": "Yes",
+      "no": "No",
+      "true": "True",
+      "false": "False"
     },
     "addFilter": "Add filter"
   },
@@ -471,7 +488,17 @@
       }
     },
     "deleteWarning": "You are about to delete the product {{title}}. This action cannot be undone.",
-    "variants": "Variants",
+    "variants": {
+      "header": "Variants",
+      "empty": {
+        "heading": "No variants",
+        "description": "There are no variants to display."
+      },
+      "filtered": {
+        "heading": "No results",
+        "description": "No variants match the current filter criteria."
+      }
+    },
     "attributes": "Attributes",
     "editAttributes": "Edit Attributes",
     "editOptions": "Edit Options",
@@ -529,6 +556,10 @@
       "discountable": {
         "label": "Discountable",
         "hint": "When unchecked, discounts will not be applied to this product"
+      },
+      "shipping_profile": {
+        "label": "Shipping profile",
+        "hint": "Connect the product to a shipping profile"
       },
       "type": {
         "label": "Type"
@@ -645,6 +676,29 @@
         "header": "Edit Organization",
         "toasts": {
           "success": "Successfully updated the organization of {{title}}."
+        }
+      }
+    },
+    "stock": {
+      "heading": "Manage product stock levels and locations",
+      "description": "Update the stocked inventory levels for all of the product's variants.",
+      "loading": "Hang on this may take a moment...",
+      "tooltips": {
+        "alreadyManaged": "This inventory item is already editable under {{title}}.",
+        "alreadyManagedWithSku": "This inventory item is already editable under {{title}} ({{sku}})."
+      }
+    },
+    "shippingProfile": {
+      "header": "Shipping configuration",
+      "edit": {
+        "header": "Shipping Configuration",
+        "toasts": {
+          "success": "Successfully updated the shipping profile for {{title}}."
+        }
+      },
+      "create": {
+        "errors": {
+          "required": "Shipping profile is required"
         }
       }
     },
@@ -802,6 +856,16 @@
       "updateLocations": "Locations updated successfully.",
       "updateLevel": "Inventory level updated successfully.",
       "updateItem": "Inventory item updated successfully."
+    },
+    "stock": {
+      "title": "Update inventory levels",
+      "description": "Update the stocked inventory levels for the selected inventory items.",
+      "action": "Edit stock levels",
+      "placeholder": "Not enabled",
+      "disablePrompt_one": "You are about to disable {{count}} location level. This action cannot be undone.",
+      "disablePrompt_other": "You are about to disable {{count}} location levels. This action cannot be undone.",
+      "disabledToggleTooltip": "Cannot disable: clear incoming and/or reserved quantity before disabling.",
+      "successToast": "Inventory levels updated successfully."
     }
   },
   "giftCards": {
@@ -821,7 +885,28 @@
     "initialBalance": "Initial balance",
     "personalMessage": "Personal message",
     "recipient": "Recipient",
-    "giftTemplates": "Gift Templates"
+    "giftTemplates": "Gift Templates",
+    "import": {
+      "header": "Import Giftcard List",
+      "uploadLabel": "Import Giftcards",
+      "uploadHint": "Drag and drop a CSV file or click to upload",
+      "description": "Import Giftcards by providing a CSV file in a pre-defined format",
+      "template": {
+        "title": "Unsure about how to arrange your list?",
+        "description": "Download the template below to ensure you are following the correct format."
+      },
+      "upload": {
+        "title": "Upload a CSV file",
+        "description": "Through imports you can add Giftcards.You will be asked for confirmation before we import Giftcards.",
+        "preprocessing": "Preprocessing...",
+        "giftcardsToCreate": "Giftcards will be created",
+        "giftcardsToUpdate": "Giftcards will be updated"
+      },
+      "success": {
+        "title": "We are processing your import",
+        "description": "Importing data may take a while. We will notify you when we are done."
+      }
+    }
   },
 
   "customers": {
@@ -877,6 +962,16 @@
   "customerGroups": {
     "domain": "Customer Groups",
     "subtitle": "Organize customers into groups. Groups can have different promotions and prices.",
+    "list": {
+      "empty": {
+        "heading": "No customer groups",
+        "description": "There are no customer groups to display."
+      },
+      "filtered": {
+        "heading": "No results",
+        "description": "No customer groups match the current filter criteria."
+      }
+    },
     "create": {
       "header": "Create Customer Group",
       "hint": "Create a new customer group to segment your customers.",
@@ -917,9 +1012,19 @@
     "exchange": "Exchange",
     "return": "Return",
     "cancelWarning": "You are about to cancel the order {{id}}. This action cannot be undone.",
+    "orderCanceled": "Order canceled successfully",
     "onDateFromSalesChannel": "{{date}} from {{salesChannel}}",
     "list": {
       "noRecordsMessage": "Your orders will show up here."
+    },
+    "status": {
+      "not_paid": "Not paid",
+      "pending": "Pending",
+      "completed": "Completed",
+      "draft": "Draft",
+      "archived": "Archived",
+      "canceled": "Canceled",
+      "requires_action": "Requires action"
     },
     "summary": {
       "requestReturn": "Request return",
@@ -1188,6 +1293,8 @@
     "fulfillment": {
       "cancelWarning": "You are about to cancel a fulfillment. This action cannot be undone.",
       "markAsDeliveredWarning": "You are about to mark fulfillment as delivered. This action cannot be undone.",
+      "differentOptionSelected": "The selected shipping option is different from the one selected by the customer.",
+      "disabledItemTooltip": "The shipping option you have selected don’t allow fulfillment of this item",
       "unfulfilledItems": "Unfulfilled Items",
       "statusLabel": "Fulfillment status",
       "statusTitle": "Fulfillment Status",
@@ -1208,7 +1315,9 @@
       "error": {
         "wrongQuantity": "Only one item is available for fulfillment",
         "wrongQuantity_other": "Quantity should be a number between 1 and {{number}}",
-        "noItems": "No items to fulfill."
+        "noItems": "No items to fulfill.",
+        "noShippingOption": "Shipping option is required",
+        "noLocation": "Location is required"
       },
       "status": {
         "notFulfilled": "Not fulfilled",
@@ -1821,7 +1930,8 @@
     "tabs": {
       "template": "Type",
       "details": "Details",
-      "campaign": "Campaign"
+      "campaign": "Campaign",
+      "additional_data": "Additional Data"
     },
     "fields": {
       "type": "Type",
@@ -1908,8 +2018,24 @@
           "description": "Proceed without associating promotion with campaign"
         }
       },
+      "additionaldata": {
+        "title": "title",
+        "description": "description"
+      },
       "status": {
-        "title": "Status"
+        "label": "Status",
+        "draft": {
+          "title": "Draft",
+          "description": "Customers will not be able to use the code yet"
+        },
+        "active": {
+          "title": "Active",
+          "description": "Customers will be able to use the code"
+        },
+        "inactive": {
+          "title": "Inactive",
+          "description": "Customers will no longer be able to use the code"
+        }
       },
       "method": {
         "label": "Method",
@@ -2206,7 +2332,18 @@
       "developer": "Developer",
       "member": "Member"
     },
+    "list": {
+      "empty": {
+        "heading": "No users found",
+        "description": "Once a user has been invited, they will appear here."
+      },
+      "filtered": {
+        "heading": "No results",
+        "description": "No users match the current filter criteria."
+      }
+    },
     "deleteUserWarning": "You are about to delete the user {{name}}. This action cannot be undone.",
+    "deleteUserSuccess": "User {{name}} deleted successfully",
     "invite": "Invite"
   },
   "store": {
@@ -2652,6 +2789,8 @@
     "scheduled": "Scheduled",
     "expired": "Expired",
     "active": "Active",
+    "inactive": "Inactive",
+    "draft": "Draft",
     "enabled": "Enabled",
     "disabled": "Disabled"
   },
@@ -2663,7 +2802,9 @@
     "added": "Added",
     "removed": "Removed",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "beaware": "Be aware",
+    "loading": "Loading"
   },
   "fields": {
     "amount": "Amount",

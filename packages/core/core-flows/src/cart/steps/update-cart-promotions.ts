@@ -6,9 +6,21 @@ import {
 } from "@medusajs/framework/utils"
 import { StepResponse, createStep } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The details of the promotion codes to apply on a cart.
+ */
 export interface UpdateCartPromotionStepInput {
+  /**
+   * The ID of the cart to update promotions for.
+   */
   id: string
+  /**
+   * The promotion codes to apply on the cart.
+   */
   promo_codes?: string[]
+  /**
+   * Whether to add, remove, or replace promotion codes.
+   */
   action?:
     | PromotionActions.ADD
     | PromotionActions.REMOVE
@@ -23,7 +35,7 @@ export const updateCartPromotionsStep = createStep(
   updateCartPromotionsStepId,
   async (data: UpdateCartPromotionStepInput, { container }) => {
     const { promo_codes = [], id, action = PromotionActions.ADD } = data
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
     const remoteQuery = container.resolve(
       ContainerRegistrationKeys.REMOTE_QUERY
     )
@@ -94,7 +106,7 @@ export const updateCartPromotionsStep = createStep(
     })
   },
   async (revertData, { container }) => {
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
 
     if (revertData?.dismissedLinks?.length) {
       await remoteLink.create(revertData.dismissedLinks)

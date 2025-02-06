@@ -8,4 +8,5 @@ export enum Tab {
   TYPE = "type",
   PROMOTION = "promotion",
   CAMPAIGN = "campaign",
+  ADDITIONALDATA = "additionaldata",
 }

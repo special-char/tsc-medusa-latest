@@ -20,6 +20,7 @@ import {
   AdminOrderPreview,
   AdminRegion,
   AdminReturn,
+  AdminPaymentCollection,
 } from "@medusajs/types"
 import {
   Badge,
@@ -36,7 +37,6 @@ import {
 } from "@medusajs/ui"
 
 import { AdminReservation } from "@medusajs/types/src/http"
-import { AdminPaymentCollection } from "../../../../../../../../core/types/dist/http/payment/admin/entities"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { Thumbnail } from "../../../../../components/common/thumbnail"
 import { useClaims } from "../../../../../hooks/api/claims"
@@ -56,6 +56,7 @@ import { getReturnableQuantity } from "../../../../../lib/rma"
 import { CopyPaymentLink } from "../copy-payment-link/copy-payment-link"
 import ReturnInfoPopover from "./return-info-popover"
 import ShippingInfoPopover from "./shipping-info-popover"
+import { OrderNoteSection } from "../order-note-section"
 
 type OrderSummarySectionProps = {
   order: AdminOrder
@@ -175,6 +176,7 @@ export const OrderSummarySection = ({ order }: OrderSummarySectionProps) => {
       <ItemBreakdown order={order} reservations={reservations!} />
       <CostBreakdown order={order} />
       <Total order={order} />
+      <OrderNoteSection order={order} />
 
       {(showAllocateButton || showReturns || showPayment || showRefund) && (
         <div className="bg-ui-bg-subtle flex items-center justify-end gap-x-2 rounded-b-xl px-4 py-4">
@@ -309,6 +311,7 @@ const Header = ({
                 to: `/orders/${order.id}/edits`,
                 icon: <PencilSquare />,
                 disabled:
+                  order.status === "canceled" ||
                   (orderPreview?.order_change &&
                     orderPreview?.order_change?.change_type !== "edit") ||
                   (orderPreview?.order_change?.change_type === "edit" &&

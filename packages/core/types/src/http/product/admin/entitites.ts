@@ -1,9 +1,11 @@
 import { AdminCollection } from "../../collection"
+import { AdminInventoryItem } from "../../inventory"
 import { AdminPrice } from "../../pricing"
 import { AdminProductCategory } from "../../product-category"
 import { AdminProductTag } from "../../product-tag"
 import { AdminProductType } from "../../product-type"
 import { AdminSalesChannel } from "../../sales-channel"
+import { AdminShippingProfile } from "../../shipping-profile"
 import {
   BaseProduct,
   BaseProductImage,
@@ -12,6 +14,29 @@ import {
   BaseProductVariant,
   ProductStatus,
 } from "../common"
+
+export interface AdminProductVariantInventoryItemLink {
+  /**
+   * The ID of the pivot record.
+   */
+  id: string
+  /**
+   * The ID of the variant.
+   */
+  variant_id: string
+  /**
+   * The variant that the inventory item is linked to.
+   */
+  variant?: AdminProductVariant
+  /**
+   * The ID of the inventory item.
+   */
+  inventory_item_id: string
+  /**
+   * The inventory item that is linked to the variant.
+   */
+  inventory?: AdminInventoryItem
+}
 
 export interface AdminProductVariant extends BaseProductVariant {
   /**
@@ -26,6 +51,10 @@ export interface AdminProductVariant extends BaseProductVariant {
    * The product that this variant belongs to.
    */
   product?: AdminProduct | null
+  /**
+   * The variant's inventory items.
+   */
+  inventory_items?: AdminProductVariantInventoryItemLink[] | null
 }
 export interface AdminProductOption extends BaseProductOption {
   /**
@@ -58,6 +87,10 @@ export interface AdminProduct
    * The sales channels that the product is available in.
    */
   sales_channels?: AdminSalesChannel[] | null
+  /**
+   * The shipping profile that the product is available in.
+   */
+  shipping_profile?: AdminShippingProfile | null
   /**
    * The product's variants.
    */

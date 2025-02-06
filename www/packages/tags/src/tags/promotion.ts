@@ -16,12 +16,40 @@ export const promotion = [
     "path": "/references/medusa-workflows/steps/updateCartPromotionsStep"
   },
   {
+    "title": "addShippingMethodToCartWorkflow",
+    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+  },
+  {
+    "title": "addToCartWorkflow",
+    "path": "/references/medusa-workflows/addToCartWorkflow"
+  },
+  {
     "title": "createCartWorkflow",
     "path": "/references/medusa-workflows/createCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+  },
+  {
     "title": "updateCartPromotionsWorkflow",
     "path": "/references/medusa-workflows/updateCartPromotionsWorkflow"
+  },
+  {
+    "title": "updateCartWorkflow",
+    "path": "/references/medusa-workflows/updateCartWorkflow"
+  },
+  {
+    "title": "updateLineItemInCartWorkflow",
+    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "addCampaignPromotionsStep",
@@ -108,7 +136,19 @@ export const promotion = [
     "path": "/references/medusa-workflows/updatePromotionRulesWorkflow"
   },
   {
+    "title": "updatePromotionsStatusWorkflow",
+    "path": "/references/medusa-workflows/updatePromotionsStatusWorkflow"
+  },
+  {
     "title": "updatePromotionsWorkflow",
     "path": "/references/medusa-workflows/updatePromotionsWorkflow"
+  },
+  {
+    "title": "campaign",
+    "path": "/references/js-sdk/admin/campaign"
+  },
+  {
+    "title": "promotion",
+    "path": "/references/js-sdk/admin/promotion"
   }
 ]

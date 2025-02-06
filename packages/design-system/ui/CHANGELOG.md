@@ -1,5 +1,27 @@
 # @medusajs/ui
 
+## 4.0.4
+
+### Patch Changes
+
+- [#11075](https://github.com/medusajs/medusa/pull/11075) [`7feb004600fdbf8bf32b13695fd7f41229d43b52`](https://github.com/medusajs/medusa/commit/7feb004600fdbf8bf32b13695fd7f41229d43b52) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - fix(ui): Fix position of Checkbox indicator
+
+- [#10024](https://github.com/medusajs/medusa/pull/10024) [`147c0e5a353b57d3a17db3b572334db58c830b3c`](https://github.com/medusajs/medusa/commit/147c0e5a353b57d3a17db3b572334db58c830b3c) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - feat(ui,dashboard): Add new DataTable block
+
+- Updated dependencies []:
+  - @medusajs/icons@2.4.0
+
+## 4.0.3
+
+### Patch Changes
+
+- [#10458](https://github.com/medusajs/medusa/pull/10458) [`f7aaf2c8bb243c8478a943285628ba8eb331feb6`](https://github.com/medusajs/medusa/commit/f7aaf2c8bb243c8478a943285628ba8eb331feb6) Thanks [@kasperkristensen](https://github.com/kasperkristensen)! - chore(ui,icons): Add React 19/19-rc to peer dependencies
+
+- [#10753](https://github.com/medusajs/medusa/pull/10753) [`3253e19b3603adacd913b8cbb3e88c9beb0c931a`](https://github.com/medusajs/medusa/commit/3253e19b3603adacd913b8cbb3e88c9beb0c931a) Thanks [@shahednasser](https://github.com/shahednasser)! - chore(ui): general updates and fixes to TSDocs and types
+
+- Updated dependencies [[`f7aaf2c8bb243c8478a943285628ba8eb331feb6`](https://github.com/medusajs/medusa/commit/f7aaf2c8bb243c8478a943285628ba8eb331feb6)]:
+  - @medusajs/icons@2.2.0
+
 ## 4.0.2
 
 ### Patch Changes

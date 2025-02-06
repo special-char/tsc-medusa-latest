@@ -1,7 +1,11 @@
 export const inventory = [
   {
+    "title": "Inventory Kits",
+    "path": "/commerce-modules/inventory/inventory-kit"
+  },
+  {
     "title": "Retrieve Product Variant's Inventory in Storefront",
-    "path": "/app/storefront-development/products/inventory"
+    "path": "/storefront-development/products/inventory"
   },
   {
     "title": "confirmInventoryStep",
@@ -14,6 +18,10 @@ export const inventory = [
   {
     "title": "addToCartWorkflow",
     "path": "/references/medusa-workflows/addToCartWorkflow"
+  },
+  {
+    "title": "completeCartWorkflow",
+    "path": "/references/medusa-workflows/completeCartWorkflow"
   },
   {
     "title": "confirmVariantInventoryWorkflow",
@@ -50,6 +58,10 @@ export const inventory = [
   {
     "title": "updateInventoryLevelsStep",
     "path": "/references/medusa-workflows/steps/updateInventoryLevelsStep"
+  },
+  {
+    "title": "batchInventoryItemLevelsWorkflow",
+    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
   },
   {
     "title": "bulkCreateDeleteLevelsWorkflow",
@@ -186,5 +198,13 @@ export const inventory = [
   {
     "title": "updateReservationsWorkflow",
     "path": "/references/medusa-workflows/updateReservationsWorkflow"
+  },
+  {
+    "title": "inventoryItem",
+    "path": "/references/js-sdk/admin/inventoryItem"
+  },
+  {
+    "title": "reservation",
+    "path": "/references/js-sdk/admin/reservation"
   }
 ]

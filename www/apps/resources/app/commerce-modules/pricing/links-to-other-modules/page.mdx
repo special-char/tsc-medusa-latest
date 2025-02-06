@@ -36,8 +36,8 @@ To retrieve the shipping option of a price set with [Query](!docs!/learn/fundame
 const { data: priceSets } = await query.graph({
   entity: "price_set",
   fields: [
-    "shipping_option.*"
-  ]
+    "shipping_option.*",
+  ],
 })
 
 // priceSets.shipping_option
@@ -54,8 +54,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: priceSets } = useQueryGraphStep({
   entity: "price_set",
   fields: [
-    "shipping_option.*"
-  ]
+    "shipping_option.*",
+  ],
 })
 
 // priceSets.shipping_option
@@ -64,19 +64,19 @@ const { data: priceSets } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the price set of a shipping option, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the price set of a shipping option, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.FULFILLMENT]: {
     shipping_option_id: "so_123",
   },
@@ -133,8 +133,8 @@ To retrieve the variant of a price set with [Query](!docs!/learn/fundamentals/mo
 const { data: priceSets } = await query.graph({
   entity: "price_set",
   fields: [
-    "variant.*"
-  ]
+    "variant.*",
+  ],
 })
 
 // priceSets.variant
@@ -151,8 +151,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: priceSets } = useQueryGraphStep({
   entity: "price_set",
   fields: [
-    "variant.*"
-  ]
+    "variant.*",
+  ],
 })
 
 // priceSets.variant
@@ -161,19 +161,19 @@ const { data: priceSets } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the price set of a variant, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the price set of a variant, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.PRODUCT]: {
     variant_id: "variant_123",
   },

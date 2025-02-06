@@ -3,7 +3,8 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { AdminProduct } from "@medusajs/framework/types"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-import { backendUrl } from "../../../lib/client"
+import { sdk } from "../../../lib/client"
+import { toast } from "@medusajs/ui"
 
 // type Notify = {
 // 	success: (title: string, message: string) => void;
@@ -52,27 +53,16 @@ const formSchema = {
 }
 
 const getProductAdditionalDetails = async (id: string) => {
-  const response = await fetch(
-    `${backendUrl}/admin/product-additional-details/product/${id}`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    }
-  )
+  const data = await sdk.admin.product.retrieve(id, {
+    fields: "+additional_details.*",
+  })
 
-  if (!response.ok) {
-    // notify.error("failed", "Something went wrong...");
-    throw new Error("something went wrong...")
-  }
-
-  const json = await response.json()
-  return json
+  return data
 }
 
 const ProductAdditionalDetailsForm = ({ product }: Props) => {
   const [data, setData] = useState<ExtendedProduct | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
+  // const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
 
   const form = useForm<FieldValues>({
@@ -90,34 +80,43 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
   const onSubmit = async (data: FieldValues) => {
     console.log({ data })
 
-    setLoading(true)
+    // setLoading(true)
 
     try {
-      const response = await fetch(
-        `${backendUrl}/admin/product-additional-details/product/${product?.id}`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      )
+      // const response = await fetch(
+      //   `${backendUrl}/admin/product-additional-details/product/${product?.id}`,
+      //   {
+      //     method: "POST",
+      //     credentials: "include",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(data),
+      //   }
+      // )
 
-      if (!response.ok) {
-        // notify.error("failed", "Something went wrong...");
-        return
-      }
-
+      const response =
+        await sdk.admin.productAdditionalDetails.updateProductAdditionalDetails(
+          product.id,
+          {
+            additional_description: data?.additional_description,
+            additional_details_content: data?.additional_details_content,
+            additional_details_title: data?.additional_details_title,
+            grid_view: data?.grid_view,
+          }
+        )
       // const json = await response.json()
 
       // notify.success("Done", "success");
-      console.log("Done success")
+
+      toast(`Additional Details for product ${product.title} Updated`)
       navigate(0)
     } catch (error) {
       // notify.error("Error", error);
       console.error("error occured while submitting data", { error })
+      toast(
+        `Error occured while updating Additional Details for product ${product.title}`
+      )
     } finally {
-      setLoading(false)
+      // setLoading(false)
     }
   }
 
@@ -136,7 +135,7 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
   }, [data])
 
   useEffect(() => {
-    setLoading(true)
+    // setLoading(true)
 
     getProductAdditionalDetails(product?.id)
       .then(({ product }) => {
@@ -146,7 +145,7 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
         console.log(err)
       })
       .finally(() => {
-        setLoading(false)
+        // setLoading(false)
       })
   }, [])
 

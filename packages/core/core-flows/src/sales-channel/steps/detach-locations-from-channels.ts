@@ -1,11 +1,23 @@
-import { RemoteLink } from "@medusajs/framework/modules-sdk"
+import { Link } from "@medusajs/framework/modules-sdk"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 
+/**
+ * The data to detach stock locations from sales channels.
+ */
 export interface DetachLocationsFromSalesChannelsStepInput {
+  /**
+   * The links to dismiss between locations and sales channels.
+   */
   links: {
+    /**
+     * The ID of the sales channel.
+     */
     sales_channel_id: string
+    /**
+     * The ID of the location.
+     */
     location_id: string
   }[]
 }
@@ -13,7 +25,17 @@ export interface DetachLocationsFromSalesChannelsStepInput {
 export const detachLocationsFromSalesChannelsStepId =
   "detach-locations-from-sales-channels"
 /**
- * This step dismisses links between location and sales channel records.
+ * This step dismisses links between stock location and sales channel records.
+ * 
+ * @example
+ * const data = detachLocationsFromSalesChannelsStep({
+ *   links: [
+ *     {
+ *       sales_channel_id: "sc_123",
+ *       location_id: "sloc_123"
+ *     }
+ *   ]
+ * })
  */
 export const detachLocationsFromSalesChannelsStep = createStep(
   detachLocationsFromSalesChannelsStepId,
@@ -22,9 +44,7 @@ export const detachLocationsFromSalesChannelsStep = createStep(
       return new StepResponse([], [])
     }
 
-    const remoteLink = container.resolve<RemoteLink>(
-      ContainerRegistrationKeys.REMOTE_LINK
-    )
+    const remoteLink = container.resolve<Link>(ContainerRegistrationKeys.LINK)
 
     const links = data.links.map((link) => {
       return {
@@ -45,7 +65,7 @@ export const detachLocationsFromSalesChannelsStep = createStep(
       return
     }
 
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
     await remoteLink.create(links)
   }
 )

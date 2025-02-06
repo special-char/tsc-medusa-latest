@@ -1,12 +1,11 @@
 import { Button, Container, Heading, Table } from "@medusajs/ui"
 import { useEffect, useState } from "react"
-
-import { backendUrl } from "../../../../../lib/client"
 import { DateCell } from "../../../../../components/table/table-cells/common/date-cell"
 import { Link, Outlet } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import FaqActions from "../faq.actions/faq.actions"
 import { SquareGreenSolid, SquareGreySolid } from "@medusajs/icons"
+import { sdk } from "../../../../../lib/client"
 
 export type faqCategoryProps = {
   id: string
@@ -35,15 +34,16 @@ export type FaqProps = {
   deleted_at: Date | null
 }
 export const FaqListTable = () => {
-  const [faqs, setFaqs] = useState([])
+  const [faqs, setFaqs] = useState<FaqProps[]>([])
   const LoadFaqData = async () => {
     try {
-      const faqResponse = await fetch(`${backendUrl}/admin/faqs`, {
-        method: "GET",
-        credentials: "include",
-      })
-      const faqResponseJson = await faqResponse.json()
-      setFaqs(faqResponseJson?.faqs)
+      const faqResponse = await sdk.admin.faq.listFaqs()
+      // const faqResponse = await fetch(`${backendUrl}/admin/faqs`, {
+      //   method: "GET",
+      //   credentials: "include",
+      // })
+      // const faqResponseJson = await faqResponse.json()
+      setFaqs(faqResponse?.faqs)
     } catch (error: any) {
       console.log(`Failed to fetch faq data : ${error}`)
     }

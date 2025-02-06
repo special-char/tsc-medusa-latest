@@ -2,13 +2,13 @@
 
 import {
   BarsThree,
+  Book,
   QuestionMarkCircle,
   SidebarLeft,
   TimelineVertical,
 } from "@medusajs/icons"
 import React, { useMemo, useRef, useState } from "react"
 import {
-  BookIcon,
   Button,
   getOsShortcut,
   Menu,
@@ -22,7 +22,8 @@ import { MenuItem } from "types"
 
 export const MainNavDesktopMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const { setDesktopSidebarOpen, isSidebarShown } = useSidebar()
+  const { setDesktopSidebarOpen, isSidebarShown, desktopSidebarOpen } =
+    useSidebar()
   const ref = useRef<HTMLDivElement>(null)
 
   useClickOutside({
@@ -40,7 +41,7 @@ export const MainNavDesktopMenu = () => {
       },
       {
         type: "link",
-        icon: <BookIcon />,
+        icon: <Book />,
         title: "Medusa v1",
         link: "https://docs.medusajs.com/v1",
       },
@@ -65,7 +66,7 @@ export const MainNavDesktopMenu = () => {
         },
         {
           type: "action",
-          title: "Hide Sidebar",
+          title: desktopSidebarOpen ? "Hide Sidebar" : "Show Sidebar",
           icon: <SidebarLeft />,
           shortcut: `${getOsShortcut()}\\`,
           action: () => {
@@ -87,7 +88,7 @@ export const MainNavDesktopMenu = () => {
     )
 
     return items
-  }, [isSidebarShown])
+  }, [isSidebarShown, desktopSidebarOpen])
 
   return (
     <div

@@ -8,6 +8,7 @@ import { BrandGeneralSection } from "./components/brand-general-section"
 import { BrandProductSection } from "./components/brand-product-section"
 import { BrandLoader } from "./loader"
 import { Brand } from "../brand-list/components/brand-list-table"
+import { sdk } from "../../../lib/client/client"
 
 export const BrandDetail = () => {
   const { id } = useParams()
@@ -21,19 +22,14 @@ export const BrandDetail = () => {
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const response = await fetch(`${__BACKEND_URL__}/admin/brand/${id}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+     
+        const response = await sdk.admin.brand.retrieve(id!)
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok")
-        }
+        // if (!response.ok) {
+        //   throw new Error("Network response was not ok")
+        // }
 
-        const data: Brand = await response.json()
+        const data: Brand = response
         setBrand(data)
       } catch (err) {
         setIsError(true)

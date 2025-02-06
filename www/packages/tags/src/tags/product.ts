@@ -1,71 +1,79 @@
 export const product = [
   {
+    "title": "Inventory Kits",
+    "path": "/commerce-modules/inventory/inventory-kit"
+  },
+  {
     "title": "Get Variant Prices",
-    "path": "/app/commerce-modules/product/guides/price"
+    "path": "/commerce-modules/product/guides/price"
   },
   {
     "title": "Get Variant Price with Taxes",
-    "path": "/app/commerce-modules/product/guides/price-with-taxes"
+    "path": "/commerce-modules/product/guides/price-with-taxes"
   },
   {
     "title": "List Product Categories in Storefront",
-    "path": "/app/storefront-development/products/categories/list"
+    "path": "/storefront-development/products/categories/list"
   },
   {
     "title": "Retrieve Nested Categories in Storefront",
-    "path": "/app/storefront-development/products/categories/nested-categories"
+    "path": "/storefront-development/products/categories/nested-categories"
   },
   {
     "title": "Retrieve a Category's Products in Storefront",
-    "path": "/app/storefront-development/products/categories/products"
+    "path": "/storefront-development/products/categories/products"
   },
   {
     "title": "Retrieve a Category in Storefront",
-    "path": "/app/storefront-development/products/categories/retrieve"
+    "path": "/storefront-development/products/categories/retrieve"
   },
   {
     "title": "List Product Collections in Storefront",
-    "path": "/app/storefront-development/products/collections/list"
+    "path": "/storefront-development/products/collections/list"
   },
   {
     "title": "Retrieve a Collection's Products in Storefront",
-    "path": "/app/storefront-development/products/collections/products"
+    "path": "/storefront-development/products/collections/products"
   },
   {
     "title": "Retrieve a Collection in Storefront",
-    "path": "/app/storefront-development/products/collections/retrieve"
+    "path": "/storefront-development/products/collections/retrieve"
   },
   {
     "title": "Retrieve Product Variant's Inventory in Storefront",
-    "path": "/app/storefront-development/products/inventory"
+    "path": "/storefront-development/products/inventory"
   },
   {
     "title": "List Products in Storefront",
-    "path": "/app/storefront-development/products/list"
+    "path": "/storefront-development/products/list"
   },
   {
     "title": "Example: Show Sale Price",
-    "path": "/app/storefront-development/products/price/examples/sale-price"
+    "path": "/storefront-development/products/price/examples/sale-price"
   },
   {
     "title": "Example: Show Variant's Price",
-    "path": "/app/storefront-development/products/price/examples/show-price"
+    "path": "/storefront-development/products/price/examples/show-price"
   },
   {
     "title": "Example: Show Price with Taxes",
-    "path": "/app/storefront-development/products/price/examples/tax-price"
+    "path": "/storefront-development/products/price/examples/tax-price"
   },
   {
     "title": "Retrieve Product Variant's Prices in Storefront",
-    "path": "/app/storefront-development/products/price"
+    "path": "/storefront-development/products/price"
   },
   {
     "title": "Retrieve a Product in Storefront",
-    "path": "/app/storefront-development/products/retrieve"
+    "path": "/storefront-development/products/retrieve"
   },
   {
     "title": "Select Product Variants in Storefront",
-    "path": "/app/storefront-development/products/variants"
+    "path": "/storefront-development/products/variants"
+  },
+  {
+    "title": "batchLinkProductsToCategoryStep",
+    "path": "/references/medusa-workflows/steps/batchLinkProductsToCategoryStep"
   },
   {
     "title": "batchLinkProductsToCollectionStep",
@@ -154,6 +162,10 @@ export const product = [
   {
     "title": "updateProductsStep",
     "path": "/references/medusa-workflows/steps/updateProductsStep"
+  },
+  {
+    "title": "batchLinkProductsToCategoryWorkflow",
+    "path": "/references/medusa-workflows/batchLinkProductsToCategoryWorkflow"
   },
   {
     "title": "batchLinkProductsToCollectionWorkflow",
@@ -266,5 +278,41 @@ export const product = [
   {
     "title": "updateProductCategoriesWorkflow",
     "path": "/references/medusa-workflows/updateProductCategoriesWorkflow"
+  },
+  {
+    "title": "product",
+    "path": "/references/js-sdk/admin/product"
+  },
+  {
+    "title": "productCategory",
+    "path": "/references/js-sdk/admin/productCategory"
+  },
+  {
+    "title": "productCollection",
+    "path": "/references/js-sdk/admin/productCollection"
+  },
+  {
+    "title": "productTag",
+    "path": "/references/js-sdk/admin/productTag"
+  },
+  {
+    "title": "productType",
+    "path": "/references/js-sdk/admin/productType"
+  },
+  {
+    "title": "productVariant",
+    "path": "/references/js-sdk/admin/productVariant"
+  },
+  {
+    "title": "category",
+    "path": "/references/js-sdk/store/category"
+  },
+  {
+    "title": "collection",
+    "path": "/references/js-sdk/store/collection"
+  },
+  {
+    "title": "product",
+    "path": "/references/js-sdk/store/product"
   }
 ]

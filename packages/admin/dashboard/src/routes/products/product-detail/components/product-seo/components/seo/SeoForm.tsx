@@ -2,6 +2,8 @@ import { useForm, FieldValues, UseFormReturn } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import DynamicForm from "../form/DynamicForm"
 import { SeoDetailsTypes } from "../.."
+import { sdk } from "../../../../../../../lib/client"
+import { useRouteModal } from "../../../../../../../components/modals"
 
 type Props = {
   product: any
@@ -140,6 +142,29 @@ const formFields = (
       },
     },
   },
+  feedData: {
+    label: "Feed Data",
+    fieldType: "textarea",
+    validation: {
+      maxLength: { value: 10000, message: "max. 10000 characters" },
+      validate: {
+        isValidJson: (value: string) => {
+          if (typeof value !== "string") {
+            return "Feed Data must be a valid JSON string"
+          }
+          try {
+            const parsed = JSON.parse(value)
+            if (typeof parsed !== "object" || parsed === null) {
+              return "Feed Data must be a valid JSON object or array"
+            }
+            return true
+          } catch {
+            return "Invalid JSON format"
+          }
+        },
+      },
+    },
+  },
   metaViewport: {
     label: "Meta Viewport",
     fieldType: "input",
@@ -169,6 +194,7 @@ const formFields = (
 })
 const SeoForm = ({ product, productSeo }: Props) => {
   const navigate = useNavigate()
+
   const form = useForm<FieldValues>({
     defaultValues: {
       metaTitle: productSeo?.metaTitle || "",
@@ -189,7 +215,8 @@ const SeoForm = ({ product, productSeo }: Props) => {
           : undefined,
       keywords: productSeo?.keywords,
       metaRobots: productSeo?.metaRobots,
-      structuredData: JSON.stringify(productSeo?.structuredData || {}),
+      structuredData: productSeo?.structuredData || "{}",
+      feedData: productSeo?.feedData || "{}",
       metaViewport: productSeo?.metaViewport,
       canonicalURL: productSeo?.canonicalURL,
     },
@@ -197,87 +224,25 @@ const SeoForm = ({ product, productSeo }: Props) => {
   const onSubmit = async (data: FieldValues) => {
     // return;
     try {
-      const formData = new FormData()
-      formData.append("metaTitle", data.metaTitle || "")
-      formData.append("metaDescription", data.metaDescription || "")
-      formData.append("keywords", data.keywords || "")
-      formData.append("metaViewport", data.metaViewport || "")
-      formData.append("metaRobots", data.metaRobots || "")
-      formData.append("structuredData", data.structuredData || "")
-      formData.append("canonicalURL", data.canonicalURL || "")
-      console.log({ data })
-
-      if (
-        data.metaSocial &&
-        Array.isArray(data.metaSocial) &&
-        data.metaSocial.length > 0
-      ) {
-        formData.append(
-          "metaSocial",
-          JSON.stringify(
-            data.metaSocial.map((item: any, index: number) => ({
-              ...item,
-              index,
-            }))
-          )
-        )
-        data.metaSocial.forEach((item: any, index) => {
-          if (item.image?.[0] && item.image?.[0] instanceof File) {
-            formData.append(
-              "files",
-              item.image?.[0],
-              `${
-                item.id ?? `new_item_${index}_newMetaSocial`
-              }.metaSocial.image.${item.image?.[0]?.name}`
-            )
-          }
-        })
-      }
-      if (typeof data.metaImage === "string" || !data.metaImage) {
-        console.log("deleted imagecanonical_URL", data.metaImage)
-        formData.append("metaImage", data.metaImage ?? null)
-      }
-
-      if (data.metaImage?.[0] && data.metaImage?.[0] instanceof File) {
-        formData.append("files", data.metaImage?.[0], data.metaImage?.[0]?.name)
-      }
-      console.log("FormData contents:")
-      for (const pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1])
-      }
       if (!productSeo) {
-        const response = await fetch(
-          `${__BACKEND_URL__}/admin/product-seo/${product.id}`,
-          {
-            method: "POST",
-            credentials: "include",
-            body: formData,
-            headers: {
-              // Accept: "application/json",
-              // Don't set Content-Type when using FormData, browser will set it automatically with boundary
-            },
-          }
-        )
-        if (!response.ok) {
-          return console.error("failed", "!response.ok")
-        }
+        console.log("data::::::::::;", data)
+
+        await sdk.admin.productSeo.create(product.id, data)
+        navigate(`/products/${product.id}`, {
+          replace: true,
+          state: { isSubmitSuccessful: true },
+        })
+        // handleSuccess()
       } else {
-        const response = await fetch(
-          `${__BACKEND_URL__}/admin/product-seo/${product.id}/${productSeo.id}`,
-          {
-            method: "PUT",
-            credentials: "include",
-            body: formData,
-            headers: {
-              Accept: "application/json",
-              // Don't set Content-Type when using FormData, browser will set it automatically with boundary
-            },
-          }
+        await sdk.admin.productSeo.update(
+          product?.id,
+          productSeo?.id as string,
+          data
         )
-        const res = await response.json()
-        if (!response.ok) {
-          console.error(res)
-        }
+        navigate(`/products/${product.id}`, {
+          replace: true,
+          state: { isSubmitSuccessful: true },
+        })
       }
       navigate(0)
     } catch (error: unknown) {
@@ -290,9 +255,9 @@ const SeoForm = ({ product, productSeo }: Props) => {
     }
   }
   return (
-    <div className="w-full max-w-4xl mx-auto px-10">
+    <div className="mx-auto w-full max-w-4xl px-10">
       {/* <div className="bg-white p-8 border border-gray-200 rounded-lg"> */}
-      <h3 className="text-2xl font-semibold mb-6">SEO for - {product.title}</h3>
+      <h3 className="mb-6 text-2xl font-semibold">SEO for - {product.title}</h3>
       <DynamicForm
         form={form}
         onSubmit={onSubmit}
@@ -310,6 +275,7 @@ const SeoForm = ({ product, productSeo }: Props) => {
               keywords: " ",
               metaRobots: " ",
               structuredData: JSON.stringify({}),
+              feedData: JSON.stringify({}),
               metaViewport: " ",
               canonicalURL: " ",
             },

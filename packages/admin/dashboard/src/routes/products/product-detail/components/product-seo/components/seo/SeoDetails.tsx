@@ -3,7 +3,7 @@ import CustomImage from "./CustomImage"
 
 const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
   return (
-    <div className="p-4 border rounded-md">
+    <div className="overflow-scroll rounded-md border p-4">
       <p className="grid grid-cols-[1fr_1fr] gap-4">
         <span className="font-bold">Name:</span>
         <span className="inter-base-regular text-grey-50">
@@ -47,6 +47,12 @@ const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
         </pre>
       </p>
       <p className="grid grid-cols-[1fr_1fr] gap-4">
+        <span className="font-bold">Feed Data:</span>
+        <pre className="inter-base-regular text-grey-50">
+          {JSON.stringify(productSeo?.feedData, null, 2)}
+        </pre>
+      </p>
+      <p className="grid grid-cols-[1fr_1fr] gap-4">
         <span className="font-bold">Viewport:</span>
         <span className="inter-base-regular text-grey-50">
           {productSeo?.metaViewport}
@@ -58,14 +64,15 @@ const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
           target="_blank"
           href={productSeo?.canonicalURL ?? "#"}
           className="inter-base-regular text-blue-500 underline"
+          rel="noreferrer"
         >
           {productSeo?.canonicalURL}
         </a>
       </p>
       {productSeo?.metaSocial?.length > 0 && (
         <>
-          <p className="my-4 font-bold text-large">Product Seo Social</p>
-          <div className="border rounded-md p-4 divide-y">
+          <p className="text-large my-4 font-bold">Product Seo Social</p>
+          <div className="divide-y rounded-md border p-4">
             {productSeo?.metaSocial.map((item) => {
               return (
                 <div className="py-2" key={item.id}>

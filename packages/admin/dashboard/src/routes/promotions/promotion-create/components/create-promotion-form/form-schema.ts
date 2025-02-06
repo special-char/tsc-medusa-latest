@@ -25,6 +25,7 @@ export const CreatePromotionSchema = z
     is_automatic: z.string().toLowerCase(),
     code: z.string().min(1),
     type: z.enum(["buyget", "standard"]),
+    status: z.enum(["draft", "active", "inactive"]),
     rules: RuleSchema,
     application_method: z.object({
       allocation: z.enum(["each", "across"]),
@@ -37,6 +38,8 @@ export const CreatePromotionSchema = z
       target_type: z.enum(["order", "shipping_methods", "items"]),
     }),
     campaign: CreateCampaignSchema.optional(),
+    title: z.string().optional(),
+    description: z.string().optional(),
   })
   .refine(
     (data) => {

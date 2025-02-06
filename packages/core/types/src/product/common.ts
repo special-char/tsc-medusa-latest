@@ -698,6 +698,10 @@ export interface FilterableProductProps
    */
   handle?: string | string[]
   /**
+   * The skus to filter products by.
+   */
+  sku?: string | string[]
+  /**
    * The IDs to filter products by.
    */
   id?: string | string[]
@@ -1240,6 +1244,16 @@ export interface UpdateProductOptionValueDTO {
 /**
  * @interface
  *
+ * Inventory kit for creating a product variant.
+ */
+export interface CreateProductVariantInventoryKit {
+  inventory_item_id: string
+  required_quantity?: number
+}
+
+/**
+ * @interface
+ *
  * A product variant to create.
  */
 export interface CreateProductVariantDTO {
@@ -1275,6 +1289,11 @@ export interface CreateProductVariantDTO {
    *  Whether the product variant's inventory should be managed by the core system.
    */
   manage_inventory?: boolean
+  /**
+   * The variant's inventory items. It's only
+   * available if `manage_inventory` is enabled.
+   */
+  inventory_items?: CreateProductVariantInventoryKit[]
   /**
    * The HS Code of the product variant.
    */

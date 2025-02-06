@@ -1,5 +1,5 @@
 {
-	"id": 16399,
+	"id": 16051,
 	"name": "tax-models",
 	"variant": "project",
 	"kind": 1,
@@ -18,13 +18,21 @@
 	},
 	"children": [
 		{
-			"id": 16522,
+			"id": 16174,
 			"name": "TaxProvider",
 			"variant": "declaration",
 			"kind": 32,
 			"flags": {
 				"isConst": true
 			},
+			"sources": [
+				{
+					"fileName": "tax-provider.ts",
+					"line": 4,
+					"character": 6,
+					"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-provider.ts#L4"
+				}
+			],
 			"type": {
 				"type": "reference",
 				"target": {
@@ -42,14 +50,14 @@
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 16523,
+									"id": 16175,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 16524,
+											"id": 16176,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -62,6 +70,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-provider.ts",
+													"line": 5,
+													"character": 2,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-provider.ts#L5"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -85,7 +101,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16525,
+											"id": 16177,
 											"name": "is_enabled",
 											"variant": "declaration",
 											"kind": 1024,
@@ -98,6 +114,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-provider.ts",
+													"line": 6,
+													"character": 2,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-provider.ts#L6"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -110,7 +134,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16526,
+											"id": 16178,
 											"name": "regions",
 											"variant": "declaration",
 											"kind": 1024,
@@ -126,6 +150,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-provider.ts",
+													"line": 7,
+													"character": 2,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-provider.ts#L7"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -135,7 +167,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16447,
+														"target": 16099,
 														"name": "TaxRegion"
 													}
 												],
@@ -149,10 +181,18 @@
 										{
 											"title": "Properties",
 											"children": [
-												16524,
-												16525,
-												16526
+												16176,
+												16177,
+												16178
 											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "tax-provider.ts",
+											"line": 4,
+											"character": 48,
+											"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-provider.ts#L4"
 										}
 									]
 								}
@@ -172,13 +212,21 @@
 			"defaultValue": "..."
 		},
 		{
-			"id": 16497,
+			"id": 16149,
 			"name": "TaxRateRule",
 			"variant": "declaration",
 			"kind": 32,
 			"flags": {
 				"isConst": true
 			},
+			"sources": [
+				{
+					"fileName": "tax-rate-rule.ts",
+					"line": 4,
+					"character": 6,
+					"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L4"
+				}
+			],
 			"type": {
 				"type": "reference",
 				"target": {
@@ -196,14 +244,14 @@
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 16498,
+									"id": 16150,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 16499,
+											"id": 16151,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -216,6 +264,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate-rule.ts",
+													"line": 6,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L6"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -239,7 +295,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16500,
+											"id": 16152,
 											"name": "metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -254,6 +310,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate-rule.ts",
+													"line": 7,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L7"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -266,7 +330,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16501,
+											"id": 16153,
 											"name": "created_by",
 											"variant": "declaration",
 											"kind": 1024,
@@ -281,6 +345,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate-rule.ts",
+													"line": 8,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L8"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -293,7 +365,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16502,
+											"id": 16154,
 											"name": "tax_rate",
 											"variant": "declaration",
 											"kind": 1024,
@@ -309,6 +381,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate-rule.ts",
+													"line": 9,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L9"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -318,7 +398,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16400,
+														"target": 16052,
 														"name": "TaxRate"
 													}
 												],
@@ -328,7 +408,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16520,
+											"id": 16172,
 											"name": "reference",
 											"variant": "declaration",
 											"kind": 1024,
@@ -341,6 +421,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate-rule.ts",
+													"line": 12,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L12"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -353,7 +441,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16521,
+											"id": 16173,
 											"name": "reference_id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -366,6 +454,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate-rule.ts",
+													"line": 13,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L13"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -382,13 +478,21 @@
 										{
 											"title": "Properties",
 											"children": [
-												16499,
-												16500,
-												16501,
-												16502,
-												16520,
-												16521
+												16151,
+												16152,
+												16153,
+												16154,
+												16172,
+												16173
 											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "tax-rate-rule.ts",
+											"line": 5,
+											"character": 25,
+											"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate-rule.ts#L5"
 										}
 									]
 								}
@@ -408,13 +512,21 @@
 			"defaultValue": "..."
 		},
 		{
-			"id": 16400,
+			"id": 16052,
 			"name": "TaxRate",
 			"variant": "declaration",
 			"kind": 32,
 			"flags": {
 				"isConst": true
 			},
+			"sources": [
+				{
+					"fileName": "tax-rate.ts",
+					"line": 5,
+					"character": 6,
+					"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L5"
+				}
+			],
 			"type": {
 				"type": "reference",
 				"target": {
@@ -432,14 +544,14 @@
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 16401,
+									"id": 16053,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 16402,
+											"id": 16054,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -452,6 +564,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 7,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L7"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -475,7 +595,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16403,
+											"id": 16055,
 											"name": "rate",
 											"variant": "declaration",
 											"kind": 1024,
@@ -490,6 +610,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 8,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L8"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -502,7 +630,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16404,
+											"id": 16056,
 											"name": "code",
 											"variant": "declaration",
 											"kind": 1024,
@@ -515,6 +643,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 9,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L9"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -527,7 +663,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16405,
+											"id": 16057,
 											"name": "name",
 											"variant": "declaration",
 											"kind": 1024,
@@ -540,6 +676,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 10,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L10"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -552,7 +696,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16406,
+											"id": 16058,
 											"name": "is_default",
 											"variant": "declaration",
 											"kind": 1024,
@@ -565,6 +709,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 11,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L11"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -577,7 +729,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16407,
+											"id": 16059,
 											"name": "is_combinable",
 											"variant": "declaration",
 											"kind": 1024,
@@ -590,6 +742,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 12,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L12"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -602,7 +762,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16408,
+											"id": 16060,
 											"name": "tax_region",
 											"variant": "declaration",
 											"kind": 1024,
@@ -618,6 +778,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 13,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L13"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -627,7 +795,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16447,
+														"target": 16099,
 														"name": "TaxRegion"
 													}
 												],
@@ -637,7 +805,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16433,
+											"id": 16085,
 											"name": "rules",
 											"variant": "declaration",
 											"kind": 1024,
@@ -653,6 +821,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 16,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L16"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -662,7 +838,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16497,
+														"target": 16149,
 														"name": "TaxRateRule"
 													}
 												],
@@ -672,7 +848,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16445,
+											"id": 16097,
 											"name": "metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -687,6 +863,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 19,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L19"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -699,7 +883,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16446,
+											"id": 16098,
 											"name": "created_by",
 											"variant": "declaration",
 											"kind": 1024,
@@ -714,6 +898,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-rate.ts",
+													"line": 20,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L20"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -730,17 +922,25 @@
 										{
 											"title": "Properties",
 											"children": [
-												16402,
-												16403,
-												16404,
-												16405,
-												16406,
-												16407,
-												16408,
-												16433,
-												16445,
-												16446
+												16054,
+												16055,
+												16056,
+												16057,
+												16058,
+												16059,
+												16060,
+												16085,
+												16097,
+												16098
 											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "tax-rate.ts",
+											"line": 6,
+											"character": 21,
+											"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-rate.ts#L6"
 										}
 									]
 								}
@@ -760,13 +960,21 @@
 			"defaultValue": "..."
 		},
 		{
-			"id": 16447,
+			"id": 16099,
 			"name": "TaxRegion",
 			"variant": "declaration",
 			"kind": 32,
 			"flags": {
 				"isConst": true
 			},
+			"sources": [
+				{
+					"fileName": "tax-region.ts",
+					"line": 10,
+					"character": 6,
+					"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L10"
+				}
+			],
 			"type": {
 				"type": "reference",
 				"target": {
@@ -784,14 +992,14 @@
 							{
 								"type": "reflection",
 								"declaration": {
-									"id": 16448,
+									"id": 16100,
 									"name": "__type",
 									"variant": "declaration",
 									"kind": 65536,
 									"flags": {},
 									"children": [
 										{
-											"id": 16449,
+											"id": 16101,
 											"name": "id",
 											"variant": "declaration",
 											"kind": 1024,
@@ -804,6 +1012,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 12,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L12"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -827,7 +1043,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16450,
+											"id": 16102,
 											"name": "country_code",
 											"variant": "declaration",
 											"kind": 1024,
@@ -840,6 +1056,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 13,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L13"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -852,7 +1076,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16451,
+											"id": 16103,
 											"name": "province_code",
 											"variant": "declaration",
 											"kind": 1024,
@@ -867,6 +1091,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 14,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L14"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -879,7 +1111,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16452,
+											"id": 16104,
 											"name": "metadata",
 											"variant": "declaration",
 											"kind": 1024,
@@ -894,6 +1126,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 15,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L15"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -906,7 +1146,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16453,
+											"id": 16105,
 											"name": "created_by",
 											"variant": "declaration",
 											"kind": 1024,
@@ -921,6 +1161,14 @@
 													}
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 16,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L16"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -933,7 +1181,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16454,
+											"id": 16106,
 											"name": "provider",
 											"variant": "declaration",
 											"kind": 1024,
@@ -951,6 +1199,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 17,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L17"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -960,7 +1216,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16522,
+														"target": 16174,
 														"name": "TaxProvider"
 													}
 												],
@@ -970,7 +1226,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16471,
+											"id": 16123,
 											"name": "parent",
 											"variant": "declaration",
 											"kind": 1024,
@@ -988,6 +1244,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 22,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L22"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -997,7 +1261,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16447,
+														"target": 16099,
 														"name": "TaxRegion"
 													}
 												],
@@ -1007,7 +1271,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16476,
+											"id": 16128,
 											"name": "children",
 											"variant": "declaration",
 											"kind": 1024,
@@ -1023,6 +1287,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 27,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L27"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -1032,7 +1304,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16447,
+														"target": 16099,
 														"name": "TaxRegion"
 													}
 												],
@@ -1042,7 +1314,7 @@
 											"defaultValue": "..."
 										},
 										{
-											"id": 16479,
+											"id": 16131,
 											"name": "tax_rates",
 											"variant": "declaration",
 											"kind": 1024,
@@ -1058,6 +1330,14 @@
 													"@expandable"
 												]
 											},
+											"sources": [
+												{
+													"fileName": "tax-region.ts",
+													"line": 30,
+													"character": 4,
+													"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L30"
+												}
+											],
 											"type": {
 												"type": "reference",
 												"target": {
@@ -1067,7 +1347,7 @@
 												"typeArguments": [
 													{
 														"type": "reference",
-														"target": 16400,
+														"target": 16052,
 														"name": "TaxRate"
 													}
 												],
@@ -1081,16 +1361,24 @@
 										{
 											"title": "Properties",
 											"children": [
-												16449,
-												16450,
-												16451,
-												16452,
-												16453,
-												16454,
-												16471,
-												16476,
-												16479
+												16101,
+												16102,
+												16103,
+												16104,
+												16105,
+												16106,
+												16123,
+												16128,
+												16131
 											]
+										}
+									],
+									"sources": [
+										{
+											"fileName": "tax-region.ts",
+											"line": 11,
+											"character": 23,
+											"url": "https://github.com/medusajs/medusa/blob/43aa993971718063bb40e7e3f650ef0e84056d09/packages/modules/tax/src/models/tax-region.ts#L11"
 										}
 									]
 								}
@@ -1114,620 +1402,620 @@
 		{
 			"title": "Variables",
 			"children": [
-				16522,
-				16497,
-				16400,
-				16447
+				16174,
+				16149,
+				16052,
+				16099
 			]
 		}
 	],
 	"packageName": "@medusajs/tax",
 	"symbolIdMap": {
-		"16399": {
+		"16051": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/index.ts",
 			"qualifiedName": ""
 		},
-		"16400": {
+		"16052": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "TaxRate"
 		},
-		"16401": {
+		"16053": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object"
 		},
-		"16402": {
+		"16054": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16403": {
+		"16055": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.rate"
 		},
-		"16404": {
+		"16056": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.code"
 		},
-		"16405": {
+		"16057": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.name"
 		},
-		"16406": {
+		"16058": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.is_default"
 		},
-		"16407": {
+		"16059": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.is_combinable"
 		},
-		"16408": {
+		"16060": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.tax_region"
 		},
-		"16409": {
+		"16061": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16410": {
+		"16062": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16411": {
+		"16063": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object"
 		},
-		"16412": {
+		"16064": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16413": {
+		"16065": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.country_code"
 		},
-		"16414": {
+		"16066": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.province_code"
 		},
-		"16415": {
+		"16067": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16416": {
+		"16068": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16417": {
+		"16069": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.provider"
 		},
-		"16418": {
+		"16070": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16419": {
+		"16071": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16420": {
+		"16072": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16421": {
+		"16073": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16422": {
+		"16074": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.parent"
 		},
-		"16423": {
+		"16075": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16424": {
+		"16076": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16425": {
+		"16077": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16426": {
+		"16078": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16427": {
+		"16079": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.children"
 		},
-		"16428": {
+		"16080": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16429": {
+		"16081": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16430": {
+		"16082": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.tax_rates"
 		},
-		"16431": {
+		"16083": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16432": {
+		"16084": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16433": {
+		"16085": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.rules"
 		},
-		"16434": {
+		"16086": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16435": {
+		"16087": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16436": {
+		"16088": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object"
 		},
-		"16437": {
+		"16089": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16438": {
+		"16090": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16439": {
+		"16091": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16440": {
+		"16092": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.tax_rate"
 		},
-		"16441": {
+		"16093": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__function"
 		},
-		"16442": {
+		"16094": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__function"
 		},
-		"16443": {
+		"16095": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.reference"
 		},
-		"16444": {
+		"16096": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.reference_id"
 		},
-		"16445": {
+		"16097": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16446": {
+		"16098": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16447": {
+		"16099": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "TaxRegion"
 		},
-		"16448": {
+		"16100": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object"
 		},
-		"16449": {
+		"16101": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16450": {
+		"16102": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.country_code"
 		},
-		"16451": {
+		"16103": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.province_code"
 		},
-		"16452": {
+		"16104": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16453": {
+		"16105": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16454": {
+		"16106": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.provider"
 		},
-		"16455": {
+		"16107": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16456": {
+		"16108": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16457": {
+		"16109": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object"
 		},
-		"16458": {
+		"16110": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16459": {
+		"16111": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.is_enabled"
 		},
-		"16460": {
+		"16112": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.regions"
 		},
-		"16461": {
+		"16113": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__function"
 		},
-		"16462": {
+		"16114": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__function"
 		},
-		"16463": {
+		"16115": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16464": {
+		"16116": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16465": {
+		"16117": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object"
 		},
-		"16466": {
+		"16118": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16467": {
+		"16119": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.is_enabled"
 		},
-		"16468": {
+		"16120": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.regions"
 		},
-		"16469": {
+		"16121": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__function"
 		},
-		"16470": {
+		"16122": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__function"
 		},
-		"16471": {
+		"16123": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.parent"
 		},
-		"16472": {
+		"16124": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16473": {
+		"16125": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16474": {
+		"16126": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16475": {
+		"16127": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16476": {
+		"16128": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.children"
 		},
-		"16477": {
+		"16129": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16478": {
+		"16130": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16479": {
+		"16131": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.tax_rates"
 		},
-		"16480": {
+		"16132": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16481": {
+		"16133": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16482": {
+		"16134": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object"
 		},
-		"16483": {
+		"16135": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16484": {
+		"16136": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.rate"
 		},
-		"16485": {
+		"16137": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.code"
 		},
-		"16486": {
+		"16138": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.name"
 		},
-		"16487": {
+		"16139": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.is_default"
 		},
-		"16488": {
+		"16140": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.is_combinable"
 		},
-		"16489": {
+		"16141": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.tax_region"
 		},
-		"16490": {
+		"16142": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16491": {
+		"16143": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16492": {
+		"16144": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.rules"
 		},
-		"16493": {
+		"16145": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16494": {
+		"16146": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16495": {
+		"16147": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16496": {
+		"16148": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16497": {
+		"16149": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "TaxRateRule"
 		},
-		"16498": {
+		"16150": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object"
 		},
-		"16499": {
+		"16151": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16500": {
+		"16152": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16501": {
+		"16153": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16502": {
+		"16154": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.tax_rate"
 		},
-		"16503": {
+		"16155": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__function"
 		},
-		"16504": {
+		"16156": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__function"
 		},
-		"16505": {
+		"16157": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object"
 		},
-		"16506": {
+		"16158": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16507": {
+		"16159": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.rate"
 		},
-		"16508": {
+		"16160": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.code"
 		},
-		"16509": {
+		"16161": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.name"
 		},
-		"16510": {
+		"16162": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.is_default"
 		},
-		"16511": {
+		"16163": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.is_combinable"
 		},
-		"16512": {
+		"16164": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.tax_region"
 		},
-		"16513": {
+		"16165": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16514": {
+		"16166": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16515": {
+		"16167": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.rules"
 		},
-		"16516": {
+		"16168": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16517": {
+		"16169": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__function"
 		},
-		"16518": {
+		"16170": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16519": {
+		"16171": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16520": {
+		"16172": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.reference"
 		},
-		"16521": {
+		"16173": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-rate-rule.ts",
 			"qualifiedName": "__object.reference_id"
 		},
-		"16522": {
+		"16174": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "TaxProvider"
 		},
-		"16523": {
+		"16175": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object"
 		},
-		"16524": {
+		"16176": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16525": {
+		"16177": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.is_enabled"
 		},
-		"16526": {
+		"16178": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__object.regions"
 		},
-		"16527": {
+		"16179": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__function"
 		},
-		"16528": {
+		"16180": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-provider.ts",
 			"qualifiedName": "__function"
 		},
-		"16529": {
+		"16181": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object"
 		},
-		"16530": {
+		"16182": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.id"
 		},
-		"16531": {
+		"16183": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.country_code"
 		},
-		"16532": {
+		"16184": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.province_code"
 		},
-		"16533": {
+		"16185": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.metadata"
 		},
-		"16534": {
+		"16186": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.created_by"
 		},
-		"16535": {
+		"16187": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.provider"
 		},
-		"16536": {
+		"16188": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16537": {
+		"16189": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16538": {
+		"16190": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16539": {
+		"16191": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16540": {
+		"16192": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.parent"
 		},
-		"16541": {
+		"16193": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16542": {
+		"16194": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16543": {
+		"16195": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16544": {
+		"16196": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16545": {
+		"16197": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.children"
 		},
-		"16546": {
+		"16198": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16547": {
+		"16199": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16548": {
+		"16200": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__object.tax_rates"
 		},
-		"16549": {
+		"16201": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		},
-		"16550": {
+		"16202": {
 			"sourceFileName": "../../../../packages/modules/tax/src/models/tax-region.ts",
 			"qualifiedName": "__function"
 		}
@@ -1737,7 +2025,7 @@
 			"1": "../../../../packages/modules/tax/src/models/index.ts"
 		},
 		"reflections": {
-			"1": 16399
+			"1": 16051
 		}
 	}
 }

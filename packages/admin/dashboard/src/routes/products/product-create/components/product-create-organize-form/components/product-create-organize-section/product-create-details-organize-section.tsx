@@ -19,21 +19,10 @@ type ProductCreateOrganizationSectionProps = {
 
 const fetchBrands = async () => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/brand`, {
-      method: "GET",
+    
+    const response = await sdk.admin.brand.list()
 
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        // "x-publishable-api-key": __PUBLISHABLE_KEY__,
-      },
-    })
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.message || "Failed to fetch brands")
-    }
-    const result = await response.json()
+    const result = response
     return { brands: result.brands }
   } catch (error) {
     console.error(error)
@@ -90,6 +79,16 @@ export const ProductCreateOrganizationSection = ({
       data.product_tags.map((tag) => ({
         label: tag.value,
         value: tag.id,
+      })),
+  })
+
+  const shippingProfiles = useComboboxData({
+    queryKey: ["shipping_profiles"],
+    queryFn: (params) => sdk.admin.shippingProfile.list(params),
+    getOptions: (data) =>
+      data.shipping_profiles.map((shippingProfile) => ({
+        label: shippingProfile.name,
+        value: shippingProfile.id,
       })),
   })
 
@@ -195,6 +194,34 @@ export const ProductCreateOrganizationSection = ({
                     searchValue={tags.searchValue}
                     onSearchValueChange={tags.onSearchValueChange}
                     fetchNextPage={tags.fetchNextPage}
+                  />
+                </Form.Control>
+                <Form.ErrorMessage />
+              </Form.Item>
+            )
+          }}
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <Form.Label>{t("products.fields.shipping_profile.label")}</Form.Label>
+          <Form.Hint>
+            <Trans i18nKey={"products.fields.shipping_profile.hint"} />
+          </Form.Hint>
+        </div>
+        <Form.Field
+          control={form.control}
+          name="shipping_profile_id"
+          render={({ field }) => {
+            return (
+              <Form.Item>
+                <Form.Control>
+                  <Combobox
+                    {...field}
+                    options={shippingProfiles.options}
+                    searchValue={shippingProfiles.searchValue}
+                    onSearchValueChange={shippingProfiles.onSearchValueChange}
+                    fetchNextPage={shippingProfiles.fetchNextPage}
                   />
                 </Form.Control>
                 <Form.ErrorMessage />

@@ -8,7 +8,7 @@ import { Link, Outlet, useLoaderData, useLocation } from "react-router-dom"
 
 import { HttpTypes } from "@medusajs/types"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { DataTable } from "../../../../../components/table/data-table"
+import { _DataTable } from "../../../../../components/table/data-table"
 import {
   useDeleteProduct,
   useProducts,
@@ -66,7 +66,7 @@ export const NotificationListTable = () => {
           </Button>
         </div>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         columns={columns}
         count={count}

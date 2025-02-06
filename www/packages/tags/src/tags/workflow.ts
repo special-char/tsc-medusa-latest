@@ -56,6 +56,14 @@ export const workflow = [
     "path": "/references/medusa-workflows/listShippingOptionsForCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
+  },
+  {
     "title": "refreshPaymentCollectionForCartWorkflow",
     "path": "/references/medusa-workflows/refreshPaymentCollectionForCartWorkflow"
   },
@@ -228,6 +236,10 @@ export const workflow = [
     "path": "/references/medusa-workflows/updateShippingProfilesWorkflow"
   },
   {
+    "title": "batchInventoryItemLevelsWorkflow",
+    "path": "/references/medusa-workflows/batchInventoryItemLevelsWorkflow"
+  },
+  {
     "title": "bulkCreateDeleteLevelsWorkflow",
     "path": "/references/medusa-workflows/bulkCreateDeleteLevelsWorkflow"
   },
@@ -390,6 +402,10 @@ export const workflow = [
   {
     "title": "createExchangeShippingMethodWorkflow",
     "path": "/references/medusa-workflows/createExchangeShippingMethodWorkflow"
+  },
+  {
+    "title": "createOrUpdateOrderPaymentCollectionWorkflow",
+    "path": "/references/medusa-workflows/createOrUpdateOrderPaymentCollectionWorkflow"
   },
   {
     "title": "createOrderChangeActionsWorkflow",
@@ -628,6 +644,10 @@ export const workflow = [
     "path": "/references/medusa-workflows/refundPaymentWorkflow"
   },
   {
+    "title": "refundPaymentsWorkflow",
+    "path": "/references/medusa-workflows/refundPaymentsWorkflow"
+  },
+  {
     "title": "createPaymentSessionsWorkflow",
     "path": "/references/medusa-workflows/createPaymentSessionsWorkflow"
   },
@@ -638,6 +658,10 @@ export const workflow = [
   {
     "title": "deletePaymentSessionsWorkflow",
     "path": "/references/medusa-workflows/deletePaymentSessionsWorkflow"
+  },
+  {
+    "title": "deleteRefundReasonsWorkflow",
+    "path": "/references/medusa-workflows/deleteRefundReasonsWorkflow"
   },
   {
     "title": "updateRefundReasonsWorkflow",
@@ -836,6 +860,10 @@ export const workflow = [
     "path": "/references/medusa-workflows/updatePromotionRulesWorkflow"
   },
   {
+    "title": "updatePromotionsStatusWorkflow",
+    "path": "/references/medusa-workflows/updatePromotionsStatusWorkflow"
+  },
+  {
     "title": "updatePromotionsWorkflow",
     "path": "/references/medusa-workflows/updatePromotionsWorkflow"
   },
@@ -986,5 +1014,9 @@ export const workflow = [
   {
     "title": "updateUsersWorkflow",
     "path": "/references/medusa-workflows/updateUsersWorkflow"
+  },
+  {
+    "title": "workflowExecution",
+    "path": "/references/js-sdk/admin/workflowExecution"
   }
 ]

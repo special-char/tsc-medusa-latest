@@ -4,7 +4,7 @@ import {
   CustomFieldFormZone,
   CustomFieldModel,
   InjectionZone,
-  // NESTED_ROUTE_POSITIONS,
+  NESTED_ROUTE_POSITIONS,
 } from "@medusajs/admin-shared"
 import * as React from "react"
 import { INavItem } from "../../components/layout/nav-item"
@@ -119,7 +119,11 @@ export class DashboardExtensionManager {
       )
 
       // Check if parent item is a nested route under existing route
-      if (parentItem?.nested && pathParts.length > 1) {
+      if (
+        parentItem?.nested &&
+        NESTED_ROUTE_POSITIONS.includes(parentItem?.nested) &&
+        pathParts.length > 1
+      ) {
         if (process.env.NODE_ENV === "development") {
           console.warn(
             `[@medusajs/dashboard] Nested menu item "${item.path}" can't be added to the sidebar as it is nested under "${parentItem.nested}".`

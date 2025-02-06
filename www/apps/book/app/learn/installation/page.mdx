@@ -30,12 +30,12 @@ A Medusa application is made up of a Node.js server and an admin dashboard. You 
 To create a Medusa application, use the `create-medusa-app` command:
 
 ```bash
-npx create-medusa-app@latest
+npx create-medusa-app@latest my-medusa-store
 ```
 
-When you run the command, you'll be asked for the project's name and whether you want to install the Next.js storefront.
+Where `my-medusa-store` is the name of the project's directory and PostgreSQL database created for the project. When you run the command, you'll be asked whether you want to install the Next.js storefront.
 
-After answering the prompts, the command installs the Medusa application in a directory with your project name, and prepares a PostgreSQL database that the application connects to.
+After answering the prompts, the command installs the Medusa application in a directory with your project name, and sets up a PostgreSQL database that the application connects to.
 
 If you chose to install the storefront with the Medusa application, the storefront is installed in a separate directory named `{project-name}-storefront`.
 
@@ -102,18 +102,6 @@ npx medusa user -e admin@medusajs.com -p supersecret
 Replace `admin@medusajs.com` and `supersecret` with the user's email and password respectively.
 
 You can then use the user's credentials to log into the Medusa Admin application.
-
----
-
-## Update Medusa Application
-
-New Medusa updates are posted in the [GitHub repository's releases](https://github.com/medusajs/medusa/releases). You can also find the latest version at the top navigation of the documentation, and you can click on it to view the release notes of the latest version.
-
-To update your Medusa application, bump the version of all `@medusajs/*` dependencies in your `package.json`. Then, re-install dependencies:
-
-```bash npm2yarn
-npm run install
-```
 
 ---
 

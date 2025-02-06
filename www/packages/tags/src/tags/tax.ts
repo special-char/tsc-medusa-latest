@@ -1,19 +1,47 @@
 export const tax = [
   {
     "title": "Get Variant Price with Taxes",
-    "path": "/app/commerce-modules/product/guides/price-with-taxes"
+    "path": "/commerce-modules/product/guides/price-with-taxes"
   },
   {
     "title": "Example: Show Price with Taxes",
-    "path": "/app/storefront-development/products/price/examples/tax-price"
+    "path": "/storefront-development/products/price/examples/tax-price"
+  },
+  {
+    "title": "addShippingMethodToCartWorkflow",
+    "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
+  },
+  {
+    "title": "addToCartWorkflow",
+    "path": "/references/medusa-workflows/addToCartWorkflow"
   },
   {
     "title": "createCartWorkflow",
     "path": "/references/medusa-workflows/createCartWorkflow"
   },
   {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "transferCartCustomerWorkflow",
+    "path": "/references/medusa-workflows/transferCartCustomerWorkflow"
+  },
+  {
+    "title": "updateCartWorkflow",
+    "path": "/references/medusa-workflows/updateCartWorkflow"
+  },
+  {
+    "title": "updateLineItemInCartWorkflow",
+    "path": "/references/medusa-workflows/updateLineItemInCartWorkflow"
+  },
+  {
     "title": "updateTaxLinesWorkflow",
     "path": "/references/medusa-workflows/updateTaxLinesWorkflow"
+  },
+  {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
   },
   {
     "title": "createClaimShippingMethodWorkflow",
@@ -88,6 +116,10 @@ export const tax = [
     "path": "/references/medusa-workflows/steps/updateTaxRatesStep"
   },
   {
+    "title": "updateTaxRegionsStep",
+    "path": "/references/medusa-workflows/steps/updateTaxRegionsStep"
+  },
+  {
     "title": "createTaxRateRulesWorkflow",
     "path": "/references/medusa-workflows/createTaxRateRulesWorkflow"
   },
@@ -118,5 +150,17 @@ export const tax = [
   {
     "title": "updateTaxRatesWorkflow",
     "path": "/references/medusa-workflows/updateTaxRatesWorkflow"
+  },
+  {
+    "title": "updateTaxRegionsWorkflow",
+    "path": "/references/medusa-workflows/updateTaxRegionsWorkflow"
+  },
+  {
+    "title": "taxRate",
+    "path": "/references/js-sdk/admin/taxRate"
+  },
+  {
+    "title": "taxRegion",
+    "path": "/references/js-sdk/admin/taxRegion"
   }
 ]

@@ -22,7 +22,7 @@ const ErrorMessage = ({
   return (
     <>
       {error && (
-        <p className="text-rose-600">{error.message || rules.message}</p>
+        <p className="text-rose-600">{error?.message || rules?.message}</p>
       )}
     </>
   )

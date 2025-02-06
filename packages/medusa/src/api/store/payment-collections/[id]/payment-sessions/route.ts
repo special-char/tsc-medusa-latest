@@ -11,19 +11,13 @@ export const POST = async (
   res: MedusaResponse<HttpTypes.StorePaymentCollectionResponse>
 ) => {
   const collectionId = req.params.id
-  const { context = {}, data, provider_id } = req.body
+  const { provider_id, data } = req.body
 
-  // If the customer is logged in, we auto-assign them to the payment collection
-  if (req.auth_context?.actor_id) {
-    ;(context as any).customer = {
-      id: req.auth_context?.actor_id,
-    }
-  }
   const workflowInput = {
     payment_collection_id: collectionId,
     provider_id: provider_id,
+    customer_id: req.auth_context?.actor_id,
     data,
-    context,
   }
 
   await createPaymentSessionsWorkflow(req.scope).run({
@@ -33,7 +27,7 @@ export const POST = async (
   const paymentCollection = await refetchPaymentCollection(
     collectionId,
     req.scope,
-    req.remoteQueryConfig.fields
+    req.queryConfig.fields
   )
 
   res.status(200).json({

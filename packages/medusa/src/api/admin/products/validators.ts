@@ -41,7 +41,9 @@ export const AdminGetProductVariantsParams = createFindParams({
   .merge(applyAndAndOrOperators(AdminGetProductVariantsParamsFields))
 
 export const AdminGetProductsParamsDirectFields = z.object({
-  variants: AdminGetProductVariantsParams.optional(),
+  variants: AdminGetProductVariantsParamsFields.merge(
+    applyAndAndOrOperators(AdminGetProductVariantsParamsFields)
+  ).optional(),
   status: statusEnum.array().optional(),
 })
 
@@ -230,6 +232,7 @@ export const CreateProduct = z
     options: z.array(CreateProductOption).optional(),
     variants: z.array(CreateProductVariant).optional(),
     sales_channels: z.array(z.object({ id: z.string() })).optional(),
+    shipping_profile_id: z.string(),
     weight: z.number().nullish(),
     length: z.number().nullish(),
     height: z.number().nullish(),
@@ -264,6 +267,7 @@ export const UpdateProduct = z
     categories: z.array(IdAssociation).optional(),
     tags: z.array(IdAssociation).optional(),
     sales_channels: z.array(z.object({ id: z.string() })).optional(),
+    shipping_profile_id: z.string().optional(),
     weight: z.number().nullish(),
     length: z.number().nullish(),
     height: z.number().nullish(),

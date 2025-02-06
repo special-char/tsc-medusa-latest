@@ -1,15 +1,15 @@
 export const region = [
   {
     "title": "Region Context in Storefront",
-    "path": "/app/storefront-development/regions/context"
+    "path": "/storefront-development/regions/context"
   },
   {
     "title": "List Regions in Storefront",
-    "path": "/app/storefront-development/regions/list"
+    "path": "/storefront-development/regions/list"
   },
   {
     "title": "Store and Retrieve Region",
-    "path": "/app/storefront-development/regions/store-retrieve-region"
+    "path": "/storefront-development/regions/store-retrieve-region"
   },
   {
     "title": "findOneOrAnyRegionStep",
@@ -18,6 +18,18 @@ export const region = [
   {
     "title": "createCartWorkflow",
     "path": "/references/medusa-workflows/createCartWorkflow"
+  },
+  {
+    "title": "validateShippingOptionPricesStep",
+    "path": "/references/medusa-workflows/steps/validateShippingOptionPricesStep"
+  },
+  {
+    "title": "createShippingOptionsWorkflow",
+    "path": "/references/medusa-workflows/createShippingOptionsWorkflow"
+  },
+  {
+    "title": "updateShippingOptionsWorkflow",
+    "path": "/references/medusa-workflows/updateShippingOptionsWorkflow"
   },
   {
     "title": "addOrderLineItemsWorkflow",
@@ -78,5 +90,13 @@ export const region = [
   {
     "title": "updateRegionsWorkflow",
     "path": "/references/medusa-workflows/updateRegionsWorkflow"
+  },
+  {
+    "title": "region",
+    "path": "/references/js-sdk/admin/region"
+  },
+  {
+    "title": "region",
+    "path": "/references/js-sdk/store/region"
   }
 ]

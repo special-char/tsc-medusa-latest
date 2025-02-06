@@ -42,8 +42,8 @@ To retrieve the product variants of an inventory item with [Query](!docs!/learn/
 const { data: inventoryItems } = await query.graph({
   entity: "inventory_item",
   fields: [
-    "variants.*"
-  ]
+    "variants.*",
+  ],
 })
 
 // inventoryItems.variants
@@ -60,8 +60,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: inventoryItems } = useQueryGraphStep({
   entity: "inventory_item",
   fields: [
-    "variants.*"
-  ]
+    "variants.*",
+  ],
 })
 
 // inventoryItems.variants
@@ -70,19 +70,19 @@ const { data: inventoryItems } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the variants of an inventory item, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the variants of an inventory item, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.PRODUCT]: {
     variant_id: "variant_123",
   },
@@ -131,8 +131,8 @@ To retrieve the stock locations of an inventory level with [Query](!docs!/learn/
 const { data: inventoryLevels } = await query.graph({
   entity: "inventory_level",
   fields: [
-    "stock_locations.*"
-  ]
+    "stock_locations.*",
+  ],
 })
 
 // inventoryLevels.stock_locations
@@ -149,8 +149,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: inventoryLevels } = useQueryGraphStep({
   entity: "inventory_level",
   fields: [
-    "stock_locations.*"
-  ]
+    "stock_locations.*",
+  ],
 })
 
 // inventoryLevels.stock_locations

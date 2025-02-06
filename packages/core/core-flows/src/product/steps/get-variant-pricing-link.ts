@@ -6,7 +6,13 @@ import {
 } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The configurations to retrieve pricing links for product variants.
+ */
 export type GetVariantPricingLinkStepInput = {
+  /**
+   * The IDs of the product variants to retrieve pricing links for.
+   */
   ids: string[]
 }
 
@@ -21,7 +27,7 @@ export const getVariantPricingLinkStep = createStep(
       return new StepResponse([])
     }
 
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
 
     const linkService = remoteLink.getLinkModule(
       Modules.PRODUCT,

@@ -1,87 +1,76 @@
-import { Toaster } from "@medusajs/ui"
-import { RouteFocusModal } from "../../../components/modals"
-import { useNavigate, useParams } from "react-router-dom"
-import { FieldValues, useForm } from "react-hook-form"
-import { backendUrl } from "../../../lib/client"
-import { blogCreateSchema } from "../blog-create/blog-create"
-import { useEffect } from "react"
-import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-
-const fetchBlogById = async (id: string) => {
-  const response = await fetch(`${backendUrl}/admin/blogs/${id}`, {
-    method: "GET",
-    credentials: "include",
-  })
-  if (!response.ok) {
-    throw new Error("Failed to fetch blog data")
-  }
-  return response.json()
-}
+import { FieldValues } from "react-hook-form"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { sdk } from "../../../lib/client"
+import { BlogProps } from "../blog-list/components/blog-list-table"
+import { toast } from "@medusajs/ui"
+import { BlogForm } from "../blog-form"
+import { useState } from "react"
 
 export const BlogEdit = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-
-  const form = useForm<FieldValues>({
-    defaultValues: {
-      title: "",
-      subtitle: "",
-      handle: "",
-      content: "",
-    },
-  })
-
-  useEffect(() => {
-    const loadBlog = async () => {
-      try {
-        const blogData = await fetchBlogById(id!)
-        form.reset({
-          title: blogData.title || "",
-          subtitle: blogData.subtitle || "",
-          handle: blogData.handle || "",
-          content: blogData.content || "",
-        })
-      } catch (error) {
-        console.error("Error loading blog:", error)
-      }
-    }
-    loadBlog()
-  }, [])
+  const { state } = useLocation()
+  const [toggle, setToggle] = useState(false)
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      const response = await fetch(`${backendUrl}/admin/blogs/${id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-      if (response.ok) {
-        navigate("/blogs")
-        navigate(0)
-      } else {
-        console.error("Failed to update blog")
+      const updateBlogData = {
+        title: data.title,
+        subtitle: data.subtitle,
+        image: data.image,
+        handle: data.handle,
+        content: data.content,
+        categories: data.categories,
       }
-    } catch (error) {
-      console.error("Error updating blog:", error)
+      const updateSeoBlogData = {
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        keywords: data.keywords,
+        metaViewport: data.metaViewport,
+        metaRobots: data.metaRobots,
+        structuredData: data.structuredData,
+        feedData: data.feedData,
+        canonicalURL: data.canonicalURL,
+        metaImage: data.metaImage,
+        metaSocial: data.metaSocial,
+      }
+
+      const updateBlogResponse = (await sdk.admin.blog.update(
+        id!,
+        updateBlogData
+      )) as BlogProps
+      if (toggle && updateBlogResponse) {
+        if (state.seo_details) {
+          await sdk.admin.blogSeo.update(
+            updateBlogResponse.id,
+            state.seo_details.id,
+            updateSeoBlogData
+          )
+        } else {
+          await sdk.admin.blogSeo.create(
+            updateBlogResponse.id,
+            updateSeoBlogData
+          )
+        }
+      }
+      navigate("/blogs")
+      navigate(0)
+    } catch (error: any) {
+      toast.error("Failed to Update Blog", {
+        description: error.message,
+        duration: 5000,
+      })
+      console.error(`failed to Update blog : ${error.message}`)
     }
   }
 
   return (
-    <RouteFocusModal>
-      <Toaster />
-      <RouteFocusModal.Header />
-      <RouteFocusModal.Body>
-        <div className="w-full p-5">
-          <DynamicForm
-            form={form}
-            onSubmit={onSubmit}
-            schema={blogCreateSchema}
-          />
-        </div>
-      </RouteFocusModal.Body>
-    </RouteFocusModal>
+    <BlogForm
+      initialData={state}
+      onSubmit={onSubmit}
+      isEditMode={true}
+      setToggle={setToggle}
+      toggle={toggle}
+    />
   )
 }

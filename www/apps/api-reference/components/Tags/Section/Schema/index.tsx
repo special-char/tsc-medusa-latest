@@ -7,6 +7,8 @@ import {
   Badge,
   CodeBlock,
   isElmWindow,
+  Link,
+  Note,
   useIsBrowser,
   useScrollController,
   useSidebar,
@@ -20,6 +22,7 @@ import { InView } from "react-intersection-observer"
 import checkElementInViewport from "../../../../utils/check-element-in-viewport"
 import { singular } from "pluralize"
 import clsx from "clsx"
+import { useArea } from "../../../../providers/area"
 
 export type TagSectionSchemaProps = {
   schema: SchemaObject
@@ -27,9 +30,8 @@ export type TagSectionSchemaProps = {
 }
 
 const TagSectionSchema = ({ schema, tagName }: TagSectionSchemaProps) => {
-  const paramsRef = useRef<HTMLDivElement>(null)
   const { addItems, setActivePath, activePath } = useSidebar()
-  const tagSlugName = useMemo(() => getSectionId([tagName]), [tagName])
+  const { displayedArea } = useArea()
   const formattedName = useMemo(
     () => singular(tagName).replaceAll(" ", ""),
     [tagName]
@@ -69,8 +71,9 @@ const TagSectionSchema = ({ schema, tagName }: TagSectionSchemaProps) => {
       {
         section: SidebarItemSections.DEFAULT,
         parent: {
+          type: "category",
           title: tagName,
-          path: tagSlugName,
+          path: "",
           changeLoaded: true,
         },
         indexPosition: 0,
@@ -124,32 +127,44 @@ const TagSectionSchema = ({ schema, tagName }: TagSectionSchemaProps) => {
         root={root}
         threshold={0.1}
       >
-        <DividedLayout
-          mainContent={
-            <SectionContainer ref={paramsRef}>
-              <h2>{formattedName} Object</h2>
-              <h4 className="border-medusa-border-base border-b py-1.5 mt-2">
-                Fields
-              </h4>
-              <TagOperationParameters schemaObject={schema} topLevel={true} />
-            </SectionContainer>
-          }
-          codeContent={
-            <SectionContainer noDivider>
-              {examples.length && (
-                <CodeBlock
-                  source={examples[0].content}
-                  lang="json"
-                  title={`The ${formattedName} Object`}
-                  className={clsx("overflow-auto")}
-                  style={{
-                    maxHeight: "100vh",
-                  }}
-                />
-              )}
-            </SectionContainer>
-          }
-        />
+        <SectionContainer>
+          <DividedLayout
+            mainContent={
+              <div>
+                <h2>{formattedName} Object</h2>
+                <Note>
+                  This object&apos;s schema is as returned by Medusa&apos;s{" "}
+                  {displayedArea} API routes. However, the related model in the
+                  Medusa application may support more fields and relations. To
+                  view the models in the Medusa application and their relations,
+                  visit the{" "}
+                  <Link href="https://docs.medusajs.com/resources/commerce-modules">
+                    Commerce Modules Documentation
+                  </Link>
+                </Note>
+                <h4 className="border-medusa-border-base border-b py-1.5 mt-2">
+                  Fields
+                </h4>
+                <TagOperationParameters schemaObject={schema} topLevel={true} />
+              </div>
+            }
+            codeContent={
+              <>
+                {examples.length && (
+                  <CodeBlock
+                    source={examples[0].content}
+                    lang="json"
+                    title={`The ${formattedName} Object`}
+                    className={clsx("overflow-auto")}
+                    style={{
+                      maxHeight: "100vh",
+                    }}
+                  />
+                )}
+              </>
+            }
+          />
+        </SectionContainer>
       </InView>
     </Suspense>
   )

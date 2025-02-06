@@ -1,9 +1,21 @@
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to associate products with sales channels.
+ */
 export interface AssociateProductsWithSalesChannelsStepInput {
+  /**
+   * The links to create between products and sales channels.
+   */
   links: {
+    /**
+     * The ID of the sales channel.
+     */
     sales_channel_id: string
+    /**
+     * The ID of the product.
+     */
     product_id: string
   }[]
 }
@@ -12,6 +24,16 @@ export const associateProductsWithSalesChannelsStepId =
   "associate-products-with-channels"
 /**
  * This step creates links between products and sales channel records.
+ * 
+ * @example
+ * const data = associateProductsWithSalesChannelsStep({
+ *   links: [
+ *     {
+ *       sales_channel_id: "sc_123",
+ *       product_id: "prod_123"
+ *     }
+ *   ]
+ * })
  */
 export const associateProductsWithSalesChannelsStep = createStep(
   associateProductsWithSalesChannelsStepId,
@@ -20,7 +42,7 @@ export const associateProductsWithSalesChannelsStep = createStep(
       return new StepResponse([], [])
     }
 
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
     const links = input.links.map((link) => {
       return {
         [Modules.PRODUCT]: {
@@ -40,7 +62,7 @@ export const associateProductsWithSalesChannelsStep = createStep(
       return
     }
 
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
 
     await remoteLink.dismiss(links)
   }

@@ -39,8 +39,8 @@ To retrieve the carts of a region with [Query](!docs!/learn/fundamentals/module-
 const { data: regions } = await query.graph({
   entity: "region",
   fields: [
-    "carts.*"
-  ]
+    "carts.*",
+  ],
 })
 
 // regions.carts
@@ -57,8 +57,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: regions } = useQueryGraphStep({
   entity: "region",
   fields: [
-    "carts.*"
-  ]
+    "carts.*",
+  ],
 })
 
 // regions.carts
@@ -84,8 +84,8 @@ To retrieve the orders of a region with [Query](!docs!/learn/fundamentals/module
 const { data: regions } = await query.graph({
   entity: "region",
   fields: [
-    "orders.*"
-  ]
+    "orders.*",
+  ],
 })
 
 // regions.orders
@@ -102,8 +102,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: regions } = useQueryGraphStep({
   entity: "region",
   fields: [
-    "orders.*"
-  ]
+    "orders.*",
+  ],
 })
 
 // regions.orders
@@ -133,8 +133,8 @@ To retrieve the payment providers of a region with [Query](!docs!/learn/fundamen
 const { data: regions } = await query.graph({
   entity: "region",
   fields: [
-    "payment_providers.*"
-  ]
+    "payment_providers.*",
+  ],
 })
 
 // regions.payment_providers
@@ -151,8 +151,8 @@ import { useQueryGraphStep } from "@medusajs/medusa/core-flows"
 const { data: regions } = useQueryGraphStep({
   entity: "region",
   fields: [
-    "payment_providers.*"
-  ]
+    "payment_providers.*",
+  ],
 })
 
 // regions.payment_providers
@@ -161,19 +161,19 @@ const { data: regions } = useQueryGraphStep({
   </CodeTab>
 </CodeTabs>
 
-### Manage with Remote Link
+### Manage with Link
 
-To manage the payment providers in a region, use [Remote Link](!docs!/learn/fundamentals/module-links/remote-link):
+To manage the payment providers in a region, use [Link](!docs!/learn/fundamentals/module-links/link):
 
 <CodeTabs group="relation-link">
-  <CodeTab label="remoteLink.create" value="method">
+  <CodeTab label="link.create" value="method">
 
 ```ts
 import { Modules } from "@medusajs/framework/utils"
 
 // ...
 
-await remoteLink.create({
+await link.create({
   [Modules.REGION]: {
     region_id: "reg_123",
   },

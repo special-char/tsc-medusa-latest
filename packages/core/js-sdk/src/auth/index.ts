@@ -20,6 +20,8 @@ export class Auth {
    * @param payload - The data to pass in the request's body for authentication. When using the `emailpass` provider,
    * you pass the email and password.
    * @returns The JWT token used for registration later.
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.register(
@@ -66,6 +68,8 @@ export class Auth {
    * @param payload - The data to pass in the request's body for authentication. When using the `emailpass` provider,
    * you pass the email and password.
    * @returns The authentication JWT token
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.login(
@@ -109,8 +113,11 @@ export class Auth {
    *
    * @param actor - The actor type. For example, `user` for admin user, or `customer` for customer.
    * @param method - The authentication provider to use. For example, `google`.
-   * @param query - The query parameters from the Oauth callback, which should be passed to the API route.
+   * @param query - The query parameters from the Oauth callback, which should be passed to the API route. This includes query parameters like
+   * `code` and `state`.
    * @returns The authentication JWT token
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.callback(
@@ -118,6 +125,7 @@ export class Auth {
    *   "google",
    *   {
    *     code: "123",
+   *     state: "456"  
    *   }
    * ).then((token) => {
    *   console.log(token)
@@ -150,6 +158,8 @@ export class Auth {
    * with {@link callback}. It sends a request to the [Refresh Authentication Token API route](https://docs.medusajs.com/api/admin#auth_postadminauthtokenrefresh).
    *
    * @returns The refreshed JWT authentication token.
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.refresh()
@@ -174,6 +184,8 @@ export class Auth {
   /**
    * This method deletes the authentication session of the currently logged-in user to log them out.
    * It sends a request to the [Delete Authentication Session API route](https://docs.medusajs.com/api/admin#auth_deletesession).
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.logout()
@@ -202,6 +214,8 @@ export class Auth {
    * @param actor - The actor type. For example, `user` for admin user, or `customer` for customer.
    * @param provider - The authentication provider to use. For example, `emailpass`.
    * @param body - The data required to identify the user.
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.resetPassword(
@@ -247,6 +261,8 @@ export class Auth {
    * @param provider - The authentication provider to use. For example, `emailpass`.
    * @param body - The data necessary to update the user's authentication data. When resetting the user's password,
    * send the `password` property.
+   * 
+   * @tags auth
    *
    * @example
    * sdk.auth.updateProvider(

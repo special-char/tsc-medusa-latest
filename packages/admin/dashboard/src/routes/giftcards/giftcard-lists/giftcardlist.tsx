@@ -1,5 +1,5 @@
 import { Badge, Button, Container, DropdownMenu, Heading } from "@medusajs/ui"
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import {
   useProducts,
@@ -18,19 +18,12 @@ import {
 import { HttpTypes } from "@medusajs/types"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 
-const RenderItem = ({
-  product,
-  setGiftcards,
-}: {
-  product: HttpTypes.AdminProduct
-  setGiftcards: React.Dispatch<React.SetStateAction<any[]>>
-}) => {
+const RenderItem = ({ product }: { product: HttpTypes.AdminProduct }) => {
   const { mutateAsync: updateMutate } = useUpdateProduct(product.id)
   const { mutateAsync: deleteMutate } = useDeleteProduct(product.id)
 
-  const handleDelete = async (productId: string) => {
+  const handleDelete = async () => {
     await deleteMutate()
-    setGiftcards((prev) => prev.filter((p) => p.id !== productId))
   }
 
   const setProductStatus = async (product: HttpTypes.AdminProduct) => {
@@ -38,13 +31,10 @@ const RenderItem = ({
     await updateMutate({
       status: newStatus,
     })
-    setGiftcards((prev) =>
-      prev.map((p) => (p.id === product.id ? { ...p, status: newStatus } : p))
-    )
   }
 
   return (
-    <Container className="p-8 grid grid-cols-[auto_1fr_auto] gap-4">
+    <Container className="p-8 grid grid-cols-[auto_1fr_auto] gap-4 hover:cursor-pointer">
       <div className="shadow-elevation-card-rest hover:shadow-elevation-card-hover transition-fg group relative aspect-square size-full cursor-pointer overflow-hidden rounded-[8px]">
         <img
           src={product.thumbnail || ""}
@@ -59,10 +49,10 @@ const RenderItem = ({
           </Heading>
           <p className="line-clamp-1">{product.description}</p>
         </div>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 flex-wrap">
           {product?.variants &&
             product?.variants?.length > 0 &&
-            product?.variants?.map((variant) => {
+            product?.variants?.slice(0, 5).map((variant) => {
               return (
                 <>
                   {variant?.options && !variant?.options[0]?.metadata && (
@@ -74,6 +64,9 @@ const RenderItem = ({
                 </>
               )
             })}
+          {product?.variants && product?.variants.length > 5 && (
+            <Badge>+{product?.variants.length - 5} more</Badge>
+          )}
         </div>
       </div>
       <div className="flex flex-col justify-between items-end">
@@ -124,13 +117,8 @@ const RenderItem = ({
 }
 
 export const GiftCardList = () => {
-  const [giftcards, setGiftcards] = useState([])
   const { t } = useTranslation()
   const { products } = useProducts({ is_giftcard: true })
-
-  useEffect(() => {
-    setGiftcards(products as any)
-  }, [products])
 
   return (
     <div className="p-0 flex flex-col gap-4">
@@ -145,7 +133,9 @@ export const GiftCardList = () => {
           <Heading level="h2" className="font-bold">
             Are you ready to sell your first Gift Card?
           </Heading>
-          <p className="text-sm">No Gift Card has been added yet.</p>
+          {!products?.length && (
+            <p className="text-sm">No Gift Card has been added yet.</p>
+          )}
         </div>
         <Button size="small" variant="secondary" asChild>
           <Link to="create">{t("giftCards.createGiftCard")}</Link>
@@ -153,16 +143,9 @@ export const GiftCardList = () => {
         <Outlet />
       </Container>
 
-      {giftcards &&
-        giftcards?.map((product: HttpTypes.AdminProduct) => {
-          return (
-            <RenderItem
-              key={product?.id}
-              product={product}
-              setGiftcards={setGiftcards as Dispatch<SetStateAction<any[]>>}
-            />
-          )
-        })}
+      {products?.map((product: HttpTypes.AdminProduct) => {
+        return <RenderItem key={product?.id} product={product} />
+      })}
     </div>
   )
 }

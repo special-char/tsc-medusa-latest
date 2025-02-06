@@ -7,7 +7,7 @@ import { PRODUCT_DETAIL_FIELDS } from "../../products/product-detail/constants"
 import { ProductGeneralSection } from "../../products/product-detail/components/product-general-section"
 import { ProductMediaSection } from "../../products/product-detail/components/product-media-section"
 import { ProductSalesChannelSection } from "../../products/product-detail/components/product-sales-channel-section"
-import { GiftDenominationSection } from "./common/component/GiftDenominationSection"
+import { GiftVariantSection } from "../giftcard-variant-section/giftcard-variant-section"
 
 export const GiftCardDetail = () => {
   const { id } = useParams()
@@ -52,7 +52,8 @@ export const GiftCardDetail = () => {
       <TwoColumnPage.Main>
         <ProductGeneralSection product={product} />
         <ProductMediaSection product={product} />
-        <GiftDenominationSection product={product} />
+        <GiftVariantSection product={product} />
+        {/* <GiftDenominationSection product={product} /> */}
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />

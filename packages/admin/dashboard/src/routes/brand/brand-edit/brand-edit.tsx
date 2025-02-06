@@ -4,6 +4,7 @@ import { RouteDrawer } from "../../../components/modals"
 import { EditBrandForm } from "./components/edit-brand-form"
 import { useEffect, useState } from "react"
 import { Brand } from "../brand-list/components/brand-list-table/brand-list-table"
+import { sdk } from "../../../lib/client/client"
 
 export const BrandEdit = () => {
   const { id } = useParams()
@@ -15,17 +16,11 @@ export const BrandEdit = () => {
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const response = await fetch(`${__BACKEND_URL__}/admin/brand/${id}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        if (!response.ok) {
-          throw new Error("Network response was not ok")
-        }
-        const brandData = await response.json()
+        const response = await sdk.admin.brand.retrieve(id!)
+        // if (!response.ok) {
+        //   throw new Error("Network response was not ok")
+        // }
+        const brandData = response
         setBrand(brandData as Brand)
       } catch (error) {
         setIsError(true)

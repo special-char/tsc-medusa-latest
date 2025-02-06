@@ -1,10 +1,11 @@
-import { generateEditedDates } from "build-scripts"
-import path from "path"
-import { generateTags } from "tags"
+import { sidebar } from "../sidebar.mjs"
+import { generateEditedDates, generateSidebar } from "build-scripts"
 
 async function main() {
   await generateEditedDates()
-  await generateTags(path.resolve("..", "..", "packages", "tags"))
+  await generateSidebar(sidebar, {
+    addNumbering: true,
+  })
 }
 
 void main()

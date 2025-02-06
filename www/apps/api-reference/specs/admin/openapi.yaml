@@ -741,6 +741,8 @@ paths:
     $ref: paths/admin_fulfillments_{id}_shipment.yaml
   /admin/inventory-items:
     $ref: paths/admin_inventory-items.yaml
+  /admin/inventory-items/location-levels/batch:
+    $ref: paths/admin_inventory-items_location-levels_batch.yaml
   /admin/inventory-items/{id}:
     $ref: paths/admin_inventory-items_{id}.yaml
   /admin/inventory-items/{id}/location-levels:
@@ -1028,10 +1030,9 @@ paths:
 components:
   securitySchemes:
     api_token:
-      type: apiKey
+      type: http
       x-displayName: API Token
-      in: header
-      name: x-medusa-access-token
+      scheme: bearer
     jwt_token:
       type: http
       x-displayName: JWT Token

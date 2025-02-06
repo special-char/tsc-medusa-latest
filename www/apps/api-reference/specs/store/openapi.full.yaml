@@ -97,6 +97,12 @@ tags:
       url: https://docs.medusajs.com/v2/resources/storefront-development/products/categories/list
     x-associatedSchema:
       $ref: '#/components/schemas/StoreProductCategory'
+  - name: Product Tags
+    x-associatedSchema:
+      $ref: '#/components/schemas/StoreProductTag'
+  - name: Product Types
+    x-associatedSchema:
+      $ref: '#/components/schemas/StoreProductType'
   - name: Products
     description: |
       Customers browse products for their purchase.
@@ -174,7 +180,10 @@ paths:
             schema:
               type: object
               title: input
-              description: The input data necessary for authentication. For example, for email-pass authentication, pass `email` and `password` properties.
+              description: |
+                The input data necessary for authentication. 
+                For example, for email-pass authentication, pass `email` and `password` properties. 
+                For the Google and GitHub authentication providers, you can pass `callback_url` to indicate the URL in the frontend that the customer should be redirected to after completing their authentication. This will override the provider's `callbackUrl` configurations in `medusa-config.ts`.
       x-codeSamples:
         - lang: Shell
           label: EmailPass Provider
@@ -216,10 +225,7 @@ paths:
       operationId: PostActor_typeAuth_providerCallback
       summary: Validate Authentication Callback
       description: |
-        This API route is used by your storefront or frontend application when a third-party provider redirects to it after authentication. 
-
-        It validates the authentication with the third-party provider and, if successful, returns an authentication token.
-
+        This API route is used by your storefront or frontend application when a third-party provider redirects to it after authentication. It validates the authentication with the third-party provider and, if successful, returns an authentication token. All query parameters received from the third-party provider, such as `code`, `state`, and `error`, must be passed as query parameters to this route.
         You can decode the JWT token using libraries like [react-jwt](https://www.npmjs.com/package/react-jwt) in the storefront. If the decoded data doesn't  have an `actor_id` property, then you must register the customer using the Create Customer API route passing the token in the request's Authorization header.
       externalDocs:
         url: https://docs.medusajs.com/v2/storefront-development/customers/third-party-login
@@ -568,6 +574,14 @@ paths:
       description: Create a cart.
       x-authenticated: false
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -632,6 +646,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -681,6 +703,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -754,6 +784,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -857,6 +895,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: |-
@@ -915,6 +961,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -987,6 +1041,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -1057,6 +1119,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -1136,6 +1206,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -1208,6 +1286,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -1269,6 +1355,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -1344,6 +1438,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -1392,6 +1494,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/products/collections/list
         description: 'Storefront guide: How to retrieve a list of collections.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2020,6 +2130,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2064,6 +2182,14 @@ paths:
       description: Retrieve a list of currencies. The currencies can be filtered by fields such as `code`. The currencies can also be sorted or paginated.
       x-authenticated: false
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2184,6 +2310,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2231,6 +2365,14 @@ paths:
         description: 'Storefront guide: How to register a customer.'
       x-authenticated: true
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2297,6 +2439,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/customers/retrieve
         description: 'Storefront guide: How to retrieve the logged-in customer.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2347,6 +2497,14 @@ paths:
         description: 'Storefront guide: How to edit a customer''s profile.'
       x-authenticated: true
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2412,6 +2570,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/customers/addresses#list-customer-addresses
         description: 'Storefront guide: How to retrieve the logged-in customer''s addresses.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2544,6 +2710,14 @@ paths:
         description: 'Storefront guide: How to create an address for the logged-in customer.'
       x-authenticated: true
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2677,6 +2851,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2734,6 +2916,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2858,6 +3048,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -2935,6 +3133,14 @@ paths:
       description: Retrieve the orders of the logged-in customer. The orders can be filtered by fields such as `id`. The orders can also be sorted or paginated.
       x-authenticated: true
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -3113,6 +3319,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -3165,6 +3379,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: |-
@@ -3229,6 +3451,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: |-
@@ -3287,6 +3517,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: |-
@@ -3351,6 +3589,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: |-
@@ -3410,6 +3656,14 @@ paths:
         description: 'Storefront guide: How to implement payment during checkout.'
       x-authenticated: false
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -3474,6 +3728,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -3531,6 +3793,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/checkout/payment
         description: 'Storefront guide: How to implement payment during checkout.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -3643,6 +3913,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/products/categories/list
         description: 'Storefront guide: How to retrieve a list of product categories.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -4298,6 +4576,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -4351,6 +4637,1334 @@ paths:
           $ref: '#/components/responses/invalid_request_error'
         '500':
           $ref: '#/components/responses/500_error'
+  /store/product-tags:
+    get:
+      operationId: GetProductTags
+      summary: List Product Tags
+      description: Retrieve a list of product tags. The product tags can be filtered by fields such as `id`. The product tags can also be sorted or paginated.
+      x-authenticated: false
+      parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+            if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+            without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+        - name: offset
+          in: query
+          description: The number of items to skip when retrieving a list.
+          required: false
+          schema:
+            type: number
+            title: offset
+            description: The number of items to skip when retrieving a list.
+            externalDocs:
+              url: '#pagination'
+        - name: limit
+          in: query
+          description: Limit the number of items returned in the list.
+          required: false
+          schema:
+            type: number
+            title: limit
+            description: Limit the number of items returned in the list.
+            externalDocs:
+              url: '#pagination'
+        - name: order
+          in: query
+          description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+          required: false
+          schema:
+            type: string
+            title: order
+            description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+            externalDocs:
+              url: '#pagination'
+        - name: $and
+          in: query
+          description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $and
+        - name: $or
+          in: query
+          description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $or
+        - name: q
+          in: query
+          description: Query to search product tag's searchable fields.
+          required: false
+          schema:
+            type: string
+            title: q
+            description: Query to search product tag's searchable fields.
+        - name: id
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: id
+                description: Filter by a product tag's ID.
+              - type: array
+                description: Filter by product tag IDs.
+                items:
+                  type: string
+                  title: id
+                  description: A product tag's ID.
+        - name: value
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: value
+                description: Filter by a product tag's value.
+              - type: array
+                description: Filter by product tag values.
+                items:
+                  type: string
+                  title: value
+                  description: A product tag's value.
+        - name: created_at
+          in: query
+          description: Filter by the tag's creation date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the tag's creation date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+        - name: updated_at
+          in: query
+          description: Filter by the tag's update date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the tag's update date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-tags' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Tags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTagListResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /store/product-tags/{id}:
+    get:
+      operationId: GetProductTagsId
+      summary: Get a Product Tag
+      description: Retrieve a product tag by its ID. You can expand the product tag's relations or select the fields that should be returned.
+      x-authenticated: false
+      parameters:
+        - name: id
+          in: path
+          description: The product tag's ID.
+          required: true
+          schema:
+            type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+            if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+            without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-tags/{id}' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Tags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTagResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /store/product-types:
+    get:
+      operationId: GetProductTypes
+      summary: List Product Types
+      description: Retrieve a list of product types. The product types can be filtered by fields such as `id`. The product types can also be sorted or paginated.
+      x-authenticated: false
+      parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+             if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+             without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+        - name: offset
+          in: query
+          description: The number of items to skip when retrieving a list.
+          required: false
+          schema:
+            type: number
+            title: offset
+            description: The number of items to skip when retrieving a list.
+            externalDocs:
+              url: '#pagination'
+        - name: limit
+          in: query
+          description: Limit the number of items returned in the list.
+          required: false
+          schema:
+            type: number
+            title: limit
+            description: Limit the number of items returned in the list.
+            externalDocs:
+              url: '#pagination'
+        - name: order
+          in: query
+          description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+          required: false
+          schema:
+            type: string
+            title: order
+            description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+            externalDocs:
+              url: '#pagination'
+        - name: $and
+          in: query
+          description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $and
+        - name: $or
+          in: query
+          description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+          required: false
+          schema:
+            type: array
+            description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+            items:
+              type: object
+            title: $or
+        - name: q
+          in: query
+          description: Query to search the product type's searchable fields.
+          required: false
+          schema:
+            type: string
+            title: q
+            description: Query to search the product type's searchable fields.
+        - name: id
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: id
+                description: Filter by a product type's ID.
+              - type: array
+                description: Filter by product type IDs.
+                items:
+                  type: string
+                  title: id
+                  description: A product type's ID.
+        - name: value
+          in: query
+          required: false
+          schema:
+            oneOf:
+              - type: string
+                title: value
+                description: Filter by a product type's value.
+              - type: array
+                description: Filter by product type values.
+                items:
+                  type: string
+                  title: value
+                  description: A product type's value.
+        - name: created_at
+          in: query
+          description: Filter by the type's creation date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the type's creation date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+        - name: updated_at
+          in: query
+          description: Filter by the type's update date.
+          required: false
+          schema:
+            type: object
+            description: Filter by the type's update date.
+            properties:
+              $and:
+                type: array
+                description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $and
+              $or:
+                type: array
+                description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                items:
+                  type: object
+                title: $or
+              $eq:
+                oneOf:
+                  - type: string
+                    title: $eq
+                    description: Filter by an exact match.
+                  - type: array
+                    description: Filter by multiple exact matches.
+                    items:
+                      type: string
+                      title: $eq
+                      description: An exact match.
+              $ne:
+                type: string
+                title: $ne
+                description: Filter by values not equal to this parameter.
+              $in:
+                type: array
+                description: Filter by values in this array.
+                items:
+                  type: string
+                  title: $in
+                  description: The value to match.
+              $nin:
+                type: array
+                description: Filter by values not in this array.
+                items:
+                  type: string
+                  title: $nin
+                  description: The value not to match.
+              $not:
+                oneOf:
+                  - type: string
+                    title: $not
+                    description: Filter by values not matching this parameter.
+                  - type: object
+                    description: Filter by values not matching the conditions in this parameter.
+                    properties:
+                      $and:
+                        type: array
+                        description: Join query parameters with an AND condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $and
+                      $or:
+                        type: array
+                        description: Join query parameters with an OR condition. Each object's content is the same type as the expected query parameters.
+                        items:
+                          type: object
+                        title: $or
+                      $eq:
+                        oneOf:
+                          - type: string
+                            title: $eq
+                            description: Filter by an exact match.
+                          - type: array
+                            description: Filter by multiple exact matches.
+                            items:
+                              type: string
+                              title: $eq
+                              description: The value to match.
+                      $ne:
+                        type: string
+                        title: $ne
+                        description: Filter by values not matching this parameter.
+                      $in:
+                        type: array
+                        description: Filter by values in this array.
+                        items:
+                          type: string
+                          title: $in
+                          description: The value to match.
+                      $nin:
+                        type: array
+                        description: Filter by values not in this array.
+                        items:
+                          type: string
+                          title: $nin
+                          description: The value to not match
+                      $not:
+                        oneOf:
+                          - type: string
+                            title: $not
+                            description: Filter by values not matching this parameter
+                          - type: object
+                            description: Filter by values not matching the conditions in this parameter.
+                          - type: array
+                            description: Filter by values not matching the values of this parameter.
+                            items:
+                              type: string
+                              title: $not
+                              description: The values to not match.
+                      $gt:
+                        type: string
+                        title: $gt
+                        description: Filter by values greater than this parameter. Useful for numbers and dates only.
+                      $gte:
+                        type: string
+                        title: $gte
+                        description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+                      $lt:
+                        type: string
+                        title: $lt
+                        description: Filter by values less than this parameter. Useful for numbers and dates only.
+                      $lte:
+                        type: string
+                        title: $lte
+                        description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+                      $like:
+                        type: string
+                        title: $like
+                        description: Apply a `like` filter. Useful for strings only.
+                      $re:
+                        type: string
+                        title: $re
+                        description: Apply a regex filter. Useful for strings only.
+                      $ilike:
+                        type: string
+                        title: $ilike
+                        description: Apply a case-insensitive `like` filter. Useful for strings only.
+                      $fulltext:
+                        type: string
+                        title: $fulltext
+                        description: Filter to apply on full-text properties.
+                      $overlap:
+                        type: array
+                        description: Filter arrays that have overlapping values with this parameter.
+                        items:
+                          type: string
+                          title: $overlap
+                          description: The value to match.
+                      $contains:
+                        type: array
+                        description: Filter arrays that contain some of the values of this parameter.
+                        items:
+                          type: string
+                          title: $contains
+                          description: The values to match.
+                      $contained:
+                        type: array
+                        description: Filter arrays that contain all values of this parameter.
+                        items:
+                          type: string
+                          title: $contained
+                          description: The values to match.
+                      $exists:
+                        type: boolean
+                        title: $exists
+                        description: Filter by whether a value for this parameter exists (not `null`).
+                  - type: array
+                    description: Filter by values not matching those in this parameter.
+                    items:
+                      type: string
+                      title: $not
+                      description: The values to not match.
+              $gt:
+                type: string
+                title: $gt
+                description: Filter by values greater than this parameter. Useful for numbers and dates only.
+              $gte:
+                type: string
+                title: $gte
+                description: Filter by values greater than or equal to this parameter. Useful for numbers and dates only.
+              $lt:
+                type: string
+                title: $lt
+                description: Filter by values less than this parameter. Useful for numbers and dates only.
+              $lte:
+                type: string
+                title: $lte
+                description: Filter by values less than or equal to this parameter. Useful for numbers and dates only.
+              $like:
+                type: string
+                title: $like
+                description: Apply a `like` filter. Useful for strings only.
+              $re:
+                type: string
+                title: $re
+                description: Apply a regex filter. Useful for strings only.
+              $ilike:
+                type: string
+                title: $ilike
+                description: Apply a case-insensitive `like` filter. Useful for strings only.
+              $fulltext:
+                type: string
+                title: $fulltext
+                description: Filter to apply on full-text properties.
+              $overlap:
+                type: array
+                description: Filter arrays that have overlapping values with this parameter.
+                items:
+                  type: string
+                  title: $overlap
+                  description: The values to match.
+              $contains:
+                type: array
+                description: Filter arrays that contain some of the values of this parameter.
+                items:
+                  type: string
+                  title: $contains
+                  description: The values to match.
+              $contained:
+                type: array
+                description: Filter arrays that contain all values of this parameter.
+                items:
+                  type: string
+                  title: $contained
+                  description: The values to match.
+              $exists:
+                type: boolean
+                title: $exists
+                description: Filter by whether a value for this parameter exists (not `null`).
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-types' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTypeListResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
+  /store/product-types/{id}:
+    get:
+      operationId: GetProductTypesId
+      summary: Get a Product Type
+      description: Retrieve a product type by its ID. You can expand the product type's relations or select the fields that should be returned.
+      x-authenticated: false
+      parameters:
+        - name: id
+          in: path
+          description: The product type's ID.
+          required: true
+          schema:
+            type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
+        - name: fields
+          in: query
+          description: |-
+            Comma-separated fields that should be included in the returned data.
+             if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields.
+             without prefix it will replace the entire default fields.
+          required: false
+          schema:
+            type: string
+            title: fields
+            description: Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+            externalDocs:
+              url: '#select-fields-and-relations'
+      x-codeSamples:
+        - lang: Shell
+          label: cURL
+          source: |-
+            curl '{backend_url}/store/product-types/{id}' \
+            -H 'x-publishable-api-key: {your_publishable_api_key}'
+      tags:
+        - Product Types
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreProductTypeResponse'
+        '400':
+          $ref: '#/components/responses/400_error'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/not_found_error'
+        '409':
+          $ref: '#/components/responses/invalid_state_error'
+        '422':
+          $ref: '#/components/responses/invalid_request_error'
+        '500':
+          $ref: '#/components/responses/500_error'
   /store/products:
     get:
       operationId: GetProducts
@@ -4361,6 +5975,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/products/price
         description: 'Storefront guide: How to retrieve a product variants'' prices.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5031,14 +6653,6 @@ paths:
                   type: string
                   title: category_id
                   description: A product category's ID.
-        - name: currency_code
-          in: query
-          description: The currency code to retrieve prices in.
-          required: false
-          schema:
-            type: string
-            title: currency_code
-            description: The currency code to retrieve prices in.
         - name: variants
           in: query
           description: Filter the products' variants.
@@ -5063,6 +6677,22 @@ paths:
                     type: string
                     title: value
                     description: Filter by a value of the option.
+        - name: country_code
+          in: query
+          description: The product's country code.
+          required: false
+          schema:
+            type: string
+            title: country_code
+            description: The product's country code.
+        - name: cart_id
+          in: query
+          description: The product's cart id.
+          required: false
+          schema:
+            type: string
+            title: cart_id
+            description: The product's cart id.
       x-codeSamples:
         - lang: Shell
           label: cURL
@@ -5135,6 +6765,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5180,6 +6818,36 @@ paths:
             type: string
             title: cart_id
             description: The ID of the customer's cart. If set, the cart's region and shipping address's country code and province are used instead of the `region_id`, `country_code`, and `province` properties.
+        - name: limit
+          in: query
+          description: Limit the number of items returned in the list.
+          required: false
+          schema:
+            type: number
+            title: limit
+            description: Limit the number of items returned in the list.
+            externalDocs:
+              url: '#pagination'
+        - name: offset
+          in: query
+          description: The number of items to skip when retrieving a list.
+          required: false
+          schema:
+            type: number
+            title: offset
+            description: The number of items to skip when retrieving a list.
+            externalDocs:
+              url: '#pagination'
+        - name: order
+          in: query
+          description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+          required: false
+          schema:
+            type: string
+            title: order
+            description: The field to sort the data by. By default, the sort order is ascending. To change the order to descending, prefix the field name with `-`.
+            externalDocs:
+              url: '#pagination'
       x-codeSamples:
         - lang: Shell
           label: cURL
@@ -5217,6 +6885,14 @@ paths:
         url: https://docs.medusajs.com/v2/resources/storefront-development/regions/list
         description: 'Storefront guide: How to retrieve a list of regions.'
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5394,6 +7070,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5492,6 +7176,15 @@ paths:
         '500':
           $ref: '#/components/responses/500_error'
       x-workflow: createAndCompleteReturnOrderWorkflow
+      parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
   /store/return-reasons:
     get:
       operationId: GetReturnReasons
@@ -5499,6 +7192,14 @@ paths:
       description: Retrieve a list of return reasons. The return reasons can be sorted or paginated.
       x-authenticated: false
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5606,6 +7307,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5656,6 +7365,14 @@ paths:
         description: 'Storefront guide: How to implement shipping during checkout.'
       x-authenticated: false
       parameters:
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields.
@@ -5771,6 +7488,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: x-publishable-api-key
+          in: header
+          description: Publishable API Key created in the Medusa Admin.
+          required: true
+          schema:
+            type: string
+            externalDocs:
+              url: https://docs.medusajs.com/api/store#publishable-api-key
         - name: fields
           in: query
           description: |-
@@ -5982,6 +7707,144 @@ components:
           type: number
           title: apply_to_quantity
           description: The quantity that results from matching the `buyget` promotion's condition. For example, if the promotion is a "Buy 2 shirts get 1 free", the value of this attribute is `1`.
+    AdminBatchCreateInventoryItemsLocationLevels:
+      type: object
+      description: The details of an inventory level to create.
+      required:
+        - location_id
+        - inventory_item_id
+      properties:
+        location_id:
+          type: string
+          title: location_id
+          description: The ID of the associated stock location.
+        inventory_item_id:
+          type: string
+          title: inventory_item_id
+          description: The ID of the associated inventory item.
+        stocked_quantity:
+          type: number
+          title: stocked_quantity
+          description: The stocked quantity.
+        incoming_quantity:
+          type: number
+          title: incoming_quantity
+          description: The incoming quantity to be added to stock.
+      x-schemaName: AdminBatchCreateInventoryItemsLocationLevels
+    AdminBatchInventoryItemLocationsLevel:
+      type: object
+      description: The inventory levels to create, update, or delete.
+      properties:
+        create:
+          type: array
+          description: The inventory levels to create.
+          items:
+            type: object
+            description: The inventory level's details.
+            required:
+              - location_id
+            properties:
+              location_id:
+                type: string
+                title: location_id
+                description: The ID of the associated location.
+              stocked_quantity:
+                type: number
+                title: stocked_quantity
+                description: The inventory level's stocked quantity.
+              incoming_quantity:
+                type: number
+                title: incoming_quantity
+                description: The inventory level's incoming quantity.
+        update:
+          type: array
+          description: The inventory levels to update.
+          items:
+            type: object
+            description: The inventory level's details.
+            properties:
+              stocked_quantity:
+                type: number
+                title: stocked_quantity
+                description: The inventory level's stocked quantity.
+              incoming_quantity:
+                type: number
+                title: incoming_quantity
+                description: The inventory level's incoming quantity.
+              location_id:
+                type: string
+                title: location_id
+                description: The associated stock location's ID.
+              id:
+                type: string
+                title: id
+                description: The ID of the location level.
+            required:
+              - location_id
+        delete:
+          type: array
+          description: The inventory levels to delete.
+          items:
+            type: string
+            title: delete
+            description: The ID of the inventory level to delete.
+        force:
+          type: boolean
+          title: force
+          description: Whether to delete specified inventory levels even if they have a non-zero stocked quantity.
+      x-schemaName: AdminBatchInventoryItemLocationsLevel
+    AdminBatchInventoryItemsLocationLevels:
+      type: object
+      description: The inventory levels to manage.
+      properties:
+        create:
+          type: array
+          description: The inventory levels to create.
+          items:
+            $ref: '#/components/schemas/AdminBatchCreateInventoryItemsLocationLevels'
+        update:
+          type: array
+          description: The inventory levels to update.
+          items:
+            $ref: '#/components/schemas/AdminBatchUpdateInventoryItemsLocationLevels'
+        delete:
+          type: array
+          description: The IDs of the inventory levels to delete.
+          items:
+            type: string
+            title: delete
+            description: The ID of the inventory level to delete.
+        force:
+          type: boolean
+          title: force
+          description: Whether to delete specified inventory levels even if they have a non-zero stocked quantity.
+      required:
+        - create
+        - update
+        - delete
+      x-schemaName: AdminBatchInventoryItemsLocationLevels
+    AdminBatchInventoryItemsLocationLevelsResponse:
+      type: object
+      description: The result of managing inventory levels.
+      x-schemaName: AdminBatchInventoryItemsLocationLevelsResponse
+      properties:
+        created:
+          type: array
+          description: The created inventory levels.
+          items:
+            $ref: '#/components/schemas/InventoryLevel'
+        updated:
+          type: array
+          description: The updated inventory levels.
+          items:
+            $ref: '#/components/schemas/InventoryLevel'
+        deleted:
+          type: array
+          description: The IDs of deleted inventory levels.
+          items:
+            type: string
+            title: deleted
+            description: The ID of a deleted inventory level.
     AdminBatchProductRequest:
       type: object
       description: The products to create, update, or delete.
@@ -6112,6 +7975,34 @@ components:
               type: boolean
               title: deleted
               description: Whether the product variants were deleted.
+    AdminBatchUpdateInventoryItemsLocationLevels:
+      type: object
+      description: The details of an inventory level to update.
+      required:
+        - location_id
+        - inventory_item_id
+      properties:
+        location_id:
+          type: string
+          title: location_id
+          description: The ID of the associated stock location.
+        inventory_item_id:
+          type: string
+          title: inventory_item_id
+          description: The ID of the associated inventory item.
+        stocked_quantity:
+          type: number
+          title: stocked_quantity
+          description: The stocked quantity.
+        incoming_quantity:
+          type: number
+          title: incoming_quantity
+          description: The incoming quantity to be added to stock.
+        id:
+          type: string
+          title: id
+          description: The update's ID.
+      x-schemaName: AdminBatchUpdateInventoryItemsLocationLevels
     AdminBatchUpdateProduct:
       type: object
       description: The product's details.
@@ -9815,7 +11706,7 @@ components:
               description: The number of products that will be updated by this import.
     AdminInventoryItem:
       type: object
-      description: The reservation's inventory item.
+      description: The inventory item's details.
       x-schemaName: AdminInventoryItem
       required:
         - id
@@ -9836,15 +11727,15 @@ components:
         hs_code:
           type: string
           title: hs_code
-          description: The inventory item's hs code.
+          description: The inventory item's HS code.
         requires_shipping:
           type: boolean
           title: requires_shipping
-          description: The inventory item's requires shipping.
+          description: Whether the inventory item requires shipping.
         mid_code:
           type: string
           title: mid_code
-          description: The inventory item's mid code.
+          description: The inventory item's MID code.
         material:
           type: string
           title: material
@@ -9876,10 +11767,10 @@ components:
         thumbnail:
           type: string
           title: thumbnail
-          description: The inventory item's thumbnail.
+          description: The thumbnail URL of the inventory item.
         metadata:
           type: object
-          description: The inventory item's metadata.
+          description: Custom key-value pairs, used to store additional information about the inventory item.
         location_levels:
           type: array
           description: The inventory item's location levels.
@@ -10139,6 +12030,7 @@ components:
         - payment_collections
         - items
         - shipping_methods
+        - status
         - currency_code
         - id
         - version
@@ -10369,6 +12261,10 @@ components:
           type: number
           title: original_shipping_tax_total
           description: The tax total of the order's shipping excluding promotions.
+        status:
+          type: string
+          title: status
+          description: The order's status.
     AdminOrderAddress:
       type: object
       description: An order address.
@@ -11060,6 +12956,7 @@ components:
       required:
         - return_requested_total
         - order_change
+        - status
         - currency_code
         - id
         - version
@@ -11671,6 +13568,10 @@ components:
           $ref: '#/components/schemas/AdminCustomer'
         sales_channel:
           $ref: '#/components/schemas/AdminSalesChannel'
+        status:
+          type: string
+          title: status
+          description: The order's status.
     AdminOrderPreviewResponse:
       type: object
       description: The preview of an order.
@@ -11845,22 +13746,6 @@ components:
           type: string
           title: provider_id
           description: The ID of the payment provider used to process this payment.
-        cart_id:
-          type: string
-          title: cart_id
-          description: The ID of the associated cart.
-        order_id:
-          type: string
-          title: order_id
-          description: The ID of the associated order.
-        order_edit_id:
-          type: string
-          title: order_edit_id
-          description: The ID of the associated order edit.
-        customer_id:
-          type: string
-          title: customer_id
-          description: ID of the associated customer.
         data:
           type: object
           description: The payment's data, useful for processing by the payment provider.
@@ -11916,7 +13801,6 @@ components:
         - payment_providers
         - id
         - currency_code
-        - region_id
         - amount
         - status
       properties:
@@ -11928,10 +13812,6 @@ components:
           type: string
           title: currency_code
           description: The payment collection's currency code.
-        region_id:
-          type: string
-          title: region_id
-          description: The ID of the region this payment collection is associated with.
         amount:
           type: number
           title: amount
@@ -14060,6 +15940,11 @@ components:
         metadata:
           type: object
           description: The variant's metadata, can hold custom key-value pairs.
+        inventory_items:
+          type: array
+          description: The variant's inventory items.
+          items:
+            $ref: '#/components/schemas/AdminProductVariantInventoryItemLink'
     AdminProductVariantDeleteResponse:
       type: object
       description: The details of the product variant's deletion.
@@ -14192,6 +16077,31 @@ components:
                         type: string
                         title: inventory_item_id
                         description: The ID of the inventory item.
+    AdminProductVariantInventoryItemLink:
+      type: object
+      description: An association between a product variant and an inventory item.
+      x-schemaName: AdminProductVariantInventoryItemLink
+      required:
+        - id
+        - variant_id
+        - inventory_item_id
+      properties:
+        id:
+          type: string
+          title: id
+          description: The ID of the association.
+        variant_id:
+          type: string
+          title: variant_id
+          description: The associated product variant's ID.
+        variant:
+          type: object
+        inventory_item_id:
+          type: string
+          title: inventory_item_id
+          description: The associated inventory item's ID.
+        inventory:
+          $ref: '#/components/schemas/AdminInventoryItem'
     AdminProductVariantInventoryLink:
       type: object
       description: The details of an association between a product variant and an inventory item.
@@ -14309,6 +16219,13 @@ components:
           format: date-time
           title: deleted_at
           description: The date the promotion was deleted.
+        status:
+          type: string
+          description: The promotion's status.
+          enum:
+            - draft
+            - active
+            - inactive
     AdminPromotionResponse:
       type: object
       description: The promotion's details.
@@ -15276,8 +17193,13 @@ components:
           title: id
           description: The price rule's ID.
         value:
-          type: string
-          title: value
+          oneOf:
+            - type: string
+              title: value
+              description: The price rule's value.
+            - type: number
+              title: value
+              description: The price rule's value.
           description: The price rule's value.
         operator:
           type: string
@@ -15352,22 +17274,19 @@ components:
           example: is_return
         operator:
           type: string
-          title: operator
-          description: The shipping option rule's operator.
-          example: eq
+          description: The rule's operator.
+          enum:
+            - gt
+            - lt
+            - eq
+            - ne
+            - in
+            - lte
+            - gte
+            - nin
         value:
-          oneOf:
-            - type: string
-              title: value
-              description: The rule's value.
-              example: '"true"'
-            - type: array
-              description: The rule's values.
-              items:
-                type: string
-                title: value
-                description: A rule's value
-                example: '"true"'
+          type: string
+          title: value
         shipping_option_id:
           type: string
           title: shipping_option_id
@@ -18162,6 +20081,7 @@ components:
         - sales_channel_id
         - email
         - currency_code
+        - status
         - items
         - shipping_methods
         - payment_status
@@ -18383,6 +20303,10 @@ components:
           type: number
           title: original_shipping_tax_total
           description: The tax total of the order's shipping excluding promotions.
+        status:
+          type: string
+          title: status
+          description: The order's status.
     BaseOrderAddress:
       type: object
       description: An order address.
@@ -19366,22 +21290,6 @@ components:
           type: string
           title: provider_id
           description: The ID of the payment provider used to process this payment.
-        cart_id:
-          type: string
-          title: cart_id
-          description: The ID of the associated cart.
-        order_id:
-          type: string
-          title: order_id
-          description: The ID of the associated order.
-        order_edit_id:
-          type: string
-          title: order_edit_id
-          description: The ID of the associated order edit.
-        customer_id:
-          type: string
-          title: customer_id
-          description: ID of the associated customer.
         data:
           type: object
           description: The payment's data, useful for processing by the payment provider.
@@ -19436,7 +21344,6 @@ components:
       required:
         - id
         - currency_code
-        - region_id
         - amount
         - status
         - payment_providers
@@ -19449,10 +21356,6 @@ components:
           type: string
           title: currency_code
           description: The payment collection's currency code.
-        region_id:
-          type: string
-          title: region_id
-          description: The ID of the region this payment collection is associated with.
         amount:
           type: number
           title: amount
@@ -24343,6 +26246,7 @@ components:
       required:
         - items
         - shipping_methods
+        - status
         - currency_code
         - id
         - region_id
@@ -24567,6 +26471,10 @@ components:
           description: The order's transactions.
           items:
             $ref: '#/components/schemas/BaseOrderTransaction'
+        status:
+          type: string
+          title: status
+          description: The order's status.
     StoreOrderAddress:
       type: object
       description: An order address
@@ -30464,7 +32372,6 @@ components:
         - payment_providers
         - id
         - currency_code
-        - region_id
         - amount
         - status
       properties:
@@ -30476,10 +32383,6 @@ components:
           type: string
           title: currency_code
           description: The payment collection's currency code.
-        region_id:
-          type: string
-          title: region_id
-          description: The ID of the region this payment collection is associated with.
         amount:
           type: number
           title: amount
@@ -30723,7 +32626,7 @@ components:
           items:
             type: object
         type:
-          type: object
+          $ref: '#/components/schemas/StoreProductType'
         length:
           type: number
           title: length
@@ -31124,6 +33027,114 @@ components:
         - value
         - created_at
         - updated_at
+    StoreProductTagListResponse:
+      type: object
+      description: The paginated list of product tags.
+      x-schemaName: StoreProductTagListResponse
+      required:
+        - limit
+        - offset
+        - count
+        - product_tags
+      properties:
+        limit:
+          type: number
+          title: limit
+          description: The maximum number of items returned.
+        offset:
+          type: number
+          title: offset
+          description: The number of items to skip before retrieving the returned items.
+        count:
+          type: number
+          title: count
+          description: The total number of items available.
+        product_tags:
+          type: array
+          description: The list of product tags.
+          items:
+            $ref: '#/components/schemas/StoreProductTag'
+    StoreProductTagResponse:
+      type: object
+      description: The product tag's details.
+      x-schemaName: StoreProductTagResponse
+      required:
+        - product_tag
+      properties:
+        product_tag:
+          $ref: '#/components/schemas/StoreProductTag'
+    StoreProductType:
+      type: object
+      description: The product type's details.
+      x-schemaName: StoreProductType
+      required:
+        - id
+        - value
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          title: id
+          description: The product type's ID.
+        metadata:
+          type: object
+          description: The product type's metadata, can hold custom key-value pairs.
+        created_at:
+          type: string
+          format: date-time
+          title: created_at
+          description: The date the product type was created.
+        updated_at:
+          type: string
+          format: date-time
+          title: updated_at
+          description: The date the product type was updated.
+        deleted_at:
+          type: string
+          format: date-time
+          title: deleted_at
+          description: The date the product type was deleted.
+        value:
+          type: string
+          title: value
+          description: The type's value.
+    StoreProductTypeListResponse:
+      type: object
+      description: The paginated list of product types.
+      x-schemaName: StoreProductTypeListResponse
+      required:
+        - limit
+        - offset
+        - count
+        - product_types
+      properties:
+        limit:
+          type: number
+          title: limit
+          description: The maximum number of items returned.
+        offset:
+          type: number
+          title: offset
+          description: The number of items to skip before retrieving the returned items.
+        count:
+          type: number
+          title: count
+          description: The total number of items available.
+        product_types:
+          type: array
+          description: The list of product types.
+          items:
+            $ref: '#/components/schemas/StoreProductType'
+    StoreProductTypeResponse:
+      type: object
+      description: The product type's details.
+      x-schemaName: StoreProductTypeResponse
+      required:
+        - product_type
+      properties:
+        product_type:
+          $ref: '#/components/schemas/StoreProductType'
     StoreProductVariant:
       type: object
       description: The variant's details.

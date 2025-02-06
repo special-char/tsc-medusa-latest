@@ -1,30 +1,15 @@
 import { toast, usePrompt } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
+import { sdk } from "../../../../lib/client"
 
 const deleteBrand = async (brandId: string) => {
   try {
-    const response = await fetch(`${__BACKEND_URL__}/admin/brand/${brandId}`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        // "x-publishable-api-key": __PUBLISHABLE_KEY__,
-      },
-    })
+    const response = await sdk.admin.brand.delete(brandId)
 
-    if (!response.ok) {
-      // Throw an error if the response status is not OK
-      const errorData = await response.json()
-
-      throw new Error(errorData.error || "Failed to delete brand")
-    }
-
-    const res = await response.json()
+    const res = response
     return res
   } catch (error) {
-    console.log(error)
-    throw error // Rethrow the error to be caught in handleSubmit
+    throw error
   }
 }
 

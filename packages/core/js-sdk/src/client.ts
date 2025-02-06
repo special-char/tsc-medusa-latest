@@ -1,5 +1,5 @@
 import { events } from "fetch-event-stream"
-import qs from "qs"
+import { stringify } from "qs"
 import {
   ClientFetch,
   Config,
@@ -168,9 +168,13 @@ export class Client {
       headers: { ...init?.headers, accept: "text/event-stream" },
     })
 
+    console.log({ [`fetchStream res for - ${input}`]: res })
+
     if (res.ok) {
       return { stream: events(res, abortController.signal), abort: abortFunc }
     }
+
+    console.log("res.ok", res.ok)
 
     return { stream: null, abort: abortFunc }
   }
@@ -242,7 +246,7 @@ export class Client {
           const params = Object.fromEntries(
             normalizedInput.searchParams.entries()
           )
-          const stringifiedQuery = qs.stringify({ ...params, ...init.query })
+          const stringifiedQuery = stringify({ ...params, ...init.query })
           normalizedInput.search = stringifiedQuery
         }
       }

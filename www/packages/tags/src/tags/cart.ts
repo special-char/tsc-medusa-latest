@@ -1,47 +1,47 @@
 export const cart = [
   {
     "title": "Create Cart Context in Storefront",
-    "path": "/app/storefront-development/cart/context"
+    "path": "/storefront-development/cart/context"
   },
   {
     "title": "Create Cart in Storefront",
-    "path": "/app/storefront-development/cart/create"
+    "path": "/storefront-development/cart/create"
   },
   {
     "title": "Manage Cart's Items in Storefront",
-    "path": "/app/storefront-development/cart/manage-items"
+    "path": "/storefront-development/cart/manage-items"
   },
   {
     "title": "Retrieve Cart in Storefront",
-    "path": "/app/storefront-development/cart/retrieve"
+    "path": "/storefront-development/cart/retrieve"
   },
   {
     "title": "Update Cart in Storefront",
-    "path": "/app/storefront-development/cart/update"
+    "path": "/storefront-development/cart/update"
   },
   {
     "title": "Checkout Step 2: Enter Address",
-    "path": "/app/storefront-development/checkout/address"
+    "path": "/storefront-development/checkout/address"
   },
   {
     "title": "Checkout Step 5: Complete Cart",
-    "path": "/app/storefront-development/checkout/complete-cart"
+    "path": "/storefront-development/checkout/complete-cart"
   },
   {
     "title": "Checkout Step 1: Enter Email",
-    "path": "/app/storefront-development/checkout/email"
+    "path": "/storefront-development/checkout/email"
   },
   {
     "title": "Checkout Step 4: Choose Payment Provider",
-    "path": "/app/storefront-development/checkout/payment"
+    "path": "/storefront-development/checkout/payment"
   },
   {
     "title": "Payment with Stripe in React Storefront",
-    "path": "/app/storefront-development/checkout/payment/stripe"
+    "path": "/storefront-development/checkout/payment/stripe"
   },
   {
     "title": "Checkout Step 3: Choose Shipping Method",
-    "path": "/app/storefront-development/checkout/shipping"
+    "path": "/storefront-development/checkout/shipping"
   },
   {
     "title": "addShippingMethodToCartStep",
@@ -92,6 +92,10 @@ export const cart = [
     "path": "/references/medusa-workflows/steps/updateLineItemsStep"
   },
   {
+    "title": "updateShippingMethodsStep",
+    "path": "/references/medusa-workflows/steps/updateShippingMethodsStep"
+  },
+  {
     "title": "addShippingMethodToCartWorkflow",
     "path": "/references/medusa-workflows/addShippingMethodToCartWorkflow"
   },
@@ -100,8 +104,20 @@ export const cart = [
     "path": "/references/medusa-workflows/addToCartWorkflow"
   },
   {
+    "title": "completeCartWorkflow",
+    "path": "/references/medusa-workflows/completeCartWorkflow"
+  },
+  {
     "title": "createCartWorkflow",
     "path": "/references/medusa-workflows/createCartWorkflow"
+  },
+  {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",
@@ -134,5 +150,9 @@ export const cart = [
   {
     "title": "deleteLineItemsWorkflow",
     "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+  },
+  {
+    "title": "cart",
+    "path": "/references/js-sdk/store/cart"
   }
 ]

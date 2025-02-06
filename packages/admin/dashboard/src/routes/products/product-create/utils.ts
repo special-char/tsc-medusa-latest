@@ -6,6 +6,8 @@ export const normalizeProductFormValues = (
   values: ProductCreateSchemaType & {
     status: HttpTypes.AdminProductStatus
     regionsCurrencyMap: Record<string, string>
+    is_giftcard?: boolean
+    metadata: Record<string, string>
   }
 ): HttpTypes.AdminCreateProduct | any => {
   const thumbnail = values.media?.find((media) => media.isThumbnail)?.url
@@ -15,7 +17,7 @@ export const normalizeProductFormValues = (
 
   return {
     status: values.status,
-    is_giftcard: false,
+    is_giftcard: values.is_giftcard,
     tags: values?.tags?.length
       ? values.tags?.map((tag) => ({ id: tag }))
       : undefined,
@@ -24,6 +26,7 @@ export const normalizeProductFormValues = (
       : undefined,
     images,
     collection_id: values.collection_id || undefined,
+    shipping_profile_id: values.shipping_profile_id,
     categories: values.categories.map((id) => ({ id })),
     type_id: values.type_id || undefined,
     brand_id: values.brand_id || undefined,
@@ -46,6 +49,7 @@ export const normalizeProductFormValues = (
       values.variants.filter((variant) => variant.should_create),
       values.regionsCurrencyMap
     ),
+    metadata: values.metadata,
   }
 }
 
@@ -59,6 +63,7 @@ export const normalizeVariants = (
     sku: variant.sku || undefined,
     manage_inventory: !!variant.manage_inventory,
     allow_backorder: !!variant.allow_backorder,
+    variant_rank: variant.variant_rank,
     inventory_items: variant
       .inventory!.map((i) => {
         const quantity = i.required_quantity

@@ -1204,14 +1204,19 @@ import { client } from "../../../../../sanity/lib/client"
 
 // ...
 
-export default async function ProductPage({ params }: Props) {
+export default async function ProductPage(props: Props) {
+  const params = await props.params
   const region = await getRegion(params.countryCode)
 
   if (!region) {
     notFound()
   }
 
-  const pricedProduct = await getProductByHandle(params.handle, region.id)
+  const pricedProduct = await listProducts({
+    countryCode: params.countryCode,
+    queryParams: { handle: params.handle },
+  }).then(({ response }) => response.products[0])
+
   if (!pricedProduct) {
     notFound()
   }
@@ -1224,7 +1229,6 @@ export default async function ProductPage({ params }: Props) {
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
-      sanity={sanity}
     />
   )
 }
@@ -1437,6 +1441,12 @@ In the next section, you'll customize the admin dashboard and send requests to t
 In this section, you'll add a widget in the product details page. The widget will show the Sanity document of the product and triggers syncing it to Sanity using the API routes you created.
 
 To send requests from admin customizations to the Medusa server, you need to use Medusa's [JS SDK](../../../js-sdk/page.mdx). You'll also use [Tanstack Query](https://tanstack.com/query/latest) to benefit from features like data caching and invalidation.
+
+<Note type="warning">
+
+Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v^5.28.14` as a development dependency.
+
+</Note>
 
 To configure the JS SDK, create the file `src/admin/lib/sdk.ts` with the following content:
 

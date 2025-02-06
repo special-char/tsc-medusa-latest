@@ -1,11 +1,11 @@
 export const query = [
   {
     "title": "Get Variant Prices",
-    "path": "/app/commerce-modules/product/guides/price"
+    "path": "/commerce-modules/product/guides/price"
   },
   {
     "title": "Get Variant Price with Taxes",
-    "path": "/app/commerce-modules/product/guides/price-with-taxes"
+    "path": "/commerce-modules/product/guides/price-with-taxes"
   },
   {
     "title": "addShippingMethodToCartWorkflow",
@@ -26,6 +26,14 @@ export const query = [
   {
     "title": "listShippingOptionsForCartWorkflow",
     "path": "/references/medusa-workflows/listShippingOptionsForCartWorkflow"
+  },
+  {
+    "title": "refreshCartItemsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartItemsWorkflow"
+  },
+  {
+    "title": "refreshCartShippingMethodsWorkflow",
+    "path": "/references/medusa-workflows/refreshCartShippingMethodsWorkflow"
   },
   {
     "title": "transferCartCustomerWorkflow",
@@ -52,12 +60,20 @@ export const query = [
     "path": "/references/medusa-workflows/deleteInventoryItemWorkflow"
   },
   {
+    "title": "deleteLineItemsWorkflow",
+    "path": "/references/medusa-workflows/deleteLineItemsWorkflow"
+  },
+  {
     "title": "acceptOrderTransferWorkflow",
     "path": "/references/medusa-workflows/acceptOrderTransferWorkflow"
   },
   {
     "title": "cancelOrderTransferRequestWorkflow",
     "path": "/references/medusa-workflows/cancelOrderTransferRequestWorkflow"
+  },
+  {
+    "title": "cancelOrderWorkflow",
+    "path": "/references/medusa-workflows/cancelOrderWorkflow"
   },
   {
     "title": "declineOrderTransferRequestWorkflow",
@@ -70,6 +86,10 @@ export const query = [
   {
     "title": "processPaymentWorkflow",
     "path": "/references/medusa-workflows/processPaymentWorkflow"
+  },
+  {
+    "title": "refundPaymentsWorkflow",
+    "path": "/references/medusa-workflows/refundPaymentsWorkflow"
   },
   {
     "title": "batchProductVariantsWorkflow",
@@ -86,5 +106,9 @@ export const query = [
   {
     "title": "deleteProductsWorkflow",
     "path": "/references/medusa-workflows/deleteProductsWorkflow"
+  },
+  {
+    "title": "updateStockLocationsWorkflow",
+    "path": "/references/medusa-workflows/updateStockLocationsWorkflow"
   }
 ]

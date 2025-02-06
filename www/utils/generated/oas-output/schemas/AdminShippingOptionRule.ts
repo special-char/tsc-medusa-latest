@@ -24,22 +24,19 @@
  *     example: is_return
  *   operator:
  *     type: string
- *     title: operator
- *     description: The shipping option rule's operator.
- *     example: eq
+ *     description: The rule's operator.
+ *     enum:
+ *       - gt
+ *       - lt
+ *       - eq
+ *       - ne
+ *       - in
+ *       - lte
+ *       - gte
+ *       - nin
  *   value:
- *     oneOf:
- *       - type: string
- *         title: value
- *         description: The rule's value.
- *         example: '"true"'
- *       - type: array
- *         description: The rule's values.
- *         items:
- *           type: string
- *           title: value
- *           description: A rule's value
- *           example: '"true"'
+ *     type: string
+ *     title: value
  *   shipping_option_id:
  *     type: string
  *     title: shipping_option_id
@@ -59,6 +56,5 @@
  *     format: date-time
  *     title: deleted_at
  *     description: The date the shipping option rule was deleted.
- * 
-*/
-
+ *
+ */

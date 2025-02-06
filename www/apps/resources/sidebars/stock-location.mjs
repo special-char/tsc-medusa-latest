@@ -11,13 +11,12 @@ export const stockLocationSidebar = [
         title: "Overview",
       },
       {
-        type: "link",
-        path: "/commerce-modules/stock-location/examples",
-        title: "Examples",
+        type: "separator",
       },
       {
-        type: "sub-category",
+        type: "category",
         title: "Concepts",
+        initialOpen: false,
         children: [
           {
             type: "link",
@@ -32,9 +31,92 @@ export const stockLocationSidebar = [
         ],
       },
       {
-        type: "sub-category",
+        type: "category",
+        title: "Server Guides",
+        autogenerate_tags: "server+stockLocation",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to use the Stock Location Module in your customizations on the Medusa application server.",
+      },
+      {
+        type: "category",
+        title: "Storefront Guides",
+        autogenerate_tags: "storefront+stockLocation,-jsSdk",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to integrate the Stock Location Module's features into your storefront.",
+      },
+      {
+        type: "category",
+        title: "Admin Guides",
+        autogenerate_tags: "admin+stockLocation,-jsSdk",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to utilize administative features of the Stock Location Module.",
+      },
+      {
+        type: "category",
+        title: "User Guides",
+        autogenerate_tags: "userGuides+stockLocation",
+        initialOpen: false,
+        autogenerate_as_ref: true,
+        description:
+          "Learn how to utilize and manage Stock Location features in the Medusa Admin dashboard.",
+      },
+      {
+        type: "category",
         title: "References",
+        initialOpen: false,
+        description:
+          "Find references for tools and resources related to the Stock Location Module, such as data models, methods, and more. These are useful for your customizations.",
         children: [
+          {
+            type: "link",
+            path: "/commerce-modules/stock-location/workflows",
+            title: "Workflows",
+            hideChildren: true,
+            children: [
+              {
+                type: "category",
+                title: "Workflows",
+                autogenerate_tags: "workflow+stockLocation",
+                autogenerate_as_ref: true,
+              },
+              {
+                type: "category",
+                title: "Steps",
+                autogenerate_tags: "step+stockLocation",
+                autogenerate_as_ref: true,
+              },
+            ],
+          },
+          {
+            type: "link",
+            path: "/commerce-modules/stock-location/js-sdk",
+            title: "JS SDK",
+            hideChildren: true,
+            children: [
+              {
+                type: "sub-category",
+                title: "Store",
+                autogenerate_tags: "jsSdk+storefront+stockLocation",
+                description:
+                  "The following methods or properties are used to send requests to Store API Routes related to the Stock Location Module.",
+                autogenerate_as_ref: true,
+              },
+              {
+                type: "sub-category",
+                title: "Admin",
+                autogenerate_tags: "jsSdk+admin+stockLocation",
+                description:
+                  "The following methods or properties are used to send requests to Admin API Routes related to the Stock Location Module.",
+                autogenerate_as_ref: true,
+              },
+            ],
+          },
           {
             type: "link",
             path: "/commerce-modules/stock-location/admin-widget-zones",

@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { aspectRatioOptions } from "../constants"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-import { backendUrl } from "../../../lib/client"
+import { sdk } from "../../../lib/client"
+import { toast } from "@medusajs/ui"
 
 const formSchema = {
   thumbnail: {
@@ -54,22 +55,11 @@ type ExtendedProductCategory = AdminProductCategory & {
 }
 
 const getProductCategoryDetails = async (id: string) => {
-  const response = await fetch(
-    `${backendUrl}/admin/product-category-details/category/${id}`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    }
-  )
+  // eslint-disable-next-line prettier/prettier
+  const data =
+    await sdk.admin.productCategoryDetails.retrieveByProductCategory(id)
 
-  if (!response.ok) {
-    // notify.error("failed", "Something went wrong...");
-    throw new Error("something went wrong...")
-  }
-
-  const json = await response.json()
-  return json
+  return data
 }
 
 const ProductCategoryDetailsForm = ({
@@ -119,79 +109,21 @@ const ProductCategoryDetailsForm = ({
   const onSubmit = async (formFields: FieldValues) => {
     console.log(formFields)
 
-    const oldMedia =
-      formFields?.media?.reduce((acc: string[], x: any) => {
-        if (!x.file && x.url) {
-          acc.push(x.url)
-        }
-        return acc
-      }, []) ?? null
-
-    const newMedia =
-      formFields?.media?.reduce((acc: File[], x: any) => {
-        if (x.file) {
-          acc.push(x.file)
-        }
-        return acc
-      }, []) ?? null
-
     try {
-      const formData = new FormData()
-      if (
-        formFields?.product_aspect_ratio &&
-        formFields?.product_aspect_ratio !== ""
-      )
-        formData.append(
-          "product_aspect_ratio",
-          formFields?.product_aspect_ratio
-        )
-
-      if (formFields?.product_bg_color && formFields?.product_bg_color !== "")
-        formData.append("product_bg_color", formFields?.product_bg_color)
-
-      if (formFields?.thumbnail?.file) {
-        formData.append(
-          "thumbnail",
-          formFields?.thumbnail?.file,
-          formFields?.thumbnail?.file.name
-        )
-      }
-
-      if (formFields?.thumbnail?.url) {
-        formData.append("old_thumbnail", formFields?.thumbnail?.url)
-      }
-
-      if (oldMedia && oldMedia?.length > 0) {
-        oldMedia?.forEach((item: string) => {
-          formData.append("old_media[]", item)
-        })
-      }
-
-      if (newMedia && newMedia?.length > 0) {
-        newMedia?.forEach((media: File) => {
-          formData.append("media", media, media.name)
-        })
-      }
-
-      const response = await fetch(
-        `${backendUrl}/admin/product-category-details/category/${data?.id}`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
-      )
-
-      if (!response.ok) {
-        // notify.error("failed", "Something went wrong...");
+      if (data?.id) {
+        const response =
+          await sdk.admin.productCategoryDetails.updateProductCategoryDetails(
+            data.id,
+            {
+              ...formFields,
+            }
+          )
+        toast("Product Category details updated")
+        navigate(0)
         return
       }
 
-      const json = await response.json()
-
-      // notify.success("Done", "success");
-      console.log("Done success")
-      navigate(0)
+      toast("Category id not found")
     } catch (error) {
       // notify.error("Error", error);
       console.error("error occured while submitting data", { error })

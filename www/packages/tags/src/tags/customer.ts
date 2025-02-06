@@ -1,39 +1,39 @@
 export const customer = [
   {
     "title": "Manage Customer Addresses in Storefront",
-    "path": "/app/storefront-development/customers/addresses"
+    "path": "/storefront-development/customers/addresses"
   },
   {
     "title": "Customer Context in Storefront",
-    "path": "/app/storefront-development/customers/context"
+    "path": "/storefront-development/customers/context"
   },
   {
     "title": "Log-out Customer in Storefront",
-    "path": "/app/storefront-development/customers/log-out"
+    "path": "/storefront-development/customers/log-out"
   },
   {
     "title": "Login Customer in Storefront",
-    "path": "/app/storefront-development/customers/login"
+    "path": "/storefront-development/customers/login"
   },
   {
     "title": "Edit Customer Profile in Storefront",
-    "path": "/app/storefront-development/customers/profile"
+    "path": "/storefront-development/customers/profile"
   },
   {
     "title": "Register Customer in Storefront",
-    "path": "/app/storefront-development/customers/register"
+    "path": "/storefront-development/customers/register"
   },
   {
     "title": "Reset Customer Password in Storefront",
-    "path": "/app/storefront-development/customers/reset-password"
+    "path": "/storefront-development/customers/reset-password"
   },
   {
-    "title": "Retrieve Customer in Storefront",
-    "path": "/app/storefront-development/customers/retrieve"
+    "title": "Retrieve Logged-In Customer in Storefront",
+    "path": "/storefront-development/customers/retrieve"
   },
   {
     "title": "Third-Party or Social Login in Storefront",
-    "path": "/app/storefront-development/customers/third-party-login"
+    "path": "/storefront-development/customers/third-party-login"
   },
   {
     "title": "findOrCreateCustomerStep",
@@ -78,6 +78,10 @@ export const customer = [
   {
     "title": "updateCustomersStep",
     "path": "/references/medusa-workflows/steps/updateCustomersStep"
+  },
+  {
+    "title": "validateCustomerAccountCreation",
+    "path": "/references/medusa-workflows/steps/validateCustomerAccountCreation"
   },
   {
     "title": "createCustomerAccountWorkflow",
@@ -170,5 +174,17 @@ export const customer = [
   {
     "title": "orderExchangeAddNewItemWorkflow",
     "path": "/references/medusa-workflows/orderExchangeAddNewItemWorkflow"
+  },
+  {
+    "title": "customer",
+    "path": "/references/js-sdk/admin/customer"
+  },
+  {
+    "title": "customerGroup",
+    "path": "/references/js-sdk/admin/customerGroup"
+  },
+  {
+    "title": "customer",
+    "path": "/references/js-sdk/store/customer"
   }
 ]

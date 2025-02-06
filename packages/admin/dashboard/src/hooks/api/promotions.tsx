@@ -175,7 +175,9 @@ export const useCreatePromotion = (
   options?: UseMutationOptions<
     HttpTypes.AdminPromotionResponse,
     FetchError,
-    HttpTypes.AdminCreatePromotion
+    HttpTypes.AdminCreatePromotion & {
+      additional_data: Record<string, any>
+    }
   >
 ) => {
   return useMutation({

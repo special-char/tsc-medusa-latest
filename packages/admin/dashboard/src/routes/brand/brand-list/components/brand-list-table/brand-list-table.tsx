@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table"
 import { useMemo, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
-import { DataTable } from "../../../../../components/table/data-table"
 import { useProductTypeTableFilters } from "../../../../../hooks/table/filters/use-product-type-table-filters"
 import { useProductTypeTableQuery } from "../../../../../hooks/table/query/use-product-type-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
@@ -11,6 +10,8 @@ import { TextCell } from "../../../../../components/table/table-cells/common/tex
 import { DateCell } from "../../../../../components/table/table-cells/common/date-cell"
 import { BrandRowActions } from "./brand-row-actions"
 import { HttpTypes } from "@medusajs/types"
+import { sdk } from "../../../../../lib/client/client"
+import { _DataTable } from "../../../../../components/table/data-table"
 
 const PAGE_SIZE = 20
 
@@ -30,7 +31,7 @@ const fetchBrands = async (
           for (const [nestedKey, nestedValue] of Object.entries(value)) {
             if (nestedValue !== undefined) {
               // Check if nested value is defined
-              queryString.append(`${key}[${nestedKey}]`, nestedValue)
+              queryString.append(`${key}[${nestedKey}]`, nestedValue as string)
             }
           }
         } else {
@@ -41,23 +42,13 @@ const fetchBrands = async (
 
     console.log("🚀 ~ queryString:", queryString.toString())
     // Convert searchParams to query string
-    const response = await fetch(
-      `${__BACKEND_URL__}/admin/brand?${queryString.toString()}`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          // "x-publishable-api-key": __PUBLISHABLE_KEY__,
-        },
-      }
-    )
-    if (!response.ok) {
+
+    const response = await sdk.admin.brand.list(queryString)
+    if (!response) {
       const errorData = await response.json()
       throw new Error(errorData.message || "Failed to fetch brands")
     }
-    const result = await response.json()
+    const result = response
     return result // Return the brands array
   } catch (error) {
     console.error(error)
@@ -135,7 +126,7 @@ export const BrandListTable = () => {
           <Link to="create">{t("actions.create")}</Link>
         </Button>
       </div>
-      <DataTable
+      <_DataTable
         table={table}
         filters={filters}
         isLoading={isLoading}

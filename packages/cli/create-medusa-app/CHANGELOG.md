@@ -1,5 +1,43 @@
 # Change Log
 
+## 2.4.0
+
+### Patch Changes
+
+- [#11071](https://github.com/medusajs/medusa/pull/11071) [`cd758067d41ef29139c7dcdcc0639e9d9d520bd8`](https://github.com/medusajs/medusa/commit/cd758067d41ef29139c7dcdcc0639e9d9d520bd8) Thanks [@shahednasser](https://github.com/shahednasser)! - fix(create-medusa-app): fix database name from input not used in setup
+
+- Updated dependencies []:
+  - @medusajs/telemetry@2.4.0
+
+## 2.3.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @medusajs/telemetry@2.3.1
+
+## 2.3.0
+
+### Patch Changes
+
+- [#10908](https://github.com/medusajs/medusa/pull/10908) [`c895ed8013fe2feae7b0a92a5d0aad937f58a08a`](https://github.com/medusajs/medusa/commit/c895ed8013fe2feae7b0a92a5d0aad937f58a08a) Thanks [@adrien2p](https://github.com/adrien2p)! - Feat/plugin scaffolding
+
+- Updated dependencies []:
+  - @medusajs/telemetry@2.3.0
+
+## 2.2.0
+
+### Patch Changes
+
+- [#10853](https://github.com/medusajs/medusa/pull/10853) [`632600ee11426448076fe2e3f5156998f24b6907`](https://github.com/medusajs/medusa/commit/632600ee11426448076fe2e3f5156998f24b6907) Thanks [@shahednasser](https://github.com/shahednasser)! - fix(create-medusa-app): add default storefront url to auth CORS
+
+- [#10755](https://github.com/medusajs/medusa/pull/10755) [`1e6d56bc18b55d0b8e526116b37123c2079fec09`](https://github.com/medusajs/medusa/commit/1e6d56bc18b55d0b8e526116b37123c2079fec09) Thanks [@shahednasser](https://github.com/shahednasser)! - feat(create-medusa-app): allow passing project name on command line
+
+- [#10812](https://github.com/medusajs/medusa/pull/10812) [`152a94e1e1f245e0dc5594174db41d37e68789d6`](https://github.com/medusajs/medusa/commit/152a94e1e1f245e0dc5594174db41d37e68789d6) Thanks [@shahednasser](https://github.com/shahednasser)! - feat(create-medusa-app): improve by adding depth to clone commands
+
+- Updated dependencies []:
+  - @medusajs/telemetry@2.2.0
+
 ## 2.1.3
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-import { DeleteEntityInput, RemoteLink } from "@medusajs/framework/modules-sdk"
+import { DeleteEntityInput, Link } from "@medusajs/framework/modules-sdk"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils"
@@ -12,26 +12,11 @@ export const removeRemoteLinkStepId = "remove-remote-links"
  * Learn more in the [Remote Link documentation](https://docs.medusajs.com/learn/fundamentals/module-links/remote-link#cascade-delete-linked-records)
  *
  * @example
- * import {
- *   createWorkflow
- * } from "@medusajs/framework/workflows-sdk"
- * import {
- *   removeRemoteLinkStep
- * } from "@medusajs/medusa/core-flows"
- * import {
- *   Modules
- * } from "@medusajs/framework/utils"
- *
- * const helloWorldWorkflow = createWorkflow(
- *   "hello-world",
- *   () => {
- *     removeRemoteLinkStep([{
- *       [Modules.PRODUCT]: {
- *         product_id: "prod_123",
- *       },
- *     }])
- *   }
- * )
+ * removeRemoteLinkStep([{
+ *   [Modules.PRODUCT]: {
+ *     product_id: "prod_123",
+ *   },
+ * }])
  */
 export const removeRemoteLinkStep = createStep(
   removeRemoteLinkStepId,
@@ -62,9 +47,7 @@ export const removeRemoteLinkStep = createStep(
       }
     }
 
-    const link = container.resolve<RemoteLink>(
-      ContainerRegistrationKeys.REMOTE_LINK
-    )
+    const link = container.resolve<Link>(ContainerRegistrationKeys.LINK)
     await link.delete(grouped)
 
     return new StepResponse(grouped, grouped)
@@ -74,9 +57,7 @@ export const removeRemoteLinkStep = createStep(
       return
     }
 
-    const link = container.resolve<RemoteLink>(
-      ContainerRegistrationKeys.REMOTE_LINK
-    )
+    const link = container.resolve<Link>(ContainerRegistrationKeys.LINK)
     await link.restore(removedLinks)
   }
 )

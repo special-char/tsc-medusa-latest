@@ -3,23 +3,37 @@ import { RouteFocusModal } from "../../../components/modals"
 import { FieldValues, useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
-import { backendUrl } from "../../../lib/client"
+import { sdk } from "../../../lib/client"
 import "react-quill/dist/quill.snow.css"
 import { useEffect, useState } from "react"
+import { FaqProps } from "../faq-list/components/faq-list-table"
+export type FaqCategoriesListProps = {
+  id: string
+  title: string
+  description: string
+  metadata: Record<string, any>
+  handle: string
+  created_at: Date
+  updated_at: Date
+  deleted_at: Date | null
+  faqs: Omit<FaqProps, "category">[]
+}
 
 export const FaqCreate = () => {
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState<FaqCategoriesListProps[]>([])
   const LoadFaqCategoriesData = async () => {
     try {
-      const faqCategoriesResponse = await fetch(
-        `${backendUrl}/admin/faqs/categories`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      )
-      const faqResponseJson = await faqCategoriesResponse.json()
-      setCategories(faqResponseJson?.faqCategories)
+      // const faqCategoriesResponse = await fetch(
+      //   `${backendUrl}/admin/faqs/categories`,
+      //   {
+      //     method: "GET",
+      //     credentials: "include",
+      //   }
+      // )
+      // const faqResponseJson = await faqCategoriesResponse.json()
+      const faqCategoriesResponse = await sdk.admin.faq.listFaqCategories()
+
+      setCategories(faqCategoriesResponse?.faqCategories)
     } catch (error: any) {
       console.log(`Failed to fetch faq data : ${error}`)
     }
@@ -120,28 +134,29 @@ export const FaqCreate = () => {
       content: data.faqContent,
       type: data.faqType,
       by_admin: data.faqDefaultOpen,
-      display_status: data.faqDisplayStatus === true ? "published" : "draft",
+      display_status:
+        data.faqDisplayStatus === true
+          ? ("published" as const)
+          : ("draft" as const),
       email: data.email,
       category: {
         title: data.faqCategoryTitle,
       },
     }
 
-    console.log("====================================")
-    console.log(raw)
-    console.log("====================================")
     try {
-      const createFaqResponse = await fetch(`${backendUrl}/admin/faqs`, {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(raw),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      const createFaqResponseJson = await createFaqResponse.json()
+      // const createFaqResponse = await fetch(`${backendUrl}/admin/faqs`, {
+      //   method: "POST",
+      //   credentials: "include",
+      //   body: JSON.stringify(raw),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      // const createFaqResponseJson = await createFaqResponse.json()
 
-      if (createFaqResponseJson) {
+      const createFaqResponse = await sdk.admin.faq.create(raw)
+      if (createFaqResponse) {
         navigate("/faqs")
         navigate(0)
       }

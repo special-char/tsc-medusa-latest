@@ -1,9 +1,21 @@
 import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils"
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk"
 
+/**
+ * The data to associate fulfillment sets with locations.
+ */
 export interface AssociateFulfillmentSetsWithLocationStepInput {
+  /**
+   * The data to associate fulfillment sets with locations.
+   */
   input: {
+    /**
+     * The ID of the location to associate the fulfillment sets with.
+     */
     location_id: string
+    /**
+     * The IDs of the fulfillment sets to associate with the location.
+     */
     fulfillment_set_ids: string[]
   }[]
 }
@@ -23,7 +35,7 @@ export const associateFulfillmentSetsWithLocationStep = createStep(
       return new StepResponse([], [])
     }
 
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
 
     const links = data.input
       .map((link) => {
@@ -49,7 +61,7 @@ export const associateFulfillmentSetsWithLocationStep = createStep(
       return
     }
 
-    const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK)
+    const remoteLink = container.resolve(ContainerRegistrationKeys.LINK)
 
     await remoteLink.dismiss(links)
   }
