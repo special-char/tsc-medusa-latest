@@ -870,6 +870,7 @@
   },
   "giftCards": {
     "domain": "Gift Cards",
+    "bulkOrder": "Bulk Order",
     "editGiftCard": "Edit Gift Card",
     "createGiftCard": "Create Gift Card",
     "createGiftCardHint": "Manually create a gift card that can be used as a payment method in your store.",

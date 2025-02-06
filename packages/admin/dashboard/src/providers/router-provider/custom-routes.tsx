@@ -100,7 +100,7 @@ export const customProtectedRoutes: RouteObject[] = [
           path: "/bulk-buy",
           errorElement: <ErrorBoundary />,
           handle: {
-            breadcrumb: () => t("categories.domain"),
+            breadcrumb: () => t("giftCards.bulkOrder"),
           },
           children: [
             {
