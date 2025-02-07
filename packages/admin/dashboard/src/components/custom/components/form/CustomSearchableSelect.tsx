@@ -2,7 +2,6 @@ import React, {
   ForwardedRef,
   useMemo,
   useState,
-  useDeferredValue,
   useCallback,
   useEffect,
 } from "react"
@@ -14,6 +13,7 @@ import {
   ComboboxProvider as PrimitiveComboboxProvider,
 } from "@ariakit/react"
 import { clx } from "@medusajs/ui"
+import { matchSorter } from "match-sorter"
 
 type ComboboxOption = {
   value: string
@@ -45,25 +45,33 @@ const CustomSearchableSelect = React.forwardRef(
     const [searchValue, setSearchValue] = useState(value || "")
     const [open, setOpen] = useState(false)
     const [visibleOptions, setVisibleOptions] = useState<ComboboxOption[]>([])
+    const trimmedSearchValue = searchValue.trim()
 
-    const deferredSearchValue = useDeferredValue(
-      searchValue.trim().toLowerCase()
-    )
+    // CUSTOM SEARCH LOGIC
 
+    // const deferredSearchValue = useDeferredValue(
+    //   searchValue.trim().toLowerCase()
+    // )
+
+    // const filteredOptions = useMemo(() => {
+    //   if (!deferredSearchValue) {
+    //     return options
+    //   }
+    //   return options
+    //     .filter(({ label }) =>
+    //       label.toLowerCase().includes(deferredSearchValue)
+    //     )
+    //     .sort((a, b) => {
+    //       const aStarts = a.label.toLowerCase().startsWith(deferredSearchValue)
+    //       const bStarts = b.label.toLowerCase().startsWith(deferredSearchValue)
+    //       return aStarts === bStarts ? 0 : aStarts ? -1 : 1
+    //     })
+    // }, [options, deferredSearchValue])
+
+    // DEAFULT SEARCH LOGIC
     const filteredOptions = useMemo(() => {
-      if (!deferredSearchValue) {
-        return options
-      }
-      return options
-        .filter(({ label }) =>
-          label.toLowerCase().includes(deferredSearchValue)
-        )
-        .sort((a, b) => {
-          const aStarts = a.label.toLowerCase().startsWith(deferredSearchValue)
-          const bStarts = b.label.toLowerCase().startsWith(deferredSearchValue)
-          return aStarts === bStarts ? 0 : aStarts ? -1 : 1
-        })
-    }, [options, deferredSearchValue])
+      return matchSorter(options, trimmedSearchValue, { keys: ["label"] })
+    }, [options, trimmedSearchValue])
 
     useEffect(() => {
       setVisibleOptions(filteredOptions.slice(0, displayCount))
