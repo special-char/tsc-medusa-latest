@@ -60,7 +60,7 @@ export function VendorCreate() {
         last_name: data.last_name,
       })
       toast.success("Vendor created successfully.")
-      navigate("/vendors", {
+      navigate("/merchants", {
         replace: true,
         state: { isSubmittingSuccessful: true },
       })
