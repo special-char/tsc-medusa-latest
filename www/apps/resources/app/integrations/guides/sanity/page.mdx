@@ -711,7 +711,7 @@ export const syncStep = createStep(
     while (hasMore) {
       const {
         data: products,
-        metadata: { count },
+        metadata: { count } = {},
       } = await query.graph({
         entity: "product",
         fields: [
@@ -1444,7 +1444,7 @@ To send requests from admin customizations to the Medusa server, you need to use
 
 <Note type="warning">
 
-Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v^5.28.14` as a development dependency.
+Do not install Tanstack Query as that will cause unexpected errors in your development. If you prefer installing it for better auto-completion in your code editor, make sure to install `v5.64.2` as a development dependency.
 
 </Note>
 
@@ -1454,8 +1454,8 @@ To configure the JS SDK, create the file `src/admin/lib/sdk.ts` with the followi
 import Medusa from "@medusajs/js-sdk"
 
 export const sdk = new Medusa({
-  baseUrl: "http://localhost:9000",
-  debug: process.env.NODE_ENV === "development",
+  baseUrl: import.meta.env.VITE_BACKEND_URL || "/",
+  debug: import.meta.env.DEV,
   auth: {
     type: "session",
   },
