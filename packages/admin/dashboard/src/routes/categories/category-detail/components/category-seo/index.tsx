@@ -1,4 +1,4 @@
-import { Button, FocusModal } from "@medusajs/ui"
+import { Button, Container, FocusModal } from "@medusajs/ui"
 import { useEffect, useState } from "react"
 import { sdk } from "../../../../../lib/client"
 import { AdminProductCategory } from "@medusajs/types"
@@ -23,6 +23,7 @@ export type SeoDetailsTypes = {
   keywords: string | null
   metaRobots: string | null
   structuredData: Record<string, any> | null
+  feedData: Record<string, any> | null
   metaViewport: string | null
   canonicalURL: string | null
 }
@@ -48,7 +49,7 @@ const CategorySeoWidget = ({
   }, [])
 
   return (
-    <div className="flex flex-1 flex-col rounded-lg border border-gray-200 bg-white p-5">
+    <Container>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
         <h3 className="text-xlarge font-bold">Category SEO: {data.name}</h3>
         <div className="flex items-center gap-4">
@@ -72,7 +73,7 @@ const CategorySeoWidget = ({
       ) : (
         <>No any SEO available</>
       )}
-    </div>
+    </Container>
   )
 }
 
