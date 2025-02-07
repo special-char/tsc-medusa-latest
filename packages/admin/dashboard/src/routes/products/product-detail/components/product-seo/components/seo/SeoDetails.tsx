@@ -75,7 +75,7 @@ const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
           <div className="divide-y rounded-md border p-4">
             {productSeo?.metaSocial.map((item) => {
               return (
-                <div className="py-2" key={item.id}>
+                <div className="overflow-auto py-2" key={item.id}>
                   <p className="grid grid-cols-[1fr_1fr] gap-4">
                     <span className="font-bold">Network</span>
                     <span className="inter-base-regular text-grey-50">

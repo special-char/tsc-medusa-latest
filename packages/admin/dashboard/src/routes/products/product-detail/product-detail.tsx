@@ -21,6 +21,7 @@ import dashboardConfig from "../../../../dashboard.config"
 import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
 import { getSalesChannelIds } from "../../../const/get-sales-channel"
 import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
+import ProductGoogleCategoryWidget from "../../../widgets/product-google-categories/product-google-categories"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -81,6 +82,9 @@ export const ProductDetail = () => {
         <ProductMediaSection product={product} />
         <ProductOptionSection product={product} />
         <ProductVariantSection product={product} />
+        {dashboardConfig?.featureFlags?.productGoogleCategory && (
+          <ProductGoogleCategoryWidget data={product} />
+        )}
         {dashboardConfig?.featureFlags?.productVariantImages && (
           <ProductVariantImagesWidget data={product} />
         )}
@@ -93,7 +97,8 @@ export const ProductDetail = () => {
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />
-        <ProductShippingProfileSection product={product} />
+        {/* TODO: TSC add this when added in new version */}
+        {/* <ProductShippingProfileSection product={product} /> */}
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
         {dashboardConfig?.featureFlags?.productSeo && (

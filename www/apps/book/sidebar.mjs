@@ -214,6 +214,11 @@ export const sidebar = sidebarAttachHrefCommonOptions([
             path: "/learn/fundamentals/module-links/custom-columns",
             title: "Custom Columns",
           },
+          {
+            type: "link",
+            path: "/learn/fundamentals/module-links/query-context",
+            title: "Query Context",
+          },
         ],
       },
       {
@@ -453,6 +458,11 @@ export const sidebar = sidebarAttachHrefCommonOptions([
           },
           {
             type: "link",
+            path: "/learn/fundamentals/admin/environment-variables",
+            title: "Environment Variables",
+          },
+          {
+            type: "link",
             path: "/learn/fundamentals/admin/constraints",
             title: "Constraints",
           },
@@ -499,6 +509,17 @@ export const sidebar = sidebarAttachHrefCommonOptions([
     path: "/learn/storefront-development",
     title: "Storefront Development",
     chapterTitle: "Storefront",
+  },
+  {
+    type: "category",
+    title: "Conventions",
+    children: [
+      {
+        type: "link",
+        title: "Type Aliases",
+        path: "/learn/conventions/ts-aliases",
+      },
+    ],
   },
   {
     type: "link",
