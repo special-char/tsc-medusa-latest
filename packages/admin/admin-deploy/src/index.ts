@@ -12,8 +12,8 @@ async function build() {
 
     await bundler.build({
       path: "/",
-      backendUrl: process.env.MEDUSA_BACKEND_URL,
-      storefrontUrl: process.env.MEDUSA_STOREFRONT_URL,
+      backendUrl: process.env.BACKEND_URL,
+      storefrontUrl: process.env.STOREFRONT_URL,
       sources,
       outDir,
       vite: undefined,
