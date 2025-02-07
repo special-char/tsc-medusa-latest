@@ -1,6 +1,6 @@
 import SeoDetails from "./components/seo/SeoDetails"
 import SeoForm from "./components/seo/SeoForm"
-import { Button, FocusModal } from "@medusajs/ui"
+import { Button, Container, FocusModal } from "@medusajs/ui"
 
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { useEffect, useState } from "react"
@@ -48,7 +48,7 @@ const ProductSeoWidget = ({ product: data }: { product: any }) => {
   }, [])
 
   return (
-    <div className="flex flex-1 flex-col rounded-lg border border-gray-200 bg-white p-8">
+    <Container>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
         <h3 className="text-xlarge font-bold">Product SEO: {data.title}</h3>
         <div className="flex items-center gap-4">
@@ -72,7 +72,7 @@ const ProductSeoWidget = ({ product: data }: { product: any }) => {
       ) : (
         <>No any SEO available</>
       )}
-    </div>
+    </Container>
   )
 }
 

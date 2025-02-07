@@ -136,7 +136,7 @@ const ImageUpload = ({
           onDrop={handleDrop}
         >
           <span className="flex flex-col items-center justify-center gap-2">
-            <span className="flex cursor-pointer items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-2 hover:bg-gray-50">
+            <span className="text-ui-contrast-fg-primary bg-ui-button-inverted flex cursor-pointer items-center gap-2 rounded-full px-4 py-2">
               <ArrowUpCircleSolid />
               <span>Upload</span>
               <input
