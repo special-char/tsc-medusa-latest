@@ -1,0 +1,4 @@
+product_handle,quantity,unit_price,firstname,lastname,email,phone,expiryDay,message,emailDeliveryDate(DD/MM/YYYY)
+test,1,3350,Linda,Johnson,example@gmail.com,9999999999,30,Hello example,
+test1,1,2350,Example,Lastname,example2@gmail.com,8888888888,30,hello example2,
+gifthamper,1,1350,Sam,Smith,example3@gmail.com,7777777777,30,hello there example3,
