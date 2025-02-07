@@ -11,46 +11,15 @@ import { useComboboxData } from "../../../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../../../lib/client"
 import { CategoryCombobox } from "../../../../../common/components/category-combobox"
 import { ProductCreateSchemaType } from "../../../../types"
-import { useEffect, useState } from "react"
 
 type ProductCreateOrganizationSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
-}
-
-const fetchBrands = async () => {
-  try {
-    
-    const response = await sdk.admin.brand.list()
-
-    const result = response
-    return { brands: result.brands }
-  } catch (error) {
-    console.error(error)
-    throw error // Rethrow the error for handling in the component
-  }
 }
 
 export const ProductCreateOrganizationSection = ({
   form,
 }: ProductCreateOrganizationSectionProps) => {
   const { t } = useTranslation()
-  const [brands, setBrands] = useState<{ brands: any[] }>({ brands: [] }) // State for brands
-  const [loadingBrands, setLoadingBrands] = useState(true) // State for loading brands
-
-  useEffect(() => {
-    const fetchBrandsData = async () => {
-      try {
-        const fetchedBrands = await fetchBrands()
-        setBrands(fetchedBrands)
-      } catch (error) {
-        console.error("Failed to fetch brands:", error)
-      } finally {
-        setLoadingBrands(false) // Set loading to false after fetching
-      }
-    }
-
-    fetchBrandsData() // Call the fetch function
-  }, [])
 
   const collections = useComboboxData({
     queryKey: ["product_collections"],
@@ -59,6 +28,16 @@ export const ProductCreateOrganizationSection = ({
       data.collections.map((collection) => ({
         label: collection.title!,
         value: collection.id!,
+      })),
+  })
+
+  const brands = useComboboxData({
+    queryKey: ["product_brands"],
+    queryFn: (params) => sdk.admin.brand.list(params),
+    getOptions: (data) =>
+      data.brands.map((brand: { name: any; id: any }) => ({
+        label: brand.name!,
+        value: brand.id!,
       })),
   })
 
@@ -202,7 +181,7 @@ export const ProductCreateOrganizationSection = ({
           }}
         />
       </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <Form.Label>{t("products.fields.shipping_profile.label")}</Form.Label>
           <Form.Hint>
@@ -229,7 +208,7 @@ export const ProductCreateOrganizationSection = ({
             )
           }}
         />
-      </div>
+      </div> */}
       <div className="grid grid-cols-1 gap-y-4">
         <Form.Field
           control={form.control}
@@ -283,11 +262,10 @@ export const ProductCreateOrganizationSection = ({
                 <Form.Control>
                   <Combobox
                     {...field}
-                    multiple={false}
-                    options={brands.brands.map((brand: any) => ({
-                      label: brand.name,
-                      value: brand.id,
-                    }))}
+                    options={brands.options}
+                    searchValue={brands.searchValue}
+                    onSearchValueChange={brands.onSearchValueChange}
+                    fetchNextPage={brands.fetchNextPage}
                   />
                 </Form.Control>
                 <Form.ErrorMessage />

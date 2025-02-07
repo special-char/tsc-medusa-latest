@@ -127,7 +127,7 @@ const ProductImportContent = () => {
         <div className="mt-4">
           <FilePreview
             filename={"bulkbuy-import-template.csv"}
-            url={"../../../../public/csv/bulk-buy-import-template.csv"}
+            url={"../../../assets/csv/bulk-buy-import-template.csv"}
           />
         </div>
         <div className="mt-4 flex items-center space-x-2">

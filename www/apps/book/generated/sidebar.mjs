@@ -368,6 +368,15 @@ export const generatedSidebar = [
             "title": "Custom Columns",
             "children": [],
             "chapterTitle": "3.3.4. Custom Columns"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
+            "path": "/learn/fundamentals/module-links/query-context",
+            "title": "Query Context",
+            "children": [],
+            "chapterTitle": "3.3.5. Query Context"
           }
         ],
         "chapterTitle": "3.3. Module Links"
@@ -784,10 +793,19 @@ export const generatedSidebar = [
             "loaded": true,
             "isPathHref": true,
             "type": "link",
+            "path": "/learn/fundamentals/admin/environment-variables",
+            "title": "Environment Variables",
+            "children": [],
+            "chapterTitle": "3.9.3. Environment Variables"
+          },
+          {
+            "loaded": true,
+            "isPathHref": true,
+            "type": "link",
             "path": "/learn/fundamentals/admin/constraints",
             "title": "Constraints",
             "children": [],
-            "chapterTitle": "3.9.3. Constraints"
+            "chapterTitle": "3.9.4. Constraints"
           },
           {
             "loaded": true,
@@ -796,7 +814,7 @@ export const generatedSidebar = [
             "path": "/learn/fundamentals/admin/tips",
             "title": "Tips",
             "children": [],
-            "chapterTitle": "3.9.4. Tips"
+            "chapterTitle": "3.9.5. Tips"
           }
         ],
         "chapterTitle": "3.9. Admin Development"
@@ -870,8 +888,26 @@ export const generatedSidebar = [
     "initialOpen": false
   },
   {
+    "loaded": true,
+    "isPathHref": true,
     "type": "category",
-    "title": "5. Debugging & Testing",
+    "title": "5. Conventions",
+    "children": [
+      {
+        "loaded": true,
+        "isPathHref": true,
+        "type": "link",
+        "title": "Type Aliases",
+        "path": "/learn/conventions/ts-aliases",
+        "children": [],
+        "chapterTitle": "5.1. Type Aliases"
+      }
+    ],
+    "chapterTitle": "5. Conventions"
+  },
+  {
+    "type": "category",
+    "title": "6. Debugging & Testing",
     "children": [
       {
         "loaded": true,
@@ -879,7 +915,7 @@ export const generatedSidebar = [
         "type": "link",
         "path": "/learn/debugging-and-testing",
         "title": "Debugging and Testing",
-        "chapterTitle": "5. Debugging & Testing",
+        "chapterTitle": "6. Debugging & Testing",
         "children": [
           {
             "loaded": true,
@@ -888,7 +924,7 @@ export const generatedSidebar = [
             "path": "/learn/debugging-and-testing/testing-tools",
             "title": "Testing Tools",
             "children": [],
-            "chapterTitle": "5.1. Testing Tools"
+            "chapterTitle": "6.1. Testing Tools"
           },
           {
             "loaded": true,
@@ -904,7 +940,7 @@ export const generatedSidebar = [
                 "path": "/learn/debugging-and-testing/testing-tools/integration-tests/api-routes",
                 "title": "Example: API Routes Tests",
                 "children": [],
-                "chapterTitle": "5.2.1. Example: API Routes Tests"
+                "chapterTitle": "6.2.1. Example: API Routes Tests"
               },
               {
                 "loaded": true,
@@ -913,10 +949,10 @@ export const generatedSidebar = [
                 "path": "/learn/debugging-and-testing/testing-tools/integration-tests/workflows",
                 "title": "Example: Workflows Tests",
                 "children": [],
-                "chapterTitle": "5.2.2. Example: Workflows Tests"
+                "chapterTitle": "6.2.2. Example: Workflows Tests"
               }
             ],
-            "chapterTitle": "5.2. Integration Tests"
+            "chapterTitle": "6.2. Integration Tests"
           },
           {
             "loaded": true,
@@ -932,10 +968,10 @@ export const generatedSidebar = [
                 "path": "/learn/debugging-and-testing/testing-tools/modules-tests/module-example",
                 "title": "Example",
                 "children": [],
-                "chapterTitle": "5.3.1. Example"
+                "chapterTitle": "6.3.1. Example"
               }
             ],
-            "chapterTitle": "5.3. Modules Tests"
+            "chapterTitle": "6.3. Modules Tests"
           },
           {
             "loaded": true,
@@ -944,7 +980,7 @@ export const generatedSidebar = [
             "path": "/learn/debugging-and-testing/instrumentation",
             "title": "Instrumentation",
             "children": [],
-            "chapterTitle": "5.4. Instrumentation"
+            "chapterTitle": "6.4. Instrumentation"
           },
           {
             "loaded": true,
@@ -953,7 +989,7 @@ export const generatedSidebar = [
             "path": "/learn/debugging-and-testing/logging",
             "title": "Logging",
             "children": [],
-            "chapterTitle": "5.5. Logging"
+            "chapterTitle": "6.5. Logging"
           }
         ],
         "childrenSameLevel": true
@@ -964,7 +1000,7 @@ export const generatedSidebar = [
   },
   {
     "type": "category",
-    "title": "6. Production",
+    "title": "7. Production",
     "children": [
       {
         "loaded": true,
@@ -972,7 +1008,7 @@ export const generatedSidebar = [
         "type": "link",
         "path": "/learn/build",
         "title": "Build",
-        "chapterTitle": "6. Production",
+        "chapterTitle": "7. Production",
         "children": [
           {
             "loaded": true,
@@ -981,7 +1017,7 @@ export const generatedSidebar = [
             "path": "/learn/deployment",
             "title": "Deployment Overview",
             "children": [],
-            "chapterTitle": "6.1. Deployment Overview"
+            "chapterTitle": "7.1. Deployment Overview"
           },
           {
             "loaded": true,
@@ -990,7 +1026,7 @@ export const generatedSidebar = [
             "path": "/learn/deployment/general",
             "title": "General Deployment",
             "children": [],
-            "chapterTitle": "6.2. General Deployment"
+            "chapterTitle": "7.2. General Deployment"
           }
         ],
         "childrenSameLevel": true
@@ -1001,7 +1037,7 @@ export const generatedSidebar = [
   },
   {
     "type": "category",
-    "title": "7. Updates",
+    "title": "8. Updates",
     "children": [
       {
         "loaded": true,
@@ -1009,7 +1045,7 @@ export const generatedSidebar = [
         "type": "link",
         "path": "/learn/update",
         "title": "Updating Medusa",
-        "chapterTitle": "7. Updates",
+        "chapterTitle": "8. Updates",
         "children": [],
         "childrenSameLevel": true
       }
@@ -1019,7 +1055,7 @@ export const generatedSidebar = [
   },
   {
     "type": "category",
-    "title": "8. More Resources",
+    "title": "9. More Resources",
     "children": [
       {
         "loaded": true,
@@ -1029,7 +1065,7 @@ export const generatedSidebar = [
         "title": "More Resources",
         "children": [],
         "childrenSameLevel": true,
-        "chapterTitle": "8. More Resources"
+        "chapterTitle": "9. More Resources"
       }
     ],
     "loaded": true,
