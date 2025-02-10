@@ -58,6 +58,7 @@ import { ProductSeo } from "./product-seo"
 import { ProductOptionValue } from "./product-option-value"
 import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
+import { GoogleCategory } from "./google-category"
 
 export class Admin {
   /**
@@ -303,9 +304,15 @@ export class Admin {
    */
   public blogSeo: BlogSeo
 
+  /**
+   * @tags googleCategory
+   */
+  public googleCategory: GoogleCategory
+
   constructor(client: Client) {
     this.faq = new Faq(client)
     this.categorySeo = new CategorySeo(client)
+    this.googleCategory = new GoogleCategory(client)
     this.productSeo = new ProductSeo(client)
     this.blogSeo = new BlogSeo(client)
     this.orderResendMail = new OrderResendMail(client)

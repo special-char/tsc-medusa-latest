@@ -26,6 +26,7 @@ export const normalizeProductFormValues = (
       : undefined,
     images,
     collection_id: values.collection_id || undefined,
+    // TODO: Add Shipping Profile Id in new version
     // shipping_profile_id: values.shipping_profile_id,
     categories: values.categories.map((id) => ({ id })),
     type_id: values.type_id || undefined,

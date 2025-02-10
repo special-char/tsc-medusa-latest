@@ -360,6 +360,10 @@ export const RouteMap: RouteObject[] = [
                     lazy: () =>
                       import("../../routes/orders/order-edit-billing-address"),
                   },
+                  {
+                    path: "metadata/edit",
+                    lazy: () => import("../../routes/orders/order-metadata"),
+                  },
                 ],
               },
             ],
@@ -520,6 +524,11 @@ export const RouteMap: RouteObject[] = [
                       import(
                         "../../routes/collections/collection-add-products"
                       ),
+                  },
+                  {
+                    path: "metadata/edit",
+                    lazy: () =>
+                      import("../../routes/collections/collection-metadata"),
                   },
                 ],
               },

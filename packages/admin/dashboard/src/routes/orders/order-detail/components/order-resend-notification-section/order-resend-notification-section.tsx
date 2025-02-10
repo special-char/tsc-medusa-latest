@@ -150,7 +150,8 @@ const OrderResendNotificationSection = ({
                     size="base"
                     className="text-gray-90 text-small text-left"
                   >
-                    {orderItem.total * orderItem.quantity}
+                    {(orderItem.unit_price ?? orderItem.total) *
+                      orderItem.quantity}
                   </Text>
                 </div>
               </div>
