@@ -151,7 +151,12 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
 
   return (
     <>
-      <DynamicForm form={form} onSubmit={onSubmit} schema={formSchema} />
+      <DynamicForm
+        isPending={form.formState.isSubmitting}
+        form={form}
+        onSubmit={onSubmit}
+        schema={formSchema}
+      />
     </>
   )
 }
