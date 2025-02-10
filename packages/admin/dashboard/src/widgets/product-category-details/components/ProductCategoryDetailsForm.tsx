@@ -151,6 +151,7 @@ const ProductCategoryDetailsForm = ({
       <DynamicForm
         form={form}
         onSubmit={onSubmit}
+        isPending={form.formState.isSubmitting}
         onReset={resetFormData}
         schema={formSchema}
       />
