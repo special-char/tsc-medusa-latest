@@ -6,8 +6,6 @@ import { ControllerRenderProps, FieldValues } from "react-hook-form"
 type Props = ControllerRenderProps<FieldValues, string>
 
 const SelectCountry = (props: Props) => {
-  console.log(props)
-
   return (
     <div>
       <label htmlFor=""></label>

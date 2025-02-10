@@ -4,7 +4,7 @@ import { Collection } from "./collection"
 import { InventoryItem } from "./inventory-item"
 import { ProductCategory } from "./product-category"
 import { ProductTags } from "./product-tag"
-import { ProductTypes } from "./product-type";
+import { ProductTypes } from "./product-type"
 import { Region } from "./region"
 import Reservation from "./reservation"
 export class Vendor {
@@ -34,10 +34,28 @@ export class Vendor {
   }
 
   async create(data: any, headers?: ClientHeaders) {
+    const formData = new FormData()
+    formData.append("logo", data.logo[0])
+    formData.append("email", data.email)
+    formData.append("first_name", data.first_name)
+    formData.append("last_name", data.last_name)
+    formData.append("category", data.category)
+    formData.append("address", data.address)
+    formData.append("postal_code", data.postal_code)
+    formData.append("city", data.city)
+    formData.append("country", data.country)
+    formData.append("state", data.state)
+    formData.append("commission", data.commission)
+    formData.append("description", data.description)
+    formData.append("handle", data.handle)
+    formData.append("name", data.name)
+
     return this.client.fetch<any>(`/vendors/vendor-create`, {
-      headers,
+      headers: {
+        "content-type": null,
+      },
       method: "POST",
-      body: data,
+      body: formData,
     })
   }
 

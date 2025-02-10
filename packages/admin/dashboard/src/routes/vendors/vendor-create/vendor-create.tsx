@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import VendorForm from "./vendor-form"
 import SelectCountry from "./select-coutry"
 import { sdk } from "../../../lib/client"
+import FileUploadField from "../../products/product-detail/components/product-seo/components/form/FileUploadField"
 
 const fields = {
   merchant: [
@@ -25,6 +26,7 @@ const fields = {
       name: "logo",
       label: "Logo",
       placeholder: "Logo",
+      component: FileUploadField,
     },
     {
       name: "email",
