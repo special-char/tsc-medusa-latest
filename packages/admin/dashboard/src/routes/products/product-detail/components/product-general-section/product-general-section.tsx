@@ -93,8 +93,11 @@ export const ProductGeneralSection = ({
           />
         </div>
       </div>
-
-      <SectionRow title={t("fields.description")} value={product.description} />
+      <SectionRow
+        title={t("fields.description")}
+        value={product.description}
+        variant="custom"
+      />
       <SectionRow title={t("fields.subtitle")} value={product.subtitle} />
       <SectionRow title={t("fields.handle")} value={`/${product.handle}`} />
       <SectionRow

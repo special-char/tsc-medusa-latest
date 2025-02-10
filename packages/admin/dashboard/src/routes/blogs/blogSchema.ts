@@ -208,7 +208,7 @@ export const blogSEOSchema = ({
     },
     structuredData: {
       label: "Structured Data",
-      fieldType: "textarea",
+      fieldType: "jsonEditor",
       validation: {
         maxLength: { value: 10000, message: "max. 10000 characters" },
         validate: {
@@ -231,7 +231,7 @@ export const blogSEOSchema = ({
     },
     feedData: {
       label: "Feed Data",
-      fieldType: "textarea",
+      fieldType: "jsonEditor",
       validation: {
         maxLength: { value: 10000, message: "max. 10000 characters" },
         validate: {
