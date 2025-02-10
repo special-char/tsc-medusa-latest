@@ -57,7 +57,7 @@ export const CategoryGeneralSection = ({
           />
         </div>
       </div>
-      <div className="text-ui-fg-subtle grid grid-cols-2 gap-3 px-6 py-4">
+      <div className="text-ui-fg-subtle no-scrollbar grid h-full max-h-[400px] grid-cols-1 gap-3 overflow-y-scroll px-6 py-4">
         <Text size="small" leading="compact" weight="plus">
           {t("fields.description")}
         </Text>
