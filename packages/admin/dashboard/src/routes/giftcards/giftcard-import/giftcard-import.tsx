@@ -1,7 +1,7 @@
 import { Button, Checkbox, Heading, Label, Text, toast } from "@medusajs/ui"
 import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useTranslation } from "react-i18next"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { UploadImport } from "./components/upload-import"
 import { Trash } from "@medusajs/icons"
 import { FilePreview } from "../../../components/common/file-preview"
@@ -16,6 +16,7 @@ import { sdk } from "../../../lib/client"
 import { DEFAULT_FIELDS } from "../../orders/order-list/const"
 import { AdminUser } from "@medusajs/types"
 import { getSalesChannelIds } from "../../../const/get-sales-channel"
+import { getGiftImportCsvTemplate } from "./helpers/import-template"
 
 export const GiftCardImport = () => {
   const { t } = useTranslation()
@@ -27,12 +28,12 @@ export const GiftCardImport = () => {
           <Heading>{t("giftCards.import.header")}</Heading>
         </RouteDrawer.Title>
       </RouteDrawer.Header>
-      <ProductImportContent />
+      <GiftImportContent />
     </RouteDrawer>
   )
 }
 
-const ProductImportContent = () => {
+const GiftImportContent = () => {
   const { t } = useTranslation()
   const { user } = useMe()
   const [file, setFile] = useState<File>()
@@ -117,6 +118,9 @@ const ProductImportContent = () => {
       ],
     },
   ]
+  const giftImportContent = useMemo(() => {
+    return getGiftImportCsvTemplate()
+  }, [])
 
   return (
     <>
@@ -148,7 +152,7 @@ const ProductImportContent = () => {
         <div className="mt-4">
           <FilePreview
             filename={"bulkbuy-import-template.csv"}
-            url={"../../../src/assets/csv/bulk-buy-import-template.csv"}
+            url={giftImportContent}
           />
         </div>
         <div className="mt-4 flex items-center space-x-2">
