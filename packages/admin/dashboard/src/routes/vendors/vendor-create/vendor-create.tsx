@@ -1,33 +1,92 @@
-import {
-  Controller,
-  FieldValues,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { RouteFocusModal } from "../../../components/modals"
-import {
-  Button,
-  Heading,
-  Input,
-  Label,
-  Text,
-  toast,
-  Tooltip,
-} from "@medusajs/ui"
+import { Button, Heading, toast } from "@medusajs/ui"
 import { useEffect } from "react"
-import { InformationCircleSolid } from "@medusajs/icons"
-import { sdk } from "../../../lib/client"
 import { useNavigate } from "react-router-dom"
+import VendorForm from "./vendor-form"
+import SelectCountry from "./select-coutry"
+import { sdk } from "../../../lib/client"
+import FileUploadField from "../../products/product-detail/components/product-seo/components/form/FileUploadField"
 
-// const postVendor = async (data: any) => {
-//   try {
-//     const response = await sdk.vendor.create(data)
-//     return response
-//   } catch (error: any) {
-//     toast.error(error.message)
-//     console.log(error, "error")
-//   }
-// }
+const fields = {
+  merchant: [
+    {
+      name: "name",
+      label: "Name",
+      placeholder: "Name",
+    },
+    {
+      name: "handle",
+      label: "Handle",
+      placeholder: "Handle",
+    },
+  ],
+  merchantAdmin: [
+    {
+      name: "logo",
+      label: "Logo",
+      placeholder: "Logo",
+      component: FileUploadField,
+    },
+    {
+      name: "email",
+      label: "Email",
+      placeholder: "Email",
+    },
+    {
+      name: "first_name",
+      label: "First Name",
+      placeholder: "First Name",
+    },
+    {
+      name: "last_name",
+      label: "Last Name",
+      placeholder: "Last Name",
+    },
+    {
+      name: "category",
+      label: "Category",
+      placeholder: "Category",
+    },
+    {
+      name: "address",
+      label: "Address",
+      placeholder: "Address",
+    },
+    {
+      name: "postal_code",
+      label: "Postal Code",
+      placeholder: "Postal Code",
+      inputType: "number",
+    },
+    {
+      name: "city",
+      label: "City",
+      placeholder: "City",
+    },
+    {
+      name: "country",
+      label: "Country",
+      placeholder: "Country",
+      component: SelectCountry,
+    },
+    {
+      name: "state",
+      label: "State",
+      placeholder: "State",
+    },
+    {
+      name: "commission",
+      label: "Commission",
+      placeholder: "Commission",
+    },
+    {
+      name: "description",
+      label: "Description",
+      placeholder: "Description",
+    },
+  ],
+}
 
 export function VendorCreate() {
   const {
@@ -51,10 +110,13 @@ export function VendorCreate() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
+      console.log(data)
+
       await await sdk.vendor.create({
+        ...data,
         name: data.name,
         handle: data.handle,
-        // logo: data.logo,
+        logo: data.logo,
         email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
@@ -81,145 +143,22 @@ export function VendorCreate() {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <div>
-              <Controller
-                name="name"
-                control={control}
-                rules={{ required: "Name is required" }}
-                render={({ field }) => {
-                  return (
-                    <>
-                      <Label>
-                        <span>Name</span>
-                        <Input placeholder="Name" {...field} />
-                      </Label>
-                    </>
-                  )
-                }}
-              />
-              {errors.title && (
-                <Text className="text-red-500">
-                  {errors?.title?.message as string}
-                </Text>
-              )}
-            </div>
-            <div>
-              <Controller
-                name="handle"
-                control={control}
-                rules={{ required: "Handle is required" }}
-                render={({ field }) => {
-                  return (
-                    <>
-                      <Label>
-                        <div className="flex items-center gap-2">
-                          <div>Handle</div>
-                          <Tooltip content="This handle is used to refrence the vendor in your storefront.">
-                            <InformationCircleSolid />
-                          </Tooltip>
-                        </div>
-                        <Input placeholder="Handle" {...field} />
-                      </Label>
-                    </>
-                  )
-                }}
-              />
-              {errors.title && (
-                <Text className="text-red-500">
-                  {errors?.title?.message as string}
-                </Text>
-              )}
-            </div>
-            {/* <div>
-              <Controller
-                name="logo"
-                control={control}
-                render={({ field }) => {
-                  return (
-                    <>
-                      <Label>
-                        <span>Logo</span>
-                        <ImageUpload multiple={false} {...field} />
-                      </Label>
-                    </>
-                  )
-                }}
-              />
-              {errors.content && (
-                <Text className="text-red-500">
-                  {errors.content.message as string}
-                </Text>
-              )}
-            </div> */}
+            <VendorForm
+              control={control}
+              fields={fields}
+              decendentField="merchant"
+              errors={errors}
+            />
             <Heading level="h1" className="text-xl font-semibold">
               Merchant Admin
             </Heading>
-            <div>
-              <Controller
-                name="email"
-                control={control}
-                rules={{ required: "Email is required" }}
-                render={({ field }) => {
-                  return (
-                    <>
-                      <Label>
-                        <span>Email</span>
-                        <Input placeholder="Email" {...field} />
-                      </Label>
-                    </>
-                  )
-                }}
-              />
-              {errors.title && (
-                <Text className="text-red-500">
-                  {errors?.title?.message as string}
-                </Text>
-              )}
-            </div>
-            <div>
-              <Controller
-                name="first_name"
-                control={control}
-                rules={{ required: "First Name is required" }}
-                render={({ field }) => {
-                  return (
-                    <>
-                      <Label>
-                        <span>First Name</span>
-                        <Input placeholder="First Name" {...field} />
-                      </Label>
-                    </>
-                  )
-                }}
-              />
-              {errors.title && (
-                <Text className="text-red-500">
-                  {errors?.title?.message as string}
-                </Text>
-              )}
-            </div>
-            <div>
-              <Controller
-                name="last_name"
-                control={control}
-                rules={{ required: "Last Name is required" }}
-                render={({ field }) => {
-                  return (
-                    <>
-                      <Label>
-                        <span>Last Name</span>
-                        <Input placeholder="Last Name" {...field} />
-                      </Label>
-                    </>
-                  )
-                }}
-              />
-              {errors.title && (
-                <Text className="text-red-500">
-                  {errors?.title?.message as string}
-                </Text>
-              )}
-            </div>
+            <VendorForm
+              className="grid grid-cols-2 gap-4"
+              control={control}
+              fields={fields}
+              decendentField="merchantAdmin"
+              errors={errors}
+            />
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
