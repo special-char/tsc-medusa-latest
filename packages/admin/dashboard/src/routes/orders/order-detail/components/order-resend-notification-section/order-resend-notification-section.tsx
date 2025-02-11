@@ -165,6 +165,9 @@ const OrderResendNotificationSection = ({
                         : "No email provided"}
                     </Text>
                   )}
+                  <Alert variant={alertVariant} className=" px-2 py-1">
+                    {alertStatus}
+                  </Alert>
                   {typeof orderItem?.metadata?.phone === "string" && (
                     <Text className="">
                       {orderItem.metadata.phone.trim()
@@ -172,10 +175,11 @@ const OrderResendNotificationSection = ({
                         : "No phone provided"}
                     </Text>
                   )}
-                  <Text className=""> Notification Status</Text>
+                  {/* <Text className=""> Notification Status</Text> */}
                   <Alert variant={alertVariant} className=" px-2 py-1">
                     {alertStatus}
                   </Alert>
+
                   <div className="flex gap-4">
                     <Prompt variant="confirmation">
                       <Prompt.Trigger asChild>

@@ -5,16 +5,7 @@ type Fields = {
   name: string
   label: string
   placeholder: string
-  inputType:
-    | "search"
-    | "text"
-    | "none"
-    | "tel"
-    | "url"
-    | "email"
-    | "numeric"
-    | "decimal"
-    | undefined
+  type?: React.HTMLInputTypeAttribute | undefined
   component?: React.DetailedReactHTMLElement<any, HTMLElement>
 }
 type Props = {
@@ -32,14 +23,20 @@ const VendorForm = (props: Props) => {
   return (
     <div className={props.className}>
       {props?.fields?.[props.decendentField].map(
-        ({ name, label, placeholder, inputType, component }) => {
+        ({ name, label, placeholder, type, component }) => {
           const Component = component
           return (
             <div key={name}>
               <Controller
                 name={name}
                 control={props.control}
-                rules={{ required: `${name} is required` }}
+                rules={{
+                  required: `${name} is required`,
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "Only letters allowed",
+                  },
+                }}
                 render={({ field }) => {
                   return (
                     <>
@@ -49,9 +46,9 @@ const VendorForm = (props: Props) => {
                           <Component {...field} />
                         ) : (
                           <Input
-                            inputMode={inputType}
-                            placeholder={placeholder}
                             {...field}
+                            type={type}
+                            placeholder={placeholder}
                           />
                         )}
                       </Label>

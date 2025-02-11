@@ -57,7 +57,7 @@ const fields = {
       name: "postal_code",
       label: "Postal Code",
       placeholder: "Postal Code",
-      inputType: "number",
+      type: "number",
     },
     {
       name: "city",
@@ -79,6 +79,7 @@ const fields = {
       name: "commission",
       label: "Commission",
       placeholder: "Commission",
+      type: "number",
     },
     {
       name: "description",
