@@ -14,10 +14,25 @@ export class Redemption {
     this.client = client
   }
 
-  async retrieveAll(headers?: ClientHeaders) {
-    return this.client.fetch<any>(`/admin/redemption`, {
+  async retrieveAll(code?: string, headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/admin/redemption?code=${code}`, {
       method: "GET",
       headers,
+    })
+  }
+  async addHistory(
+    data: {
+      redemption_id?: string
+      vendor_id: string
+      amount_spent: number
+      where_deducted: string
+    },
+    headers?: ClientHeaders
+  ) {
+    return this.client.fetch<any>(`/admin/redemption/history`, {
+      method: "POST",
+      headers,
+      body: data,
     })
   }
   async retrieveHistories(
