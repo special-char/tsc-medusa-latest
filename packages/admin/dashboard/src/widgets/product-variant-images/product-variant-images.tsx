@@ -1,50 +1,42 @@
 import { Container, Heading } from "@medusajs/ui"
 import { DetailWidgetProps, AdminProduct } from "@medusajs/framework/types"
-import { useEffect, useState } from "react"
-import { CustomProduct } from "../../types/custom"
 import ProductVariantImagesList from "./components/product-variant-images-list"
-import { sdk } from "../../lib/client"
-
-const fetchProductData = async (id: string) => {
-  const data = await sdk.admin.product.retrieve(id, {
-    fields: "+variants.variant_images.*",
-  })
-  if (data) {
-    return data.product as CustomProduct
-  }
-  return
-}
+import { useProductVariants } from "../../hooks/api"
 
 const ProductVariantImagesWidget = ({
   data,
 }: DetailWidgetProps<AdminProduct>) => {
-  const [loading, setLoading] = useState(false)
-  const [product, setProduct] = useState<CustomProduct | null>(null)
+  const { variants, isPending, isError, error, refetch } = useProductVariants(
+    data.id,
+    {
+      order: "variant_rank",
+      fields:
+        "*inventory_items.inventory.location_levels,+inventory_quantity,+variant_images",
+    }
+  )
 
-  const refetchData = () => {
-    setLoading(true)
-    fetchProductData(data?.id)
-      .then((data) => data && setProduct(data))
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false)
-      })
+  if (isPending) {
+    return (
+      <Container className="divide-y px-6 py-10">
+        <p className="text-center">Loading...</p>
+      </Container>
+    )
   }
 
-  useEffect(() => {
-    setLoading(true)
-    fetchProductData(data?.id)
-      .then((data) => data && setProduct(data))
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
+  if (isError) {
     return (
-      <Container className="divide-y p-0">
-        <p className="text-center">Loading...</p>
+      <Container className="divide-y px-6 py-10">
+        <p className="text-center text-rose-500">{error.message}</p>
+      </Container>
+    )
+  }
+
+  if (!variants?.length) {
+    return (
+      <Container className="divide-y px-6 py-10">
+        <p className="text-center text-rose-500">
+          No any variants found for product id {data?.id}
+        </p>
       </Container>
     )
   }
@@ -52,14 +44,18 @@ const ProductVariantImagesWidget = ({
   return (
     <Container className="divide-y p-0 font-sans">
       <Heading level="h2" className="px-6 py-4 font-medium">
-        Variant Images - {product?.title}
+        Variant Images - {data?.title}
       </Heading>
 
-      {product ? (
-        <ProductVariantImagesList product={product} refetchData={refetchData} />
+      {data && variants ? (
+        <ProductVariantImagesList
+          product={data}
+          variants={variants}
+          refetchData={refetch}
+        />
       ) : (
         <div className="flex h-[200px] items-center justify-center px-6 py-4">
-          No product found with id {data?.id}
+          No any variants found for product id {data?.id}
         </div>
       )}
     </Container>

@@ -1,12 +1,13 @@
 import { createElement, useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { Button, FocusModal } from "@medusajs/ui"
-import { CustomProduct, CustomProductVariant } from "../../../types/custom"
+import { CustomProductVariant } from "../../../types/custom"
 import getInputElement from "../../../components/custom/components/form/getInputElement"
 import { sdk } from "../../../lib/client"
+import { AdminProduct } from "@medusajs/types"
 
 type Props = {
-  product: CustomProduct
+  product: AdminProduct
   variant: CustomProductVariant
   open: boolean
   onClose: () => void
