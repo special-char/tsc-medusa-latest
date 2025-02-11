@@ -34,8 +34,8 @@ const GenerateFormFields = ({
                     {React.createElement(
                       getInputElement(fields.fieldType) as typeof Input,
                       {
-                        ...fields.props,
                         ...field,
+                        ...fields.props,
                         value: field.value || null,
                         onChange: field.onChange,
                       }

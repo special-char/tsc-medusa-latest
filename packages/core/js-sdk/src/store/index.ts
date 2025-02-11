@@ -478,7 +478,7 @@ export class Store {
 
   /**
    * Related guides: [How to implement carts in the storefront](https://docs.medusajs.com/resources/storefront-development/cart).
-   * 
+   *
    * @tags cart
    */
   public cart = {
