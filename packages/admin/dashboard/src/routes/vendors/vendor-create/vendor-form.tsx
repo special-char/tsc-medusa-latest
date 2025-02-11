@@ -32,10 +32,6 @@ const VendorForm = (props: Props) => {
                 control={props.control}
                 rules={{
                   required: `${name} is required`,
-                  pattern: {
-                    value: /^[A-Za-z]+$/i,
-                    message: "Only letters allowed",
-                  },
                 }}
                 render={({ field }) => {
                   return (
