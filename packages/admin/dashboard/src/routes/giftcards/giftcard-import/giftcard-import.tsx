@@ -1,4 +1,12 @@
-import { Button, Checkbox, Heading, Label, Text, toast } from "@medusajs/ui"
+import {
+  Button,
+  Checkbox,
+  Heading,
+  Input,
+  Label,
+  Text,
+  toast,
+} from "@medusajs/ui"
 import { RouteDrawer, useRouteModal } from "../../../components/modals"
 import { useTranslation } from "react-i18next"
 import { useMemo, useState } from "react"
@@ -17,6 +25,7 @@ import { DEFAULT_FIELDS } from "../../orders/order-list/const"
 import { AdminUser } from "@medusajs/types"
 import { getSalesChannelIds } from "../../../const/get-sales-channel"
 import { getGiftImportCsvTemplate } from "./helpers/import-template"
+import { Controller, Form, useForm } from "react-hook-form"
 
 export const GiftCardImport = () => {
   const { t } = useTranslation()
@@ -43,7 +52,12 @@ const GiftImportContent = () => {
   const { refetch } = useOrders({
     fields: DEFAULT_FIELDS,
   })
-  const [sendCorporateEmail, setSendCorporateEmail] = useState(false)
+  const form = useForm({
+    defaultValues: {
+      corporateEmail: false,
+      promotionCode: "",
+    },
+  })
 
   const supportedCurrencies = store?.supported_currencies?.reduce(
     (acc: string[], item) => {
@@ -67,6 +81,7 @@ const GiftImportContent = () => {
 
   const handleConfirm = async () => {
     try {
+      const { corporateEmail, promotionCode } = form.getValues()
       if (!file) {
         toast.error("No file uploaded")
         return
@@ -84,7 +99,6 @@ const GiftImportContent = () => {
         sales_channels.length > 0
           ? sales_channels[0].id || ""
           : store?.default_sales_channel_id || ""
-      console.log("s::::", s)
 
       const formData = {
         files: file,
@@ -92,8 +106,10 @@ const GiftImportContent = () => {
         sales_channel_id: s,
         region_id: store?.default_region_id || "",
         user: user as unknown as AdminUser,
-        sendCorporateEmail,
+        sendCorporateEmail: corporateEmail,
+        promotionCode,
       }
+
       const res = await sdk.admin.bulkorder.upload(formData)
       handleSuccess()
       navigate(0)
@@ -155,20 +171,48 @@ const GiftImportContent = () => {
             url={giftImportContent}
           />
         </div>
-        <div className="mt-4 flex items-center space-x-2">
-          <Checkbox
-            onCheckedChange={(checked) =>
-              setSendCorporateEmail(checked as boolean)
-            }
-            checked={sendCorporateEmail}
-            name="corporate-email"
-            id="corporate-email"
+        <Form control={form.control} className="mt-4">
+          <Controller
+            name="promotionCode"
+            control={form?.control}
+            render={({ field }) => {
+              console.log(field)
+
+              return (
+                <>
+                  <Label htmlFor="promotionCode">Apply Promotion Code</Label>
+                  <Input
+                    className="mt-2"
+                    placeholder="Promotion Code"
+                    {...field}
+                  />
+                </>
+              )
+            }}
           />
-          <Label htmlFor="corporate-email">
-            Send to Corporate Email:-{" "}
-            <span className="text-blue-500 underline">{user?.email}</span>
-          </Label>
-        </div>
+          <Controller
+            name="corporateEmail"
+            control={form?.control}
+            render={({ field }) => {
+              return (
+                <div className="mt-4 flex items-center space-x-2">
+                  <Checkbox
+                    {...field}
+                    onCheckedChange={field.onChange}
+                    checked={field.value}
+                    id="corporateEmail"
+                  />
+                  <Label htmlFor="corporateEmail">
+                    Send to Corporate Email:-{" "}
+                    <span className="text-blue-500 underline">
+                      {user?.email}
+                    </span>
+                  </Label>
+                </div>
+              )
+            }}
+          />
+        </Form>
       </RouteDrawer.Body>
       <RouteDrawer.Footer>
         <div className="flex items-center gap-x-2">

@@ -53,7 +53,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const isPassword = type === "password"
     const isSearch = type === "search"
-    console.log({ props })
 
     return (
       <div className="relative">

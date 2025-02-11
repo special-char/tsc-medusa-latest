@@ -18,6 +18,7 @@ export class BulkOrder {
     currency_code: string
     sales_channel_id: string
     region_id: string
+    promotionCode?: string
     user: AdminUser
     sendCorporateEmail: boolean
   }) {
@@ -30,6 +31,9 @@ export class BulkOrder {
       formData.append("region_id", body.region_id)
     }
     formData.append("sales_channel_id", body.sales_channel_id)
+    if (body.promotionCode) {
+      formData.append("promotionCode", body.promotionCode)
+    }
     if (body.user) {
       formData.append("user", JSON.stringify(body.user))
       formData.append(
