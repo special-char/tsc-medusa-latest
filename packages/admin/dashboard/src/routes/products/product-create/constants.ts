@@ -66,6 +66,7 @@ export const ProductCreateSchema = z
     type_id: z.string().optional(),
     collection_id: z.string().optional(),
     brand_id: z.string().optional(),
+    google_category: z.string().optional(),
     shipping_profile_id: z.string(), // TODO: require min(1) when partial validation per tab is added
     categories: z.array(z.string()),
     tags: z.array(z.string()).optional(),
@@ -145,6 +146,7 @@ export const PRODUCT_CREATE_FORM_DEFAULTS: Partial<
     },
   ]),
   brand_id: "",
+  google_category: "",
   enable_variants: false,
   media: [],
   categories: [],

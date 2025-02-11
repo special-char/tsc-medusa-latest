@@ -148,6 +148,7 @@ export const ProductCreateForm = ({
     await mutateAsync(
       normalizeProductFormValues({
         ...payload,
+        metadata: { googleCategory: values?.google_category || "" },
         media: uploadedMedia,
         status: (isDraftSubmission ? "draft" : "published") as any,
         regionsCurrencyMap,

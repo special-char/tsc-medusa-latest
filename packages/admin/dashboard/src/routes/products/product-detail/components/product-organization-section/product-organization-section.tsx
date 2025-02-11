@@ -100,6 +100,18 @@ export const ProductOrganizationSection = ({
           ) : undefined
         }
       />
+      <SectionRow
+        title={"Google Category"}
+        value={
+          product?.metadata?.googleCategory ? (
+            <OrganizationTag
+              key={product?.metadata?.googleCategory}
+              label={product?.metadata?.googleCategory}
+              to={`/products/${product.id}/organization`}
+            />
+          ) : undefined
+        }
+      />
       {getDisplays("product", "organize").map((Component, i) => {
         return <Component key={i} data={product} />
       })}
