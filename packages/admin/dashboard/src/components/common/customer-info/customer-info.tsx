@@ -18,7 +18,7 @@ const ID = ({ data }: { data: HttpTypes.AdminOrder }) => {
         {t("fields.id")}
       </Text>
       <Link
-        to={`/customers/${id}`}
+        to={`/clients/${id}`}
         className="focus:shadow-borders-focus rounded-[4px] outline-none transition-shadow"
       >
         <div className="flex items-center gap-x-2 overflow-hidden">
