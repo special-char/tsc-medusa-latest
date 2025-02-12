@@ -13,6 +13,8 @@ import { useOrder, useProduct } from "../../../hooks/api"
 
 const listRedemptions = async () => {
   try {
+    console.log("hi")
+
     const res = await sdk.admin.redemption.retrieveAll()
     return res.redemptions
   } catch (error) {
@@ -38,7 +40,7 @@ export function RedemptionList() {
         return (
           <span className="line-clamp-1 overflow-hidden">
             <a
-              href={`/products/${info.row.original.product_id}`}
+              href={`/gift-cards/${info.row.original.product_id}`}
               className="text-blue-500 underline"
             >
               {product?.title}

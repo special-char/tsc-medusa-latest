@@ -49,7 +49,7 @@ export function RedemptionDetail() {
         return (
           <span className="line-clamp-1 w-[80px] overflow-hidden">
             <a
-              href={`/products/${info.row.original?.redemption_id?.product_id}`}
+              href={`/gift-cards/${info.row.original?.redemption_id?.product_id}`}
               className="text-blue-500 underline"
             >
               {info.row.original.product_title}

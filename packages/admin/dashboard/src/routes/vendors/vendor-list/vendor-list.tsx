@@ -189,6 +189,7 @@ export function VendorList() {
                           fieldType: "input",
                           props: {
                             placeholder: "300 (min: 150)",
+                            type: "number",
                           },
                           validation: {
                             required: {
