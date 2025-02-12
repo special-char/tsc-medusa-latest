@@ -41,7 +41,7 @@ const dashboardConfig: ConfigType = {
     digitalProducts: true,
     subscriptions: true,
     bulkBuy: true,
-    zipcode: false,
+    zipcode: true,
     redemption: true,
     vendors: true,
     productOptionImages: true,
