@@ -35,7 +35,9 @@ export class Vendor {
 
   async create(data: any, headers?: ClientHeaders) {
     const formData = new FormData()
-    formData.append("logo", data.logo[0])
+    if (data?.logo?.[0]) {
+      formData.append("logo", data.logo[0])
+    }
     formData.append("email", data.email)
     formData.append("first_name", data.first_name)
     formData.append("last_name", data.last_name)

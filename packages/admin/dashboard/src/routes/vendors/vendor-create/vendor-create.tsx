@@ -1,24 +1,51 @@
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import {
+  FieldValues,
+  Form,
+  RegisterOptions,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form"
 import { RouteFocusModal } from "../../../components/modals"
 import { Button, Heading, toast } from "@medusajs/ui"
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import VendorForm from "./vendor-form"
 import SelectCountry from "./select-coutry"
 import { sdk } from "../../../lib/client"
 import FileUploadField from "../../products/product-detail/components/product-seo/components/form/FileUploadField"
-
-const fields = {
+type Fields = {
+  name: string
+  label: string
+  placeholder: string
+  type?: React.HTMLInputTypeAttribute | undefined
+  component?: React.DetailedReactHTMLElement<any, HTMLElement>
+  rules?:
+    | Omit<
+        RegisterOptions<FieldValues, string>,
+        "disabled" | "valueAsNumber" | "valueAsDate" | "setValueAs"
+      >
+    | undefined
+}
+const fields: {
+  merchant: Fields[]
+  merchantAdmin: Fields[]
+} = {
   merchant: [
     {
       name: "name",
       label: "Name",
       placeholder: "Name",
+      rules: {
+        required: "Name is required",
+      },
     },
     {
       name: "handle",
       label: "Handle",
       placeholder: "Handle",
+      rules: {
+        required: "Name is required",
+      },
     },
   ],
   merchantAdmin: [
@@ -32,16 +59,25 @@ const fields = {
       name: "email",
       label: "Email",
       placeholder: "Email",
+      rules: {
+        required: "Email is required",
+      },
     },
     {
       name: "first_name",
       label: "First Name",
       placeholder: "First Name",
+      rules: {
+        required: "First Name is required",
+      },
     },
     {
       name: "last_name",
       label: "Last Name",
       placeholder: "Last Name",
+      rules: {
+        required: "Last Name is required",
+      },
     },
     {
       name: "category",
@@ -112,12 +148,11 @@ export function VendorCreate() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       console.log(data)
-
-      await await sdk.vendor.create({
+      await sdk.vendor.create({
         ...data,
         name: data.name,
         handle: data.handle,
-        logo: data.logo,
+        ...(data.logo && { logo: data.logo }),
         email: data.email,
         first_name: data.first_name,
         last_name: data.last_name,
@@ -132,6 +167,7 @@ export function VendorCreate() {
       console.log(error)
     }
   }
+  console.log(errors)
 
   return (
     <RouteFocusModal>
@@ -142,7 +178,7 @@ export function VendorCreate() {
             Create Merchant
           </Heading>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Form control={control} onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <VendorForm
               control={control}
@@ -164,7 +200,7 @@ export function VendorCreate() {
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
-        </form>
+        </Form>
       </RouteFocusModal.Body>
     </RouteFocusModal>
   )
