@@ -187,6 +187,7 @@ export const FaqEdit = () => {
       <RouteFocusModal.Body className="overflow-scroll">
         <div className="w-full p-5">
           <DynamicForm
+            isPending={form.formState.isSubmitting}
             form={form}
             onSubmit={onSubmit}
             schema={faqUpdateSchema}

@@ -121,7 +121,7 @@ const formFields = (
   },
   structuredData: {
     label: "Structured Data",
-    fieldType: "textarea",
+    fieldType: "jsonEditor",
     validation: {
       maxLength: { value: 10000, message: "max. 10000 characters" },
       validate: {
@@ -144,7 +144,7 @@ const formFields = (
   },
   feedData: {
     label: "Feed Data",
-    fieldType: "textarea",
+    fieldType: "jsonEditor",
     validation: {
       maxLength: { value: 10000, message: "max. 10000 characters" },
       validate: {
@@ -225,8 +225,6 @@ const SeoForm = ({ product, productSeo }: Props) => {
     // return;
     try {
       if (!productSeo) {
-        console.log("data::::::::::;", data)
-
         await sdk.admin.productSeo.create(product.id, data)
         navigate(`/products/${product.id}`, {
           replace: true,

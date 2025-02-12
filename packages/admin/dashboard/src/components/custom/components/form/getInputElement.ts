@@ -14,6 +14,7 @@ import SocialFieldArray from "../../../../routes/products/product-detail/compone
 import SeoFileUploadField from "../../../../routes/products/product-detail/components/product-seo/components/form/FileUploadField"
 import FileUploadField from "./FileUploadField"
 import CustomSearchableSelect from "./CustomSearchableSelect"
+import JsonEditor from "./JsonEditor"
 type InputElementType = React.ComponentType<any>
 
 const getInputElement = (type: string): InputElementType => {
@@ -54,6 +55,8 @@ const getInputElement = (type: string): InputElementType => {
       return SocialFieldArray
     case "seo-file-upload":
       return SeoFileUploadField
+    case "jsonEditor":
+      return JsonEditor
     default:
       return Input
   }

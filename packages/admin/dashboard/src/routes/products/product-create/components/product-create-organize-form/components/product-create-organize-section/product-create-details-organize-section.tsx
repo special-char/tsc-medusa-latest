@@ -11,6 +11,8 @@ import { useComboboxData } from "../../../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../../../lib/client"
 import { CategoryCombobox } from "../../../../../common/components/category-combobox"
 import { ProductCreateSchemaType } from "../../../../types"
+import CustomSearchableSelect from "../../../../../../../components/custom/components/form/CustomSearchableSelect"
+import { useQuery } from "@tanstack/react-query"
 
 type ProductCreateOrganizationSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
@@ -20,6 +22,17 @@ export const ProductCreateOrganizationSection = ({
   form,
 }: ProductCreateOrganizationSectionProps) => {
   const { t } = useTranslation()
+
+  const { data: googleCategories } = useQuery({
+    queryKey: ["googleCategories"],
+    queryFn: async (): Promise<Array<{ value: string; label: string }>> => {
+      const response = await sdk.admin.googleCategory.list()
+      return response?.googleCategories?.map((x) => ({
+        label: x.path,
+        value: x.path,
+      }))
+    },
+  })
 
   const collections = useComboboxData({
     queryKey: ["product_collections"],
@@ -273,6 +286,29 @@ export const ProductCreateOrganizationSection = ({
             )
           }}
         />
+        {googleCategories && (
+          <Form.Field
+            control={form.control}
+            name="google_category"
+            render={({ field }) => {
+              return (
+                <Form.Item>
+                  <Form.Label optional>{"Google Category"}</Form.Label>
+                  <Form.Control>
+                    <CustomSearchableSelect
+                      options={googleCategories}
+                      onChange={field.onChange}
+                      displayCount={100}
+                      placeholder="Search Google Category"
+                      value={field.value}
+                    />
+                  </Form.Control>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )
+            }}
+          />
+        )}
       </div>
     </div>
   )

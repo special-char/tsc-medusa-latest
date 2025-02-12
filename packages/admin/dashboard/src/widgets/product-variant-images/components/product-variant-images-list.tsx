@@ -6,7 +6,8 @@ import {
   ThumbnailBadge,
 } from "@medusajs/icons"
 import VariantsImagesModal from "./variants-images-modal"
-import { CustomProduct, CustomProductVariant } from "../../../types/custom"
+import { CustomProductVariant } from "../../../types/custom"
+import { AdminProduct } from "@medusajs/types"
 
 const EmptyImage = ({ text = "No images..." }) => {
   return (
@@ -18,9 +19,11 @@ const EmptyImage = ({ text = "No images..." }) => {
 
 const ProductVariantImagesList = ({
   product,
+  variants,
   refetchData,
 }: {
-  product: CustomProduct
+  product: AdminProduct
+  variants: CustomProductVariant[]
   refetchData: () => void
 }) => {
   const [openedVariant, setOpenedVariant] =
@@ -37,7 +40,7 @@ const ProductVariantImagesList = ({
 
   return (
     <div className="divide-y">
-      {product?.variants?.map((variant) => {
+      {variants?.map((variant) => {
         return (
           <div key={variant.id} className="mt-3 w-full px-6 py-2">
             <div className="flex items-center">

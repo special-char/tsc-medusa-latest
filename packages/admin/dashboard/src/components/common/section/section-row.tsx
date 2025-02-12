@@ -5,9 +5,15 @@ export type SectionRowProps = {
   title: string
   value?: ReactNode | string | null
   actions?: ReactNode
+  variant?: "default" | "custom"
 }
 
-export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
+export const SectionRow = ({
+  title,
+  value,
+  actions,
+  variant = "default",
+}: SectionRowProps) => {
   const isValueString = typeof value === "string" || !value
 
   return (
@@ -16,6 +22,9 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
         `text-ui-fg-subtle grid w-full grid-cols-2 items-center gap-4 px-6 py-4`,
         {
           "grid-cols-[1fr_1fr_28px]": !!actions,
+        },
+        {
+          ["grid grid-cols-1"]: variant === "custom",
         }
       )}
     >
@@ -27,7 +36,10 @@ export const SectionRow = ({ title, value, actions }: SectionRowProps) => {
         <Text
           size="small"
           leading="compact"
-          className="whitespace-pre-line text-pretty"
+          className={clx(`whitespace-pre-line text-pretty`, {
+            ["no-scrollbar h-full max-h-[400px] overflow-y-scroll"]:
+              variant === "custom",
+          })}
         >
           {value ?? "-"}
         </Text>
