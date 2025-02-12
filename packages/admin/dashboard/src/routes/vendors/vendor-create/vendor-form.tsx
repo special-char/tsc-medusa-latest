@@ -62,9 +62,9 @@ const VendorForm = (props: Props) => {
                   )
                 }}
               />
-              {props.errors.title && (
+              {props.errors?.[name] && (
                 <Text className="text-red-500">
-                  {props.errors?.title?.message as string}
+                  {props.errors[name]?.message as string}
                 </Text>
               )}
             </div>

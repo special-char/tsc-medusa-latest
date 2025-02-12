@@ -44,7 +44,7 @@ const fields: {
       label: "Handle",
       placeholder: "Handle",
       rules: {
-        required: "Name is required",
+        required: "Handle is required",
       },
     },
   ],
