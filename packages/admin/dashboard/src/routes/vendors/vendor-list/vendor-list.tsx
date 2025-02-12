@@ -95,22 +95,31 @@ export function VendorList() {
             redemption?.balance === undefined ||
             redemption?.balance === null
           ) {
-            const { redemptions } = await sdk.admin.redemption.retrieveAll(
-              data.code
-            )
+            try {
+              const { redemptions } = await sdk.admin.redemption.retrieveAll(
+                data.code,
+                info.row.original.id
+              )
+              console.log("redemptions::::", redemptions)
 
-            if (redemptions?.length > 0) {
-              const redemptionData = redemptions?.[0]
-              if (redemptionData.balance <= 0) {
-                form.setError("code", {
-                  message: `Redemption code is already used ${redemptionData.balance} balance left`,
-                })
+              if (redemptions?.length > 0) {
+                const redemptionData = redemptions?.[0]
+                if (redemptionData.balance <= 0) {
+                  form.setError("code", {
+                    message: `Redemption code is already used ${redemptionData.balance} balance left`,
+                  })
+                } else {
+                  setRedemption(redemptionData)
+                }
               } else {
-                setRedemption(redemptionData)
+                form.setError("code", {
+                  message: `Redemption code not is not valid`,
+                })
               }
-            } else {
+            } catch (error: any) {
+              console.log("error:::", error.message)
               form.setError("code", {
-                message: `Redemption code not is not valid`,
+                message: error.message || "Invalid code",
               })
             }
           }

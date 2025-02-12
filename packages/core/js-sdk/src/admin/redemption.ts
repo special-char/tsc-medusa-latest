@@ -14,8 +14,8 @@ export class Redemption {
     this.client = client
   }
 
-  async retrieveAll(code?: string, headers?: ClientHeaders) {
-    return this.client.fetch<any>(`/admin/redemption?code=${code}`, {
+  async retrieveAll(code?: string, vendorId?: string, headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/admin/redemption?code=${code}&vendor_id=${vendorId}`, {
       method: "GET",
       headers,
     })
