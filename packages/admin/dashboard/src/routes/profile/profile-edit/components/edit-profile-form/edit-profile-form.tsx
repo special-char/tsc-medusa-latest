@@ -267,7 +267,7 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                     name="postal_code"
                     render={({ field }) => (
                       <Form.Item>
-                        <Form.Label>{"Costal Code"}</Form.Label>
+                        <Form.Label>{"Postal Code"}</Form.Label>
                         <Form.Control>
                           <Input {...field} />
                         </Form.Control>
