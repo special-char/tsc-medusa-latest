@@ -113,7 +113,7 @@ export function VendorList() {
                 }
               } else {
                 form.setError("code", {
-                  message: `Redemption code not is not valid`,
+                  message: `The redemption code you entered is not valid. Please check and try again.`,
                 })
               }
             } catch (error: any) {

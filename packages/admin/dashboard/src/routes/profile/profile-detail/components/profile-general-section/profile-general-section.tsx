@@ -71,6 +71,15 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           {t("general.disabled")}
         </StatusBadge>
       </div> */}
+      {/* // Vendor detail page 
+      //category, */}
+      {/* address,
+		postal_code,
+		city,
+		country,
+		state,
+		commission,
+		description, */}
     </Container>
   )
 }
