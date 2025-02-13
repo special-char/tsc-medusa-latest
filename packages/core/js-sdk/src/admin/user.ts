@@ -33,16 +33,30 @@ export class User {
 
   async updateVendor(
     id: string,
-    body: HttpTypes.AdminUpdateUser,
+    data: any,
     query?: HttpTypes.AdminUserParams,
     headers?: ClientHeaders
   ) {
+    const formData = new FormData()
+
+    // Append all fields to FormData
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'logo' && value?.[0]) {
+        formData.append('logo', value[0])
+      } else if (value !== undefined && value !== null) {
+        formData.append(key, String(value))
+      }
+    })
+
     return this.client.fetch<HttpTypes.AdminUserResponse>(
       `/vendors/${id}`,
       {
         method: "POST",
-        headers,
-        body,
+        headers: {
+          "content-type": null, // Let browser set the content type for FormData
+          ...headers,
+        },
+        body: formData,
         query,
       }
     )

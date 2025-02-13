@@ -10,9 +10,7 @@ import { Button, Heading, toast } from "@medusajs/ui"
 import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import VendorForm from "./vendor-form"
-import SelectCountry from "./select-coutry"
 import { sdk } from "../../../lib/client"
-import FileUploadField from "../../products/product-detail/components/product-seo/components/form/FileUploadField"
 type Fields = {
   name: string
   label: string
@@ -28,15 +26,15 @@ type Fields = {
 }
 const fields: {
   merchant: Fields[]
-  merchantAdmin: Fields[]
+  // merchantAdmin: Fields[]
 } = {
   merchant: [
     {
       name: "name",
-      label: "Name",
-      placeholder: "Name",
+      label: "Company Name",
+      placeholder: "Company Name",
       rules: {
-        required: "Name is required",
+        required: "Company Name is required",
       },
     },
     {
@@ -47,14 +45,6 @@ const fields: {
         required: "Handle is required",
       },
     },
-  ],
-  merchantAdmin: [
-    {
-      name: "logo",
-      label: "Logo",
-      placeholder: "Logo",
-      component: FileUploadField,
-    },
     {
       name: "email",
       label: "Email",
@@ -63,66 +53,74 @@ const fields: {
         required: "Email is required",
       },
     },
-    {
-      name: "first_name",
-      label: "First Name",
-      placeholder: "First Name",
-      rules: {
-        required: "First Name is required",
-      },
-    },
-    {
-      name: "last_name",
-      label: "Last Name",
-      placeholder: "Last Name",
-      rules: {
-        required: "Last Name is required",
-      },
-    },
-    {
-      name: "category",
-      label: "Category",
-      placeholder: "Category",
-    },
-    {
-      name: "address",
-      label: "Address",
-      placeholder: "Address",
-    },
-    {
-      name: "postal_code",
-      label: "Postal Code",
-      placeholder: "Postal Code",
-      type: "number",
-    },
-    {
-      name: "city",
-      label: "City",
-      placeholder: "City",
-    },
-    {
-      name: "country",
-      label: "Country",
-      placeholder: "Country",
-      component: SelectCountry,
-    },
-    {
-      name: "state",
-      label: "State",
-      placeholder: "State",
-    },
-    {
-      name: "commission",
-      label: "Commission",
-      placeholder: "Commission",
-      type: "number",
-    },
-    {
-      name: "description",
-      label: "Description",
-      placeholder: "Description",
-    },
   ],
+  // merchantAdmin: [
+  //   // {
+  //   //   name: "logo",
+  //   //   label: "Logo",
+  //   //   placeholder: "Logo",
+  //   //   component: FileUploadField,
+  //   // },
+  //   // {
+  //   //   name: "first_name",
+  //   //   label: "First Name",
+  //   //   placeholder: "First Name",
+  //   //   rules: {
+  //   //     required: "First Name is required",
+  //   //   },
+  //   // },
+  //   // {
+  //   //   name: "last_name",
+  //   //   label: "Last Name",
+  //   //   placeholder: "Last Name",
+  //   //   rules: {
+  //   //     required: "Last Name is required",
+  //   //   },
+  //   // },
+  //   // {
+  //   //   name: "category",
+  //   //   label: "Category",
+  //   //   placeholder: "Category",
+  //   // },
+  //   // {
+  //   //   name: "address",
+  //   //   label: "Address",
+  //   //   placeholder: "Address",
+  //   // },
+  //   // {
+  //   //   name: "postal_code",
+  //   //   label: "Postal Code",
+  //   //   placeholder: "Postal Code",
+  //   //   type: "number",
+  //   // },
+  //   // {
+  //   //   name: "city",
+  //   //   label: "City",
+  //   //   placeholder: "City",
+  //   // },
+  //   // {
+  //   //   name: "country",
+  //   //   label: "Country",
+  //   //   placeholder: "Country",
+  //   //   component: SelectCountry,
+  //   // },
+  //   // {
+  //   //   name: "state",
+  //   //   label: "State",
+  //   //   placeholder: "State",
+  //   // },
+  //   // {
+  //   //   name: "commission",
+  //   //   label: "Commission",
+  //   //   placeholder: "Commission",
+  //   //   type: "number",
+  //   // },
+  //   // {
+  //   //   name: "description",
+  //   //   label: "Description",
+  //   //   placeholder: "Description",
+  //   // },
+  // ],
 }
 
 export function VendorCreate() {
@@ -147,15 +145,15 @@ export function VendorCreate() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      console.log(data)
+      console.log("data", data)
       await sdk.vendor.create({
-        ...data,
+        // ...data,
         name: data.name,
         handle: data.handle,
-        ...(data.logo && { logo: data.logo }),
+        // ...(data.logo && { logo: data.logo }),
         email: data.email,
-        first_name: data.first_name,
-        last_name: data.last_name,
+        // first_name: data.first_name,
+        // last_name: data.last_name,
       })
       toast.success("Vendor created successfully.")
       navigate("/merchants", {
@@ -186,16 +184,16 @@ export function VendorCreate() {
               decendentField="merchant"
               errors={errors}
             />
-            <Heading level="h1" className="text-xl font-semibold">
+            {/* <Heading level="h1" className="text-xl font-semibold">
               Merchant Admin
-            </Heading>
-            <VendorForm
+            </Heading> */}
+            {/* <VendorForm
               className="grid grid-cols-2 gap-4"
               control={control}
               fields={fields}
               decendentField="merchantAdmin"
               errors={errors}
-            />
+            /> */}
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>

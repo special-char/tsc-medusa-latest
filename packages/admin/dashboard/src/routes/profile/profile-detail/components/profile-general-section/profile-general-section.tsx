@@ -11,8 +11,8 @@ type ProfileGeneralSectionProps = {
 
 export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
   const { i18n, t } = useTranslation()
-
   const name = [user.first_name, user.last_name].filter(Boolean).join(" ")
+  const isVendor = !!user.vendor_id
 
   return (
     <Container className="divide-y p-0">
@@ -53,6 +53,86 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           {user.email}
         </Text>
       </div>
+      {isVendor && user.vendor && (
+        <>
+          <div className="grid grid-cols-2 items-center px-6 py-4">
+            <Text size="small" leading="compact" weight="plus">
+              {"Company Name"}
+            </Text>
+            <Text size="small" leading="compact">
+              {user.vendor.vendor.name}
+            </Text>
+          </div>
+          <div className="grid grid-cols-2 items-center px-6 py-4">
+            <Text size="small" leading="compact" weight="plus">
+              {"category"}
+            </Text>
+            <Text size="small" leading="compact">
+              {user.vendor.vendor.category}
+            </Text>
+          </div>
+          <div className="grid grid-cols-2 items-center px-6 py-4">
+            <Text size="small" leading="compact" weight="plus">
+              {"commission"}
+            </Text>
+            <Text size="small" leading="compact">
+              {user.vendor.vendor.commission}%
+            </Text>
+          </div>
+          <div className="grid grid-cols-2 items-center px-6 py-4">
+            <Text size="small" leading="compact" weight="plus">
+              {"location"}
+            </Text>
+            <Text size="small" leading="compact">
+              {[
+                user.vendor.vendor.address,
+                user.vendor.vendor.city,
+                user.vendor.vendor.state,
+                user.vendor.vendor.country,
+                user.vendor.vendor.postal_code,
+              ]
+                .filter(Boolean)
+                .join(", ")}
+            </Text>
+          </div>
+          {user.vendor.vendor.logo && (
+            <div className="grid grid-cols-2 items-center px-6 py-4">
+              <Text size="small" leading="compact" weight="plus">
+                {"logo"}
+              </Text>
+              <div className="h-12 w-12 overflow-hidden rounded-md">
+                <img
+                  src={user.vendor.vendor.logo}
+                  alt={`${user.vendor.vendor.name} logo`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          )}
+          {user.vendor.vendor.description && (
+            <div className="grid grid-cols-2 items-center px-6 py-4">
+              <Text size="small" leading="compact" weight="plus">
+                {"description"}
+              </Text>
+              <Text size="small" leading="compact">
+                {user.vendor.vendor.description}
+              </Text>
+            </div>
+          )}
+          {user.vendor.region && (
+            <div className="grid grid-cols-2 items-center px-6 py-4">
+              <Text size="small" leading="compact" weight="plus">
+                {"Region"}
+              </Text>
+              <Text size="small" leading="compact">
+                {user.vendor.region
+                  .map((e) => e.region_details.name)
+                  .join(", ")}
+              </Text>
+            </div>
+          )}
+        </>
+      )}
       <div className="grid grid-cols-2 items-center px-6 py-4">
         <Text size="small" leading="compact" weight="plus">
           {t("profile.fields.languageLabel")}

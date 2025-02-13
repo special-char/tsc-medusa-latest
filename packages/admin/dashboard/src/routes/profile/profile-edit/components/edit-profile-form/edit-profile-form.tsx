@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Input, Select, toast } from "@medusajs/ui"
+import { Button, Input, Select, Textarea, toast } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
@@ -10,6 +10,10 @@ import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateUser, useUpdateVendor } from "../../../../../hooks/api/users"
 import { languages } from "../../../../../i18n/languages"
+import SelectCountry from "../../../../vendors/vendor-create/select-coutry"
+import FileUploadField from "../../../../products/product-detail/components/product-seo/components/form/FileUploadField"
+import { useRegionsVendor } from "../../../../../hooks/api"
+import { Combobox } from "../../../../../components/inputs/combobox"
 
 type EditProfileProps = {
   user: HttpTypes.AdminUser
@@ -20,19 +24,49 @@ const EditProfileSchema = zod.object({
   first_name: zod.string().optional(),
   last_name: zod.string().optional(),
   language: zod.string(),
-  // usage_insights: zod.boolean(),
+  // Vendor specific fields
+  logo: zod.any().optional(),
+  name: zod.string().optional(),
+  category: zod.string().optional(),
+  address: zod.string().optional(),
+  postal_code: zod.string().optional(),
+  city: zod.string().optional(),
+  country: zod.string().optional(),
+  state: zod.string().optional(),
+  commission: zod.number().min(0).max(100).optional(),
+  description: zod.string().optional(),
+  regions: zod
+    .array(zod.string())
+    .min(1, "At least one region must be selected"),
 })
 
 export const EditProfileForm = ({ user }: EditProfileProps) => {
   const { t, i18n } = useTranslation()
   const { handleSuccess } = useRouteModal()
-
+  const isVendor = !!user.vendor_id
+  const { regions } = useRegionsVendor()
+  const regionOptions =
+    regions?.map((region) => ({
+      value: region.id,
+      label: region.name,
+    })) || []
   const form = useForm<zod.infer<typeof EditProfileSchema>>({
     defaultValues: {
       first_name: user.first_name ?? "",
       last_name: user.last_name ?? "",
       language: i18n.language,
-      // usage_insights: usageInsights,
+      // Vendor specific fields
+      logo: user.vendor.vendor?.logo ?? "",
+      category: user.vendor.vendor?.category ?? "",
+      address: user.vendor.vendor?.address ?? "",
+      postal_code: user.vendor.vendor?.postal_code ?? "",
+      city: user.vendor.vendor?.city ?? "",
+      country: user.vendor.vendor?.country ?? "",
+      state: user.vendor.vendor?.state ?? "",
+      commission: user.vendor.vendor?.commission ?? 0,
+      description: user.vendor.vendor?.description ?? "",
+      name: user.vendor.vendor?.name ?? "",
+      regions: user.vendor.region.map((e) => e.region_id) ?? [],
     },
     resolver: zodResolver(EditProfileSchema),
   })
@@ -45,49 +79,56 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
     a.display_name.localeCompare(b.display_name)
   )
 
-  const { mutateAsync, isPending } = useUpdateUser(user.id!)
-  const { mutateAsync: vendormutateAsync, isPending: vendorisPending } =
+  const { mutateAsync: userMutate, isPending: userIsPending } = useUpdateUser(
+    user.id!
+  )
+  const { mutateAsync: vendorMutate, isPending: vendorIsPending } =
     useUpdateVendor(user.id!)
+
   const handleSubmit = form.handleSubmit(async (values) => {
-    await mutateAsync(
-      {
-        first_name: values.first_name,
-        last_name: values.last_name,
-      },
-      {
-        onError: async (error) => {
-          await vendormutateAsync(
-            {
-              first_name: values.first_name,
-              last_name: values.last_name,
-            },
-            {
-              onSuccess: async () => {
-                await changeLanguage(values.language)
-                toast.success(t("profile.toast.edit"))
-                handleSuccess()
-              },
-              onError: (e) => {
-                toast.error(e.message || error.message)
-                return
-              },
-            }
-          )
-        },
-        onSuccess: async () => {
-          await changeLanguage(values.language)
-          toast.success(t("profile.toast.edit"))
-          handleSuccess()
-        },
+    const userUpdate = {
+      first_name: values.first_name,
+      last_name: values.last_name,
+    }
+
+    const vendorUpdate = isVendor
+      ? {
+          first_name: values.first_name,
+          last_name: values.last_name,
+          ...(values.logo && { logo: values.logo }),
+          category: values.category,
+          address: values.address,
+          postal_code: values.postal_code,
+          city: values.city,
+          country: values.country,
+          state: values.state,
+          commission: values.commission,
+          description: values.description,
+          name: values.name,
+          region: values.regions,
+        }
+      : null
+
+    try {
+      if (isVendor && vendorUpdate) {
+        await vendorMutate(vendorUpdate)
+      } else {
+        await userMutate(userUpdate)
       }
-    )
+
+      await changeLanguage(values.language)
+      toast.success(t("profile.toast.edit"))
+      handleSuccess()
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   })
 
   return (
     <RouteDrawer.Form form={form}>
-      <KeyboundForm onSubmit={handleSubmit} className="flex flex-1 flex-col">
-        <RouteDrawer.Body>
-          <div className="flex flex-col gap-y-8">
+      <KeyboundForm onSubmit={handleSubmit} className="flex h-full flex-col">
+        <RouteDrawer.Body className="flex-1 overflow-y-auto pb-20">
+          <div className="flex flex-col gap-y-8 p-6">
             <div className="grid grid-cols-2 gap-4">
               <Form.Field
                 control={form.control}
@@ -116,6 +157,185 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                 )}
               />
             </div>
+
+            {isVendor && (
+              <>
+                <Form.Field
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <Form.Item>
+                      <Form.Label>{"Company Name"}</Form.Label>
+                      <Form.Control>
+                        <Input {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )}
+                />
+                <Form.Field
+                  control={form.control}
+                  name="regions"
+                  render={({ field }) => {
+                    return (
+                      <Form.Item>
+                        <Form.Label>{"Region"}</Form.Label>
+                        <Form.Control>
+                          <Combobox
+                            {...field}
+                            options={regionOptions}
+                            placeholder="Select a region"
+                          />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )
+                  }}
+                />
+                <Form.Field
+                  control={form.control}
+                  name="logo"
+                  render={({ field: { value, onChange, ...field } }) => (
+                    <Form.Item>
+                      <Form.Label>{"Logo"}</Form.Label>
+                      <Form.Control>
+                        <FileUploadField
+                          {...field}
+                          value={value}
+                          onChange={onChange}
+                          placeholder={t("fields.logoPlaceholder")}
+                        />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )}
+                />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Form.Field
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Form.Label>{t("fields.category")}</Form.Label>
+                        <Form.Control>
+                          <Input {...field} />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
+                  <Form.Field
+                    control={form.control}
+                    name="commission"
+                    render={({ field: { value, onChange, ...field } }) => (
+                      <Form.Item>
+                        <Form.Label>{"Commission"}</Form.Label>
+                        <Form.Control>
+                          <Input
+                            type="number"
+                            {...field}
+                            value={value || ""}
+                            onChange={(e) =>
+                              onChange(parseFloat(e.target.value))
+                            }
+                          />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
+                </div>
+
+                <Form.Field
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <Form.Item>
+                      <Form.Label>{"Address"}</Form.Label>
+                      <Form.Control>
+                        <Input {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )}
+                />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Form.Field
+                    control={form.control}
+                    name="postal_code"
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Form.Label>{"Costal Code"}</Form.Label>
+                        <Form.Control>
+                          <Input {...field} />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
+                  <Form.Field
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Form.Label>{"City"}</Form.Label>
+                        <Form.Control>
+                          <Input {...field} />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Form.Field
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Form.Label>{"Country"}</Form.Label>
+                        <Form.Control>
+                          <SelectCountry {...field} />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
+
+                  <Form.Field
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <Form.Item>
+                        <Form.Label>{"State"}</Form.Label>
+                        <Form.Control>
+                          <Input {...field} />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )}
+                  />
+                </div>
+
+                <Form.Field
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <Form.Item>
+                      <Form.Label>{"Description"}</Form.Label>
+                      <Form.Control>
+                        <Textarea {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )}
+                />
+              </>
+            )}
+
             <Form.Field
               control={form.control}
               name="language"
@@ -197,8 +417,8 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
             /> */}
           </div>
         </RouteDrawer.Body>
-        <RouteDrawer.Footer>
-          <div className="flex items-center gap-x-2">
+        <RouteDrawer.Footer className="bg-ui-bg-base sticky bottom-0 border-t">
+          <div className="flex items-center justify-end gap-x-2 p-4">
             <RouteDrawer.Close asChild>
               <Button size="small" variant="secondary">
                 {t("actions.cancel")}
@@ -207,13 +427,7 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
             <Button
               size="small"
               type="submit"
-              isLoading={
-                isPending
-                  ? isPending
-                  : vendorisPending
-                    ? vendorisPending
-                    : false
-              }
+              isLoading={userIsPending || vendorIsPending}
             >
               {t("actions.save")}
             </Button>

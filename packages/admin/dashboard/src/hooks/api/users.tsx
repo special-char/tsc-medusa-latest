@@ -147,7 +147,7 @@ export const useUpdateVendor = (
   options?: UseMutationOptions<
     HttpTypes.AdminUserResponse,
     FetchError,
-    HttpTypes.AdminUpdateUser,
+    any,
     QueryKey
   >
 ) => {

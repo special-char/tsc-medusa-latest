@@ -9,9 +9,11 @@ const SelectCountry = (props: Props) => {
   return (
     <div>
       <label htmlFor=""></label>
-      <Select onValueChange={props.onChange}>
+      <Select value={props.value} onValueChange={props.onChange}>
         <Select.Trigger>
-          <Select.Value placeholder="Select a currency" />
+          <Select.Value placeholder="Select a country">
+            {props.value || "Select a country"}
+          </Select.Value>
         </Select.Trigger>
         <Select.Content>
           {countries.map((item) => (

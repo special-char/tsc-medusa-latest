@@ -72,7 +72,7 @@ export function VendorList() {
       },
     }),
     columnHelper.display({
-      header: "Remote Redemotion",
+      header: "Remote Redemption",
       id: "remote_redemotion",
       cell: (info) => {
         const form = useForm()
@@ -119,7 +119,9 @@ export function VendorList() {
             } catch (error: any) {
               console.log("error:::", error.message)
               form.setError("code", {
-                message: error.message || "Invalid code",
+                message:
+                  error.message ||
+                  "The redemption code you entered is not valid. Please check and try again.",
               })
             }
           }
