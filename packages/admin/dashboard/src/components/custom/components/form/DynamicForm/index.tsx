@@ -17,6 +17,8 @@ type Props = {
   schema: Record<string, SchemaField>
   isPending: boolean
   btnTitle?: string
+  id: string
+  hideSubmitButton?: boolean
 }
 
 const DynamicForm = ({
@@ -26,9 +28,12 @@ const DynamicForm = ({
   schema,
   isPending,
   btnTitle,
+  id,
+  hideSubmitButton,
 }: Props) => {
   return (
     <form
+      id={id}
       onSubmit={form.handleSubmit(onSubmit)}
       className="flex w-full flex-col gap-y-3"
     >
@@ -73,9 +78,11 @@ const DynamicForm = ({
       })} */}
       <GenerateFormFields form={form} schema={schema} />
       <div className="flex items-center gap-4">
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Submitting..." : btnTitle ? btnTitle : "Submit"}
-        </Button>
+        {!hideSubmitButton && (
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Submitting..." : btnTitle ? btnTitle : "Submit"}
+          </Button>
+        )}
         {onReset && (
           <Button
             type="button"

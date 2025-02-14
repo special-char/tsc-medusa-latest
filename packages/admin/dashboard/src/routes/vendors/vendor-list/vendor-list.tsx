@@ -149,62 +149,63 @@ export function VendorList() {
         }
 
         return (
-          <div className="flex w-[100px] gap-5">
-            <Prompt open={open}>
-              <Prompt.Trigger asChild>
-                <Button variant="secondary" onClick={() => setOpen(true)}>
-                  Redeem
-                </Button>
-              </Prompt.Trigger>
-              <Prompt.Content className="">
-                <Prompt.Header>
-                  <Prompt.Title>
-                    Remote Redemption for {info.row.original.name}
-                  </Prompt.Title>
-                  <Prompt.Description>
-                    Enter the code to redeem a gift card.
-                  </Prompt.Description>
-                  <DynamicForm
-                    isPending={form.formState.isSubmitting}
-                    form={form}
-                    btnTitle={
-                      (redemption?.balance as number) ? "Submit" : "Verify"
-                    }
-                    schema={{
-                      code: {
-                        label: "Code",
-                        props: {
-                          placeholder: "XXXX-XXXX-XXXX-XXXX",
-                          disabled: redemption?.balance ? true : false,
+          <Prompt open={open} variant="confirmation">
+            <Prompt.Trigger asChild>
+              <Button variant="secondary" onClick={() => setOpen(true)}>
+                Redeem
+              </Button>
+            </Prompt.Trigger>
+            <Prompt.Content className="">
+              <Prompt.Header>
+                <Prompt.Title>
+                  Remote Redemption for {info.row.original.name}
+                </Prompt.Title>
+                <Prompt.Description>
+                  Enter the code to redeem a gift card.
+                </Prompt.Description>
+                <DynamicForm
+                  id="remote_redemption"
+                  isPending={form.formState.isSubmitting}
+                  form={form}
+                  btnTitle={
+                    (redemption?.balance as number) ? "Submit" : "Verify"
+                  }
+                  schema={{
+                    code: {
+                      label: "Code",
+                      props: {
+                        placeholder: "XXXX-XXXX-XXXX-XXXX",
+                        disabled: redemption?.balance ? true : false,
+                      },
+                      fieldType: "input",
+                      validation: {
+                        required: {
+                          value: true,
+                          message: "Code is required field",
                         },
+                      },
+                    },
+                    ...(redemption?.balance && {
+                      amount: {
+                        label: `Amount (Balance Left ${redemption?.balance})`,
                         fieldType: "input",
+                        props: {
+                          placeholder: "300 (min: 150)",
+                          type: "number",
+                        },
                         validation: {
                           required: {
                             value: true,
-                            message: "Code is required field",
+                            message: "Amount is required field",
                           },
                         },
                       },
-                      ...(redemption?.balance && {
-                        amount: {
-                          label: `Amount (Balance Left ${redemption?.balance})`,
-                          fieldType: "input",
-                          props: {
-                            placeholder: "300 (min: 150)",
-                            type: "number",
-                          },
-                          validation: {
-                            required: {
-                              value: true,
-                              message: "Amount is required field",
-                            },
-                          },
-                        },
-                      }),
-                    }}
-                    onSubmit={form.handleSubmit(onSubmit)}
-                  />
-                  {/* <Form className="flex flex-col gap-4">
+                    }),
+                  }}
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  hideSubmitButton
+                />
+                {/* <Form className="flex flex-col gap-4">
                     <div>
                       <Label>Code</Label>
                       <Input />
@@ -214,19 +215,29 @@ export function VendorList() {
                       <Input />
                     </div>
                     </Form> */}
-                  {/* <Button variant="primary">Verify</Button> */}
-                  <Prompt.Footer className="flex flex-col gap-4">
-                    <Prompt.Cancel
-                      onClick={() => clearForm()}
-                      className="self-end"
-                    >
-                      Cancel
-                    </Prompt.Cancel>
-                  </Prompt.Footer>
-                </Prompt.Header>
-              </Prompt.Content>
-            </Prompt>
-          </div>
+                {/* <Button variant="primary">Verify</Button> */}
+                <Prompt.Footer>
+                  <Prompt.Cancel
+                    onClick={() => clearForm()}
+                    className="self-end"
+                  >
+                    Cancel
+                  </Prompt.Cancel>
+                  <Prompt.Action
+                    type="submit"
+                    form="remote_redemption"
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {form.formState.isSubmitting
+                      ? "Submitting..."
+                      : (redemption?.balance as number)
+                        ? "Submit"
+                        : "Verify"}
+                  </Prompt.Action>
+                </Prompt.Footer>
+              </Prompt.Header>
+            </Prompt.Content>
+          </Prompt>
         )
       },
     }),
