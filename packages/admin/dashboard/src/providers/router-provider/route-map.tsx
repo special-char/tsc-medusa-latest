@@ -711,6 +711,11 @@ export const RouteMap: RouteObject[] = [
                       ),
                   },
                   {
+                    path: "add-client",
+                    lazy: () =>
+                      import("../../routes/customers/customer-create"),
+                  },
+                  {
                     path: "metadata/edit",
                     lazy: () =>
                       import(
