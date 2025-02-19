@@ -64,7 +64,7 @@ export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
         company_name: data.company_name || undefined,
         metadata: {
           role_id: data.role_id,
-          old_role_id: customer?.customer_role.id,
+          old_role_id: customer?.customer_role?.id || "",
         },
       },
       {
