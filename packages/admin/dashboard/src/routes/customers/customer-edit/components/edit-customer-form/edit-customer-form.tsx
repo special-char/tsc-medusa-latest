@@ -37,8 +37,8 @@ export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
     queryFn: (_) => sdk.admin.role.list(),
     getOptions: (data) =>
       data[0]?.map((role) => ({
-        label: role.name!,
-        value: role.id!,
+        label: role?.name!,
+        value: role?.id!,
       })),
   })
   const form = useForm<zod.infer<typeof EditCustomerSchema>>({
@@ -48,7 +48,7 @@ export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
       last_name: customer.last_name || "",
       company_name: customer.company_name || "",
       phone: customer.phone || "",
-      role_id: customer?.customer_role.id,
+      role_id: customer?.customer_role?.id,
     },
     resolver: zodResolver(EditCustomerSchema),
   })
