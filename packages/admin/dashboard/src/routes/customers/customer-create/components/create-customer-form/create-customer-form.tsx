@@ -14,6 +14,7 @@ import { useCreateCustomer } from "../../../../../hooks/api/customers"
 import { useComboboxData } from "../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../lib/client"
 import { Combobox } from "../../../../../components/inputs/combobox"
+import { useAddCustomersToGroup } from "../../../../../hooks/api"
 
 const CreateCustomerSchema = zod.object({
   email: zod.string().email(),
@@ -38,6 +39,24 @@ export const CreateCustomerForm = () => {
         value: role.id!,
       })),
   })
+  const match: RegExpMatchArray | null = location.pathname.match(
+    /client-groups\/([^\/]+)\/add-client/
+  )
+
+  const id: string | null = match?.[1] || null
+
+  const { mutateAsync: mutateAsyncAddCustomer } = id
+    ? useAddCustomersToGroup(id)
+    : { mutateAsync: undefined }
+
+  const handleCustomerAddition = async (customer) => {
+    if (location.pathname.includes("/client-group")) {
+      await mutateAsyncAddCustomer([customer.id]) 
+      handleSuccess(`${location.pathname.replace("/add-client", "")}`)
+    } else {
+      handleSuccess(`/clients/${customer.id}`)
+    }
+  }
   const form = useForm<zod.infer<typeof CreateCustomerSchema>>({
     defaultValues: {
       email: "",
@@ -49,7 +68,6 @@ export const CreateCustomerForm = () => {
     },
     resolver: zodResolver(CreateCustomerSchema),
   })
-
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
       {
@@ -68,11 +86,13 @@ export const CreateCustomerForm = () => {
             })
           )
 
-          if (location.pathname.includes("/client-group")) {
-            handleSuccess(`${location.pathname.replace("/add-client", "")}`)
-          } else {
-            handleSuccess(`/clients/${customer.id}`)
-          }
+          // if (location.pathname.includes("/client-group")) {
+
+          //   handleSuccess(`${location.pathname.replace("/add-client", "")}`)
+          // } else {
+          //   handleSuccess(`/clients/${customer.id}`)
+          // }
+          handleCustomerAddition(customer)
         },
         onError: (error) => {
           if (error.message.includes("Customer")) {

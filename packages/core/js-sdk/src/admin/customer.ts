@@ -237,7 +237,7 @@ export class Customer {
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<HttpTypes.AdminCustomerResponse>(
-      `/admin/customers/${id}/customer-groups`,
+      `/admin/customer/${id}/customer-groups`,
       {
         method: "POST",
         headers,

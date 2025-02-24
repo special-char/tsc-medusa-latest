@@ -242,7 +242,7 @@ export class CustomerGroup {
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<HttpTypes.AdminCustomerGroupResponse>(
-      `/admin/customer-groups/${id}/customers`,
+      `/admin/customer-group/${id}/customers`,
       {
         method: "POST",
         headers,
