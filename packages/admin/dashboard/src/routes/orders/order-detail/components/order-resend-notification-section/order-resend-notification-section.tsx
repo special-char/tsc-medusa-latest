@@ -15,13 +15,6 @@ import {
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../../../lib/client"
-import {
-  useConfirmOrderEdit,
-  useCreateOrderEdit,
-  useRemoveOrderEditItem,
-  useRequestOrderEdit,
-  useUpdateOrderEditAddedItem,
-} from "../../../../../hooks/api/order-edits"
 
 type orderResendNotificationSectionProps = {
   order: HttpTypes.AdminOrder
@@ -53,15 +46,6 @@ const OrderResendNotificationSection = ({
   const [loading, setLoading] = useState(false)
   const [redemption, setRedemption] = useState({})
   const navigate = useNavigate()
-  const { mutateAsync: createOrderEdit } = useCreateOrderEdit(order.id)
-  const { mutateAsync: requestOrderEdit, isPending: isRequesting } =
-    useRequestOrderEdit(order.id)
-  const { mutateAsync: confirmOrderEdit } = useConfirmOrderEdit(order.id)
-  const { mutateAsync: undoAction } = useRemoveOrderEditItem(order.id)
-  const { mutateAsync: editOrderLineItem } = useUpdateOrderEditAddedItem(
-    order.id
-  )
-
   const handleSendNotification = async ({
     template,
     data,
