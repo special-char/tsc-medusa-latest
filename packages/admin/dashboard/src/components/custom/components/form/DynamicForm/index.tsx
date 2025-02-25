@@ -2,6 +2,7 @@ import { FieldValues, UseFormReturn } from "react-hook-form"
 import { memo } from "react"
 import { Button } from "@medusajs/ui"
 import GenerateFormFields from "./GenerateFormFields"
+import { Spinner } from "@medusajs/icons"
 
 export type SchemaField = {
   label?: string
@@ -66,7 +67,7 @@ const DynamicForm = ({ form, onSubmit, onReset, schema, isPending }: Props) => {
       <GenerateFormFields form={form} schema={schema} />
       <div className="flex items-center gap-4">
         <Button type="submit" disabled={isPending}>
-          {isPending ? "Submitting..." : "Submit"}
+          {isPending ? <Spinner className="animate-spin" /> : "Submit"}
         </Button>
         {onReset && (
           <Button
