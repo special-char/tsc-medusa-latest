@@ -176,8 +176,6 @@ const GiftImportContent = () => {
             name="promotionCode"
             control={form?.control}
             render={({ field }) => {
-              console.log(field)
-
               return (
                 <>
                   <Label htmlFor="promotionCode">Apply Promotion Code</Label>
