@@ -346,6 +346,63 @@ export const customProtectedSettingsRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.brand
+    ? [
+        {
+          path: "notification-template",
+          errorElement: <ErrorBoundary />,
+          element: <Outlet />,
+          handle: {
+            breadcrumb: () => "NotificationTemplate",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () =>
+                import(
+                  "../../routes/notification-template/notification-template-list"
+                ),
+              children: [
+                {
+                  path: "create",
+                  lazy: () =>
+                    import(
+                      "../../routes/notification-template/notification-template-create"
+                    ),
+                },
+              ],
+            },
+            {
+              path: ":id",
+              lazy: async () => {
+                const { Component, Breadcrumb, loader } = await import(
+                  "../../routes/notification-template/notification-template-detail"
+                )
+
+                return {
+                  Component,
+                  loader,
+                  handle: {
+                    breadcrumb: (
+                      match: UIMatch<HttpTypes.AdminProductTypeResponse>
+                    ) => <Breadcrumb {...match} />,
+                  },
+                }
+              },
+              children: [
+                {
+                  path: "edit",
+                  lazy: () =>
+                    import(
+                      "../../routes/notification-template/notification-template-edit"
+                    ),
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    : []),
   ...(dashboardConfig?.featureFlags?.subscriptions
     ? [
         {

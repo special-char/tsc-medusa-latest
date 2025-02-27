@@ -59,6 +59,7 @@ import { ProductOptionValue } from "./product-option-value"
 import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
+import { NotificationTemplate } from "./notification-template"
 
 export class Admin {
   /**
@@ -308,6 +309,10 @@ export class Admin {
    * @tags googleCategory
    */
   public googleCategory: GoogleCategory
+  /**
+  * @tags NotificationTemplate
+  */
+  public notificationTemplate: NotificationTemplate
 
   constructor(client: Client) {
     this.faq = new Faq(client)
@@ -370,5 +375,6 @@ export class Admin {
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
+    this.notificationTemplate = new NotificationTemplate(client)
   }
 }

@@ -33,6 +33,14 @@ const useSettingRoutes = (): INavItem[] => {
           },
         ]
       : []),
+    ...(dashboardConfig?.featureFlags?.brand
+      ? [
+          {
+            label: "Notification Template",
+            to: "/settings/notification-template",
+          },
+        ]
+      : []),
     ...(dashboardConfig?.featureFlags?.subscriptions
       ? [
           {
