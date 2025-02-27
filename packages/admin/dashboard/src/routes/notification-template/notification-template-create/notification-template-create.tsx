@@ -1,5 +1,5 @@
 import { RouteFocusModal } from "../../../components/modals"
-import { CreateProductTypeForm } from "./components/create-product-type-form"
+import { CreateProductTypeForm } from "./components/create-notification-template-form"
 
 export const ProductTypeCreate = () => {
   return (
