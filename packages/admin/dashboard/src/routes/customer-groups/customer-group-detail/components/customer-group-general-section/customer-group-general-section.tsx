@@ -42,7 +42,7 @@ export const CustomerGroupGeneralSection = ({
           })
         )
 
-        navigate("/customer-groups", { replace: true })
+        navigate("/client-groups", { replace: true })
       },
       onError: (error) => {
         toast.error(error.message)
@@ -61,7 +61,7 @@ export const CustomerGroupGeneralSection = ({
                 {
                   icon: <PencilSquare />,
                   label: t("actions.edit"),
-                  to: `/customer-groups/${group.id}/edit`,
+                  to: `/client-groups/${group.id}/edit`,
                 },
               ],
             },

@@ -122,6 +122,14 @@ export const CustomerGeneralSection = ({
           {customer.phone || "-"}
         </Text>
       </div>
+      <div className="text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4">
+        <Text size="small" leading="compact" weight="plus">
+          {"Customer Role"}
+        </Text>
+        <Text size="small" leading="compact">
+          {customer?.customer_role?.name || "-"}
+        </Text>
+      </div>
     </Container>
   )
 }

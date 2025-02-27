@@ -33,7 +33,7 @@ const EditProfileSchema = zod.object({
   city: zod.string().optional(),
   country: zod.string().optional(),
   state: zod.string().optional(),
-  commission: zod.number().min(0).max(100).optional(),
+  // commission: zod.number().min(0).max(100).optional(),
   description: zod.string().optional(),
   regions: zod
     .array(zod.string())
@@ -65,7 +65,7 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
         city: user?.vendor?.vendor?.city ?? "",
         country: user?.vendor?.vendor?.country ?? "",
         state: user?.vendor?.vendor?.state ?? "",
-        commission: user?.vendor?.vendor?.commission ?? 0,
+        // commission: user?.vendor?.vendor?.commission ?? 0,
         description: user?.vendor?.vendor?.description ?? "",
         name: user?.vendor?.vendor?.name ?? "",
         regions: user?.vendor?.region.map((e) => e.region_id) ?? [],
@@ -96,20 +96,20 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
 
     const vendorUpdate = isVendor
       ? {
-          first_name: values.first_name,
-          last_name: values.last_name,
-          ...(values.logo && { logo: values.logo }),
-          category: values.category,
-          address: values.address,
-          postal_code: values.postal_code,
-          city: values.city,
-          country: values.country,
-          state: values.state,
-          commission: values.commission,
-          description: values.description,
-          name: values.name,
-          region: values.regions,
-        }
+        first_name: values.first_name,
+        last_name: values.last_name,
+        ...(values.logo && { logo: values.logo }),
+        category: values.category,
+        address: values.address,
+        postal_code: values.postal_code,
+        city: values.city,
+        country: values.country,
+        state: values.state,
+        // commission: values.commission,
+        description: values.description,
+        name: values.name,
+        region: values.regions,
+      }
       : null
 
     try {
@@ -176,25 +176,7 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                     </Form.Item>
                   )}
                 />
-                <Form.Field
-                  control={form.control}
-                  name="regions"
-                  render={({ field }) => {
-                    return (
-                      <Form.Item>
-                        <Form.Label>{"Region"}</Form.Label>
-                        <Form.Control>
-                          <Combobox
-                            {...field}
-                            options={regionOptions}
-                            placeholder="Select a region"
-                          />
-                        </Form.Control>
-                        <Form.ErrorMessage />
-                      </Form.Item>
-                    )
-                  }}
-                />
+
                 <Form.Field
                   control={form.control}
                   name="logo"
@@ -230,23 +212,22 @@ export const EditProfileForm = ({ user }: EditProfileProps) => {
                   />
                   <Form.Field
                     control={form.control}
-                    name="commission"
-                    render={({ field: { value, onChange, ...field } }) => (
-                      <Form.Item>
-                        <Form.Label>{"Commission"}</Form.Label>
-                        <Form.Control>
-                          <Input
-                            type="number"
-                            {...field}
-                            value={value || ""}
-                            onChange={(e) =>
-                              onChange(parseFloat(e.target.value))
-                            }
-                          />
-                        </Form.Control>
-                        <Form.ErrorMessage />
-                      </Form.Item>
-                    )}
+                    name="regions"
+                    render={({ field }) => {
+                      return (
+                        <Form.Item>
+                          <Form.Label>{"Region"}</Form.Label>
+                          <Form.Control>
+                            <Combobox
+                              {...field}
+                              options={regionOptions}
+                              placeholder="Select a region"
+                            />
+                          </Form.Control>
+                          <Form.ErrorMessage />
+                        </Form.Item>
+                      )
+                    }}
                   />
                 </div>
 

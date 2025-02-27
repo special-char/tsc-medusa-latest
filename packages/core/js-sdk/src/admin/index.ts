@@ -59,6 +59,7 @@ import { ProductOptionValue } from "./product-option-value"
 import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
+import { Role } from "./role"
 
 export class Admin {
   /**
@@ -309,6 +310,8 @@ export class Admin {
    */
   public googleCategory: GoogleCategory
 
+  public role: Role
+
   constructor(client: Client) {
     this.faq = new Faq(client)
     this.categorySeo = new CategorySeo(client)
@@ -370,5 +373,6 @@ export class Admin {
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
+    this.role = new Role(client)
   }
 }

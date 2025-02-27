@@ -89,11 +89,18 @@ export const CustomerGroupCustomerSection = ({
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h2">{t("customers.domain")}</Heading>
-        <Link to={`/client-groups/${group.id}/add-customers`}>
-          <Button variant="secondary" size="small">
-            {t("general.add")}
-          </Button>
-        </Link>
+        <div className="flex justify-end gap-5">
+          <Link to={`/client-groups/${group.id}/add-customers`}>
+            <Button variant="secondary" size="small">
+              {t("general.add")}
+            </Button>
+          </Link>
+          <Link to={`/client-groups/${group.id}/add-client`}>
+            <Button size="small" variant="secondary">
+              {t("actions.create")}
+            </Button>
+          </Link>
+        </div>
       </div>
       <_DataTable
         table={table}

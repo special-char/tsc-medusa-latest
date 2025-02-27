@@ -62,9 +62,9 @@ export const useCustomerGroups = (
 
 export const useCreateCustomerGroup = (
   options?: UseMutationOptions<
-    HttpTypes.AdminCustomerGroupResponse,
+    HttpTypes.AdminCustomerGroupResponse | any,
     FetchError,
-    HttpTypes.AdminCreateCustomerGroup
+    HttpTypes.AdminCreateCustomerGroup | any
   >
 ) => {
   return useMutation({

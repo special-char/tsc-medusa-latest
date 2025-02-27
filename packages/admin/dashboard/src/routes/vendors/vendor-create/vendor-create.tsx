@@ -18,11 +18,11 @@ type Fields = {
   type?: React.HTMLInputTypeAttribute | undefined
   component?: React.DetailedReactHTMLElement<any, HTMLElement>
   rules?:
-    | Omit<
-        RegisterOptions<FieldValues, string>,
-        "disabled" | "valueAsNumber" | "valueAsDate" | "setValueAs"
-      >
-    | undefined
+  | Omit<
+    RegisterOptions<FieldValues, string>,
+    "disabled" | "valueAsNumber" | "valueAsDate" | "setValueAs"
+  >
+  | undefined
 }
 const fields: {
   merchant: Fields[]
@@ -51,6 +51,23 @@ const fields: {
       placeholder: "Email",
       rules: {
         required: "Email is required",
+      },
+    },
+    {
+      name: "commission",
+      label: "Commission",
+      placeholder: "Commission",
+      type: "number",
+      rules: {
+        required: "Commission is required",
+        min: {
+          value: 1,
+          message: "Commission must be at least 1%",
+        },
+        max: {
+          value: 100,
+          message: "Commission cannot exceed 100%",
+        },
       },
     },
   ],
@@ -152,6 +169,7 @@ export function VendorCreate() {
         handle: data.handle,
         // ...(data.logo && { logo: data.logo }),
         email: data.email,
+        commission: data.commission
         // first_name: data.first_name,
         // last_name: data.last_name,
       })

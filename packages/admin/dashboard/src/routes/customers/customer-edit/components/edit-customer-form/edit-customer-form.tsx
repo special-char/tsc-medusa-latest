@@ -12,6 +12,9 @@ import {
 } from "../../../../../components/modals/index.ts"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form/keybound-form.tsx"
 import { useUpdateCustomer } from "../../../../../hooks/api/customers.tsx"
+import { Combobox } from "../../../../../components/inputs/combobox"
+import { useComboboxData } from "../../../../../hooks/use-combobox-data"
+import { sdk } from "../../../../../lib/client"
 
 type EditCustomerFormProps = {
   customer: HttpTypes.AdminCustomer
@@ -23,12 +26,21 @@ const EditCustomerSchema = zod.object({
   last_name: zod.string().optional(),
   company_name: zod.string().optional(),
   phone: zod.string().optional(),
+  role_id: zod.string().optional(),
 })
 
 export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-
+  const roles = useComboboxData({
+    queryKey: ["role"],
+    queryFn: (_) => sdk.admin.role.list(),
+    getOptions: (data) =>
+      data[0]?.map((role) => ({
+        label: role?.name!,
+        value: role?.id!,
+      })),
+  })
   const form = useForm<zod.infer<typeof EditCustomerSchema>>({
     defaultValues: {
       email: customer.email || "",
@@ -36,6 +48,7 @@ export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
       last_name: customer.last_name || "",
       company_name: customer.company_name || "",
       phone: customer.phone || "",
+      role_id: customer?.customer_role?.id,
     },
     resolver: zodResolver(EditCustomerSchema),
   })
@@ -45,11 +58,14 @@ export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
       {
-        email: customer.has_account ? undefined : data.email,
-        first_name: data.first_name || null,
-        last_name: data.last_name || null,
-        phone: data.phone || null,
-        company_name: data.company_name || null,
+        first_name: data.first_name || undefined,
+        last_name: data.last_name || undefined,
+        phone: data.phone || undefined,
+        company_name: data.company_name || undefined,
+        metadata: {
+          role_id: data.role_id,
+          old_role_id: customer?.customer_role?.id || "",
+        },
       },
       {
         onSuccess: ({ customer }) => {
@@ -147,6 +163,27 @@ export const EditCustomerForm = ({ customer }: EditCustomerFormProps) => {
                     <Form.Label>{t("fields.phone")}</Form.Label>
                     <Form.Control>
                       <Input {...field} />
+                    </Form.Control>
+                    <Form.ErrorMessage />
+                  </Form.Item>
+                )
+              }}
+            />
+            <Form.Field
+              control={form.control}
+              name="role_id"
+              render={({ field }) => {
+                return (
+                  <Form.Item>
+                    <Form.Label optional>{"Customer Role"}</Form.Label>
+                    <Form.Control>
+                      <Combobox
+                        {...field}
+                        multiple={false}
+                        options={roles.options}
+                        onSearchValueChange={roles.onSearchValueChange}
+                        searchValue={roles.searchValue}
+                      />
                     </Form.Control>
                     <Form.ErrorMessage />
                   </Form.Item>
