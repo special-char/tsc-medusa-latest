@@ -4,6 +4,8 @@ import { Container, Heading, Text } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { languages } from "../../../../../i18n/languages"
+import QRCode from "react-qr-code"
+import DownloadableQRCode from "./DownloadableQRCode"
 
 type ProfileGeneralSectionProps = {
   user: HttpTypes.AdminUser
@@ -65,7 +67,7 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           </div>
           <div className="grid grid-cols-2 items-center px-6 py-4">
             <Text size="small" leading="compact" weight="plus">
-              {"category"}
+              {"Category"}
             </Text>
             <Text size="small" leading="compact">
               {user.vendor.vendor.category}
@@ -73,7 +75,7 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           </div>
           <div className="grid grid-cols-2 items-center px-6 py-4">
             <Text size="small" leading="compact" weight="plus">
-              {"commission"}
+              {"Commission"}
             </Text>
             <Text size="small" leading="compact">
               {user.vendor.vendor.commission}%
@@ -81,7 +83,7 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           </div>
           <div className="grid grid-cols-2 items-center px-6 py-4">
             <Text size="small" leading="compact" weight="plus">
-              {"location"}
+              {"Location"}
             </Text>
             <Text size="small" leading="compact">
               {[
@@ -98,7 +100,7 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           {user.vendor.vendor.logo && (
             <div className="grid grid-cols-2 items-center px-6 py-4">
               <Text size="small" leading="compact" weight="plus">
-                {"logo"}
+                {"Logo"}
               </Text>
               <div className="h-12 w-12 overflow-hidden rounded-md">
                 <img
@@ -112,7 +114,7 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
           {user.vendor.vendor.description && (
             <div className="grid grid-cols-2 items-center px-6 py-4">
               <Text size="small" leading="compact" weight="plus">
-                {"description"}
+                {"Description"}
               </Text>
               <Text size="small" leading="compact">
                 {user.vendor.vendor.description}
@@ -142,6 +144,49 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
             ?.display_name || "-"}
         </Text>
       </div>
+      {isVendor && (
+        <div className="grid grid-cols-2 items-center px-6 py-4">
+          <Text size="small" leading="compact" weight="plus">
+            Merchant Qr
+          </Text>
+          <DownloadableQRCode name={user.vendor_id}>
+            <QRCode
+              bgColor="white"
+              className="rounded-sm"
+              value={user.vendor_id}
+              size={200}
+            />
+          </DownloadableQRCode>
+          {/* <DivToImage>
+        </DivToImage> */}
+
+          {/* <Prompt>
+          <Prompt.Trigger asChild>
+            <Button variant="secondary">View QR</Button>
+          </Prompt.Trigger>
+          <Prompt.Content className="">
+            <Prompt.Header>
+              <Prompt.Title>Scan QR</Prompt.Title>
+              <Prompt.Description>
+                Scan this QR to redeem your gift card.
+              </Prompt.Description>
+              <Prompt.Footer className="flex flex-col gap-4">
+                <QRCode
+                  className="bg-white p-5"
+                  value={user.vendor_id}
+                  size={200}
+                />
+                <Prompt.Cancel className="self-end">Cancel</Prompt.Cancel>
+              </Prompt.Footer>
+            </Prompt.Header>
+          </Prompt.Content>
+        </Prompt> */}
+          {/* <Text size="small" leading="compact">
+          {languages.find((lang) => lang.code === i18n.language)
+            ?.display_name || "-"}
+        </Text> */}
+        </div>
+      )}
       {/* TODO: Do we want to implement usage insights in V2? */}
       {/* <div className="grid grid-cols-2 items-center px-6 py-4">
         <Text size="small" leading="compact" weight="plus">
