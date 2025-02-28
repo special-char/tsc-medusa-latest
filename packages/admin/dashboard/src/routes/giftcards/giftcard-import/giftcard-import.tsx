@@ -18,6 +18,7 @@ import {
   useOrders,
   useSalesChannels,
   useStore,
+  useVendorMe,
 } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/client"
@@ -44,7 +45,9 @@ export const GiftCardImport = () => {
 
 const GiftImportContent = () => {
   const { t } = useTranslation()
-  const { user } = useMe()
+  const { user: adminUser, error: adminError } = useMe()
+  const { user: vendorUser } = useVendorMe()
+  const user = adminUser || vendorUser
   const [file, setFile] = useState<File>()
   const { store } = useStore()
   const { handleSuccess } = useRouteModal()
