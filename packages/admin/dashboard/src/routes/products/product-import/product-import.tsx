@@ -41,10 +41,17 @@ const ProductImportContent = () => {
 
   const handleUploaded = async (file: File) => {
     setFilename(file.name)
+
+    console.log("file", { file })
     await importProducts(
       { file },
       {
+        onSuccess: () => {
+          console.log("success")
+          setFilename(undefined)
+        },
         onError: (err) => {
+          console.log("err", { err })
           toast.error(err.message)
           setFilename(undefined)
         },

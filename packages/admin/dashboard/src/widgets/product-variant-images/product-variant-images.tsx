@@ -11,7 +11,7 @@ const ProductVariantImagesWidget = ({
     {
       order: "variant_rank",
       fields:
-        "*inventory_items.inventory.location_levels,+inventory_quantity,+variant_images",
+        "*inventory_items.inventory.location_levels,+inventory_quantity,*variant_images",
     }
   )
 
