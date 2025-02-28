@@ -6,9 +6,15 @@ import { useEffect } from "react"
 import { useStore } from "../../../../hooks/api"
 import PriceFormInput from "./PriceFormInput"
 
-const AddDenomination = () => {
+const AddDenomination = (props) => {
+  console.log({ props })
+
   const { store } = useStore()
-  const { control, watch } = useFormContext()
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useFormContext()
 
   const defaultCurrency = store?.supported_currencies.find((c) => c.is_default)
   const { fields, append, remove } = useFieldArray({
@@ -19,7 +25,7 @@ const AddDenomination = () => {
   useEffect(() => {
     if (fields.length === 0 && defaultCurrency) {
       append({
-        amount: 1,
+        amount: 0,
         currency: defaultCurrency.currency_code,
       })
     }
@@ -68,14 +74,25 @@ const AddDenomination = () => {
                   control={control}
                   name={`denominations.${index}.amount`}
                   rules={{
-                    validate: (value) => {
-                      return value > 0
+                    required: "Amount is required",
+                    validate: {
+                      validate: (value) => {
+                        value = value / 100
+                        console.log(value)
+
+                        if (value < 150) {
+                          return "Please enter a value greater than or equal to 150." // Error message for invalid value
+                        }
+                        return true // Return true if validation passes
+                      },
                     },
                   }}
                   render={({
                     field: { value, onChange, name },
                     fieldState: { error },
                   }) => {
+                    console.log({ error })
+
                     return (
                       <>
                         <PriceFormInput
@@ -86,13 +103,11 @@ const AddDenomination = () => {
                             (defaultCurrency?.currency_code as string)
                           }
                         />
-                        <ErrorMessage
-                          name={name}
-                          rules={{
-                            required: "An amount is required",
-                          }}
-                          control={control as any}
-                        />
+                        {error?.message && (
+                          <p className="text-sm text-red-500">
+                            {error?.message}
+                          </p>
+                        )}
                       </>
                     )
                   }}
