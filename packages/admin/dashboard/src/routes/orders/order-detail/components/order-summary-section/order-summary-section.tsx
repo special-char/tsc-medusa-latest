@@ -607,7 +607,7 @@ const CostBreakdown = ({
             ? "orders.summary.itemTotal"
             : "orders.summary.itemSubtotal"
         )}
-        value={getLocaleAmount(order.item_total, order.currency_code)}
+        value={getLocaleAmount(order.subtotal, order.currency_code)}
       />
       <Cost
         label={
