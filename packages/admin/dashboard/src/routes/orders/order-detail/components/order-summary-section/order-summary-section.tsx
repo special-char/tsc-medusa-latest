@@ -607,7 +607,11 @@ const CostBreakdown = ({
             ? "orders.summary.itemTotal"
             : "orders.summary.itemSubtotal"
         )}
-        value={getLocaleAmount(order.subtotal, order.currency_code)}
+        value={getLocaleAmount(
+          order.subtotal -
+            (automaticTaxesOn ? order.shipping_total : order.shipping_subtotal),
+          order.currency_code
+        )}
       />
       <Cost
         label={
