@@ -54,7 +54,8 @@ export function VendorList() {
                 <Prompt.Header>
                   <Prompt.Title>Scan QR</Prompt.Title>
                   <Prompt.Description>
-                    Scan this QR to redeem your gift card.
+                    Scan this QR to redeem your gift card.{" "}
+                    {info.row.original.id}
                   </Prompt.Description>
                   <Prompt.Footer className="flex flex-col gap-4">
                     <QRCode

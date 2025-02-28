@@ -34,6 +34,9 @@ export class BulkOrder {
     if (body.promotionCode) {
       formData.append("promotionCode", body.promotionCode)
     }
+    if (body.currency_code) {
+      formData.append("currency_code", body.currency_code)
+    }
     if (body.user) {
       formData.append("user", JSON.stringify(body.user))
       formData.append(
