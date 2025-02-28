@@ -29,12 +29,14 @@ export const BannerForm = ({
             link: initialData?.link,
             image: initialData?.image,
             text: initialData?.text,
+            isActive: initialData?.isActive,
           }
         : {
             name: "",
             link: "",
             image: "",
             text: "",
+            isActive: false,
           },
   })
 

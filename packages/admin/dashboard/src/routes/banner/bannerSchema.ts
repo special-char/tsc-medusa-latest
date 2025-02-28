@@ -38,6 +38,11 @@ export const bannerSchema = async () => {
         },
       },
     },
+    isActive: {
+      label: "Banner Active or Not",
+      fieldType: "toggle",
+      validation: {},
+    },
   }
 
   return schema

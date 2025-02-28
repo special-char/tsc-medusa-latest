@@ -14,6 +14,7 @@ export const BannerCreate = () => {
         link: data.link,
         image: data.image,
         text: data.text,
+        isActive: data.isActive,
       }
 
       const createBannerResponse = (await sdk.admin.banner.create(

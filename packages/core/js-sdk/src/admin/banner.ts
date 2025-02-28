@@ -5,6 +5,7 @@ type BannerType = {
   link?: string
   image?: File | string
   text: string
+  isActive?: boolean | undefined
 }
 
 type BannerProps = {
@@ -13,6 +14,7 @@ type BannerProps = {
   link?: string
   image?: string | null
   text: string
+  isActive?: boolean | undefined
 }
 
 type UPDATE_BANNER_TYPE = {
@@ -20,6 +22,7 @@ type UPDATE_BANNER_TYPE = {
   link?: string
   image?: File | string
   text: string
+  isActive?: boolean | undefined
 }
 
 export class Banner {
@@ -57,6 +60,7 @@ export class Banner {
     formData.append("name", body.name || "")
     formData.append("link", body.link || "")
     formData.append("text", body.text || "")
+    formData.append("isActive", String(body.isActive) || "false")
 
     if (typeof body.image === "string" || !body.image) {
       console.log("image_url", body.image)
@@ -86,6 +90,7 @@ export class Banner {
     formData.append("name", body.name || "")
     formData.append("link", body.link || "")
     formData.append("text", body.text || "")
+    formData.append("isActive", body.isActive ? "true" : "false")
 
     if (typeof body.image === "string" || !body.image) {
       console.log("image_url", body.image)

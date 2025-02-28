@@ -11,6 +11,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import BannerActions from "../banner-actions/banner.actions"
+import { SquareGreenSolid, SquareGreySolid } from "@medusajs/icons"
 
 export type BannerProps = {
   id: string
@@ -18,6 +19,7 @@ export type BannerProps = {
   link?: string
   image?: string | null
   text?: string
+  isActive?: boolean
 }
 
 export const BannerListTable = () => {
@@ -41,6 +43,26 @@ export const BannerListTable = () => {
       header: "Sr. No.",
       id: "sr_no",
       cell: (info) => info.row.index + 1,
+    }),
+    columnHelper.accessor("isActive", {
+      header: "Status",
+      cell: (info) => {
+        return (
+          <span className="line-clamp-1 overflow-hidden">
+            {info.getValue() === true ? (
+              <div className="flex items-center">
+                <SquareGreenSolid />
+                Published
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <SquareGreySolid />
+                Draft
+              </div>
+            )}
+          </span>
+        )
+      },
     }),
     columnHelper.accessor("name", {
       header: "Name",
