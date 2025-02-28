@@ -70,4 +70,10 @@ export class Vendor {
       headers,
     })
   }
+  async delete(id: string, headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/vendors/${id}`, {
+      method: 'DELETE',
+      headers,
+    })
+  }
 }
