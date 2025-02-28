@@ -12,6 +12,7 @@ import { useEffect, useState } from "react"
 import QRCode from "react-qr-code"
 import { useForm } from "react-hook-form"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
+import { VendorRowActions } from "./vendor-row-action"
 
 const listVendors = async () => {
   const response = await sdk.vendor.retrieve()
@@ -240,6 +241,17 @@ export function VendorList() {
             </Prompt.Content>
           </Prompt>
         )
+      },
+    }),
+    columnHelper.display({
+      id: "actions",
+      cell: ({ row }) => {
+        return (
+          <VendorRowActions
+            vendor={row.original}
+            setVendorList={setVendorList}
+          />
+        ) // Update to use the correct prop
       },
     }),
   ]

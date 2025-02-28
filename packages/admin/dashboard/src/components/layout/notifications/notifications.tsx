@@ -13,6 +13,7 @@ import { notificationQueryKeys, useNotifications } from "../../../hooks/api"
 import { sdk } from "../../../lib/client"
 import { FilePreview } from "../../common/file-preview"
 import { InfiniteList } from "../../common/infinite-list"
+import { isVendor } from "../../../const/get-sales-channel"
 
 interface NotificationData {
   title: string
@@ -35,6 +36,7 @@ export const Notifications = () => {
   const [lastReadAt, setLastReadAt] = useState(
     localStorage.getItem(LAST_READ_NOTIFICATION_KEY)
   )
+  const vendor = isVendor()
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -61,7 +63,9 @@ export const Notifications = () => {
     }
   }
 
-  return (
+  return vendor ? (
+    <></>
+  ) : (
     <Drawer open={open} onOpenChange={handleOnOpen}>
       <Drawer.Trigger asChild>
         <IconButton
