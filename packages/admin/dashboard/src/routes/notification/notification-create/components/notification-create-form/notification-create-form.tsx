@@ -54,7 +54,7 @@ export const CreateNotificationForm = () => {
               email: customer.email,
             })
           )
-          handleSuccess(`/customers/${customer.id}`)
+          handleSuccess(`/clients/${customer.id}`)
         },
         onError: (error) => {
           toast.error(error.message)

@@ -125,7 +125,7 @@ export const CustomerGroupSection = ({
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h2">{t("customerGroups.domain")}</Heading>
-        <Link to={`/customers/${customer.id}/add-customer-groups`}>
+        <Link to={`/clients/${customer.id}/add-customer-groups`}>
           <Button variant="secondary" size="small">
             {t("general.add")}
           </Button>

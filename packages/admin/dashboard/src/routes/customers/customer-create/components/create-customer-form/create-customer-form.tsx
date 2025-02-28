@@ -3,7 +3,7 @@ import { Button, Heading, Input, Text, toast } from "@medusajs/ui"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
-
+import { useLocation } from "react-router-dom"
 import { Form } from "../../../../../components/common/form"
 import {
   RouteFocusModal,
@@ -11,6 +11,10 @@ import {
 } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useCreateCustomer } from "../../../../../hooks/api/customers"
+import { useComboboxData } from "../../../../../hooks/use-combobox-data"
+import { sdk } from "../../../../../lib/client"
+import { Combobox } from "../../../../../components/inputs/combobox"
+import { useAddCustomersToGroup } from "../../../../../hooks/api"
 
 const CreateCustomerSchema = zod.object({
   email: zod.string().email(),
@@ -18,14 +22,41 @@ const CreateCustomerSchema = zod.object({
   last_name: zod.string().optional(),
   company_name: zod.string().optional(),
   phone: zod.string().optional(),
+  role_id: zod.string().optional(),
 })
 
 export const CreateCustomerForm = () => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
-
+  const location = useLocation()
   const { mutateAsync, isPending } = useCreateCustomer()
+  const roles = useComboboxData({
+    queryKey: ["role"],
+    queryFn: (_) => sdk.admin.role.list(),
+    getOptions: (data) =>
+      data[0]?.map((role) => ({
+        label: role.name!,
+        value: role.id!,
+      })),
+  })
+  const match: RegExpMatchArray | null = location.pathname.match(
+    /client-groups\/([^\/]+)\/add-client/
+  )
 
+  const id: string | null = match?.[1] || null
+
+  const { mutateAsync: mutateAsyncAddCustomer } = id
+    ? useAddCustomersToGroup(id)
+    : { mutateAsync: undefined }
+
+  const handleCustomerAddition = async (customer) => {
+    if (location.pathname.includes("/client-group")) {
+      await mutateAsyncAddCustomer([customer.id]) 
+      handleSuccess(`${location.pathname.replace("/add-client", "")}`)
+    } else {
+      handleSuccess(`/clients/${customer.id}`)
+    }
+  }
   const form = useForm<zod.infer<typeof CreateCustomerSchema>>({
     defaultValues: {
       email: "",
@@ -33,10 +64,10 @@ export const CreateCustomerForm = () => {
       last_name: "",
       phone: "",
       company_name: "",
+      role_id: "",
     },
     resolver: zodResolver(CreateCustomerSchema),
   })
-
   const handleSubmit = form.handleSubmit(async (data) => {
     await mutateAsync(
       {
@@ -45,6 +76,7 @@ export const CreateCustomerForm = () => {
         last_name: data.last_name || undefined,
         company_name: data.company_name || undefined,
         phone: data.phone || undefined,
+        metadata: { role_id: data.role_id },
       },
       {
         onSuccess: ({ customer }) => {
@@ -53,7 +85,14 @@ export const CreateCustomerForm = () => {
               email: customer.email,
             })
           )
-          handleSuccess(`/customers/${customer.id}`)
+
+          // if (location.pathname.includes("/client-group")) {
+
+          //   handleSuccess(`${location.pathname.replace("/add-client", "")}`)
+          // } else {
+          //   handleSuccess(`/clients/${customer.id}`)
+          // }
+          handleCustomerAddition(customer)
         },
         onError: (error) => {
           if (error.message.includes("Customer")) {
@@ -151,6 +190,27 @@ export const CreateCustomerForm = () => {
                       <Form.Label optional>{t("fields.phone")}</Form.Label>
                       <Form.Control>
                         <Input autoComplete="off" {...field} />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              <Form.Field
+                control={form.control}
+                name="role_id"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>{"Customer Role"}</Form.Label>
+                      <Form.Control>
+                        <Combobox
+                          {...field}
+                          multiple={false}
+                          options={roles.options}
+                          onSearchValueChange={roles.onSearchValueChange}
+                          searchValue={roles.searchValue}
+                        />
                       </Form.Control>
                       <Form.ErrorMessage />
                     </Form.Item>

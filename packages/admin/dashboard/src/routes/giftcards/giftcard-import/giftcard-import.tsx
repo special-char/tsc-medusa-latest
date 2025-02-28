@@ -4,6 +4,7 @@ import {
   Heading,
   Input,
   Label,
+  Select,
   Text,
   toast,
 } from "@medusajs/ui"
@@ -18,6 +19,7 @@ import {
   useOrders,
   useSalesChannels,
   useStore,
+  useVendorMe,
 } from "../../../hooks/api"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/client"
@@ -44,7 +46,9 @@ export const GiftCardImport = () => {
 
 const GiftImportContent = () => {
   const { t } = useTranslation()
-  const { user } = useMe()
+  const { user: adminUser, error: adminError } = useMe()
+  const { user: vendorUser } = useVendorMe()
+  const user = adminUser || vendorUser
   const [file, setFile] = useState<File>()
   const { store } = useStore()
   const { handleSuccess } = useRouteModal()
@@ -56,18 +60,9 @@ const GiftImportContent = () => {
     defaultValues: {
       corporateEmail: false,
       promotionCode: "",
+      currency_code: "",
     },
   })
-
-  const supportedCurrencies = store?.supported_currencies?.reduce(
-    (acc: string[], item) => {
-      if (item?.is_default) {
-        acc.push(item.currency_code)
-      }
-      return acc
-    },
-    [] as string[]
-  )
 
   const handleUploaded = async (file: File) => {
     setFile(file)
@@ -81,7 +76,7 @@ const GiftImportContent = () => {
 
   const handleConfirm = async () => {
     try {
-      const { corporateEmail, promotionCode } = form.getValues()
+      const { corporateEmail, promotionCode, currency_code } = form.getValues()
       if (!file) {
         toast.error("No file uploaded")
         return
@@ -102,15 +97,16 @@ const GiftImportContent = () => {
 
       const formData = {
         files: file,
-        currency_code: supportedCurrencies?.[0] || "",
+        currency_code,
         sales_channel_id: s,
         region_id: store?.default_region_id || "",
         user: user as unknown as AdminUser,
         sendCorporateEmail: corporateEmail,
         promotionCode,
       }
+      console.log({ formData })
 
-      const res = await sdk.admin.bulkorder.upload(formData)
+      await sdk.admin.bulkorder.upload(formData)
       handleSuccess()
       navigate(0)
     } catch (error) {
@@ -176,16 +172,43 @@ const GiftImportContent = () => {
             name="promotionCode"
             control={form?.control}
             render={({ field }) => {
-              console.log(field)
-
               return (
                 <>
                   <Label htmlFor="promotionCode">Apply Promotion Code</Label>
                   <Input
-                    className="mt-2"
+                    className="my-2"
                     placeholder="Promotion Code"
                     {...field}
                   />
+                </>
+              )
+            }}
+          />
+          <Controller
+            name="currency_code"
+            control={form?.control}
+            render={({ field }) => {
+              return (
+                <>
+                  <Label htmlFor="currency_code">Currency Code</Label>
+                  <Select onValueChange={field.onChange}>
+                    <Select.Trigger>
+                      <Select.Value placeholder="Select a currency" />
+                    </Select.Trigger>
+                    <Select.Content>
+                      {store?.supported_currencies.map((item) => (
+                        <Select.Item key={item.id} value={item.currency_code}>
+                          {item.currency.name}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select>
+
+                  {/* <Input
+                    className="my-2"
+                    placeholder="Currency Code"
+                    {...field}
+                  /> */}
                 </>
               )
             }}

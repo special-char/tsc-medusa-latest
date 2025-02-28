@@ -25,7 +25,7 @@ export const CustomerListTable = () => {
   const { customers, count, isLoading, isError, error } = useCustomers(
     {
       ...searchParams,
-      fields: "*sales_channel.id",
+      fields: "*sales_channel.id,customer_role.*",
       ...(salesChannelIds &&
       salesChannelIds[0] &&
       salesChannelIds[0].length !== 0

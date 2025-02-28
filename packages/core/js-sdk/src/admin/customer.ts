@@ -177,8 +177,9 @@ export class Customer {
    * Learn more about the `fields` property in the [API reference](https://docs.medusajs.com/api/store#select-fields-and-relations).
    */
   async retrieve(id: string, query?: SelectParams, headers?: ClientHeaders) {
+    query = { ...query, fields: "customer_role.*" }
     return this.client.fetch<HttpTypes.AdminCustomerResponse>(
-      `/admin/customers/${id}`,
+      `/admin/customer/${id}`,
       {
         query,
         headers,
@@ -236,7 +237,7 @@ export class Customer {
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<HttpTypes.AdminCustomerResponse>(
-      `/admin/customers/${id}/customer-groups`,
+      `/admin/customer/${id}/customer-groups`,
       {
         method: "POST",
         headers,

@@ -60,7 +60,7 @@ export const useCustomers = (
 
 export const useCreateCustomer = (
   options?: UseMutationOptions<
-    { customer: HttpTypes.AdminCustomer },
+    { customer: HttpTypes.AdminCustomer } | any,
     FetchError,
     HttpTypes.AdminCreateCustomer
   >
