@@ -12,7 +12,6 @@ import { ProductSalesChannelSection } from "./components/product-sales-channel-s
 import { ProductVariantSection } from "./components/product-variant-section"
 import { PRODUCT_DETAIL_FIELDS } from "./constants"
 import { productLoader } from "./loader"
-
 import { useDashboardExtension } from "../../../extensions"
 import ProductVariantImagesWidget from "../../../widgets/product-variant-images/product-variant-images"
 import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-details/product-additional-details"
@@ -86,7 +85,8 @@ export const ProductDetail = () => {
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />
-        <ProductShippingProfileSection product={product} />
+        {/* TODO: TSC add this when added in new version */}
+        {/* <ProductShippingProfileSection product={product} /> */}
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
         {dashboardConfig?.featureFlags?.productSeo && (

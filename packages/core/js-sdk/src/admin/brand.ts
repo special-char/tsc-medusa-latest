@@ -27,9 +27,10 @@ export class Brand {
     })
   }
 
-  async list(query?: any, headers?: ClientHeaders) {
-    return this.client.fetch<any>(`/admin/brand?${query}`, {
+  async list(queryParams?: any, headers?: ClientHeaders) {
+    return this.client.fetch<any>(`/admin/brand`, {
       headers,
+      query: queryParams,
     })
   }
   async retrieve(id: string, headers?: ClientHeaders) {

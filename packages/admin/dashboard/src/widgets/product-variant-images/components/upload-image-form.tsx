@@ -23,16 +23,21 @@ const UploadImageForm = () => {
   }
   return (
     <div className="space-y-2 py-4">
-      <h2 className="font-sans h2-core font-medium">
+      <h2 className="h2-core font-sans font-medium">
         Media{" "}
-        <span className="font-normal font-sans txt-compact-small">
+        <span className="txt-compact-small font-sans font-normal">
           (optional)
         </span>
       </h2>
-      <p className="font-normal font-sans txt-compact-small whitespace-pre-line text-pretty">
+      <p className="txt-compact-small whitespace-pre-line text-pretty font-sans font-normal">
         Add images to your product media.
       </p>
-      <DynamicForm form={form} onSubmit={onSubmit} schema={formSchema} />
+      <DynamicForm
+        isPending={form.formState.isSubmitting}
+        form={form}
+        onSubmit={onSubmit}
+        schema={formSchema}
+      />
     </div>
   )
 }

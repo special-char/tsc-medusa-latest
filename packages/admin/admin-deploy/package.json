@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ts-node src/index.ts",
+    "build": "rm -rf public && ts-node src/index.ts",
     "start": "ts-node src/serve.ts"
   },
   "keywords": [],

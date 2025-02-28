@@ -17,6 +17,8 @@ import { useComboboxData } from "../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../lib/client"
 import { CategoryCombobox } from "../../../common/components/category-combobox"
 import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import CustomSearchableSelect from "../../../../../components/custom/components/form/CustomSearchableSelect"
 
 type ProductOrganizationFormProps = {
   product: HttpTypes.AdminProduct | any
@@ -40,6 +42,7 @@ const ProductOrganizationSchema = zod.object({
   category_ids: zod.array(zod.string()),
   tag_ids: zod.array(zod.string()),
   brand_id: zod.string().nullable(),
+  google_category: zod.string().nullable(),
 })
 
 export const ProductOrganizationForm = ({
@@ -99,6 +102,16 @@ export const ProductOrganizationForm = ({
       })),
   })
 
+  const { data: googleCategories } = useQuery({
+    queryKey: ["googleCategories"],
+    queryFn: async (): Promise<Array<{ value: string; label: string }>> => {
+      const response = await sdk.admin.googleCategory.list()
+      return response?.googleCategories?.map((x) => ({
+        label: x.path,
+        value: x.path,
+      }))
+    },
+  })
   const form = useExtendableForm({
     defaultValues: {
       type_id: product.type_id ?? "",
@@ -106,6 +119,7 @@ export const ProductOrganizationForm = ({
       category_ids: product.categories?.map((c) => c.id) || [],
       tag_ids: product.tags?.map((t) => t.id) || [],
       brand_id: product.brand?.id ?? null,
+      google_category: product?.metadata?.googleCategory ?? "",
     },
     schema: ProductOrganizationSchema,
     configs: configs,
@@ -122,6 +136,10 @@ export const ProductOrganizationForm = ({
         brand_id: data.brand_id || null,
         categories: data.category_ids.map((c) => ({ id: c })),
         tags: data.tag_ids?.map((t) => ({ id: t })),
+        metadata: {
+          ...product.metadata,
+          googleCategory: data.google_category || "",
+        },
       },
       {
         onSuccess: ({ product }) => {
@@ -252,6 +270,29 @@ export const ProductOrganizationForm = ({
                 )
               }}
             />
+            {googleCategories && (
+              <Form.Field
+                control={form.control}
+                name="google_category"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>{"Google Catgeory"}</Form.Label>
+                      <Form.Control>
+                        <CustomSearchableSelect
+                          options={googleCategories}
+                          onChange={field.onChange}
+                          displayCount={100}
+                          placeholder="Search Google Category"
+                          value={field.value || ""}
+                        />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+            )}
             <FormExtensionZone fields={fields} form={form} />
           </div>
         </RouteDrawer.Body>

@@ -112,7 +112,7 @@ const CategorySeoForm = ({ categorySeo, category }: Props) => {
     },
     structuredData: {
       label: "Structured Data",
-      fieldType: "textarea",
+      fieldType: "jsonEditor",
       validation: {
         maxLength: { value: 10000, message: "max. 10000 characters" },
         validate: {
@@ -135,7 +135,7 @@ const CategorySeoForm = ({ categorySeo, category }: Props) => {
     },
     feedData: {
       label: "Feed Data",
-      fieldType: "textarea",
+      fieldType: "jsonEditor",
       validation: {
         maxLength: { value: 10000, message: "max. 10000 characters" },
         validate: {

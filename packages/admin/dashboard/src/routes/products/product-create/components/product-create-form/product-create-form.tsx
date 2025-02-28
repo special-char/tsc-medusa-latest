@@ -148,6 +148,7 @@ export const ProductCreateForm = ({
     await mutateAsync(
       normalizeProductFormValues({
         ...payload,
+        metadata: { googleCategory: values?.google_category || "" },
         media: uploadedMedia,
         status: (isDraftSubmission ? "draft" : "published") as any,
         regionsCurrencyMap,
@@ -181,14 +182,15 @@ export const ProductCreateForm = ({
     }
 
     if (currentTab === Tab.ORGANIZE) {
+      // TODO: TSC Add Shipping Profile Id in new version
       // TODO: this is temp until we add partial validation per tab
-      if (!form.getValues("shipping_profile_id")) {
-        form.setError("shipping_profile_id", {
-          type: "required",
-          message: t("products.shippingProfile.create.errors.required"),
-        })
-        return
-      }
+      // if (!form.getValues("shipping_profile_id")) {
+      //   form.setError("shipping_profile_id", {
+      //     type: "required",
+      //     message: t("products.shippingProfile.create.errors.required"),
+      //   })
+      //   return
+      // }
 
       setTab(Tab.VARIANTS)
     }
