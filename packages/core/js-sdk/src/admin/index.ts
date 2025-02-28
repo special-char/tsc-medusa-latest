@@ -58,6 +58,7 @@ import { ProductSeo } from "./product-seo"
 import { ProductOptionValue } from "./product-option-value"
 import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
+import { Banner } from "./banner"
 
 export class Admin {
   /**
@@ -303,6 +304,8 @@ export class Admin {
    */
   public blogSeo: BlogSeo
 
+  public banner: Banner
+
   constructor(client: Client) {
     this.faq = new Faq(client)
     this.categorySeo = new CategorySeo(client)
@@ -363,5 +366,6 @@ export class Admin {
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
+    this.banner = new Banner(client)
   }
 }
