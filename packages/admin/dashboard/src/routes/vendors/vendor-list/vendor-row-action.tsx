@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 import { toast, usePrompt } from "@medusajs/ui"
 import { sdk } from "../../../lib/client"
 import { ActionMenu } from "../../../components/common/action-menu"
-import { Trash } from "@medusajs/icons"
+import { Trash, PencilSquare } from "@medusajs/icons"
 type VendorRowActionsProps = {
   vendor: { id: string }
   setVendorList: any
@@ -68,6 +68,15 @@ export const VendorRowActions = ({
   return (
     <ActionMenu
       groups={[
+        {
+          actions: [
+            {
+              label: t("actions.edit"),
+              icon: <PencilSquare />,
+              to: `/merchants/${vendor.id}/edit`,
+            },
+          ],
+        },
         {
           actions: [
             {

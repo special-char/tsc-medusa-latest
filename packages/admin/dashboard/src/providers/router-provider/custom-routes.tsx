@@ -187,7 +187,14 @@ export const customProtectedRoutes: RouteObject[] = [
             },
             {
               path: ":id",
-              lazy: () => import("../../routes/redemption/redemption-detail"),
+              errorElement: <ErrorBoundary />,
+              lazy: () => import("../../routes/vendors/vendor-detail"),
+              children: [
+                {
+                  path: "edit",
+                  lazy: () => import("../../routes/vendors/vendors-edit"),
+                },
+              ],
             },
           ],
         },
