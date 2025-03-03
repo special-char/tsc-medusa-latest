@@ -17,6 +17,27 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
 
   return (
     <div className="divide-y p-0">
+      <div className="flex items-center justify-between px-6 py-4">
+        <div>
+          <Heading>Merchant Profile</Heading>
+          <Text className="text-ui-fg-subtle" size="small">
+            Mange merchant profile
+          </Text>
+        </div>
+        <ActionMenu
+          groups={[
+            {
+              actions: [
+                {
+                  label: t("actions.edit"),
+                  to: "edit",
+                  icon: <PencilSquare />,
+                },
+              ],
+            },
+          ]}
+        />
+      </div>
       <div className="text-ui-fg-subtle grid grid-cols-2 px-6 py-4">
         <Text size="small" leading="compact" weight="plus">
           {t("fields.name")}
@@ -94,11 +115,14 @@ export const ProfileGeneralSection = ({ user }: ProfileGeneralSectionProps) => {
               <Text size="small" leading="compact" weight="plus">
                 {"Description"}
               </Text>
-              <Text size="small" leading="compact">
-                {user.vendor.vendor.description}
-              </Text>
+              <div className="max-h-12 overflow-auto">
+                <Text size="small" leading="compact" className="leading-tight">
+                  {user.vendor.vendor.description}
+                </Text>
+              </div>
             </div>
           )}
+
           {user.vendor.region && (
             <div className="grid grid-cols-2 px-6 py-4">
               <Text size="small" leading="compact" weight="plus">

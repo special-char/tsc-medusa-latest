@@ -16,11 +16,7 @@ const usersQueryKeys = {
   ...queryKeysFactory(USERS_QUERY_KEY),
   me: () => [USERS_QUERY_KEY, "me"],
 }
-const VENDOR_QUERY_KEY = "vendors" as const
-const vendorQueryKeys = {
-  ...queryKeysFactory(VENDOR_QUERY_KEY),
-  me: () => [VENDOR_QUERY_KEY, "me"],
-}
+
 
 export const useMe = (
   query?: HttpTypes.AdminUserParams,
@@ -62,9 +58,11 @@ export const useVendor = (
   id: string,
   options?: UseQueryOptions<any, FetchError, any, QueryKey>
 ) => {
+  console.log("usersQueryKeys.detail(id):::", usersQueryKeys.detail(id));
+
   const { data, ...rest } = useQuery({
     queryFn: () => sdk.vendor.retrieveById(id),
-    queryKey: vendorQueryKeys.detail(id),
+    queryKey: usersQueryKeys.detail(id),
     ...options,
   })
 
@@ -191,12 +189,9 @@ export const useupdateVendor = (
   return useMutation({
     mutationFn: (payload) => sdk.admin.user.updateVendor(id, payload, query),
     onSuccess: (data, variables, context) => {
-      console.log("vendorQueryKeys::::1", vendorQueryKeys.detail(id))
-      queryClient.invalidateQueries({ queryKey: vendorQueryKeys.detail(id) })
-      console.log("vendorQueryKeys::::2", vendorQueryKeys.detail(id))
+      queryClient.invalidateQueries({ queryKey: usersQueryKeys.detail(id) })
+      queryClient.invalidateQueries({ queryKey: usersQueryKeys.lists() })
 
-      queryClient.refetchQueries({ queryKey: vendorQueryKeys.detail(id) })
-      console.log("vendorQueryKeys::::", vendorQueryKeys.detail(id))
       options?.onSuccess?.(data, variables, context)
     },
     ...options,
