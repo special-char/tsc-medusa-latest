@@ -19,7 +19,6 @@ export const BannerEdit = () => {
         text: data.text,
         isActive: data.isActive,
       }
-      console.log(updateBannerData, "geeee")
 
       const updateBannerResponse = (await sdk.admin.banner.update(
         id!,
