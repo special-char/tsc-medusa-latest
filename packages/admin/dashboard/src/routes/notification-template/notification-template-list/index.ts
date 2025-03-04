@@ -1,1 +1,1 @@
-export { BrandList as Component } from "./notification-template-list"
+export { NotificationList as Component } from "./notification-template-list"

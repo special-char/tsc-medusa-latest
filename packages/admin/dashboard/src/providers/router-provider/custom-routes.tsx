@@ -373,31 +373,11 @@ export const customProtectedSettingsRoutes: RouteObject[] = [
               ],
             },
             {
-              path: ":id",
-              lazy: async () => {
-                const { Component, Breadcrumb, loader } = await import(
-                  "../../routes/notification-template/notification-template-detail"
-                )
-
-                return {
-                  Component,
-                  loader,
-                  handle: {
-                    breadcrumb: (
-                      match: UIMatch<HttpTypes.AdminProductTypeResponse>
-                    ) => <Breadcrumb {...match} />,
-                  },
-                }
-              },
-              children: [
-                {
-                  path: "edit",
-                  lazy: () =>
-                    import(
-                      "../../routes/notification-template/notification-template-edit"
-                    ),
-                },
-              ],
+              path: "edit",
+              lazy: () =>
+                import(
+                  "../../routes/notification-template/notification-template-edit"
+                ),
             },
           ],
         },

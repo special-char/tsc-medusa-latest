@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useDeleteNotificationTemplateAction } from "../../../common/hooks/use-delete-notification-template-action"
 import { NotificationTemplate } from "./notification-template-list-table"
+import { useNavigate } from "react-router-dom"
 
 type NotificationTemplateRowActionsProps = {
   notificationTemplate: NotificationTemplate
@@ -18,7 +19,7 @@ export const NotificationTemplateRowActions = ({
     notificationTemplate.id,
     setNotificationTemplates
   )
-
+  const navigation = useNavigate()
   return (
     <ActionMenu
       groups={[
@@ -27,7 +28,12 @@ export const NotificationTemplateRowActions = ({
             {
               label: t("actions.edit"),
               icon: <PencilSquare />,
-              to: `/settings/notification-template/${notificationTemplate.id}/edit`,
+              // to: `/settings/notification-template/${notificationTemplate.id}/edit`,
+              onClick: () => {
+                navigation(`/settings/notification-template/edit`, {
+                  state: notificationTemplate,
+                })
+              },
             },
           ],
         },

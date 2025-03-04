@@ -1,1 +1,1 @@
-export { BrandEdit as Component } from "./notification-template-edit"
+export { NotificationEdit as Component } from "./notification-template-edit"

@@ -56,15 +56,35 @@ const fetchNotifcation = async (
     throw error // Rethrow the error for handling in the component
   }
 }
+export type Event = {
+  id?: string
+
+  eventName?: string
+
+  tags?: Record<string, any>
+
+  created_at?: string
+
+  updated_at?: string
+
+  deleted_at?: string | null
+}
 
 // Define a type for the brand data
 export interface NotificationTemplate {
-  [x: string]: any
-  id: string // Assuming there is an id field
-  template: string
-  event_id_id: string
-  created_at: string
-  updated_at: string
+  id?: string
+
+  template?: string
+
+  event_id_id?: string
+
+  created_at?: string
+
+  updated_at?: string
+
+  deleted_at?: string | null
+
+  event_id?: Event
 }
 
 export const NotificationTemplateListTable = () => {
@@ -158,7 +178,7 @@ const useColumns = (
   return useMemo<ColumnDef<NotificationTemplate>[]>(
     () => [
       {
-        accessorKey: "event_id_id", // Matches the 'name' key in the brand object
+        accessorKey: "event_id.eventName", // Matches the 'name' key in the brand object
         header: () => "event name",
         cell: ({ getValue }) => <TextCell text={getValue() as string} />,
       },

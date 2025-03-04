@@ -1,1 +1,1 @@
-export * from "./edit-brand-form"
+export * from "./edit-notification-template-form"

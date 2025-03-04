@@ -1,1 +1,1 @@
-export { ProductTypeCreate as Component } from "./notification-template-create"
+export { NotificationTemplateCreate as Component } from "./notification-template-create"

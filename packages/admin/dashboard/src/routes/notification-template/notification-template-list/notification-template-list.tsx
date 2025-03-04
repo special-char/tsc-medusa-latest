@@ -1,7 +1,7 @@
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
 import { NotificationTemplateListTable } from "./components/notification-template-list-table/notification-template-list-table"
-export const BrandList = () => {
+export const NotificationList = () => {
   const { getWidgets } = useDashboardExtension()
 
   return (

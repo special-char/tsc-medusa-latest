@@ -6,7 +6,7 @@ import { z } from "zod"
 import { Form } from "../../../../../components/common/form"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
-import { Brand } from "../../../brand-list/components/brand-list-table/brand-list-table"
+import { NotificationTemplate } from "../../../notification-template-list/components/notification-template-list-table"
 import { useState } from "react"
 import { sdk } from "../../../../../lib/client/client"
 
@@ -14,8 +14,8 @@ const EditBrandSchema = z.object({
   name: z.string().min(1),
 })
 
-type EditBrandFormProps = {
-  Brand: Brand
+type EditNotificationFormProps = {
+  notificationTemplate: NotificationTemplate
 }
 
 const editBrand = async (data: { name: string; id: string }) => {
@@ -29,14 +29,16 @@ const editBrand = async (data: { name: string; id: string }) => {
   }
 }
 
-export const EditBrandForm = ({ Brand }: EditBrandFormProps) => {
+export const EditNotificationForm = ({
+  notificationTemplate,
+}: EditNotificationFormProps) => {
   const { t } = useTranslation()
   const { handleSuccess } = useRouteModal()
   const [isPending, setIsPending] = useState(false)
 
   const form = useForm<z.infer<typeof EditBrandSchema>>({
     defaultValues: {
-      name: Brand.name,
+      name: notificationTemplate?.event_id?.eventName,
     },
     resolver: zodResolver(EditBrandSchema),
   })
@@ -46,7 +48,7 @@ export const EditBrandForm = ({ Brand }: EditBrandFormProps) => {
     try {
       await editBrand({
         name: data.name,
-        id: Brand.id,
+        id: notificationTemplate.id as unknown as string,
       })
       toast.success("Brand updated successfully")
       handleSuccess(`/settings/brand`)
