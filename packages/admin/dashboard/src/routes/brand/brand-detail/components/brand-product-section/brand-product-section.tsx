@@ -27,7 +27,7 @@ export const BrandProductSection = ({ Brand }: BrandProductSectionProps) => {
 
   const { products, count, isPending, isError, error } = useProducts({
     ...searchParams,
-    id: productIds,
+    id: productIds.length ? productIds : [""]
   })
 
   const filters = useProductTableFilters(["product_types"])
