@@ -98,7 +98,7 @@ export const NotificationTemplateListTable = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [count, setCount] = useState(0)
-  const columns = useColumns()
+  const columns = useColumns(setNotificationTemplate)
   const [prevSearchParams, setPrevSearchParams] = useState(null)
   useEffect(() => {
     const loadBrands = async () => {
@@ -158,7 +158,7 @@ export const NotificationTemplateListTable = () => {
         columns={columns}
         pageSize={PAGE_SIZE}
         count={count}
-        navigateTo={({ original }) => original.id}
+        // navigateTo={({ original }) => original.id}
         queryObject={raw}
         orderBy={[
           { key: "created_at", label: t("fields.createdAt") },
@@ -209,7 +209,6 @@ const useColumns = (
           return (
             <NotificationTemplateRowActions
               notificationTemplate={row.original}
-              setNotificationTemplates={setNotificationTemplates}
             />
           ) // Update to use the correct prop
         },

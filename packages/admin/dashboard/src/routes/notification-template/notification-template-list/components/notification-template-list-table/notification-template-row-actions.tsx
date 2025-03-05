@@ -1,25 +1,25 @@
 import { PencilSquare, Trash } from "@medusajs/icons"
 import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { useDeleteNotificationTemplateAction } from "../../../common/hooks/use-delete-notification-template-action"
 import { NotificationTemplate } from "./notification-template-list-table"
 import { useNavigate } from "react-router-dom"
+import { sdk } from "../../../../../lib/client"
 
 type NotificationTemplateRowActionsProps = {
   notificationTemplate: NotificationTemplate
-  setNotificationTemplates: (notificationTemplates: any[]) => void
 }
 
 export const NotificationTemplateRowActions = ({
   notificationTemplate,
-  setNotificationTemplates,
 }: NotificationTemplateRowActionsProps) => {
   const { t } = useTranslation()
-  const handleDelete = useDeleteNotificationTemplateAction(
-    notificationTemplate.id,
-    setNotificationTemplates
-  )
   const navigation = useNavigate()
+  const handleDelete = async () => {
+    await sdk.admin.notificationTemplate.delete(
+      notificationTemplate?.id as string
+    )
+    navigation(0)
+  }
   return (
     <ActionMenu
       groups={[

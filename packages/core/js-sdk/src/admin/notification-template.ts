@@ -31,6 +31,12 @@ export class NotificationTemplate {
       body: data,
     })
   }
+  async delete(id: string, headers?: ClientHeaders) {
+    return await this.client.fetch<any>(`/admin/notification-template/${id}`, {
+      method: "DELETE",
+      headers,
+    })
+  }
   async create(data: any, headers?: ClientHeaders) {
     return await this.client.fetch<any>(`/admin/notification-template`, {
       method: "POST",
