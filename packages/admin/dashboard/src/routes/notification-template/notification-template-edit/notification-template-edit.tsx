@@ -132,43 +132,6 @@ export const NotificationEdit = () => {
           onSubmit={onSubmit}
           formMethods={formMethods}
         />
-        {/* <Form control={control} onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
-            <div>
-              <Controller
-                name="template"
-                control={control}
-                rules={{
-                  required: "Template is required",
-                  pattern: {
-                    value:
-                      /<[^>]+>\s*[^<>\s][\s\S]*?<\/[^>]+>|<(img|iframe|video|a)\b[^>]*\/?>/,
-                    message: "Invalid email Template",
-                  },
-                }}
-                render={({ field }) => (
-                  <>
-                    <Label>Template (HTML format)</Label>
-                    <Textarea
-                      className="min-h-52"
-                      placeholder="<html>...</html>"
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </>
-                )}
-              />
-              {errors.template && (
-                <Text className="text-red-500">
-                  {errors.template.message as string}
-                </Text>
-              )}
-            </div>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </Button>
-          </div>
-        </Form> */}
         <div className="flex flex-1 flex-col p-4">
           <Text size="small">Available Tags</Text>
           <TagList
