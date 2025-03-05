@@ -5,7 +5,8 @@ import {
   SubmitHandler,
   UseFormReturn,
 } from "react-hook-form"
-import { Button, Input, Label, Text, Textarea } from "@medusajs/ui"
+import { Button, Input, Label, Select, Text, Textarea } from "@medusajs/ui"
+import { Dispatch, SetStateAction } from "react"
 import { Event } from "../../../notification-template-list/components/notification-template-list-table"
 import EventSelect from "../SelectEvent"
 
@@ -19,6 +20,7 @@ type Props = {
     required: boolean
     props?: Record<string, any>
   }[]
+  setTags: Dispatch<SetStateAction<Record<string, any> | undefined>>
   eventList?: Event[]
 }
 
@@ -26,6 +28,7 @@ const NotificationTemplateForm = ({
   formMethods,
   onSubmit,
   formFields,
+  setTags,
   eventList,
 }: Props) => {
   return (
@@ -52,6 +55,7 @@ const NotificationTemplateForm = ({
                         <EventSelect
                           field={field}
                           formField={formField}
+                          setTags={setTags}
                           eventList={eventList}
                         />
                       ) : (

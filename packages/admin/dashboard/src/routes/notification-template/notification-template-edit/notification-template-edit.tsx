@@ -128,6 +128,7 @@ export const NotificationEdit = () => {
       </RouteFocusModal.Header>
       <RouteFocusModal.Body className="relative flex w-full overflow-y-scroll px-8 py-16">
         <NotificationTemplateForm
+          setTags={setTags}
           formFields={formFields}
           onSubmit={onSubmit}
           formMethods={formMethods}
