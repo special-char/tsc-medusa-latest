@@ -1,7 +1,14 @@
 import { RouteFocusModal } from "../../../components/modals"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { Text } from "@medusajs/ui"
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react"
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react"
 import { useNavigate } from "react-router-dom"
 import { sdk } from "../../../lib/client"
 import { Event } from "../notification-template-list/components/notification-template-list-table"
@@ -85,37 +92,61 @@ export const NotificationTemplateCreate = () => {
       console.log("onSubmit error", error)
     }
   }
-  const insertTag = (tag: string) => {
-    const textarea = document.getElementById(
-      "contentTextarea"
-    ) as HTMLTextAreaElement
 
-    if (!textarea) {
+  const useLastFocusedElement = () => {
+    const lastFocusedRef = useRef<
+      HTMLInputElement | HTMLTextAreaElement | null
+    >(null)
+
+    useEffect(() => {
+      const handleFocusIn = (event: FocusEvent) => {
+        if (
+          event.target instanceof HTMLInputElement ||
+          event.target instanceof HTMLTextAreaElement
+        ) {
+          lastFocusedRef.current = event.target
+        }
+      }
+
+      document.addEventListener("focusin", handleFocusIn)
+      return () => document.removeEventListener("focusin", handleFocusIn)
+    }, [])
+
+    return lastFocusedRef
+  }
+  const lastFocusedRef = useLastFocusedElement()
+
+  const insertTag = (
+    tag: string,
+    lastFocusedRef: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const inputElement = lastFocusedRef.current
+    if (!inputElement) {
+      console.warn("No input or textarea was previously focused.")
       return
     }
 
-    const start = textarea.selectionStart
+    const {
+      selectionStart: start = 0,
+      selectionEnd: end = 0,
+      value,
+    } = inputElement
 
-    const end = textarea.selectionEnd
+    // Insert the tag at the cursor position
+    inputElement.value = `${value.slice(0, start)}{{${tag}}}${value.slice(end)}`
 
-    const currentValue = formMethods.getValues("template")
-
-    const newValue =
-      currentValue.substring(0, start) +
-      `{{${tag}}}` +
-      currentValue.substring(end)
-
-    formMethods.setValue("template", newValue)
-
-    // Move cursor after inserted tag
-
+    // Restore cursor position and focus
     setTimeout(() => {
-      textarea.selectionStart = textarea.selectionEnd =
+      inputElement.setSelectionRange(
+        start + `{{${tag}}}`.length,
         start + `{{${tag}}}`.length
-
-      textarea.focus()
+      )
+      inputElement.focus()
     }, 0)
   }
+
+  console.log({ active: document.activeElement })
+
   return (
     <RouteFocusModal>
       <RouteFocusModal.Header />
@@ -198,7 +229,7 @@ export const NotificationTemplateCreate = () => {
           <TagList
             tags={tags}
             onClick={(tag: string) => {
-              insertTag(tag)
+              insertTag(tag, lastFocusedRef)
             }}
           />
         </div>
