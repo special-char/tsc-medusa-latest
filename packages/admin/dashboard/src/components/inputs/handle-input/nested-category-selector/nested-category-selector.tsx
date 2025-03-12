@@ -1,13 +1,7 @@
 import { ChevronDown, ChevronRight, XMark } from "@medusajs/icons"
 import { AdminProductCategory } from "@medusajs/types"
-import { Button, clx, Input, Text } from "@medusajs/ui"
-import {
-  ChangeEventHandler,
-  ForwardedRef,
-  RefAttributes,
-  useEffect,
-  useState,
-} from "react"
+import { Button, clx, Text } from "@medusajs/ui"
+import { useState } from "react"
 
 const flattenCategoryTree = (categories: AdminProductCategory[]) => {
   const result: Record<string, any> = {}
@@ -80,7 +74,18 @@ export const NestedCategorySelector = ({
       const newSelectedCategories = selectedCategories.filter(
         (cat) => !categoriesToRemove.includes(cat)
       )
-      onChange(newSelectedCategories.join("/"))
+      onChange(
+        newSelectedCategories
+          .sort((a, b) => {
+            const ancestryA =
+              flattenedCategories[a]?.ancestryHandles.length || 0
+            const ancestryB =
+              flattenedCategories[b]?.ancestryHandles.length || 0
+            return ancestryA - ancestryB
+          })
+          .map((cat) => flattenedCategories[cat]?.category?.handle)
+          .join("/")
+      )
     } else {
       const newRoot = ancestry?.[0] // Find the new root parent category
       const currentRoots = selectedCategories.map(
@@ -98,12 +103,23 @@ export const NestedCategorySelector = ({
             catAncestry &&
             catAncestry.length === ancestry?.length &&
             catAncestry.slice(0, -1).join("/") ===
-            ancestry?.slice(0, -1).join("/")
+              ancestry?.slice(0, -1).join("/")
           )
         })
 
         newSelectedCategories.push(handle)
-        onChange(newSelectedCategories.join("/"))
+        onChange(
+          newSelectedCategories
+            .sort((a, b) => {
+              const ancestryA =
+                flattenedCategories[a]?.ancestryHandles.length || 0
+              const ancestryB =
+                flattenedCategories[b]?.ancestryHandles.length || 0
+              return ancestryA - ancestryB
+            })
+            .map((cat) => flattenedCategories[cat]?.category?.handle)
+            .join("/")
+        )
       }
     }
   }
