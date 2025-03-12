@@ -110,8 +110,10 @@ export const ProductCreateForm = ({
       isDraftSubmission = submitter.dataset.name === SAVE_DRAFT_BUTTON
     }
 
+    const { handlePrefix, ...restValue } = values
+
     const media = values.media || []
-    const payload = { ...values, media: undefined }
+    const payload = { ...restValue, media: undefined }
 
     let uploadedMedia: (HttpTypes.AdminFile & { isThumbnail: boolean })[] = []
     try {
@@ -145,10 +147,26 @@ export const ProductCreateForm = ({
       }
     }
 
+    // let customHandle: string | undefined = values.handle
+
+    // if (!values.handle && values.title) {
+    //   customHandle = [
+    //     values["handlePrefix"],
+    //     kebabCase(
+    //       values.title
+    //         .toLowerCase()
+    //         .normalize("NFD")
+    //         .replace(/[\u0300-\u036f]/g, "")
+    //     )
+    //       .replace(/[^a-z0-9A-Z-]/g, "")
+    //       .replace(/-{2,}/g, "-"),
+    //   ].join("/")
+    // }
+
     await mutateAsync(
       normalizeProductFormValues({
         ...payload,
-        metadata: { googleCategory: values?.google_category || "" },
+        metadata: { googleCategory: values?.google_category || "", ...(handlePrefix ? { handlePrefix: handlePrefix } : {}) },
         media: uploadedMedia,
         status: (isDraftSubmission ? "draft" : "published") as any,
         regionsCurrencyMap,

@@ -6,6 +6,7 @@ import { Form } from "../../../../../../../components/common/form"
 import { HandleInput } from "../../../../../../../components/inputs/handle-input"
 import { ProductCreateSchemaType } from "../../../../types"
 import CustomMarkdownEdit from "../../../../../../../components/custom/components/form/CustomMarkdownEdit"
+import { HandleCategoryInput } from "../../../../../../../components/inputs/handle-input/handle-category-input"
 
 type ProductCreateGeneralSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
@@ -19,7 +20,7 @@ export const ProductCreateGeneralSection = ({
   return (
     <div id="general" className="flex flex-col gap-y-6">
       <div className="flex flex-col gap-y-2">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Form.Field
             control={form.control}
             name="title"
@@ -52,6 +53,31 @@ export const ProductCreateGeneralSection = ({
           />
           <Form.Field
             control={form.control}
+            name="handlePrefix"
+            render={({ field }) => {
+              return (
+                <Form.Item>
+                  <Form.Label
+                    tooltip={
+                      "The category handle is used to reference the product route in your storefront."
+                    }
+                    optional
+                  >
+                    Handle Prefix
+                  </Form.Label>
+                  <Form.Control>
+                    <HandleCategoryInput
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      placeholder="winter-jacket"
+                    />
+                  </Form.Control>
+                </Form.Item>
+              )
+            }}
+          />
+          <Form.Field
+            control={form.control}
             name="handle"
             render={({ field }) => {
               return (
@@ -71,6 +97,7 @@ export const ProductCreateGeneralSection = ({
           />
         </div>
       </div>
+
       <Form.Field
         control={form.control}
         name="description"

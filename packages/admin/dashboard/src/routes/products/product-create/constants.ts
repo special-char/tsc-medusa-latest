@@ -61,6 +61,7 @@ export const ProductCreateSchema = z
     title: z.string().min(1),
     subtitle: z.string().optional(),
     handle: z.string().optional(),
+    "handlePrefix": z.string().optional(),
     description: z.string().optional(),
     discountable: z.boolean(),
     type_id: z.string().optional(),
@@ -122,7 +123,7 @@ export const EditProductMediaSchema = z.object({
 })
 
 export const PRODUCT_CREATE_FORM_DEFAULTS: Partial<
-  z.infer<typeof ProductCreateSchema>
+  z.infer<typeof ProductCreateSchema> & { "handlePrefix"?: string }
 > = {
   discountable: true,
   tags: [],
@@ -154,6 +155,7 @@ export const PRODUCT_CREATE_FORM_DEFAULTS: Partial<
   shipping_profile_id: "",
   description: "",
   handle: "",
+  "handlePrefix": "",
   height: "",
   hs_code: "",
   length: "",

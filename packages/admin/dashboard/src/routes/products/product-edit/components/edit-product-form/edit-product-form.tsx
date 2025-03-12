@@ -1,4 +1,4 @@
-import { Button, Input, Select, Text, toast } from "@medusajs/ui"
+import { Button, Input, Select, toast } from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
 import * as zod from "zod"
 
@@ -8,7 +8,6 @@ import { SwitchBox } from "../../../../../components/common/switch-box"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { useExtendableForm } from "../../../../../extensions/forms/hooks"
 import { useUpdateProduct } from "../../../../../hooks/api/products"
-import { transformNullableFormData } from "../../../../../lib/form-helpers"
 
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import {
@@ -16,6 +15,8 @@ import {
   useDashboardExtension,
 } from "../../../../../extensions"
 import CustomMarkdownEdit from "../../../../../components/custom/components/form/CustomMarkdownEdit"
+import { HandleInput } from "../../../../../components/inputs/handle-input"
+import { HandleCategoryInput } from "../../../../../components/inputs/handle-input/handle-category-input"
 
 type EditProductFormProps = {
   product: HttpTypes.AdminProduct
@@ -26,6 +27,7 @@ const EditProductSchema = zod.object({
   title: zod.string().min(1),
   subtitle: zod.string().optional(),
   handle: zod.string().min(1),
+  handlePrefix: zod.string().optional(),
   material: zod.string().optional(),
   description: zod.string().optional(),
   discountable: zod.boolean(),
@@ -46,6 +48,7 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
       material: product.material || "",
       subtitle: product.subtitle || "",
       handle: product.handle || "",
+      handlePrefix: (product.metadata?.handlePrefix || "") as string,
       description: product.description || "",
       discountable: product.discountable,
     },
@@ -57,17 +60,20 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
   const { mutateAsync, isPending } = useUpdateProduct(product.id)
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    const { title, discountable, handle, status, ...optional } = data
-
-    const nullableData = transformNullableFormData(optional)
-
     await mutateAsync(
       {
-        title,
-        discountable,
-        handle,
-        status: status as HttpTypes.AdminProductStatus,
-        ...nullableData,
+        title: data.title || "",
+        discountable: data.discountable,
+        handle: data.handle || "",
+        status: data.status as HttpTypes.AdminProductStatus,
+        material: data.material || "",
+        subtitle: data.subtitle || "",
+        description: data.description || "",
+        metadata: {
+          ...product.metadata,
+          handlePrefix: data.handlePrefix || "",
+        },
+
       },
       {
         onSuccess: ({ product }) => {
@@ -165,21 +171,32 @@ export const EditProductForm = ({ product }: EditProductFormProps) => {
                     <Form.Item>
                       <Form.Label>{t("fields.handle")}</Form.Label>
                       <Form.Control>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 z-10 flex w-8 items-center justify-center border-r">
-                            <Text
-                              className="text-ui-fg-muted"
-                              size="small"
-                              leading="compact"
-                              weight="plus"
-                            >
-                              /
-                            </Text>
-                          </div>
-                          <Input {...field} className="pl-10" />
-                        </div>
+                        <HandleInput {...field} />
                       </Form.Control>
                       <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+              <Form.Field
+                control={form.control}
+                name="handlePrefix"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label
+                        tooltip={
+                          "The category handle is used to reference the product route in your storefront."
+                        }
+                        optional
+                      >
+                        Handle Prefix
+                      </Form.Label>
+                      <Form.Control>
+                        <HandleCategoryInput
+                          value={field.value || ""}
+                          onChange={field.onChange} placeholder={""} />
+                      </Form.Control>
                     </Form.Item>
                   )
                 }}

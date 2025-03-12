@@ -18,7 +18,6 @@ import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-
 import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
 import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
-import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
