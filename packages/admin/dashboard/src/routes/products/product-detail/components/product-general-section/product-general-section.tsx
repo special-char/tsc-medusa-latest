@@ -100,6 +100,7 @@ export const ProductGeneralSection = ({
       />
       <SectionRow title={t("fields.subtitle")} value={product.subtitle} />
       <SectionRow title={t("fields.handle")} value={`/${product.handle}`} />
+      <SectionRow title={"Custom Route"} value={`${product?.metadata?.handlePrefix&& product?.metadata?.handlePrefix + " " }/ ${product.handle}`} />
       <SectionRow
         title={t("fields.discountable")}
         value={product.discountable ? t("fields.true") : t("fields.false")}
