@@ -61,6 +61,10 @@ export const ProductGeneralSection = ({
     })
   }
 
+  const productHandle = product?.metadata?.handlePrefix
+    ? `${product?.metadata?.handlePrefix + " "}/ ${product.handle}`
+    : `/${product.handle}`
+
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
@@ -100,7 +104,11 @@ export const ProductGeneralSection = ({
       />
       <SectionRow title={t("fields.subtitle")} value={product.subtitle} />
       <SectionRow title={t("fields.handle")} value={`/${product.handle}`} />
-      <SectionRow title={"Custom Route"} value={`${product?.metadata?.handlePrefix&& product?.metadata?.handlePrefix + " " }/ ${product.handle}`} />
+      <SectionRow
+        title={"Custom Route"}
+        value={productHandle}
+        // value={`${product?.metadata?.handlePrefix && product?.metadata?.handlePrefix + " "}/ ${product.handle}`}
+      />
       <SectionRow
         title={t("fields.discountable")}
         value={product.discountable ? t("fields.true") : t("fields.false")}
