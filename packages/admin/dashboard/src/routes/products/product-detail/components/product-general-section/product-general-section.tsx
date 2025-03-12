@@ -62,7 +62,7 @@ export const ProductGeneralSection = ({
   }
 
   const productHandle = product?.metadata?.handlePrefix
-    ? `${product?.metadata?.handlePrefix + " "}/ ${product.handle}`
+    ? `/${product?.metadata?.handlePrefix + " "}/ ${product.handle}`
     : `/${product.handle}`
 
   return (
