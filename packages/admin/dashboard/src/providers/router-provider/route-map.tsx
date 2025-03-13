@@ -653,6 +653,11 @@ export const RouteMap: RouteObject[] = [
                     lazy: () =>
                       import("../../routes/customers/customer-metadata"),
                   },
+                  {
+                    path: "edit-address/:id",
+                    lazy: () =>
+                      import("../../routes/customers/customer-edit-address"),
+                  },
                 ],
               },
             ],

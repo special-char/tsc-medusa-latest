@@ -8,6 +8,7 @@ import { CustomerGeneralSection } from "./components/customer-general-section"
 import { CustomerGroupSection } from "./components/customer-group-section"
 import { CustomerOrderSection } from "./components/customer-order-section"
 import { customerLoader } from "./loader"
+import CustomerAddressesWidget from "../../../widgets/customer-addresses/customer-addresses"
 
 export const CustomerDetail = () => {
   const { id } = useParams()
@@ -43,6 +44,7 @@ export const CustomerDetail = () => {
       <CustomerGeneralSection customer={customer} />
       <CustomerOrderSection customer={customer} />
       <CustomerGroupSection customer={customer} />
+      <CustomerAddressesWidget customer={customer} />
     </SingleColumnPage>
   )
 }

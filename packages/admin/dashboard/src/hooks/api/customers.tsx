@@ -148,3 +148,54 @@ export const useBatchCustomerCustomerGroups = (
     ...options,
   })
 }
+
+export const useCustomerAddresses = (
+  id: string,
+  options?: Omit<
+    UseQueryOptions<
+      { addresses: HttpTypes.AdminCustomerAddressListResponse },
+      FetchError,
+      { addresses: HttpTypes.AdminCustomerAddressListResponse },
+      QueryKey
+    >,
+    "queryFn" | "queryKey"
+  >
+) => {
+  const { data, ...rest } = useQuery({
+    queryKey: customersQueryKeys.lists(),
+    queryFn: async () => {
+      const addresses = await sdk.admin.customer.listAddresses(id)
+      return { addresses }
+    },
+    ...options,
+  })
+
+  return { ...data, ...rest }
+}
+
+export const useUpdateCustomerAddress = (
+  id: string,
+  address_id: string,
+  options?: UseMutationOptions<
+    { customer: HttpTypes.AdminUpdateCustomerAddress },
+    FetchError,
+    HttpTypes.AdminUpdateCustomerAddress
+  >
+) => {
+  return useMutation({
+    mutationFn: async (payload) => {
+      const updatedAddress = await sdk.admin.customer.updateAddress(
+        id,
+        address_id,
+        payload
+      )
+      return { customer: updatedAddress }
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: customersQueryKeys.list(id) })
+
+      options?.onSuccess?.(data, variables, context)
+    },
+    ...options,
+  })
+}
