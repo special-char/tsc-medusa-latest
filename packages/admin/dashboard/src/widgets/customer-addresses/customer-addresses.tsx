@@ -121,7 +121,13 @@ const CustomerAddressesWidget = ({
       </Heading>
       <div className="w-full px-4 py-4">
         <DataTable instance={table}>
-          <DataTable.Table />
+          <DataTable.Table
+            emptyState={{
+              empty: {
+                heading: "This customer doesn't have any address",
+              },
+            }}
+          />
         </DataTable>
       </div>
     </Container>
