@@ -59,6 +59,7 @@ import { ProductOptionValue } from "./product-option-value"
 import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
+import { CreateOrder } from "./create-order"
 
 export class Admin {
   /**
@@ -308,8 +309,13 @@ export class Admin {
    * @tags googleCategory
    */
   public googleCategory: GoogleCategory
+  /**
+   * @tags createOrder
+   */
+  public createOrder: CreateOrder
 
   constructor(client: Client) {
+    this.createOrder = new CreateOrder(client)
     this.faq = new Faq(client)
     this.categorySeo = new CategorySeo(client)
     this.googleCategory = new GoogleCategory(client)

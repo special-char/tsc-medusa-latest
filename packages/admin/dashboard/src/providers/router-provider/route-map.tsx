@@ -366,6 +366,10 @@ export const RouteMap: RouteObject[] = [
                   },
                 ],
               },
+              {
+                path: "create",
+                lazy: () => import("../../routes/orders/order-create"),
+              },
             ],
           },
           {

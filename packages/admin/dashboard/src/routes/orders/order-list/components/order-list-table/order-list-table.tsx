@@ -1,4 +1,4 @@
-import { Container, Heading } from "@medusajs/ui"
+import { Button, Container, Heading } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 
@@ -10,6 +10,8 @@ import { useOrderTableQuery } from "../../../../../hooks/table/query/use-order-t
 import { useDataTable } from "../../../../../hooks/use-data-table"
 
 import { DEFAULT_FIELDS } from "../../const"
+import { Link } from "react-router-dom"
+import dashboardConfig from "../../../../../../dashboard.config"
 
 const PAGE_SIZE = 20
 
@@ -48,6 +50,11 @@ export const OrderListTable = () => {
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading>{t("orders.domain")}</Heading>
+        {dashboardConfig.featureFlags.createOrder && (
+          <Button size="small" variant="secondary" asChild>
+            <Link to={`/orders/create`}>Create Order</Link>
+          </Button>
+        )}
       </div>
       <_DataTable
         columns={columns}
