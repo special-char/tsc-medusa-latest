@@ -81,22 +81,20 @@ const VariantsImagesModal = ({
       }
       console.log("Submitted Data:", data)
 
+      const rawData = {
+        ...(type === "thumbnail" ? { thumbnail: selectedImages[0] ?? "" } : {}),
+        ...(type === "media" ? { images: selectedImages } : {}),
+      }
+
       console.log({
-        body: {
-          ...(type === "thumbnail"
-            ? { thumbnail: data?.selectedImages[0] }
-            : {}),
-          ...(type === "media" ? { images: data?.selectedImages } : {}),
-        },
+        body: rawData,
       })
 
       const updateProductVariantRes =
-        await sdk.admin.productVariantImages.updateProductVariant(variant.id, {
-          ...(type === "thumbnail"
-            ? { thumbnail: selectedImages[0] ?? "" }
-            : {}),
-          ...(type === "media" ? { images: selectedImages } : {}),
-        })
+        await sdk.admin.productVariantImages.updateProductVariant(
+          variant.id,
+          rawData
+        )
 
       console.log(updateProductVariantRes)
 
