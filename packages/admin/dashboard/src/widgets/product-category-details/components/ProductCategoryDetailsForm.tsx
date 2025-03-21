@@ -42,6 +42,11 @@ const formSchema = {
     fieldType: "color-picker",
     validation: {},
   },
+  variant_as_product: {
+    label: "Variant Show As Product",
+    fieldType: "toggle",
+    validation: {},
+  },
 }
 
 type ExtendedProductCategory = AdminProductCategory & {
@@ -51,6 +56,7 @@ type ExtendedProductCategory = AdminProductCategory & {
     media?: string[] | null
     product_aspect_ratio: string
     product_bg_color: string
+    variant_as_product: boolean
   }
 }
 
@@ -68,6 +74,7 @@ const ProductCategoryDetailsForm = ({
   category: AdminProductCategory
 }) => {
   const [data, setData] = useState<ExtendedProductCategory | null>(null)
+
   const navigate = useNavigate()
 
   const form = useForm<FieldValues>({
@@ -85,11 +92,13 @@ const ProductCategoryDetailsForm = ({
         })) ?? null,
       product_aspect_ratio: data?.category_details?.product_aspect_ratio || "",
       product_bg_color: data?.category_details?.product_bg_color || "",
+      variant_as_product: data?.category_details?.variant_as_product || false,
     },
   })
 
   const resetFormData = () => {
     form.reset({
+      variant_as_product: data?.category_details?.variant_as_product || false,
       product_aspect_ratio: data?.category_details?.product_aspect_ratio,
       product_bg_color: data?.category_details?.product_bg_color || "",
       thumbnail: data?.category_details?.thumbnail
@@ -118,6 +127,7 @@ const ProductCategoryDetailsForm = ({
               ...formFields,
             }
           )
+
         toast("Product Category details updated")
         navigate(0)
         return

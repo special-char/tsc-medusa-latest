@@ -7,6 +7,7 @@ type ProductCategoryDetailsType = {
   product_bg_color?: string
   media?: { url?: string; file: File }[]
   thumbnail?: { url?: string; file: File }
+  variant_as_product?: boolean
 }
 
 export class ProductCategoryDetails {
@@ -44,6 +45,10 @@ export class ProductCategoryDetails {
         }
         return acc
       }, []) ?? null
+
+    if (body?.variant_as_product) {
+      formData.append("variant_as_product", String(body?.variant_as_product))
+    }
 
     if (body?.product_aspect_ratio && body?.product_aspect_ratio !== "") {
       formData.append("product_aspect_ratio", body?.product_aspect_ratio)
