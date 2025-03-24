@@ -60,7 +60,7 @@ import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
 import { CreateOrder } from "./create-order"
-
+import { AMC } from "./amc"
 export class Admin {
   /**
    * @tags faq
@@ -314,6 +314,11 @@ export class Admin {
    */
   public createOrder: CreateOrder
 
+  /**
+   * @tags amc
+   */
+  public amc: AMC
+
   constructor(client: Client) {
     this.createOrder = new CreateOrder(client)
     this.faq = new Faq(client)
@@ -376,5 +381,6 @@ export class Admin {
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
+    this.amc = new AMC(client)
   }
 }
