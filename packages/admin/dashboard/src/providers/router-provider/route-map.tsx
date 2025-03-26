@@ -264,6 +264,10 @@ export const RouteMap: RouteObject[] = [
                     lazy: () =>
                       import("../../routes/categories/categories-metadata"),
                   },
+                  {
+                    path: "products/organize",
+                    lazy: () => import("../../widgets/product-organize"),
+                  },
                 ],
               },
             ],
