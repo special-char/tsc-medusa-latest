@@ -1,73 +1,109 @@
-import { HttpTypes } from "@medusajs/types"
+import { AdminProduct, AdminProductVariant, HttpTypes } from "@medusajs/types"
 import { Container, Heading } from "@medusajs/ui"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useEffect, useMemo, useState } from "react"
 
-import { PencilSquare } from "@medusajs/icons"
-import { useTranslation } from "react-i18next"
-import { ActionMenu } from "../../../../../components/common/action-menu/index.ts"
 import { useDataTable } from "../../../../../hooks/use-data-table.tsx"
-import { DataTable } from "../../../../../components/table/data-table/data-table.tsx"
 import { sdk } from "../../../../../lib/client/client.ts"
+import { _DataTable } from "../../../../../components/table/data-table"
+import { useTranslation } from "react-i18next"
+import { ProductHeader } from "../../../../../components/table/table-cells/product/product-cell/product-cell.tsx"
+import { useVariantTableQuery } from "../../../../../hooks/table/query/use-variant-table-query.tsx"
+import { Thumbnail } from "../../../../../components/common/thumbnail/thumbnail.tsx"
+import { useQuery } from "@tanstack/react-query"
 
 type CustomerGroupSectionProps = {
   customer: HttpTypes.AdminCustomer
 }
 
-const PAGE_SIZE = 10
-const PREFIX = "cusgr"
+const VARIANT_PAGE_SIZE = 10
+const VARIANT_PREFIX = "variant"
 
 const fetchWishlists = async (customerId: string) => {
   try {
     const res = await sdk.admin.wishlist.retrieve(customerId)
-    // if (!res.ok) {
-    //   throw new Error(res)
-    // }
-    const response = res
 
-    return response
+    return res
   } catch (error) {
-    console.log("fetchWishlists", error)
+    console.error("Error in fetchWishlists:", error)
+    return {
+      wishlist: [],
+      products: [],
+    }
   }
 }
 
 export const WishlistSection = ({ customer }: CustomerGroupSectionProps) => {
-  const [data, setData] = useState({
-    wishlist: [],
-    products: [],
+  const { searchParams, raw } = useVariantTableQuery({
+    pageSize: VARIANT_PAGE_SIZE,
+    prefix: VARIANT_PREFIX,
   })
-  const { wishlist, products: wishlists } = data
+  const [data, setData] = useState<{
+    products: AdminProduct[]
+    variants: AdminProductVariant[]
+  }>()
+  const { data: variantList, isLoading: isVariantLoading } = useQuery({
+    queryFn: () =>
+      sdk.admin.productVariant.list({
+        id: data?.variants.map((x) => x.id),
+        ...searchParams,
+      }),
+    queryKey: [
+      "variants",
+      data?.variants,
+      searchParams.q,
+      searchParams.limit,
+      searchParams.offset,
+      searchParams.created_at,
+      searchParams.updated_at,
+      searchParams.order,
+    ],
+    refetchOnMount: "always",
+  })
+
   useEffect(() => {
-    fetchWishlists(customer.id).then((data) => setData(data))
+    const fetchData = async () => {
+      const result = await fetchWishlists(customer.id)
+
+      setData(result)
+    }
+    fetchData()
   }, [customer.id])
 
-  const columns = useColumns()
-
-  const { table } = useDataTable<HttpTypes.StoreProduct>({
-    data: wishlists ?? [],
-    columns,
+  const columns = useVariantColumns()
+  const { table } = useDataTable({
+    data: variantList?.variants ?? [],
+    columns: columns,
+    getRowId: (original) => original.id,
+    count: variantList?.count ?? 0,
+    pageSize: VARIANT_PAGE_SIZE,
+    prefix: VARIANT_PREFIX,
     enablePagination: true,
-    pageSize: PAGE_SIZE,
-    prefix: PREFIX,
   })
-
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h2">Wishlist Items</Heading>
       </div>
-      <DataTable
+
+      <_DataTable
         table={table}
         columns={columns}
-        pageSize={PAGE_SIZE}
-        isLoading={!wishlists}
-        count={wishlists?.length ?? 0}
-        prefix={PREFIX}
-        navigateTo={(row) => `/products/${row.original.id}`}
-        // pagination
-        noRecords={{
-          message: "No wishlist items found",
-        }}
+        pageSize={VARIANT_PAGE_SIZE}
+        count={variantList?.count}
+        navigateTo={(row) =>
+          `/products/${row.original.product?.id}/variants/${row.original.id}`
+        }
+        orderBy={[
+          { key: "title", label: "Title" },
+          { key: "created_at", label: "Created At" },
+          { key: "updated_at", label: "Updated At" },
+        ]}
+        queryObject={raw}
+        prefix={VARIANT_PREFIX}
+        pagination
+        search="autofocus"
+        isLoading={isVariantLoading}
       />
     </Container>
   )
@@ -79,65 +115,39 @@ export type WishlistDetailTypes = {
   customer_id: string
   region_id: string
 }
-const columnHelper = createColumnHelper<HttpTypes.StoreProduct>()
+const variantColumnHelper = createColumnHelper<HttpTypes.AdminProductVariant>()
 
-const useColumns = () => {
+const useVariantColumns = () => {
   const { t } = useTranslation()
 
   return useMemo(
     () => [
-      columnHelper.accessor("thumbnail", {
-        header: "Thumbnail",
-        cell: (info) => {
-          return (
-            <div className="my-2">
-              <img
-                src={info.getValue()}
-                className="aspect-square h-24 rounded-md"
-              />
+      variantColumnHelper.display({
+        id: "variant",
+        header: () => (
+          <div className="flex h-full w-full items-center">
+            <span>Variant</span>
+          </div>
+        ),
+        cell: ({ row }) => (
+          <div className="flex h-full w-full max-w-[250px] items-center gap-x-3 overflow-hidden">
+            <div className="w-fit flex-shrink-0">
+              <Thumbnail src={row.original.product?.thumbnail} />
             </div>
-          )
-        },
+            <span title={row.original?.title || ""} className="truncate">
+              {row.original?.title}
+            </span>
+          </div>
+        ),
       }),
-      // columnHelper.accessor("id", {
-      //   header: "ID",
-      //   cell: (info) => (
-      //     <Link to={`/products/${info.getValue()}`} className="text-blue-500">
-      //       {info.getValue()}
-      //     </Link>
-      //   ),
-      // }),
-      columnHelper.accessor("title", {
-        header: "Title",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor("handle", {
-        header: "Handle",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor("description", {
-        header: "Description",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.display({
-        id: "actions",
-        cell: ({ row }) => {
-          return (
-            <ActionMenu
-              groups={[
-                {
-                  actions: [
-                    {
-                      label: "View Product",
-                      to: `/products/${row.original.id}`,
-                      icon: <PencilSquare />,
-                    },
-                  ],
-                },
-              ]}
-            />
-          )
-        },
+      variantColumnHelper.display({
+        id: "product",
+        header: () => <ProductHeader />,
+        cell: ({ row }) => (
+          <div className="text-sm text-gray-500">
+            {row.original.product?.title}
+          </div>
+        ),
       }),
     ],
     [t]
