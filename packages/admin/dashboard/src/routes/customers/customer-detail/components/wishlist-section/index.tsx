@@ -42,15 +42,16 @@ export const WishlistSection = ({ customer }: CustomerGroupSectionProps) => {
     products: AdminProduct[]
     variants: AdminProductVariant[]
   }>()
+  const wishlistVariantIds = data?.variants?.map((x) => x.id) || []
   const { data: variantList, isLoading: isVariantLoading } = useQuery({
     queryFn: () =>
       sdk.admin.productVariant.list({
-        id: data?.variants.map((x) => x.id),
+        id: wishlistVariantIds,
+
         ...searchParams,
       }),
     queryKey: [
       "variants",
-      data?.variants,
       searchParams.q,
       searchParams.limit,
       searchParams.offset,
@@ -72,10 +73,10 @@ export const WishlistSection = ({ customer }: CustomerGroupSectionProps) => {
 
   const columns = useVariantColumns()
   const { table } = useDataTable({
-    data: variantList?.variants ?? [],
+    data: data?.variants.length ? variantList?.variants : [],
     columns: columns,
     getRowId: (original) => original.id,
-    count: variantList?.count ?? 0,
+    count: data?.variants.length ? variantList?.count : 0,
     pageSize: VARIANT_PAGE_SIZE,
     prefix: VARIANT_PREFIX,
     enablePagination: true,
@@ -90,7 +91,7 @@ export const WishlistSection = ({ customer }: CustomerGroupSectionProps) => {
         table={table}
         columns={columns}
         pageSize={VARIANT_PAGE_SIZE}
-        count={variantList?.count}
+        count={data?.variants.length ? variantList?.count : 0}
         navigateTo={(row) =>
           `/products/${row.original.product?.id}/variants/${row.original.id}`
         }
