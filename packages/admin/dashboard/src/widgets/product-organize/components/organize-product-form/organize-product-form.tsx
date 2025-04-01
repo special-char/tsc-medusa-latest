@@ -38,24 +38,34 @@ export const OrganizeProductForm = ({
 
   useEffect(() => {
     if (products && products.length) {
-      setSnapshot(
-        products
-          .map((product: any) => ({
-            ...product,
-            entity_ranks: product?.entity_ranks?.filter(
-              (rank: { rank_type: string; rank_type_id: string }) =>
-                rank?.rank_type === "category" ||
-                rank.rank_type_id === category_id
-            ),
-          }))
-          .filter((x) => x.entity_ranks?.length)
-          .sort((a, b) => {
-            return (
-              (a?.entity_ranks?.[0]?.rank ?? 0) -
-              (b?.entity_ranks?.[0]?.rank ?? 0)
-            )
-          })
-      )
+      const rankedProducts = products
+        .map((product: any) => ({
+          ...product,
+          entity_ranks: product?.entity_ranks?.filter(
+            (rank: { rank_type: string; rank_type_id: string }) =>
+              rank?.rank_type === "category" ||
+              rank.rank_type_id === category_id
+          ),
+        }))
+        .filter((x) => x.entity_ranks?.length)
+        .sort((a, b) => {
+          return (
+            (a?.entity_ranks?.[0]?.rank ?? 0) -
+            (b?.entity_ranks?.[0]?.rank ?? 0)
+          )
+        })
+      const restProducts = products
+        .map((product: any) => ({
+          ...product,
+          entity_ranks: product?.entity_ranks?.filter(
+            (rank: { rank_type: string; rank_type_id: string }) =>
+              rank?.rank_type === "category" ||
+              rank.rank_type_id === category_id
+          ),
+        }))
+        .filter((x) => !x.entity_ranks?.length)
+
+      setSnapshot([...rankedProducts, ...restProducts])
     }
   }, [category_id, products])
 

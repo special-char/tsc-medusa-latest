@@ -1,6 +1,7 @@
 import { PlusMini } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import {
+  Button,
   Checkbox,
   CommandBar,
   Container,
@@ -21,6 +22,7 @@ import { useProductTableColumns } from "../../../../../hooks/table/columns/use-p
 import { useProductTableFilters } from "../../../../../hooks/table/filters/use-product-table-filters"
 import { useProductTableQuery } from "../../../../../hooks/table/query/use-product-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
+import { Link } from "react-router-dom"
 
 type CategoryProductSectionProps = {
   category: HttpTypes.AdminProductCategory
@@ -111,19 +113,24 @@ export const CategoryProductSection = ({
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading level="h2">{t("products.domain")}</Heading>
-        <ActionMenu
-          groups={[
-            {
-              actions: [
-                {
-                  label: t("actions.add"),
-                  icon: <PlusMini />,
-                  to: "products",
-                },
-              ],
-            },
-          ]}
-        />
+        <div className="flex items-center gap-x-2">
+          <Button size="small" variant="secondary" asChild>
+            <Link to="products/organize">Edit Ranking</Link>
+          </Button>
+          <ActionMenu
+            groups={[
+              {
+                actions: [
+                  {
+                    label: t("actions.add"),
+                    icon: <PlusMini />,
+                    to: "products",
+                  },
+                ],
+              },
+            ]}
+          />
+        </div>
       </div>
       <_DataTable
         table={table}
