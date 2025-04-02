@@ -6,7 +6,12 @@ export const bannerSchema = async () => {
       props: {
         multiple: true,
       },
-      validation: {},
+      validation: {
+        required: {
+          value: true,
+          message: "Banner Image is required",
+        },
+      },
     },
     name: {
       label: "Banner Name",

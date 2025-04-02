@@ -6,6 +6,7 @@ import { SchemaField } from "../../../components/custom/components/form/DynamicF
 import GenerateFormFields from "../../../components/custom/components/form/DynamicForm/GenerateFormFields"
 import { bannerSchema } from "../bannerSchema"
 import { BannerProps } from "../banner-list/components/banner-list-table"
+import { Spinner } from "@medusajs/icons"
 
 interface BannerFormProps {
   initialData?: FieldValues
@@ -67,7 +68,11 @@ export const BannerForm = ({
 
             <div className="flex items-center gap-4">
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+                {form.formState.isSubmitting ? (
+                  <Spinner className="animate-spin" />
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </div>
           </form>
