@@ -202,6 +202,10 @@ export const RouteMap: RouteObject[] = [
                   },
                 ],
               },
+              {
+                path: "organize",
+                lazy: () => import("../../widgets/product-organize"),
+              },
             ],
           },
           {

@@ -63,6 +63,9 @@ export const ProductListTable = () => {
         <Heading level="h2">{t("products.domain")}</Heading>
         <div className="flex items-center justify-center gap-x-2">
           <Button size="small" variant="secondary" asChild>
+            <Link to={`organize`}>Edit Ranking</Link>
+          </Button>
+          <Button size="small" variant="secondary" asChild>
             <Link to={`export${location.search}`}>{t("actions.export")}</Link>
           </Button>
           <Button size="small" variant="secondary" asChild>

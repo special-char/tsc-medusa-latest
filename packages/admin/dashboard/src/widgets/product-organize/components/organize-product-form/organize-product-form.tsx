@@ -1,38 +1,58 @@
 import { Spinner } from "@medusajs/icons"
 import { useEffect, useState } from "react"
-import { Button, clx, FocusModal, Text } from "@medusajs/ui"
+import { Button, clx, FocusModal, Text, toast } from "@medusajs/ui"
 import { SortableList } from "../common/sortable-list"
 import { useProducts, useUpdateProductsRank } from "../../hooks/useProducts"
+import { Thumbnail } from "../../../../components/common/thumbnail"
+import { useNavigate } from "react-router-dom"
 
 export type ProductTreeItem = {
   id: string
   title: string
   handle: string
-  rank: number | null
+  thumbnail: string
+  product_rank: number | null
+  entity_ranks: { id: string; rank: number }[]
 }
 
 const QUERY = {
-  fields: "id,title,handle,*entity_ranks",
+  fields: "id,title,handle,thumbnail,*entity_ranks",
   limit: 9999,
 }
 
 export const OrganizeProductForm = ({
   category_id,
 }: {
-  category_id?: string
+  category_id?: string | undefined
 }) => {
   const {
     products,
-    isPending,
+    isPending: isLoading,
     isError,
+    refetch,
     error: fetchError,
-  } = useProducts({
-    ...QUERY,
-    category_id,
-    order: "handle",
-  })
+  } = useProducts(
+    {
+      ...QUERY,
+      category_id,
+      order: "handle",
+    },
+    {}
+  )
 
-  const { mutateAsync } = useUpdateProductsRank()
+  const navigate = useNavigate()
+
+  const { mutateAsync, isPending } = useUpdateProductsRank({
+    onSuccess: () => {
+      refetch()
+      toast.success("Product Rank updated")
+      navigate("..", { replace: true })
+    },
+    onError: (error) => {
+      refetch()
+      toast.error(error?.message || "Error occured while update")
+    },
+  })
 
   const [snapshot, setSnapshot] = useState<ProductTreeItem[]>([])
 
@@ -42,9 +62,16 @@ export const OrganizeProductForm = ({
         .map((product: any) => ({
           ...product,
           entity_ranks: product?.entity_ranks?.filter(
-            (rank: { rank_type: string; rank_type_id: string }) =>
-              rank?.rank_type === "category" ||
-              rank.rank_type_id === category_id
+            (rank: { rank_type: string; rank_type_id: string }) => {
+              if (category_id) {
+                return (
+                  rank?.rank_type === "category" &&
+                  rank.rank_type_id === category_id
+                )
+              } else {
+                return rank?.rank_type === "default"
+              }
+            }
           ),
         }))
         .filter((x) => x.entity_ranks?.length)
@@ -55,21 +82,33 @@ export const OrganizeProductForm = ({
           )
         })
       const restProducts = products
-        .map((product: any) => ({
+        .map((product: any, index: number) => ({
           ...product,
           entity_ranks: product?.entity_ranks?.filter(
-            (rank: { rank_type: string; rank_type_id: string }) =>
-              rank?.rank_type === "category" ||
-              rank.rank_type_id === category_id
+            (rank: { rank_type: string; rank_type_id: string }) => {
+              if (category_id) {
+                return (
+                  rank?.rank_type === "category" &&
+                  rank.rank_type_id === category_id
+                )
+              } else {
+                return rank?.rank_type === "default"
+              }
+            }
           ),
         }))
         .filter((x) => !x.entity_ranks?.length)
 
-      setSnapshot([...rankedProducts, ...restProducts])
+      setSnapshot(
+        [...rankedProducts, ...restProducts].map((x, index) => ({
+          ...x,
+          product_rank: index,
+        }))
+      )
     }
   }, [category_id, products])
 
-  const loading = isPending
+  const loading = isPending || isLoading
 
   const handleRankChange = (items: any[]) => {
     // Items in the SortableList are memorised, so we need to find the current
@@ -91,8 +130,8 @@ export const OrganizeProductForm = ({
   const handleProductRankUpdate = async () => {
     console.log({ snapshot })
     await mutateAsync({
-      rank_type_id: category_id,
-      rank_type: "category",
+      ...(category_id ? { rank_type_id: category_id } : {}),
+      rank_type: category_id ? "category" : "default",
       productRankMap: snapshot,
     })
   }
@@ -105,12 +144,14 @@ export const OrganizeProductForm = ({
     <div className="flex h-full flex-col overflow-hidden">
       <FocusModal.Header>
         <div className="flex items-center justify-end">
-          {loading ? (
+          {isLoading ? (
             <Spinner className="animate-spin" />
           ) : (
-            <Button disabled={loading} onClick={handleProductRankUpdate}>
-              Save
-            </Button>
+            <>
+              <Button onClick={handleProductRankUpdate} isLoading={loading}>
+                Save
+              </Button>
+            </>
           )}
         </div>
       </FocusModal.Header>
@@ -134,10 +175,7 @@ const ProductItem = ({
   index,
   count,
 }: {
-  item: {
-    id: string
-    handle: string
-  }
+  item: ProductTreeItem
   index: number
   count: number
 }) => {
@@ -151,13 +189,17 @@ const ProductItem = ({
       <div
         className="text-ui-fg-subtle grid w-full items-center gap-3 px-6 py-2.5"
         style={{
-          gridTemplateColumns: `20px 28px 1fr`,
+          gridTemplateColumns: `20px 28px 1fr auto`,
         }}
       >
         <SortableList.DragHandle />
-        <span></span>
+        <Thumbnail src={item.thumbnail} />
         <Text size="small" leading="compact">
-          {item.handle}
+          {item.title} - ({item.handle})
+        </Text>
+        <Text className="flex gap-2">
+          <span>Current Rank:</span>
+          <span className="w-4">{item?.product_rank}</span>
         </Text>
       </div>
     </SortableList.Item>

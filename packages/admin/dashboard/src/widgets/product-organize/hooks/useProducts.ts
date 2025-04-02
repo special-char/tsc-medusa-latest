@@ -10,8 +10,6 @@ import {
 } from "@tanstack/react-query"
 import { sdk } from "../../../lib/client"
 
-const queryKey = ["product-sort-by-category"]
-
 export const useProducts = (
   query?: HttpTypes.AdminProductListParams,
   options?: Omit<
@@ -26,11 +24,41 @@ export const useProducts = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: async () => sdk.admin.product.list(query),
-    queryKey: queryKey,
+    queryKey: [
+      "products",
+      `organize-product${query?.category_id ? `-${query?.category_id}` : ""}`,
+    ],
     ...options,
   })
 
   return { ...data, ...rest }
+}
+
+export const createBatches = <T>(array: T[], batchSize: number): T[][] => {
+  const batches: T[][] = []
+  for (let i = 0; i < array.length; i += batchSize) {
+    batches.push(array.slice(i, i + batchSize))
+  }
+  return batches
+}
+
+type PayloadType = {
+  rank_type_id?: string
+  rank_type: string
+  productRankMap: {
+    id: string
+    title: string
+    handle: string
+    entity_ranks: {
+      id: string
+      entity_id: string
+      rank: 2
+      rank_type: string
+      rank_type_id?: string
+      metadata: null
+    }[]
+    product_rank: 0
+  }[]
 }
 
 export const useUpdateProductsRank = (
@@ -43,19 +71,23 @@ export const useUpdateProductsRank = (
   const queryClient = new QueryClient({})
 
   return useMutation({
-    mutationFn: async (payload) => {
-      return fetch("http://localhost:9000/admin/organize-product", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      })
+    mutationFn: async (payload: PayloadType) => {
+      const { productRankMap, ...rest } = payload
+      const batches = createBatches(productRankMap, 100)
+
+      return Promise.all(
+        batches.map(
+          async (x) =>
+            await sdk.admin.organizeProduct.create({
+              ...rest,
+              productRankMap: x,
+            })
+        )
+      )
     },
     onSuccess: async (data, variables, context) => {
       await queryClient.invalidateQueries({
-        queryKey: queryKey,
+        queryKey: ["products"],
       })
 
       options?.onSuccess?.(data, variables, context)

@@ -59,6 +59,7 @@ import { ProductOptionValue } from "./product-option-value"
 import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
+import { OrganizeProduct } from "./organize-product"
 
 export class Admin {
   /**
@@ -309,6 +310,11 @@ export class Admin {
    */
   public googleCategory: GoogleCategory
 
+  /**
+   * @tags OrganizeProduct
+   */
+  public organizeProduct: OrganizeProduct
+
   constructor(client: Client) {
     this.faq = new Faq(client)
     this.categorySeo = new CategorySeo(client)
@@ -370,5 +376,6 @@ export class Admin {
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
+    this.organizeProduct = new OrganizeProduct(client)
   }
 }
