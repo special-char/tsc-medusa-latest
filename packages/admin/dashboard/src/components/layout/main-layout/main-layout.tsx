@@ -263,6 +263,15 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           },
         ]
       : []),
+    ...(dashboardConfig?.featureFlags?.banner
+      ? [
+          {
+            icon: <Newspaper />,
+            label: "Banner",
+            to: "/banner",
+          },
+        ]
+      : []),
     ...(dashboardConfig?.featureFlags?.notifications
       ? [
           {

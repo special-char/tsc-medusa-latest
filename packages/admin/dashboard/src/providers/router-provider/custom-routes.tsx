@@ -293,6 +293,44 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.banner
+    ? [
+        {
+          path: "/banner",
+          errorElement: <ErrorBoundary />,
+          handle: {
+            breadcrumb: () => "Banner",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/banner/banner-list"),
+              children: [
+                {
+                  path: "create",
+                  lazy: () => import("../../routes/banner/banner-create"),
+                },
+              ],
+            },
+            {
+              path: ":id",
+              errorElement: <ErrorBoundary />,
+              lazy: () => import("../../routes/banner/banner-edit"),
+              children: [
+                {
+                  children: [
+                    {
+                      path: "banner-edit",
+                      lazy: () => import("../../routes/banner/banner-edit"),
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    : []),
 ]
 
 export const customPublicRoutes: RouteObject[] = []

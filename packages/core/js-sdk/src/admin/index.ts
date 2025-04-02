@@ -60,6 +60,7 @@ import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
 import { CreateOrder } from "./create-order"
+import { Banner } from "./banner"
 
 export class Admin {
   /**
@@ -306,6 +307,11 @@ export class Admin {
   public blogSeo: BlogSeo
 
   /**
+   * @tags banner
+   */
+  public banner: Banner
+
+  /**
    * @tags googleCategory
    */
   public googleCategory: GoogleCategory
@@ -376,5 +382,6 @@ export class Admin {
     this.redemption = new Redemption(client)
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
+    this.banner = new Banner(client)
   }
 }
