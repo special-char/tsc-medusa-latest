@@ -21,6 +21,7 @@ import {
   PhotoSolid,
   SquareTwoStack,
   UsersSolid,
+  DocumentText,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import { Collapsible as RadixCollapsible } from "radix-ui"
@@ -353,6 +354,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <CurrencyDollar />,
       label: t("priceLists.domain"),
       to: "/price-lists",
+    },
+    {
+      icon: <DocumentText />,
+      label: "Quote",
+      to: "/quote",
     },
     ...customCoreRoutes,
   ]
