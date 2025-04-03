@@ -269,6 +269,31 @@ export const RouteMap: RouteObject[] = [
             ],
           },
           {
+            path: "/quote",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "QUOTE",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/quotes"),
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { Component } = await import("../../routes/quotes/quotes-detail");
+                  return { Component };
+                },
+              },
+              {
+                path: ":id/manage",
+                lazy: () => import("../../routes/quotes/manage"),
+              },
+            ],
+          },
+          
+          {
             path: "/amc",
             errorElement: <ErrorBoundary />,
             handle: {
