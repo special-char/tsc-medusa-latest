@@ -294,6 +294,45 @@ export const RouteMap: RouteObject[] = [
           },
           
           {
+            path: "/amc",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "AMC",
+            },
+            children: [
+              {
+                path: "",
+                lazy: async () => {
+                  const { AmcList } = await import("../../routes/amc/amc-list")
+                  return {
+                    Component: AmcList,
+                  }
+                },
+                children: [],
+              },
+              {
+                path: "create",
+                lazy: async () => {
+                  const { AmcCreate } = await import(
+                    "../../routes/amc/amc-create"
+                  )
+                  return {
+                    Component: AmcCreate,
+                  }
+                },
+              },
+              {
+                path: ":id",
+                lazy: async () => {
+                  const { AmcEdit } = await import("../../routes/amc/amc-edit")
+                  return {
+                    Component: AmcEdit,
+                  }
+                },
+              },
+            ],
+          },
+          {
             path: "/orders",
             errorElement: <ErrorBoundary />,
             handle: {
