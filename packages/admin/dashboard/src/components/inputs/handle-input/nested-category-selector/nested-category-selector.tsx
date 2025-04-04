@@ -1,7 +1,7 @@
-import { ChevronDown, ChevronRight, XMark } from "@medusajs/icons"
+import { ChevronDown, ChevronRight } from "@medusajs/icons"
 import { AdminProductCategory } from "@medusajs/types"
 import { Button, clx, Text } from "@medusajs/ui"
-import { useState } from "react"
+import React, { useState } from "react"
 
 const flattenCategoryTree = (categories: AdminProductCategory[]) => {
   const result: Record<string, any> = {}
@@ -148,13 +148,7 @@ export const NestedCategorySelector = ({
       <div key={category.handle}>
         <div className="absolute right-1 top-1">
           {selectedCategories.length > 0 && (
-            <Button
-              type="button"
-              onClick={clearSelection}
-              className="bg-ui-bg-field-component hover:bg-ui-bg-field-component-hover flex items-center gap-1 rounded-full px-1"
-            >
-              <XMark className="h-4 w-4" />
-            </Button>
+            <Button onClick={clearSelection}>Clear</Button>
           )}
         </div>
         <div
@@ -260,12 +254,12 @@ export const NestedCategorySelector = ({
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
           <Text
-            className="text-ui-fg-muted"
+            className="text-ui-fg-muted w-[8px]"
             size="small"
             leading="compact"
             weight="plus"
           >
-            /
+            {isDropdownOpen ? "X" : "/"}
           </Text>
         </Button>
         {value && (
