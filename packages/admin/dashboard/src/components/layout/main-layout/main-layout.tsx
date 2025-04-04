@@ -285,6 +285,10 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
         //   label: t("draftOrders.domain"),
         //   to: "/draft-orders",
         // },
+        {
+          label: "Pending Orders",
+          to: "/pending-orders",
+        },
       ],
     },
     {
