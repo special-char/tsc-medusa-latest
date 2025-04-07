@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom"
 
 import { TwoColumnPageSkeleton } from "../../../components/common/skeleton"
-import { TwoColumnPage } from "../../../components/layout/pages"
-import { usePendingOrder } from "./hooks/usePendingOrder"
+import { usePendingOrder } from "../hooks/usePendingOrder"
 import { PendingOrderGeneralSection } from "./components/pending-order-general-section"
 import { PendingOrderSummarySection } from "./components/pending-order-summary-section"
+import { PendingOrderCustomerSection } from "./components/pending-order-customer-section"
+import { PendingOrderPaymentSection } from "./components/pending-order-payment-section"
 
 export const PendingOrderDetail = () => {
   const { id } = useParams()
@@ -41,19 +42,12 @@ export const PendingOrderDetail = () => {
       <div className="flex w-full flex-col gap-y-3">
         <div className="flex w-full flex-col items-start gap-x-4 gap-y-3 xl:grid xl:grid-cols-[minmax(0,_1fr)_440px]">
           <div className="flex w-full min-w-0 flex-col gap-y-3">
-            {/* <OrderActiveEditSection order={order} /> */}
             <PendingOrderGeneralSection cart={cart} />
             <PendingOrderSummarySection cart={cart} />
-            {/* <OrderPaymentSection order={order} /> */}
-            {/* {showExtraData && (
-              <div className="hidden flex-col gap-y-3 xl:flex">
-                {showMetadata && <MetadataSection data={data!} />}
-                {showJSON && <JsonViewSection data={data!} />}
-              </div>
-            )} */}
+            <PendingOrderPaymentSection cart={cart} />
           </div>
           <div className="flex w-full flex-col gap-y-3 xl:mt-0">
-            {/* <OrderCustomerSection order={order} /> */}
+            <PendingOrderCustomerSection cart={cart} />
           </div>
         </div>
       </div>

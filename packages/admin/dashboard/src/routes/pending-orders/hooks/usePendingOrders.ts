@@ -1,6 +1,6 @@
 import { QueryKey, useQuery, UseQueryOptions } from "@tanstack/react-query"
-import { sdk } from "../../../../lib/client"
-import { ordersQueryKeys } from "../../../../hooks/api"
+import { sdk } from "../../../lib/client"
+import { ordersQueryKeys } from "../../../hooks/api"
 import { FetchError } from "@medusajs/js-sdk"
 
 type PendingOrders = {
@@ -14,6 +14,10 @@ export const usePendingOrders = (
   query?: {
     limit?: number
     offset?: number
+    payment_method?: string[]
+    created_at?: string | Date
+    updated_at?: string | Date
+    q?: string
   },
   options?: Omit<
     UseQueryOptions<PendingOrders, FetchError, PendingOrders, QueryKey>,

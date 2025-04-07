@@ -1,6 +1,6 @@
 import { QueryKey, useQuery, UseQueryOptions } from "@tanstack/react-query"
-import { sdk } from "../../../../lib/client"
-import { ordersQueryKeys } from "../../../../hooks/api"
+import { sdk } from "../../../lib/client"
+import { ordersQueryKeys } from "../../../hooks/api"
 import { FetchError } from "@medusajs/js-sdk"
 
 type PendingOrders = {
@@ -20,7 +20,7 @@ export const usePendingOrder = (
 ) => {
   const { data, ...rest } = useQuery({
     queryFn: async () => sdk.admin.pendingOrder.retrieve(id),
-    queryKey: ordersQueryKeys.list(query),
+    queryKey: ordersQueryKeys.list({ ...query, id }),
     ...options,
   })
 

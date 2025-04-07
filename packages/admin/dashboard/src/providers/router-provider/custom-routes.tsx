@@ -301,7 +301,7 @@ export const customProtectedRoutes: RouteObject[] = [
     children: [
       {
         path: "",
-        lazy: () => import("../../routes/orders/pending-order-list"),
+        lazy: () => import("../../routes/pending-orders/pending-order-list"),
       },
       // {
       //   path: ":id",
@@ -311,7 +311,7 @@ export const customProtectedRoutes: RouteObject[] = [
       {
         path: ":id",
         errorElement: <ErrorBoundary />,
-        lazy: () => import("../../routes/orders/pending-order-detail"),
+        lazy: () => import("../../routes/pending-orders/pending-order-detail"),
         // children: [
         //   {
         //     children: [

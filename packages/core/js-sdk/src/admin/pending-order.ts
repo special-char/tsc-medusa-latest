@@ -46,7 +46,14 @@ export class PendingOrder {
    * ```
    */
   async list(
-    queryParams?: { limit?: number; offset?: number },
+    queryParams?: {
+      limit?: number
+      offset?: number
+      payment_method?: string[]
+      created_at?: string | Date
+      updated_at?: string | Date
+      q?: string
+    },
     headers?: ClientHeaders
   ) {
     return await this.client.fetch<{
@@ -57,6 +64,7 @@ export class PendingOrder {
     }>(`/admin/pending-orders`, {
       headers,
       query: {
+        ...queryParams,
         limit: queryParams?.limit,
         offset: queryParams?.offset,
       },
@@ -87,5 +95,11 @@ export class PendingOrder {
     return await this.client.fetch<{
       cart: CartDTO
     }>(`/admin/pending-orders/${id}`)
+  }
+
+  async sendNotification(data: { cart_id: string; email: string }[]) {
+    return await this.client.fetch<{
+      cart: CartDTO
+    }>(`/admin/pending-orders/notification`, { method: "POST", body: data })
   }
 }

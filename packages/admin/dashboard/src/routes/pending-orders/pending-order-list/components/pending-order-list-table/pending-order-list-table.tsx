@@ -1,11 +1,11 @@
-import { Container, Heading, StatusBadge } from "@medusajs/ui"
+import { Button, Container, Heading, StatusBadge, toast } from "@medusajs/ui"
 import { keepPreviousData } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 
 import { _DataTable } from "../../../../../components/table/data-table/data-table"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 
-import { usePendingOrders } from "../../hooks/usePendingOrders"
+import { usePendingOrders } from "../../../hooks/usePendingOrders"
 import { createColumnHelper } from "@tanstack/react-table"
 import { BaseCart } from "@medusajs/types/dist/http/cart/common"
 import { DisplayIdHeader } from "../../../../../components/table/table-cells/order/display-id-cell"
@@ -17,7 +17,7 @@ import {
   CustomerCell,
   CustomerHeader,
 } from "../../../../../components/table/table-cells/order/customer-cell"
-import { HttpTypes } from "@medusajs/types"
+import { CartDTO, HttpTypes } from "@medusajs/types"
 import {
   PaymentStatusCell,
   PaymentStatusHeader,
@@ -26,7 +26,9 @@ import {
   TotalCell,
   TotalHeader,
 } from "../../../../../components/table/table-cells/order/total-cell"
-import { usePendingOrderTableQuery } from "../../hooks/usePendingOrderTableQuery"
+import { usePendingOrderTableQuery } from "../../../hooks/usePendingOrderTableQuery"
+import { useSendNotificationPendingOrder } from "../../../hooks/useSendNotificationPendingOrder"
+import { usePendingOrderTableFilters } from "../../../hooks/usePendingOrderTableFilter"
 
 const PAGE_SIZE = 20
 
@@ -38,15 +40,14 @@ export const PendingOrderListTable = () => {
 
   const { carts, count, isError, error, isLoading } = usePendingOrders(
     {
-      limit: searchParams.limit,
-      offset: searchParams.offset,
+      ...searchParams,
     },
     {
       placeholderData: keepPreviousData,
     }
   )
 
-  // const filters = useOrderTableFilters()
+  const filters = usePendingOrderTableFilters()
 
   const columnHelper = createColumnHelper<
     BaseCart & {
@@ -92,9 +93,7 @@ export const PendingOrderListTable = () => {
     }),
     columnHelper.accessor("payment_collection", {
       header: () => <PaymentStatusHeader />,
-      cell: ({ getValue, row }) => {
-        const payment_collection = getValue()
-
+      cell: ({ row }) => {
         let color = "grey"
         let paymentMethod = "N/A"
         switch (
@@ -143,17 +142,41 @@ export const PendingOrderListTable = () => {
     throw error
   }
 
+  const { mutateAsync, isPending } = useSendNotificationPendingOrder({
+    onSuccess: () => {
+      toast.success("Email send successfully")
+    },
+    onError: (error) => {
+      toast.error(error.message || "Email send failed")
+    },
+  })
+
+  const handleEmailReminder = async () => {
+    console.log("handled")
+
+    await mutateAsync(
+      carts.map((x: CartDTO) => ({ cart_id: x.id, email: x.email }))
+    )
+  }
+
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading>Pending Orders</Heading>
+        <Button
+          disabled={isPending}
+          isLoading={isPending}
+          onClick={handleEmailReminder}
+        >
+          Send Email Reminders
+        </Button>
       </div>
       <_DataTable
         columns={columns}
         table={table}
         pagination
         navigateTo={(row) => `/pending-orders/${row.original.id}`}
-        // filters={filters}
+        filters={filters}
         count={count}
         search
         isLoading={isLoading}
