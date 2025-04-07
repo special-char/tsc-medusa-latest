@@ -60,6 +60,7 @@ import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
 import { OrganizeProduct } from "./organize-product"
+import { PendingOrder } from "./pending-order"
 
 export class Admin {
   /**
@@ -315,6 +316,11 @@ export class Admin {
    */
   public organizeProduct: OrganizeProduct
 
+  /**
+   * @tags orders
+   */
+  public pendingOrder: PendingOrder
+
   constructor(client: Client) {
     this.faq = new Faq(client)
     this.categorySeo = new CategorySeo(client)
@@ -377,5 +383,6 @@ export class Admin {
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
     this.organizeProduct = new OrganizeProduct(client)
+    this.pendingOrder = new PendingOrder(client)
   }
 }

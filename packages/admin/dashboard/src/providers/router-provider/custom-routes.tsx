@@ -3,7 +3,6 @@ import { ErrorBoundary } from "../../components/utilities/error-boundary"
 import { t } from "i18next"
 import { HttpTypes } from "@medusajs/types"
 import dashboardConfig from "../../../dashboard.config"
-import { lazy } from "react"
 
 export const customProtectedRoutes: RouteObject[] = [
   ...(dashboardConfig?.featureFlags?.digitalProducts
@@ -293,6 +292,39 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  {
+    path: "/pending-orders",
+    errorElement: <ErrorBoundary />,
+    handle: {
+      breadcrumb: () => "Pending Orders",
+    },
+    children: [
+      {
+        path: "",
+        lazy: () => import("../../routes/pending-orders/pending-order-list"),
+      },
+      // {
+      //   path: ":id",
+      //   lazy: () => import("../../routes/orders/pending-order-detail"),
+      // },
+
+      {
+        path: ":id",
+        errorElement: <ErrorBoundary />,
+        lazy: () => import("../../routes/pending-orders/pending-order-detail"),
+        // children: [
+        //   {
+        //     children: [
+        //       {
+        //         path: "blog-edit",
+        //         lazy: () => import("../../routes/blogs/blog-edit"),
+        //       },
+        //     ],
+        //   },
+        // ],
+      },
+    ],
+  },
 ]
 
 export const customPublicRoutes: RouteObject[] = []
