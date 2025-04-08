@@ -18,7 +18,7 @@ export const QuoteManage = () => {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>; 
+    return <p>Loading...</p>;
   }
 
   if (!quote) {
@@ -31,7 +31,7 @@ export const QuoteManage = () => {
         <Heading className="flex items-center justify-between px-6 py-4">
           Manage Quote
         </Heading>
-        <ManageQuoteForm order={quote.draft_order} />
+        <ManageQuoteForm order={quote.draft_order} quote={quote} />
       </Container>
       <Toaster />
     </>
