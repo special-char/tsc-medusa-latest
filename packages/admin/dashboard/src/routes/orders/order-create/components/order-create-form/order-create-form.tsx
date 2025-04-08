@@ -30,14 +30,14 @@ import {
   RowSelectionState,
 } from "@tanstack/react-table"
 import * as zod from "zod"
-import { HttpTypes } from "@medusajs/types"
+import { AdminRegion, HttpTypes } from "@medusajs/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  ProductCell,
-  ProductHeader,
-} from "../../../../../components/table/table-cells/product/product-cell"
+import { ProductHeader } from "../../../../../components/table/table-cells/product/product-cell"
 import { useVariantTableQuery } from "../../../../../hooks/table/query/use-variant-table-query"
-import { Minus, Plus, Spinner, XMark } from "@medusajs/icons"
+import { Spinner, XMark } from "@medusajs/icons"
+import { Thumbnail } from "../../../../../components/common/thumbnail"
+import { useQuery } from "@tanstack/react-query"
+import { getStylizedAmount } from "../../../../../lib/money-amount-helpers"
 
 const OrderCreateSchema = zod.object({
   region_id: zod.string().min(1, "Region is required"),
@@ -59,6 +59,8 @@ const OrderCreateSchema = zod.object({
   last_name: zod.string().min(2, "Last name is required"),
   company_name: zod.string().optional(),
   phone: zod.string().optional(),
+  // promotions: zod.array(zod.string().optional()).optional(),
+  promotions: zod.string().optional(),
 })
 
 type SelectedVariant = {
@@ -76,6 +78,7 @@ type OrderCreateFormProps = {
   last_name?: string
   company_name?: string
   phone?: string
+  promotions?: string
 }
 
 export const OrderCreateForm = () => {
@@ -91,33 +94,23 @@ export const OrderCreateForm = () => {
       last_name: "",
       phone: "",
       company_name: "",
+      promotions: "",
     },
     mode: "onChange",
   })
 
-  const [variantQuantities, setVariantQuantities] = useState<
-    Record<string, number>
-  >({})
+  const regionId = form.watch("region_id")
 
-  const handleQuantityChange = (variantId: string, quantity: number) => {
-    setVariantQuantities((prev) => ({
-      ...prev,
-      [variantId]: quantity,
-    }))
-
-    const currentVariants = form.getValues("variants")
-    const updatedVariants = currentVariants.map((item) => {
-      if (item.id === variantId) {
-        return { ...item, quantity }
+  const { data: region, isLoading: isRegionLoading } = useQuery({
+    queryKey: ["region", regionId],
+    queryFn: async () => {
+      if (!regionId) {
+        return null
       }
-      return item
-    })
-
-    form.setValue("variants", updatedVariants, {
-      shouldDirty: true,
-      shouldTouch: true,
-    })
-  }
+      return await sdk.admin.region.retrieve(regionId)
+    },
+    enabled: !!regionId,
+  })
 
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(
     null
@@ -150,6 +143,17 @@ export const OrderCreateForm = () => {
         value: customer.id,
       })),
   })
+
+  const promotions = useComboboxData({
+    queryKey: ["promotions", "create-order"],
+    queryFn: (params) => sdk.admin.promotion.list(params),
+    getOptions: (data) =>
+      data.promotions.map((promotion) => ({
+        label: promotion.code!,
+        value: promotion.code!,
+      })),
+  })
+
   useEffect(() => {
     if (customer) {
       form.setValue("email", customer.email)
@@ -167,10 +171,7 @@ export const OrderCreateForm = () => {
       prefix: VARIANT_PREFIX,
     })
 
-  const variantColumns = useVariantColumns({
-    onQuantityChange: handleQuantityChange,
-    quantities: variantQuantities,
-  })
+  const variantColumns = useVariantColumns({ region: region?.region })
 
   const { variants = [], count: variantCount } = useVariants({
     ...variantSearchParams,
@@ -198,7 +199,7 @@ export const OrderCreateForm = () => {
         const variant = variantsData.find((v: any) => v.id === id)
         return {
           id,
-          quantity: variantQuantities[id] || 1,
+          quantity: 1,
           variant: variant,
         }
       })
@@ -324,6 +325,7 @@ export const OrderCreateForm = () => {
         region_id: data?.region_id,
         items,
         user,
+        promotionCodes: data?.promotions ? [data?.promotions] : [],
       }
 
       console.log("orderData", orderData)
@@ -334,7 +336,7 @@ export const OrderCreateForm = () => {
       }
     } catch (error: any) {
       console.error("Error Creating Order", error.message)
-      toast.error("Failed to create order", error.message)
+      toast.error(`Failed to create order : ${error.message}`)
     }
   }
 
@@ -592,6 +594,27 @@ export const OrderCreateForm = () => {
                     }}
                   />
                 </div>
+                <Form.Field
+                  control={form.control}
+                  name="promotions"
+                  render={({ field }) => {
+                    return (
+                      <Form.Item>
+                        <Form.Label optional>Select Promotion Code</Form.Label>
+                        <Form.Control>
+                          <Combobox
+                            {...field}
+                            // multiple={true}
+                            options={promotions.options}
+                            onSearchValueChange={promotions.onSearchValueChange}
+                            searchValue={promotions.searchValue}
+                          />
+                        </Form.Control>
+                        <Form.ErrorMessage />
+                      </Form.Item>
+                    )
+                  }}
+                />
               </div>
             </ProgressTabs.Content>
           </RouteFocusModal.Body>
@@ -627,19 +650,10 @@ export const OrderCreateForm = () => {
   )
 }
 
-type VariantColumnsProps = {
-  onQuantityChange: (variantId: string, quantity: number) => void
-  quantities: Record<string, number>
-}
-
 const variantColumnHelper = createColumnHelper<HttpTypes.AdminProductVariant>()
 
-const useVariantColumns = ({
-  onQuantityChange,
-  quantities,
-}: VariantColumnsProps) => {
+const useVariantColumns = ({ region }: { region: AdminRegion | undefined }) => {
   const { t } = useTranslation()
-
   return useMemo(
     () => [
       variantColumnHelper.display({
@@ -665,80 +679,52 @@ const useVariantColumns = ({
         ),
       }),
       variantColumnHelper.display({
-        id: "product",
-        header: () => <ProductHeader />,
-        cell: ({ row }) => (
-          <ProductCell
-            product={
-              row.original.product as Pick<
-                HttpTypes.AdminProduct,
-                "title" | "thumbnail"
-              >
-            }
-          />
+        id: "variant",
+        header: () => (
+          <div className="flex h-full w-full items-center">
+            <span>Variant</span>
+          </div>
         ),
-      }),
-      variantColumnHelper.accessor("title", {
-        header: () => <span>{t("fields.variant")}</span>,
         cell: ({ row }) => (
-          <div>
-            <div className="text-sm text-gray-500">{row.original.title}</div>
+          <div className="flex h-full w-full max-w-[250px] items-center gap-x-3 overflow-hidden">
+            <div className="w-fit flex-shrink-0">
+              <Thumbnail src={row.original.product?.thumbnail} />
+            </div>
+            <span title={row.original?.title || ""} className="truncate">
+              {row.original?.title}
+            </span>
           </div>
         ),
       }),
+      variantColumnHelper.display({
+        id: "product",
+        header: () => <ProductHeader />,
+        cell: ({ row }) => (
+          <div className="text-sm text-gray-500">
+            {row.original.product?.title}
+          </div>
+        ),
+      }),
+
       variantColumnHelper.accessor("prices", {
         header: () => <span>{t("fields.price")}</span>,
         cell: ({ row }) => {
           const defaultPrice = row.original.prices?.find(
-            (p: any) => p.currency_code === "inr"
+            (p: any) => p.currency_code === (region?.currency_code || "")
           )
-          return defaultPrice ? `${defaultPrice.amount.toFixed(2)}` : "-"
-        },
-      }),
-      variantColumnHelper.display({
-        id: "quantity",
-        header: () => <div>Quantity</div>,
-        cell: ({ row }) => {
-          if (!row.getIsSelected()) {
-            return null
+
+          if (!defaultPrice?.amount || !region?.currency_code) {
+            return "-"
           }
-
-          const variantId = row.original.id
-          const currentQuantity = quantities[variantId] || 1
-
-          return (
-            <div className="flex items-center gap-x-2">
-              <IconButton
-                onClick={() => {
-                  const newQuantity = Math.max(1, currentQuantity - 1)
-                  onQuantityChange(variantId, newQuantity)
-                }}
-              >
-                <Minus />
-              </IconButton>
-              <Input
-                type="text"
-                min={1}
-                className="w-10 text-center"
-                value={currentQuantity}
-                onChange={(e) => {
-                  const quantity = parseInt(e.target.value) || 1
-                  onQuantityChange(variantId, quantity)
-                }}
-              />
-              <IconButton
-                onClick={() => {
-                  const newQuantity = currentQuantity + 1
-                  onQuantityChange(variantId, newQuantity)
-                }}
-              >
-                <Plus />
-              </IconButton>
-            </div>
+          const formatted = getStylizedAmount(
+            defaultPrice?.amount,
+            region?.currency_code
           )
+
+          return <div>{formatted}</div>
         },
       }),
     ],
-    [t, onQuantityChange, quantities]
+    [t, region]
   )
 }
