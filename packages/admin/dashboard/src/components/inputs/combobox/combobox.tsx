@@ -39,6 +39,7 @@ type ComboboxOption = {
   value: string
   label: string
   disabled?: boolean
+  image?: string
 }
 
 type Value = string[] | string
@@ -334,7 +335,7 @@ const ComboboxImpl = <T extends Value = string>(
         }}
         aria-busy={isPending}
       >
-        {results.map(({ value, label, disabled }) => (
+        {results.map(({ value, label, disabled, image }) => (
           <PrimitiveComboboxItem
             key={value}
             value={value}
@@ -352,9 +353,18 @@ const ComboboxImpl = <T extends Value = string>(
             <PrimitiveComboboxItemCheck className="flex !size-5 items-center justify-center">
               {isArrayValue ? <CheckMini /> : <EllipseMiniSolid />}
             </PrimitiveComboboxItemCheck>
-            <PrimitiveComboboxItemValue className="txt-compact-small">
-              {label}
-            </PrimitiveComboboxItemValue>
+            <div className="flex items-center gap-2">
+              {image && (
+                <img
+                  src={image}
+                  alt={label}
+                  className="w-8 h-8 object-cover rounded"
+                />
+              )}
+              <PrimitiveComboboxItemValue className="txt-compact-small">
+                {label}
+              </PrimitiveComboboxItemValue>
+            </div>
           </PrimitiveComboboxItem>
         ))}
         {!!fetchNextPage && <div ref={lastOptionRef} className="w-px" />}

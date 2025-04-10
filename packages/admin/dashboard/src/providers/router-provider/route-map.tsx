@@ -280,6 +280,10 @@ export const RouteMap: RouteObject[] = [
                 lazy: () => import("../../routes/quotes"),
               },
               {
+                path: "create",
+                lazy: () => import("../../routes/quotes/quote-create"),
+              },
+              {
                 path: ":id",
                 lazy: async () => {
                   const { Component } = await import("../../routes/quotes/quotes-detail");

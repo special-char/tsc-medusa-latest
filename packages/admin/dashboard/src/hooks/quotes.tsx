@@ -14,6 +14,7 @@ import { sdk } from "../lib/client";
 export type AdminQuote = {
   id: string;
   status: string;
+  valid_till: string
   draft_order_id: string;
   order_change_id: string;
   cart_id: string;
@@ -25,7 +26,7 @@ export type AdminQuote = {
   customer: AdminCustomer
 };
 
-export interface QuoteQueryParams extends FindParams {}
+export interface QuoteQueryParams extends FindParams { }
 
 export type AdminQuoteResponse = {
   quote: AdminQuote;
@@ -88,9 +89,14 @@ export const useQuote = (
   return { ...data, ...rest };
 };
 
-type UpdateQuoteItemParams = HttpTypes.AdminUpdateOrderEditItem & { 
+type UpdateQuoteItemParams = HttpTypes.AdminUpdateOrderEditItem & {
   itemId: string
   unit_price?: number
+}
+type UpdateQuoteItemsParams = HttpTypes.AdminUpdateOrderEditItem & {
+  itemId: string
+  unit_price?: number
+  id: string
 }
 
 export const useUpdateQuoteItem = (
@@ -120,7 +126,29 @@ export const useUpdateQuoteItem = (
     ...options,
   });
 };
+export const useUpdateQuoteItemId = (
+  options?: UseMutationOptions<
+    HttpTypes.AdminOrderEditPreviewResponse,
+    FetchError,
+    UpdateQuoteItemsParams
+  >
+) => {
 
+  return useMutation({
+    mutationFn: ({
+      itemId,
+      id,
+      ...payload
+    }: UpdateQuoteItemsParams) => {
+      return sdk.admin.orderEdit.updateOriginalItem(id, itemId, payload);
+    },
+    onSuccess: (data: any, variables: any, context: any) => {
+
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+};
 export const useConfirmQuote = (
   id: string,
   options?: UseMutationOptions<
@@ -176,6 +204,43 @@ export const useSendQuote = (
   });
 };
 
+export const useUpdateQuote = (
+  id: string,
+  options?: UseMutationOptions<AdminQuoteResponse, FetchError, {
+    valid_till: string;
+  }>
+) => {
+  const queryClient = useQueryClient();
+
+  const sendQuote = async (id: string, body: {
+    valid_till: string;
+  }) =>
+    sdk.client.fetch<AdminQuoteResponse>(`/admin/quotes/${id}/update`, {
+      method: "POST",
+      body: body
+    });
+
+  return useMutation({
+    mutationFn: (body) => sendQuote(id, body),
+    onSuccess: (data: any, variables: any, context: any) => {
+      queryClient.invalidateQueries({
+        queryKey: [orderPreviewQueryKey, id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["quote", id],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["quote", "list"],
+      });
+
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+};
+
 export const useRejectQuote = (
   id: string,
   options?: UseMutationOptions<AdminQuoteResponse, FetchError, void>
@@ -197,6 +262,37 @@ export const useRejectQuote = (
       queryClient.invalidateQueries({
         queryKey: ["quote", id],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["quote", "list"],
+      });
+
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
+};
+
+
+
+export const useCreateQuote = (
+  options?: UseMutationOptions<
+    AdminQuoteResponse,
+    FetchError,
+    { region_id: string; customer_id: string; quantity: number; variant_id: string }
+  >
+) => {
+  const queryClient = useQueryClient();
+
+  const createQuote = async (data: { region_id: string; customer_id: string; quantity: number; variant_id: string }) =>
+    sdk.client.fetch<AdminQuoteResponse>(`/admin/quotes`, {
+      method: "POST",
+      body: data
+    });
+
+  return useMutation({
+    mutationFn: (data: { region_id: string; customer_id: string; quantity: number; variant_id: string }) => createQuote(data),
+    onSuccess: (data: AdminQuoteResponse, variables: any, context: any) => {
 
       queryClient.invalidateQueries({
         queryKey: ["quote", "list"],

@@ -87,8 +87,8 @@ export const QuoteItem = ({
         <Amount
           className="text-sm text-right justify-end items-end"
           currencyCode={currencyCode}
-          amount={item.total}
-          originalAmount={originalItem?.total}
+          amount={item.unit_price}
+          originalAmount={originalItem?.unit_price}
         />
       </div>
     </div>

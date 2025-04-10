@@ -1,17 +1,23 @@
-import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { DocumentText } from "@medusajs/icons";
-import { Container, createDataTableColumnHelper, DataTable, DataTablePaginationState, Heading, Toaster, useDataTable } from "@medusajs/ui";
-import { useNavigate } from "react-router-dom";
-import { AdminQuote, useQuotes } from "../../hooks/quotes";
-import { useState } from "react";
+import {
+  Button,
+  Container,
+  createDataTableColumnHelper,
+  DataTable,
+  DataTablePaginationState,
+  Heading,
+  Toaster,
+  useDataTable,
+} from "@medusajs/ui"
+import { Link, useNavigate } from "react-router-dom"
+import { AdminQuote, useQuotes } from "../../hooks/quotes"
+import { useEffect, useState } from "react"
+import { t } from "i18next"
 
 const StatusTitles: Record<string, string> = {
   accepted: "Accepted",
-  customer_rejected: "Customer Rejected",
-  merchant_rejected: "Merchant Rejected",
-  pending_merchant: "Pending Merchant",
-  pending_customer: "Pending Customer",
-};
+  rejected: "Rejected",
+  pending: "Pending",
+}
 
 const columnHelper = createDataTableColumnHelper<AdminQuote>()
 
@@ -34,31 +40,39 @@ const columns = [
   }),
   columnHelper.accessor("draft_order.total", {
     header: "Total",
-    cell: ({ getValue, row }) => `${row.original.draft_order.currency_code.toUpperCase()} ${getValue()}`
+    cell: ({ getValue, row }) =>
+      `${row.original.draft_order.currency_code.toUpperCase()} ${getValue()}`,
   }),
   columnHelper.accessor("created_at", {
     header: "Created At",
     cell: ({ getValue }) => new Date(getValue()).toLocaleDateString(),
   }),
 ]
+const PAGE_SIZE = 10
 
 export const Quotes = () => {
   const navigate = useNavigate()
   const [pagination, setPagination] = useState<DataTablePaginationState>({
-    pageSize: 15,
+    pageSize: PAGE_SIZE,
     pageIndex: 0,
   })
+
   const {
     quotes = [],
     count,
     isPending,
+    refetch, // Ensure refetch is available from the hook
   } = useQuotes({
-    limit: pagination.pageSize,
-    offset: pagination.pageIndex * pagination.pageSize,
-    fields:
-      "+draft_order.total,*draft_order.customer",
+    limit: PAGE_SIZE,
+    offset: pagination.pageIndex * PAGE_SIZE,
+    fields: "+draft_order.total,*draft_order.customer",
     order: "-created_at",
   })
+
+  // Trigger refetch when pagination changes
+  useEffect(() => {
+    refetch()
+  }, [pagination, refetch])
 
   const table = useDataTable({
     columns,
@@ -75,27 +89,22 @@ export const Quotes = () => {
     },
   })
 
-
   return (
     <>
-      <Container className="flex flex-col p-0 overflow-hidden">
-        <Heading className="p-6 pb-0 font-sans font-medium h1-core">
-          Quotes
-        </Heading>
-
+      <Container className="flex flex-col overflow-hidden p-0">
+        <div className="flex items-center justify-between px-6 py-4">
+          <Heading level="h2">Quotes</Heading>
+          <Button size="small" variant="secondary" asChild>
+            <Link to="create">{t("actions.create")}</Link>
+          </Button>
+        </div>
         <DataTable instance={table}>
-        
           <DataTable.Table />
           <DataTable.Pagination />
         </DataTable>
       </Container>
       <Toaster />
     </>
-  );
-};
-
-const config = defineRouteConfig({
-  label: "Quotes",
-  icon: DocumentText,
-});
+  )
+}
 
