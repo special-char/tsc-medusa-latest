@@ -205,21 +205,21 @@ const QuoteCreateForm = (props: Props) => {
                           {
                             // condition to show create customer button
                             customer.searchValue &&
-                            !customer.options.some(
-                              (opt) =>
-                                opt.label.toLowerCase() ===
-                                customer.searchValue.toLowerCase()
-                            ) && (
-                              <div
-                                className="text-ui-fg-base mt-2 cursor-pointer text-sm"
-                                onClick={() => setShowCustomerModal(true)}
-                              >
-                                <div className="flex items-center gap-x-1">
-                                  <Plus className="h-4 w-4" />
-                                  <span>Create New Customer</span>
+                              !customer.options.some(
+                                (opt) =>
+                                  opt.label.toLowerCase() ===
+                                  customer.searchValue.toLowerCase()
+                              ) && (
+                                <div
+                                  className="text-ui-fg-base mt-2 cursor-pointer text-sm"
+                                  onClick={() => setShowCustomerModal(true)}
+                                >
+                                  <div className="flex items-center gap-x-1">
+                                    <Plus className="h-4 w-4" />
+                                    <span>Create New Customer</span>
+                                  </div>
                                 </div>
-                              </div>
-                            )
+                              )
                           }
                         </div>
                         <Combobox
@@ -322,11 +322,18 @@ const QuoteCreateForm = (props: Props) => {
                           symbol={currencyCode}
                           code={currencyCode}
                           type="numeric"
+                          max={999999999999999}
                           min={0}
                           style={{ textAlign: "left" }}
-                          value={field.value} // Bind the value to the form state
+                          value={field.value ?? ""}
                           onChange={(e) => {
-                            field.onChange(e.target.value) // Update the form state
+                            const raw = e.target.value.replace(/,/g, "")
+                            const numericValue = Number(raw)
+                            if (!isNaN(numericValue)) {
+                              field.onChange(numericValue)
+                            } else {
+                              field.onChange("")
+                            }
                           }}
                           className="bg-ui-bg-field-component hover:bg-ui-bg-field-component-hover"
                         />

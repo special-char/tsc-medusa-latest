@@ -1,4 +1,4 @@
-import { CheckCircleSolid, TriangleDownMini } from "@medusajs/icons";
+import { CheckCircleSolid, TriangleDownMini } from "@medusajs/icons"
 import {
   Button,
   clx,
@@ -8,76 +8,62 @@ import {
   toast,
   Toaster,
   usePrompt,
-} from "@medusajs/ui";
-import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useOrderPreview } from "../../../hooks/order-preview";
-import { 
-  useQuote, 
-  useRejectQuote, 
-  useSendQuote
-} from "../../../hooks/quotes";
-import { QuoteItems } from "../../../components/quote/quote-items";
-import { TotalsBreakdown } from "../../../components/quote/totals-breakdown";
-import { formatAmount } from "../../../components/quote/utils";
-import { getLocaleAmount } from "../../../lib/money-amount-helpers";
-import ShippingInfoPopover from "../../orders/order-detail/components/order-summary-section/shipping-info-popover";
-import { AdminOrder, AdminRegion } from "@medusajs/types";
-import { useTranslation } from "react-i18next";
+} from "@medusajs/ui"
+import { ReactNode, useEffect, useMemo, useState } from "react"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { useOrderPreview } from "../../../hooks/order-preview"
+import { useQuote, useRejectQuote, useSendQuote } from "../../../hooks/quotes"
+import { QuoteItems } from "../../../components/quote/quote-items"
+import { formatAmount } from "../../../components/quote/utils"
+import { getLocaleAmount } from "../../../lib/money-amount-helpers"
+import ShippingInfoPopover from "../../orders/order-detail/components/order-summary-section/shipping-info-popover"
+import { AdminOrder, AdminRegion } from "@medusajs/types"
+import { useTranslation } from "react-i18next"
 
 export const QuoteDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams()
+  const navigate = useNavigate()
   const { quote, isLoading } = useQuote(id!, {
-    fields:
-      "*draft_order.customer",
-  });
+    fields: "*draft_order.customer",
+  })
 
   const { order: preview, isLoading: isPreviewLoading } = useOrderPreview(
     quote?.draft_order_id!,
     {},
     { enabled: !!quote?.draft_order_id }
-  );
+  )
 
-  const prompt = usePrompt();
+  const prompt = usePrompt()
   const { mutateAsync: rejectQuote, isPending: isRejectingQuote } =
-    useRejectQuote(id!);
-  const [showRejectQuote, setShowRejectQuote] = useState(false);
+    useRejectQuote(id!)
+  const [showRejectQuote, setShowRejectQuote] = useState(false)
 
   const { mutateAsync: sendQuote, isPending: isSendingQuote } = useSendQuote(
     id!
-  );
-  const [showSendQuote, setShowSendQuote] = useState(false);
+  )
+  const [showSendQuote, setShowSendQuote] = useState(false)
 
-  const [showManageQuote, setShowManageQuote] = useState(false);
+  const [showManageQuote, setShowManageQuote] = useState(false)
 
   useEffect(() => {
-    if (["pending",].includes(quote?.status!)) {
-      setShowSendQuote(true);
+    if (["pending"].includes(quote?.status!)) {
+      setShowSendQuote(true)
     } else {
-      setShowSendQuote(false);
+      setShowSendQuote(false)
     }
 
-    if (
-      ![
-        "pending",
-      ].includes(
-        quote?.status!
-      )
-    ) {
-      setShowRejectQuote(false);
+    if (!["pending"].includes(quote?.status!)) {
+      setShowRejectQuote(false)
     } else {
-      setShowRejectQuote(true);
+      setShowRejectQuote(true)
     }
 
-    if (![
-      "pending",
-    ].includes(quote?.status!)) {
-      setShowManageQuote(false);
+    if (!["pending"].includes(quote?.status!)) {
+      setShowManageQuote(false)
     } else {
-      setShowManageQuote(true);
+      setShowManageQuote(true)
     }
-  }, [quote]);
+  }, [quote])
 
   const handleRejectQuote = async () => {
     const res = await prompt({
@@ -87,16 +73,16 @@ export const QuoteDetails = () => {
       confirmText: "Continue",
       cancelText: "Cancel",
       variant: "confirmation",
-    });
+    })
 
     if (res) {
       await rejectQuote(void 0, {
         onSuccess: () =>
           toast.success("Successfully rejected customer's quote"),
         onError: (e) => toast.error(e.message),
-      });
+      })
     }
-  };
+  }
 
   const handleSendQuote = async () => {
     const res = await prompt({
@@ -106,63 +92,62 @@ export const QuoteDetails = () => {
       confirmText: "Continue",
       cancelText: "Cancel",
       variant: "confirmation",
-    });
+    })
 
     if (res) {
-      await sendQuote(
-        void 0,
-        {
-          onSuccess: () => toast.success("Successfully sent quote to customer"),
-          onError: (e) => toast.error(e.message),
-        }
-      );
+      await sendQuote(void 0, {
+        onSuccess: () => toast.success("Successfully sent quote to customer"),
+        onError: (e) => toast.error(e.message),
+      })
     }
-  };
+  }
 
   if (isLoading || !quote) {
-    return <></>;
+    return <></>
   }
 
   if (isPreviewLoading) {
-    return <></>;
+    return <></>
   }
 
   if (!isPreviewLoading && !preview) {
-    throw "preview not found";
+    throw "preview not found"
   }
 
   return (
     <div className="flex flex-col gap-y-3">
       <div className="flex flex-col gap-x-4 lg:flex-row xl:items-start">
         <div className="flex w-full flex-col gap-y-3">
-          {(quote.status === "accepted" && quote.draft_order.payment_status == "captured" ) && (
-            <Container className="divide-y divide-dashed p-0">
-              <div className="flex items-center justify-between px-6 py-4">
-                <Text className="txt-compact-small">
-                  <CheckCircleSolid className="inline-block mr-2 text-green-500 text-lg" />
-                  Quote accepted by customer. Order is ready for processing.
-                </Text>
+          {quote.status === "accepted" &&
+            quote.draft_order.payment_status == "captured" && (
+              <Container className="divide-y divide-dashed p-0">
+                <div className="flex items-center justify-between px-6 py-4">
+                  <Text className="txt-compact-small">
+                    <CheckCircleSolid className="mr-2 inline-block text-lg text-green-500" />
+                    Quote accepted by customer. Order is ready for processing.
+                  </Text>
 
-                <Button
-                  size="small"
-                  onClick={() => navigate(`/orders/${quote.draft_order_id}`)}
-                >
-                  View Order
-                </Button>
-              </div>
-            </Container>
-          )}
+                  <Button
+                    size="small"
+                    onClick={() => navigate(`/orders/${quote.draft_order_id}`)}
+                  >
+                    View Order
+                  </Button>
+                </div>
+              </Container>
+            )}
 
           <Container className="divide-y divide-dashed p-0">
             <div className="flex items-center justify-between px-6 py-4">
               <Heading level="h2">Quote Summary</Heading>
-              <span className="text-ui-fg-muted txt-compact-small">{quote.status}</span>
+              <span className="text-ui-fg-muted txt-compact-small">
+                {quote.status}
+              </span>
             </div>
             <QuoteItems order={quote.draft_order} preview={preview!} />
             {/* <TotalsBreakdown order={quote.draft_order} /> */}
             <CostBreakdown order={quote.draft_order} preview={preview!} />
             <div className=" flex flex-col gap-y-2 px-6 py-4">
-              
               <div className="text-ui-fg-base flex items-center justify-between">
                 <Text
                   weight="plus"
@@ -178,10 +163,13 @@ export const QuoteDetails = () => {
                   size="small"
                   leading="compact"
                 >
-                  {formatAmount(quote.draft_order.original_total, quote.draft_order.currency_code)}
+                  {formatAmount(
+                    quote.draft_order.original_total,
+                    quote.draft_order.currency_code
+                  )}
                 </Text>
               </div>
-        
+
               <div className="text-ui-fg-base flex items-center justify-between">
                 <Text
                   className="text-ui-fg-subtle text-semibold"
@@ -197,7 +185,10 @@ export const QuoteDetails = () => {
                   leading="compact"
                   weight="plus"
                 >
-                  {formatAmount((preview!.summary as any).current_order_total, quote.draft_order.currency_code)}
+                  {formatAmount(
+                    (preview!.summary as any).current_order_total,
+                    quote.draft_order.currency_code
+                  )}
                 </Text>
               </div>
             </div>
@@ -230,15 +221,14 @@ export const QuoteDetails = () => {
                   size="small"
                   variant="secondary"
                   onClick={() => {
-                    
-                    navigate(`/quote/${quote.id}/manage`)}}
+                    navigate(`/quote/${quote.id}/manage`)
+                  }}
                 >
                   Manage Quote
                 </Button>
               )}
             </div>
           </Container>
-
         </div>
 
         <div className="mt-2 flex w-full max-w-[100%] flex-col gap-y-3 xl:mt-0 xl:max-w-[400px]">
@@ -253,7 +243,7 @@ export const QuoteDetails = () => {
               </Text>
 
               <Link
-                className="text-sm text-pretty text-blue-500"
+                className="text-pretty text-sm text-blue-500"
                 to={`/customers/${quote.draft_order?.customer?.id}`}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -265,10 +255,9 @@ export const QuoteDetails = () => {
       </div>
 
       <Toaster />
-
     </div>
-  );
-};
+  )
+}
 
 const Cost = ({
   label,
@@ -300,9 +289,9 @@ const Cost = ({
 
 const CostBreakdown = ({
   order,
-  preview
+  preview,
 }: {
-  order: AdminOrder & { region?: AdminRegion | null },
+  order: AdminOrder & { region?: AdminRegion | null }
   preview: AdminOrder & { region?: AdminRegion | null }
 }) => {
   const { t } = useTranslation()
@@ -329,8 +318,7 @@ const CostBreakdown = ({
   const automaticTaxesOn = !!order.region?.automatic_taxes
   const hasTaxLines = !!Object.keys(taxCodes).length
 
-  const discountTotal =  order.discount_total
-    
+  const discountTotal = order.discount_total
 
   return (
     <div className="text-ui-fg-subtle flex flex-col gap-y-2 px-6 py-4">
@@ -342,15 +330,14 @@ const CostBreakdown = ({
         )}
         value={getLocaleAmount(preview.item_subtotal, order.currency_code)}
       />
-     
 
       {isShippingOpen && (
         <div className="flex flex-col gap-1 pl-5">
           {(order.shipping_methods || [])
-            .sort((m1:any, m2:any) =>
+            .sort((m1: any, m2: any) =>
               (m1.created_at as string).localeCompare(m2.created_at as string)
             )
-            .map((sm:any, i:any) => {
+            .map((sm: any, i: any) => {
               return (
                 <div
                   key={sm.id}
@@ -440,7 +427,7 @@ const CostBreakdown = ({
                     <div className="bottom-[calc(50% - 2px)] absolute h-[1px] w-full border-b border-dashed" />
                   </div>
                   <span className="txt-small text-ui-fg-muted">
-                    {getLocaleAmount(total, order.currency_code)}
+                    {getLocaleAmount(Number(total), order.currency_code)}
                   </span>
                 </div>
               )
