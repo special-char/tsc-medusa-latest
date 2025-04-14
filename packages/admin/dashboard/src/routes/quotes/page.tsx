@@ -12,6 +12,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { AdminQuote, useQuotes } from "../../hooks/quotes"
 import { useEffect, useState } from "react"
 import { t } from "i18next"
+import { QuoteStatusCell } from "../../components/quote/quote-status"
+import { QuoteStatus } from "../../lib/quote-status-helper"
 
 const StatusTitles: Record<string, string> = {
   accepted: "Accepted",
@@ -27,7 +29,17 @@ const columns = [
   }),
   columnHelper.accessor("status", {
     header: "Status",
-    cell: ({ getValue }) => StatusTitles[getValue()],
+    cell: ({ getValue, row }) => {
+      const status = getValue()
+      if (
+        status === "accepted" &&
+        `${(row.original as any)?.payment_status}` === "captured"
+      ) {
+        return <QuoteStatusCell status={"captured" as QuoteStatus} />
+      } else {
+        return <QuoteStatusCell status={status as QuoteStatus} />
+      }
+    },
   }),
   columnHelper.accessor("customer.email", {
     header: "Email",
@@ -41,7 +53,7 @@ const columns = [
   columnHelper.accessor("draft_order.total", {
     header: "Total",
     cell: ({ getValue, row }) =>
-      `${row.original.draft_order.currency_code.toUpperCase()} ${getValue()}`,
+      `${row.original.draft_order?.currency_code?.toUpperCase()} ${getValue()}`,
   }),
   columnHelper.accessor("created_at", {
     header: "Created At",
@@ -65,7 +77,7 @@ export const Quotes = () => {
   } = useQuotes({
     limit: PAGE_SIZE,
     offset: pagination.pageIndex * PAGE_SIZE,
-    fields: "+draft_order.total,*draft_order.customer",
+    // fields: "+draft_order.total,*draft_order.customer",
     order: "-created_at",
   })
 
@@ -107,4 +119,3 @@ export const Quotes = () => {
     </>
   )
 }
-
