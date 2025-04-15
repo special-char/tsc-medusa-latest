@@ -15,7 +15,7 @@ import { Controller, useForm, FormProvider } from "react-hook-form"
 import ErrorMessage from "../custom/components/form/DynamicForm/ErrorMessage"
 
 type ReturnCreateFormProps = {
-  order: AdminOrder,
+  order: AdminOrder
   quote: AdminQuote
 }
 
@@ -60,7 +60,7 @@ export const ManageQuoteForm = ({ order, quote }: ReturnCreateFormProps) => {
         if (itemData.quantity || itemData.unit_price) {
           await updateItem({
             itemId,
-            quantity: itemData.quantity,
+            quantity: Number(itemData.quantity),
             unit_price: Number(itemData.unit_price),
           })
         }
