@@ -18,8 +18,8 @@ import * as zod from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 const WarrantyFormSchema = zod.object({
-  warrantyDays: zod.string().min(1, "Warranty days is required"),
-  serviceInterval: zod.string().min(1, "Service interval is required"),
+  days: zod.string().min(1, "Warranty days is required"),
+  service_interval: zod.string().min(1, "Service interval is required"),
 })
 
 type WarrantyFormValues = zod.infer<typeof WarrantyFormSchema>
@@ -30,8 +30,8 @@ const VariantWarrantySection = ({
   const form = useForm<WarrantyFormValues>({
     resolver: zodResolver(WarrantyFormSchema),
     defaultValues: {
-      warrantyDays: "",
-      serviceInterval: "",
+      days: "",
+      service_interval: "",
     },
   })
 
@@ -53,8 +53,9 @@ const VariantWarrantySection = ({
 
         setVariantData(res.variant)
         form.reset({
-          warrantyDays: res.variant?.metadata?.warrantyDays?.toString() || "",
-          serviceInterval: res.variant?.metadata?.serviceInterval?.toString() || "",
+          days: res.variant?.metadata?.warrantyDays?.toString() || "",
+          service_interval:
+            res.variant?.metadata?.serviceInterval?.toString() || "",
         })
       } catch (error) {
         console.error("Error fetching variant data:", error)
@@ -74,8 +75,8 @@ const VariantWarrantySection = ({
         {
           metadata: {
             ...variantData?.metadata,
-            warrantyDays: Number(values.warrantyDays),
-            serviceInterval: Number(values.serviceInterval),
+            warrantyDays: Number(values.days),
+            serviceInterval: Number(values.service_interval),
           },
         }
       )
@@ -86,8 +87,8 @@ const VariantWarrantySection = ({
         ...prev,
         metadata: {
           ...prev.metadata,
-          warrantyDays: Number(values.warrantyDays),
-          serviceInterval: Number(values.serviceInterval),
+          warrantyDays: Number(values.days),
+          serviceInterval: Number(values.service_interval),
         },
       }))
     } catch (error) {
@@ -125,12 +126,12 @@ const VariantWarrantySection = ({
                     <Input
                       type="number"
                       min={1}
-                      {...form.register("warrantyDays")}
+                      {...form.register("days")}
                       placeholder="Warranty period (days)"
                     />
-                    {form.formState.errors.warrantyDays && (
+                    {form.formState.errors.days && (
                       <p className="mt-1 text-sm text-red-500">
-                        {form.formState.errors.warrantyDays.message}
+                        {form.formState.errors.days.message}
                       </p>
                     )}
                   </div>
@@ -138,12 +139,12 @@ const VariantWarrantySection = ({
                     <Input
                       type="number"
                       min={1}
-                      {...form.register("serviceInterval")}
+                      {...form.register("service_interval")}
                       placeholder="Service interval (days)"
                     />
-                    {form.formState.errors.serviceInterval && (
+                    {form.formState.errors.service_interval && (
                       <p className="mt-1 text-sm text-red-500">
-                        {form.formState.errors.serviceInterval.message}
+                        {form.formState.errors.service_interval.message}
                       </p>
                     )}
                   </div>
