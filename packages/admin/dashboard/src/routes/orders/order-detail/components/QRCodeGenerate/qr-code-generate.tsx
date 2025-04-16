@@ -12,7 +12,7 @@ export default function QRCodeGenerate({ item }: { item: AdminOrderLineItem }) {
   const exportDivImageRef = useRef<HTMLDivElement>(null)
   const [downloading, setDownloading] = useState(false)
 
-  const value = `https://shop.liscosystems.com/in/warrenty/${item.variant_id}/${item.id}`
+  const value = `${__STOREFRONT_URL__}/warrenty/${item.variant_id}/${item.id}`
 
   const exportAsImage = async (
     element: HTMLElement | null,
