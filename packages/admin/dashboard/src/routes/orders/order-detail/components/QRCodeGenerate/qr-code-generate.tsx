@@ -6,7 +6,7 @@ import { Button, Prompt } from "@medusajs/ui"
 import html2canvas from "html2canvas"
 import { useRef, useState } from "react"
 import { QRCode } from "react-qrcode-logo"
-import Logo from "./images/lisco-logo.jpg"
+import Logo from "../../../../../assets/images/lisco-logo.jpg"
 
 export default function QRCodeGenerate({ item }: { item: AdminOrderLineItem }) {
   const exportDivImageRef = useRef<HTMLDivElement>(null)
