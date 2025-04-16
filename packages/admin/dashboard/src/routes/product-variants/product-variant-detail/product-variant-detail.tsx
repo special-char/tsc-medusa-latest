@@ -13,6 +13,8 @@ import {
 import { VariantPricesSection } from "./components/variant-prices-section"
 import { VARIANT_DETAIL_FIELDS } from "./constants"
 import { variantLoader } from "./loader"
+import VariantWarrantySection from "./components/variant-warranty-section/variant-warranty-section"
+import dashboardConfig from "../../../../dashboard.config"
 
 export const ProductVariantDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -77,6 +79,9 @@ export const ProductVariantDetail = () => {
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
         <VariantPricesSection variant={variant} />
+        {dashboardConfig?.featureFlags?.variantWarrantySection && (
+          <VariantWarrantySection data={variant} />
+        )}
       </TwoColumnPage.Sidebar>
     </TwoColumnPage>
   )

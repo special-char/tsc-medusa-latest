@@ -57,6 +57,7 @@ import { CopyPaymentLink } from "../copy-payment-link/copy-payment-link"
 import ReturnInfoPopover from "./return-info-popover"
 import ShippingInfoPopover from "./shipping-info-popover"
 import { OrderNoteSection } from "../order-note-section"
+import QRCodeGenerate from "../QRCodeGenerate/qr-code-generate"
 
 type OrderSummarySectionProps = {
   order: AdminOrder
@@ -421,7 +422,7 @@ const Item = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-3 items-center gap-x-4">
+        <div className="grid grid-cols-4 items-center gap-x-4">
           <div className="flex items-center justify-end gap-x-4">
             <Text size="small">
               {getLocaleAmount(item.unit_price, currencyCode)}
@@ -448,7 +449,7 @@ const Item = ({
               )}
             </div>
           </div>
-
+          <QRCodeGenerate item={item} />
           <div className="flex items-center justify-end">
             <Text size="small" className="pt-[1px]">
               {getLocaleAmount(item.subtotal || 0, currencyCode)}

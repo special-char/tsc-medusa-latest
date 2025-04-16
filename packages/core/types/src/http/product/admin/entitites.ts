@@ -55,6 +55,21 @@ export interface AdminProductVariant extends BaseProductVariant {
    * The variant's inventory items.
    */
   inventory_items?: AdminProductVariantInventoryItemLink[] | null
+  /**
+   * The variant's warranty terms.
+   */
+  product_warranty_terms?: ProductWarrantyTerms
+}
+
+export interface ProductWarrantyTerms {
+  id: string
+  days: number
+  service_interval: number
+  product_id: string
+  variant_id: string
+  created_at: string
+  updated_at: string
+  deleted_at: string | null
 }
 export interface AdminProductOption extends BaseProductOption {
   /**

@@ -24,6 +24,7 @@ type ConfigType = {
     productOptionImages?: boolean
     productHighlights?: boolean
     createOrder?: boolean
+    variantWarrantySection?: boolean
   }
 }
 
@@ -51,6 +52,7 @@ const dashboardConfig: ConfigType = {
     productOptionImages: true,
     productHighlights: true,
     createOrder: true,
+    variantWarrantySection: true,
     // marketplace
     // restock
   },
