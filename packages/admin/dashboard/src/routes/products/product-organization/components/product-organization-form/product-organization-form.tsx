@@ -53,6 +53,8 @@ export const ProductOrganizationForm = ({
   const { getFormConfigs, getFormFields } = useDashboardExtension()
   const [brands, setBrands] = useState<{ brands: any[] }>({ brands: [] }) // State for brands
   const [loadingBrands, setLoadingBrands] = useState(true) // State for loading brands
+  const [isCreatingBrand, setIsCreatingBrand] = useState(false)
+  const [brandSearchValue, setBrandSearchValue] = useState("")
 
   useEffect(() => {
     const fetchBrandsData = async () => {
@@ -252,6 +254,10 @@ export const ProductOrganizationForm = ({
               control={form.control}
               name="brand_id"
               render={({ field }) => {
+                const brandExists = brands.brands.some(
+                  (brand) => brand.name.toLowerCase() === brandSearchValue.toLowerCase()
+                )
+
                 return (
                   <Form.Item>
                     <Form.Label optional>{"Brand"}</Form.Label>
@@ -259,10 +265,48 @@ export const ProductOrganizationForm = ({
                       <Combobox
                         {...field}
                         multiple={false}
-                        options={brands.brands.map((brand: any) => ({
-                          label: brand.name,
-                          value: brand.id,
-                        }))}
+                        options={[
+                          ...(brandSearchValue && !brandExists ? [{
+                            label: `Create brand "${brandSearchValue}"`,
+                            value: "__create__" + brandSearchValue
+                          }] : []),
+                          ...brands.brands.map((brand: any) => ({
+                            label: brand.name,
+                            value: brand.id,
+                          })),
+
+                        ]}
+                        searchValue={brandSearchValue}
+                        onSearchValueChange={(value) => {
+                          setBrandSearchValue(value)
+                        }}
+                        onChange={async (value) => {
+                          if (value?.startsWith("__create__")) {
+                            const newBrandName = value.replace("__create__", "")
+                            try {
+                              setIsCreatingBrand(true)
+                              const response = await sdk.admin.brand.create({
+                                name: newBrandName
+                              })
+
+                              setBrands(prev => ({
+                                brands: [...prev.brands, response.brand]
+                              }))
+
+                              field.onChange(response.brand.id)
+                              setBrandSearchValue("")
+                              toast.success("Brand created successfully")
+                            } catch (error) {
+                              toast.error("Failed to create brand")
+                              console.error(error)
+                            } finally {
+                              setIsCreatingBrand(false)
+                            }
+                          } else {
+                            field.onChange(value)
+                          }
+                        }}
+                        disabled={isCreatingBrand}
                       />
                     </Form.Control>
                     <Form.ErrorMessage />
