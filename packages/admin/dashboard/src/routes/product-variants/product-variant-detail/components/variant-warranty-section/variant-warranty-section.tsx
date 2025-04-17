@@ -75,8 +75,8 @@ const VariantWarrantySection = ({
         {
           metadata: {
             ...variantData?.metadata,
-            warrantyDays: Number(values.days),
-            serviceInterval: Number(values.service_interval),
+            days: Number(values.days),
+            service_interval: Number(values.service_interval),
           },
         }
       )
@@ -87,8 +87,8 @@ const VariantWarrantySection = ({
         ...prev,
         metadata: {
           ...prev.metadata,
-          warrantyDays: Number(values.days),
-          serviceInterval: Number(values.service_interval),
+          days: Number(values.days),
+          service_interval: Number(values.service_interval),
         },
       }))
     } catch (error) {
@@ -176,7 +176,7 @@ const VariantWarrantySection = ({
           leading="compact"
           className="whitespace-pre-line text-pretty"
         >
-          {variantData?.metadata?.warrantyDays || "No Warranty"}
+          {variantData?.metadata?.days || "No Warranty"}
         </Text>
         <Text size="small" weight="plus" leading="compact">
           Service Interval (Days)
@@ -186,7 +186,7 @@ const VariantWarrantySection = ({
           leading="compact"
           className="whitespace-pre-line text-pretty"
         >
-          {variantData?.metadata?.serviceInterval || "-"}
+          {variantData?.metadata?.service_interval || "-"}
         </Text>
       </div>
     </Container>
