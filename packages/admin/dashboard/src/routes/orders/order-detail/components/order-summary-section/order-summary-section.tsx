@@ -423,33 +423,33 @@ const Item = ({
         </div>
 
         <div className="grid grid-cols-4 items-center gap-x-4">
-          <div className="flex items-center justify-end gap-x-4">
-            <Text size="small">
-              {getLocaleAmount(item.unit_price, currencyCode)}
-            </Text>
-          </div>
-
           <div className="flex items-center gap-x-2">
+            <div className="flex items-center justify-end gap-x-4">
+              <Text size="small">
+                {getLocaleAmount(item.unit_price, currencyCode)}
+              </Text>
+            </div>
             <div className="w-fit min-w-[27px]">
               <Text size="small">
                 <span className="tabular-nums">{item.quantity}</span>x
               </Text>
             </div>
-
-            <div className="overflow-visible">
-              {isInventoryManaged && hasUnfulfilledItems && (
-                <StatusBadge
-                  color={reservation ? "green" : "orange"}
-                  className="text-nowrap"
-                >
-                  {reservation
-                    ? t("orders.reservations.allocatedLabel")
-                    : t("orders.reservations.notAllocatedLabel")}
-                </StatusBadge>
-              )}
-            </div>
           </div>
-          <QRCodeGenerate item={item} />
+          <div className="overflow-visible">
+            {isInventoryManaged && hasUnfulfilledItems && (
+              <StatusBadge
+                color={reservation ? "green" : "orange"}
+                className="text-nowrap"
+              >
+                {reservation
+                  ? t("orders.reservations.allocatedLabel")
+                  : t("orders.reservations.notAllocatedLabel")}
+              </StatusBadge>
+            )}
+          </div>
+          <div className="flex items-center justify-center">
+            <QRCodeGenerate item={item} />
+          </div>
           <div className="flex items-center justify-end">
             <Text size="small" className="pt-[1px]">
               {getLocaleAmount(item.subtotal || 0, currencyCode)}
