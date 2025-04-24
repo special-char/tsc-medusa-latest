@@ -65,10 +65,14 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
   // const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
 
+  console.log({ data })
+
   const form = useForm<FieldValues>({
     defaultValues: {
       additional_description:
-        data?.additional_details?.additional_description || "",
+        data?.additional_details?.additional_description ||
+        data?.metadata?.characteristics ||
+        "",
       additional_details_title:
         data?.additional_details?.additional_details_title || "",
       additional_details_content:
@@ -125,7 +129,9 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
 
     form.reset({
       additional_description:
-        data?.additional_details?.additional_description || "",
+        data?.additional_details?.additional_description ||
+        data?.metadata?.characteristics ||
+        "",
       additional_details_title:
         data?.additional_details?.additional_details_title || "",
       additional_details_content:
