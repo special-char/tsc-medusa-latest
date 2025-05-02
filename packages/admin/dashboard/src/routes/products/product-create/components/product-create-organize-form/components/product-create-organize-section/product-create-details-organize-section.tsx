@@ -181,7 +181,8 @@ export const ProductCreateOrganizationSection = ({
           }}
         />
       </div>
-      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {/* TODO: TSC add this when added in new version */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <Form.Label>{t("products.fields.shipping_profile.label")}</Form.Label>
           <Form.Hint>
@@ -208,7 +209,7 @@ export const ProductCreateOrganizationSection = ({
             )
           }}
         />
-      </div> */}
+      </div>
       <div className="grid grid-cols-1 gap-y-4">
         <Form.Field
           control={form.control}

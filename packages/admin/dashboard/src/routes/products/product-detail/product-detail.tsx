@@ -91,7 +91,7 @@ export const ProductDetail = () => {
       <TwoColumnPage.Sidebar>
         <ProductSalesChannelSection product={product} />
         {/* TODO: TSC add this when added in new version */}
-        {/* <ProductShippingProfileSection product={product} /> */}
+        <ProductShippingProfileSection product={product} />
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
         {dashboardConfig?.featureFlags?.productSeo && (
