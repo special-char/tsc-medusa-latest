@@ -3,7 +3,9 @@ import { HttpTypes } from "@medusajs/types"
 import {
   Container,
   Heading,
+  Label,
   StatusBadge,
+  Switch,
   Text,
   toast,
   usePrompt,
@@ -12,10 +14,23 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
-import { useDeleteCustomer } from "../../../../../hooks/api/customers"
+import {
+  useDeleteCustomer,
+  useUpdateCustomer,
+} from "../../../../../hooks/api/customers"
+import { Controller, useForm } from "react-hook-form"
+import dashboardConfig from "../../../../../../dashboard.config"
+
+export type CustomerMetadata = {
+  old_customer?: boolean // Make it optional if it may not exist
+  // Add other metadata fields if necessary
+}
 
 type CustomerGeneralSectionProps = {
-  customer: HttpTypes.AdminCustomer
+  customer: HttpTypes.AdminCustomer & { metadata: CustomerMetadata } // Extend the customer type
+}
+type FormData = {
+  old_customer: boolean
 }
 
 export const CustomerGeneralSection = ({
@@ -68,11 +83,61 @@ export const CustomerGeneralSection = ({
     })
   }
 
+  const { mutateAsync: updateCustomer } = useUpdateCustomer(customer.id)
+
+  const { control, setValue } = useForm<FormData>({
+    defaultValues: {
+      old_customer: customer?.metadata?.old_customer ?? false,
+    },
+  })
+
+  const handleToggle = async (newValue: boolean) => {
+    try {
+      await updateCustomer(
+        {
+          metadata: {
+            ...customer.metadata,
+            old_customer: newValue,
+          },
+        },
+        {
+          onSuccess: () => {
+            toast.success("Updated Successfully")
+            setValue("old_customer", newValue)
+          },
+          onError: (error) => {
+            toast.error(error.message)
+          },
+        }
+      )
+    } catch (e) {
+      toast.error("Failed to update customer.")
+    }
+  }
+
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
         <Heading>{customer.email}</Heading>
         <div className="flex items-center gap-x-2">
+          {dashboardConfig?.featureFlags?.customerVerify && (
+            <div className="flex items-center gap-x-2">
+              <Label htmlFor="verified-customer">Verify</Label>
+              <Controller
+                name="old_customer"
+                control={control}
+                render={({ field }) => (
+                  <Switch
+                    id="verified-customer"
+                    value={field.value.toString()}
+                    checked={field.value}
+                    onCheckedChange={(newValue) => handleToggle(newValue)} // use onCheckedChange for better control
+                  />
+                )}
+              />
+            </div>
+          )}
+
           <StatusBadge color={statusColor}>{statusText}</StatusBadge>
           <ActionMenu
             groups={[
@@ -122,6 +187,16 @@ export const CustomerGeneralSection = ({
           {customer.phone || "-"}
         </Text>
       </div>
+      {dashboardConfig?.featureFlags?.customerVerify && (
+        <div className="text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4">
+          <Text size="small" leading="compact" weight="plus">
+            Verify
+          </Text>
+          <Text size="small" leading="compact">
+            {customer?.metadata?.old_customer?.toString() || "-"}
+          </Text>
+        </div>
+      )}
     </Container>
   )
 }

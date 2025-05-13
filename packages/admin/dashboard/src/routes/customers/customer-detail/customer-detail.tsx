@@ -4,10 +4,14 @@ import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
 import { useCustomer } from "../../../hooks/api/customers"
-import { CustomerGeneralSection } from "./components/customer-general-section"
+import {
+  CustomerGeneralSection,
+  CustomerMetadata,
+} from "./components/customer-general-section"
 import { CustomerGroupSection } from "./components/customer-group-section"
 import { CustomerOrderSection } from "./components/customer-order-section"
 import { customerLoader } from "./loader"
+import { HttpTypes } from "@medusajs/types"
 
 export const CustomerDetail = () => {
   const { id } = useParams()
@@ -40,7 +44,11 @@ export const CustomerDetail = () => {
       showJSON
       showMetadata
     >
-      <CustomerGeneralSection customer={customer} />
+      <CustomerGeneralSection
+        customer={
+          customer as HttpTypes.AdminCustomer & { metadata: CustomerMetadata }
+        }
+      />
       <CustomerOrderSection customer={customer} />
       <CustomerGroupSection customer={customer} />
     </SingleColumnPage>
