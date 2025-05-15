@@ -98,7 +98,9 @@ const QuoteCreateForm = (props: Props) => {
     queryFn: (params) => sdk.admin.customer.list(params),
     getOptions: (data) =>
       data.customers.map((type) => ({
-        label: type.email,
+        label: `${type.email} (${
+          type?.has_account === false ? "Guest" : "Registered"
+        })`,
         value: type.id,
       })),
   })
@@ -113,7 +115,7 @@ const QuoteCreateForm = (props: Props) => {
     getOptions: (data) => {
       return data.variants.map((type: any) => {
         return {
-          label: type.title + " - " + type.sku,
+          label: type.title + " - " + type.product.title,
           value: type.id,
           image: type.product?.thumbnail,
           price: type.calculated_price,
