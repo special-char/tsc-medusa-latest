@@ -392,6 +392,10 @@ const Item = ({
     isInventoryManaged && (item.variant?.inventory_items?.length || 0) > 1
   const hasUnfulfilledItems = item.quantity - item.detail.fulfilled_quantity > 0
 
+  const hasPrinterCategory = item?.variant?.product?.categories?.some(
+    (x) => x.handle === "printers"
+  )
+
   return (
     <>
       <div
@@ -422,7 +426,11 @@ const Item = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-4 items-center gap-x-4">
+        <div
+          className={`grid ${
+            hasPrinterCategory ? "grid-cols-4" : "grid-cols-3"
+          }  items-center gap-x-4`}
+        >
           <div className="flex items-center gap-x-2">
             <div className="flex items-center justify-end gap-x-4">
               <Text size="small">
@@ -447,9 +455,11 @@ const Item = ({
               </StatusBadge>
             )}
           </div>
-          <div className="flex items-center justify-center">
-            <QRCodeGenerate item={item} />
-          </div>
+          {hasPrinterCategory && (
+            <div className="flex items-center justify-center">
+              <QRCodeGenerate item={item} />
+            </div>
+          )}
           <div className="flex items-center justify-end">
             <Text size="small" className="pt-[1px]">
               {getLocaleAmount(item.subtotal || 0, currencyCode)}
