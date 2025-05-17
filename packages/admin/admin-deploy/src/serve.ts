@@ -3,7 +3,7 @@ import express from "express"
 
 const app = express()
 
-const PORT = +process.env.PORT! || 5173
+const PORT = process.env.PORT! || 5173
 
 async function serve() {
   try {
