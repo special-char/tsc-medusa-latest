@@ -12,8 +12,8 @@ async function build() {
 
     await bundler.build({
       path: "/",
-      backendUrl: "https://backendbrainspa.thespecialcharacter.com", // process.env.BACKEND_URL,
-      storefrontUrl: "https://brainspa.thespecialcharacter.com", // process.env.STOREFRONT_URL,
+      backendUrl: "https://backenddbdoesit.thespecialcharacter.com", // process.env.BACKEND_URL,
+      storefrontUrl: "https://dbdoesit.com", // process.env.STOREFRONT_URL,
       sources,
       outDir,
       vite: undefined,
