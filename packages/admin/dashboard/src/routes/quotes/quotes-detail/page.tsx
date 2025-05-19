@@ -164,7 +164,9 @@ export const QuoteDetails = () => {
                   leading="compact"
                 >
                   {formatAmount(
-                    quote.draft_order.original_total,
+                    // quote.draft_order.original_total,
+                    (quote.draft_order.summary as any)
+                      ?.original_order_total as number,
                     quote.draft_order.currency_code
                   )}
                 </Text>
@@ -186,7 +188,8 @@ export const QuoteDetails = () => {
                   weight="plus"
                 >
                   {formatAmount(
-                    (preview!.summary as any).current_order_total,
+                    // (preview!.summary as any).current_order_total,
+                    quote.draft_order.original_total,
                     quote.draft_order.currency_code
                   )}
                 </Text>
