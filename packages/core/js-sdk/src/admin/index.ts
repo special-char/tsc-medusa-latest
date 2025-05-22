@@ -60,6 +60,7 @@ import { BlogSeo } from "./blog-seo"
 import { CategorySeo } from "./category-seo"
 import { Banner } from "./banner"
 import { GoogleCategory } from "./google-category"
+import { PriceSync } from "./price-sync"
 
 export class Admin {
   /**
@@ -310,6 +311,10 @@ export class Admin {
    * @tags googleCategory
    */
   public googleCategory: GoogleCategory
+  /**
+   * @tags googleCategory
+   */
+  public priceSync: PriceSync
 
   constructor(client: Client) {
     this.faq = new Faq(client)
@@ -373,5 +378,6 @@ export class Admin {
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
     this.banner = new Banner(client)
+    this.priceSync = new PriceSync(client)
   }
 }
