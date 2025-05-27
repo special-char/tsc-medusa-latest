@@ -267,7 +267,7 @@ const AmcDetail = (props: Props) => {
                   <Controller
                     control={props.form.control}
                     name="barcode"
-                    rules={{ required: "Barcode is required" }}
+                    // rules={{ required: "Barcode is required" }}
                     render={({ field }) => {
                       return (
                         <div>
@@ -277,11 +277,11 @@ const AmcDetail = (props: Props) => {
                             placeholder="AD21M2JAK"
                             {...field}
                           />
-                          <ErrorMessage
+                          {/* <ErrorMessage
                             control={props.form.control}
                             name={field.name}
                             rules={{ required: "Barcode is required" }}
-                          />
+                          /> */}
                         </div>
                       )
                     }}

@@ -124,17 +124,12 @@ export function OrderCreateFulfillmentForm({
 
     const payload: HttpTypes.AdminCreateOrderFulfillment = {
       location_id: selectedLocationId,
-      shipping_option_id: shippingOptionId,
+      // shipping_option_id: shippingOptionId,
       no_notification: !data.send_notification,
-      items: Object.entries(data.quantity)
-        .filter(
-          ([id, value]) =>
-            !!value && itemShippingProfileMap[id] === selectedShippingProfileId
-        )
-        .map(([id, quantity]) => ({
-          id,
-          quantity,
-        })),
+      items: Object.entries(data.quantity).map(([id, quantity]) => ({
+        id,
+        quantity,
+      })),
     }
 
     try {
