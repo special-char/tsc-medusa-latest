@@ -1,4 +1,4 @@
-import { InventoryTypes } from "@medusajs/types"
+import { InventoryTypes, ProductVariantDTO } from "@medusajs/types"
 import { Button, Container, Heading, Text } from "@medusajs/ui"
 
 import { RowSelectionState } from "@tanstack/react-table"
@@ -33,13 +33,18 @@ export const InventoryListTable = () => {
     error,
   } = useInventoryItems({
     ...searchParams,
+    fields: "*variants,*variants.product"
   })
 
   const filters = useInventoryTableFilters()
-  const columns = useInventoryTableColumns()
+  const columns: any = useInventoryTableColumns()
 
   const { table } = useDataTable({
-    data: (inventory_items ?? []) as InventoryTypes.InventoryItemDTO[],
+    data: (inventory_items ?? []) as (InventoryTypes.InventoryItemDTO & {
+      variants?: ProductVariantDTO[] | null
+      stocked_quantity?: number
+      reserved_quantity?: number
+    })[],
     columns,
     count,
     enablePagination: true,

@@ -1,6 +1,6 @@
 import { InventoryTypes, ProductVariantDTO } from "@medusajs/types"
 
-import { Checkbox } from "@medusajs/ui"
+import { Checkbox, Tooltip } from "@medusajs/ui"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
@@ -48,6 +48,24 @@ export const useInventoryTableColumns = () => {
                 e.stopPropagation()
               }}
             />
+          )
+        },
+      }),
+      columnHelper.accessor("variants.product.title", {
+        header: `Product ${t("fields.title")}`,
+        cell: ({ row }) => {
+          const title = row.original?.variants?.[0]?.product?.title
+
+          if (!title) {
+            return <PlaceholderCell />
+          }
+
+          return (
+            <div className="flex size-full items-center overflow-hidden">
+              <Tooltip content={title}>
+                <span className="truncate">{title}</span>
+              </Tooltip>
+            </div>
           )
         },
       }),
