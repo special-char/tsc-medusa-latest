@@ -98,9 +98,8 @@ const QuoteCreateForm = (props: Props) => {
     queryFn: (params) => sdk.admin.customer.list(params),
     getOptions: (data) =>
       data.customers.map((type) => ({
-        label: `${type.email} (${
-          type?.has_account === false ? "Guest" : "Registered"
-        })`,
+        label: `${type.email} (${type?.has_account === false ? "Guest" : "Registered"
+          })`,
         value: type.id,
       })),
   })
@@ -109,7 +108,7 @@ const QuoteCreateForm = (props: Props) => {
     queryKey: ["variant", selectedRegionId],
     queryFn: (params: any) =>
       sdk.client.fetch<any>(
-        `admin/product-variant?region_id=${selectedRegionId}&fields=*variants.calculated_price`,
+        `admin/product-variant?region_id=${selectedRegionId}&fields=*variants.calculated_price${params.q ? `&q=${params.q}` : ''}`,
         params
       ),
     getOptions: (data) => {
@@ -207,21 +206,21 @@ const QuoteCreateForm = (props: Props) => {
                           {
                             // condition to show create customer button
                             customer.searchValue &&
-                              !customer.options.some(
-                                (opt) =>
-                                  opt.label.toLowerCase() ===
-                                  customer.searchValue.toLowerCase()
-                              ) && (
-                                <div
-                                  className="text-ui-fg-base mt-2 cursor-pointer text-sm"
-                                  onClick={() => setShowCustomerModal(true)}
-                                >
-                                  <div className="flex items-center gap-x-1">
-                                    <Plus className="h-4 w-4" />
-                                    <span>Create New Customer</span>
-                                  </div>
+                            !customer.options.some(
+                              (opt) =>
+                                opt.label.toLowerCase() ===
+                                customer.searchValue.toLowerCase()
+                            ) && (
+                              <div
+                                className="text-ui-fg-base mt-2 cursor-pointer text-sm"
+                                onClick={() => setShowCustomerModal(true)}
+                              >
+                                <div className="flex items-center gap-x-1">
+                                  <Plus className="h-4 w-4" />
+                                  <span>Create New Customer</span>
                                 </div>
-                              )
+                              </div>
+                            )
                           }
                         </div>
                         <Combobox
