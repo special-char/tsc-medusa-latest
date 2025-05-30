@@ -5,6 +5,8 @@ import { ClientHeaders } from "../types"
 type UpdateProductType = {
   images?: string[] | undefined
   thumbnail?: string | undefined | null
+  plpImages?: string[] | undefined
+  selectedImages?: string[] | undefined
 }
 
 export class ProductVariantImages {

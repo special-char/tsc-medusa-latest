@@ -13,7 +13,7 @@ import { ProductVariantSection } from "./components/product-variant-section"
 import { PRODUCT_DETAIL_FIELDS } from "./constants"
 import { productLoader } from "./loader"
 import { useDashboardExtension } from "../../../extensions"
-import ProductVariantImagesWidget from "../../../widgets/product-variant-images/product-variant-images"
+import ProductVariantImagesWidget from "../../../widgets/product-variant-images"
 import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-details/product-additional-details"
 import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
@@ -73,7 +73,9 @@ export const ProductDetail = () => {
         <ProductOptionSection product={product} />
         <ProductVariantSection product={product} />
         {dashboardConfig?.featureFlags?.productVariantImages && (
-          <ProductVariantImagesWidget data={product} />
+          <>
+            <ProductVariantImagesWidget data={product} />
+          </>
         )}
         {dashboardConfig?.featureFlags?.productOptionImages && (
           <ProductOptionImagesWidget data={product} />
