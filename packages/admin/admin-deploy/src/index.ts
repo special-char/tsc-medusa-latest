@@ -13,7 +13,7 @@ async function build() {
     await bundler.build({
       path: "/",
       backendUrl: "https://yogateria.medusajs.app",
-      storefrontUrl: "https://yogateria-v2-storefront.vercel.app",
+      storefrontUrl: "https://yogateria-storefront.vercel.app",
       sources,
       outDir,
       vite: undefined,

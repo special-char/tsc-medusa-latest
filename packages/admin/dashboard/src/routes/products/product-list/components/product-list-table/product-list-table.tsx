@@ -18,6 +18,7 @@ import { useProductTableFilters } from "../../../../../hooks/table/filters/use-p
 import { useProductTableQuery } from "../../../../../hooks/table/query/use-product-table-query"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { productsLoader } from "../../loader"
+import { MEDUSA_STOREFRONT_URL } from "../../../../../lib/storefront"
 
 const PAGE_SIZE = 20
 
@@ -145,6 +146,12 @@ const ProductActions = ({ product }: { product: HttpTypes.AdminProduct }) => {
               icon: <PencilSquare />,
               label: t("actions.edit"),
               to: `/products/${product.id}/edit`,
+            },
+            {
+              icon: <PencilSquare />,
+              label: "Edit in payload",
+              to: `${MEDUSA_STOREFRONT_URL}/api/get-payload-id?type=product&handle=${product.handle}`,
+              target: "_blank",
             },
           ],
         },

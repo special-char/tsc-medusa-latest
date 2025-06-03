@@ -1,7 +1,7 @@
 import { DropdownMenu, IconButton, clx } from "@medusajs/ui"
 
 import { EllipsisHorizontal } from "@medusajs/icons"
-import { PropsWithChildren, ReactNode } from "react"
+import { HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode } from "react"
 import { Link } from "react-router-dom"
 import { ConditionalTooltip } from "../conditional-tooltip"
 
@@ -9,6 +9,7 @@ export type Action = {
   icon: ReactNode
   label: string
   disabled?: boolean
+  target?: HTMLAttributeAnchorTarget
   /**
    * Optional tooltip to display when a disabled action is hovered.
    */
@@ -105,7 +106,11 @@ export const ActionMenu = ({
                       asChild
                       disabled={action.disabled}
                     >
-                      <Link to={action.to} onClick={(e) => e.stopPropagation()}>
+                      <Link
+                        to={action.to}
+                        target={action?.target}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {action.icon}
                         <span>{action.label}</span>
                       </Link>
