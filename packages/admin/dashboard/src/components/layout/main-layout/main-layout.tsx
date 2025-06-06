@@ -21,6 +21,7 @@ import {
   PhotoSolid,
   SquareTwoStack,
   UsersSolid,
+  Star,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import { Collapsible as RadixCollapsible } from "radix-ui"
@@ -192,7 +193,7 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
     ...(dashboardConfig?.featureFlags?.feraReview
       ? [
           {
-            icon: <Gift />,
+            icon: <Star />,
             label: "Fera.ai Reviews",
             to: "/reviews",
           },
