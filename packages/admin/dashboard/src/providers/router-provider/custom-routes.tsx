@@ -292,6 +292,29 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.feraReview
+    ? [
+        {
+          path: "/reviews",
+          errorElement: <ErrorBoundary />,
+          handle: {
+            breadcrumb: () => "Fera.ai Reviews",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/fera-reviews/fera-review-list"),
+            },
+            {
+              path: ":id",
+              errorElement: <ErrorBoundary />,
+              lazy: () =>
+                import("../../routes/fera-reviews/fera-review-detail"),
+            },
+          ],
+        },
+      ]
+    : []),
   {
     path: "/pending-orders",
     errorElement: <ErrorBoundary />,

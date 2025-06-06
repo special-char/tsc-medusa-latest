@@ -189,6 +189,15 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
   const { t } = useTranslation()
 
   const customCoreRoutes = [
+    ...(dashboardConfig?.featureFlags?.feraReview
+      ? [
+          {
+            icon: <Gift />,
+            label: "Fera.ai Reviews",
+            to: "/reviews",
+          },
+        ]
+      : []),
     ...(dashboardConfig?.featureFlags?.digitalProducts
       ? [
           {
