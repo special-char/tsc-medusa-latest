@@ -7,9 +7,9 @@ import { useFeraReview } from "../hooks/useFeraReview"
 export const FeraReviewDetail = () => {
   const { id } = useParams()
 
-  const { , isLoading, isError, error } = useFeraReview(id!)
+  const { review, isLoading, isError, error } = useFeraReview(id!)
 
-  if (isLoading || !reviews) {
+  if (isLoading || !review) {
     return (
       <TwoColumnPageSkeleton mainSections={4} sidebarSections={2} showJSON />
     )

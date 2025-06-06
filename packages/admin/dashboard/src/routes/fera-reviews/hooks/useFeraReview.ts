@@ -10,7 +10,12 @@ export const useFeraReview = (
     offset?: number
   },
   options?: Omit<
-    UseQueryOptions<FeraReview, FetchError, FeraReview, QueryKey>,
+    UseQueryOptions<
+      { review: FeraReview },
+      FetchError,
+      { review: FeraReview },
+      QueryKey
+    >,
     "queryFn" | "queryKey"
   >
 ) => {
@@ -21,7 +26,7 @@ export const useFeraReview = (
         headers: {
           "Content-Type": "application/json",
         },
-      }) as Promise<FeraReview>
+      }) as Promise<{ review: FeraReview }>
     },
     queryKey: ["fera-reviews", JSON.stringify(query)],
     ...options,
