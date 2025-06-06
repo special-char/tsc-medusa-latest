@@ -15,6 +15,7 @@ import { useFeraReviewTableFilter } from "../../../hooks/useFeraReviewTableFilte
 import { useFeraReviews } from "../../../hooks/useFeraReviews"
 import { FeraReview } from "../../../types"
 import { Link } from "react-router-dom"
+import { StarRating } from "../../../fera-review-detail/components/star-rating"
 
 const PAGE_SIZE = 10
 
@@ -109,13 +110,7 @@ export const FeraReviewListTable = () => {
       cell: ({ getValue }) => {
         const rating = getValue()
 
-        return (
-          <div className="flex items-center gap-2">
-            {Array.from({ length: rating }).map((_, index) => (
-              <span key={index}>X</span>
-            ))}
-          </div>
-        )
+        return <StarRating rating={rating} />
       },
     }),
     columnHelper.accessor("created_at", {
@@ -157,7 +152,7 @@ export const FeraReviewListTable = () => {
         pageSize={PAGE_SIZE}
         // orderBy={[
         //   // { key: "display_id", label: t("orders.fields.displayId") },
-        //   { key: "created_at", label: t("fields.createdAt") },
+        //   { k y: "created_at", label: t("fields.createdAt") },
         //   { key: "updated_at", label: t("fields.updatedAt") },
         // ]}
         queryObject={raw}

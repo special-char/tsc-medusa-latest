@@ -16,6 +16,14 @@ type FeraCustomerCounts = {
   orders: number | null
 }
 
+type FeraChannel = {
+  name: string
+  icon_url: string
+  code: string
+  description: string
+  id: string
+}
+
 type FeraCustomer = {
   id: string | null
   display_name: string | null
@@ -24,7 +32,7 @@ type FeraCustomer = {
   avatar_url: string
   default_avatar_url: string
   rating: FeraCustomerRating
-  channel: string | null
+  channel: FeraChannel | null
   is_verified: boolean
   is_from_supplier: boolean
   company_name: string | null
@@ -89,6 +97,13 @@ type FeraMedia = {
   submission_id: string | null
 }
 
+type FeraStoreReply = {
+  body: string
+  created_at: string
+  name: string
+  avatar_url: string
+}
+
 export type FeraReview = {
   id: string
   subject: string
@@ -106,11 +121,11 @@ export type FeraReview = {
   is_anonymous: boolean
   channel_code: string | null
   channel_url: string | null
-  channel: string | null
+  channel: FeraChannel | null
   is_from_supplier: boolean | null
   external_id: string | null
   site_front_url: string
-  store_reply: string | null
+  store_reply: FeraStoreReply | null
   counts: FeraReviewCounts
   state: string
   external_order_id: string | null
@@ -125,6 +140,7 @@ export type FeraReview = {
   is_deletable: boolean
   is_changeable: boolean
   is_imported: boolean
+  decline_reasons?: string[]
   product: any | null
   customer: FeraCustomer
   media: FeraMedia[]

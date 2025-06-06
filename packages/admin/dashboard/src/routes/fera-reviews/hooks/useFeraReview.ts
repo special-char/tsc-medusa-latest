@@ -10,27 +10,33 @@ export const useFeraReview = (
     offset?: number
   },
   options?: Omit<
-    UseQueryOptions<
-      { review: FeraReview },
-      FetchError,
-      { review: FeraReview },
-      QueryKey
-    >,
+    UseQueryOptions<FeraReview, FetchError, FeraReview, QueryKey>,
     "queryFn" | "queryKey"
   >
 ) => {
+  console.log("useFeraReview called with ID:", id)
+
   const { data, ...rest } = useQuery({
-    queryFn: () => {
-      return sdk.client.fetch(`/admin/fera-reviews/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }) as Promise<{ review: FeraReview }>
+    queryFn: async () => {
+      console.log("Making API request to:", `/admin/fera-reviews/${id}`)
+      try {
+        const response = await sdk.client.fetch(`/admin/fera-reviews/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        console.log("API Response:", response)
+        // The API returns a single review directly
+        return response as FeraReview
+      } catch (error) {
+        console.error("API Error:", error)
+        throw error
+      }
     },
-    queryKey: ["fera-reviews", JSON.stringify(query)],
+    queryKey: ["fera-reviews", id, JSON.stringify(query)],
     ...options,
   })
 
-  return { ...data, ...rest }
+  return { review: data, ...rest }
 }
