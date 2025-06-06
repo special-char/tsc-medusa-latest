@@ -1,0 +1,38 @@
+import { useParams } from "react-router-dom"
+
+import { TwoColumnPageSkeleton } from "../../../components/common/skeleton"
+import { useFeraReviews } from "../hooks/useFeraReviews"
+import { useFeraReview } from "../hooks/useFeraReview"
+
+export const FeraReviewDetail = () => {
+  const { id } = useParams()
+
+  const { , isLoading, isError, error } = useFeraReview(id!)
+
+  if (isLoading || !reviews) {
+    return (
+      <TwoColumnPageSkeleton mainSections={4} sidebarSections={2} showJSON />
+    )
+  }
+
+  if (isError) {
+    throw error
+  }
+
+  return (
+    <>
+      <div className="flex w-full flex-col gap-y-3">
+        <div className="flex w-full flex-col items-start gap-x-4 gap-y-3 xl:grid xl:grid-cols-[minmax(0,_1fr)_440px]">
+          <div className="flex w-full min-w-0 flex-col gap-y-3">
+            {/* <PendingOrderGeneralSection cart={cart} />
+            <PendingOrderSummarySection cart={cart} />
+            <PendingOrderPaymentSection cart={cart} /> */}
+          </div>
+          <div className="flex w-full flex-col gap-y-3 xl:mt-0">
+            {/* <PendingOrderCustomerSection cart={cart} /> */}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
