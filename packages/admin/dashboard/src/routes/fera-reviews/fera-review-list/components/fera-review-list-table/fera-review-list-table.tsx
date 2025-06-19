@@ -11,7 +11,7 @@ import {
   DateHeader,
 } from "../../../../../components/table/table-cells/common/date-cell"
 import { useFeraReviewTableQuery } from "../../../hooks/useFeraReviewTableQuery"
-import { useFeraReviewTableFilter } from "../../../hooks/useFeraReviewTableFilter"
+// import { useFeraReviewTableFilter } from "../../../hooks/useFeraReviewTableFilter"
 import { useFeraReviews } from "../../../hooks/useFeraReviews"
 import { FeraReview } from "../../../types"
 import { Link } from "react-router-dom"
@@ -34,7 +34,7 @@ export const FeraReviewListTable = () => {
     }
   )
 
-  const filters = useFeraReviewTableFilter()
+  // const filters = useFeraReviewTableFilter()
 
   const columnHelper = createColumnHelper<FeraReview>()
   const columns = [
@@ -77,34 +77,34 @@ export const FeraReviewListTable = () => {
         return <span className="truncate">{heading}</span>
       },
     }),
-    columnHelper.accessor("state", {
-      header: "Status",
-      cell: ({ row }) => {
-        let color = "grey"
-        let status = "N/A"
+    // columnHelper.accessor("state", {
+    //   header: "Status",
+    //   cell: ({ row }) => {
+    //     let color = "grey"
+    //     let status = "N/A"
 
-        switch (row.original.state || "") {
-          case "approved":
-            color = "green"
-            status = "Approved"
-            break
-          case "pending":
-          case "pending_approval":
-          case "pending_update":
-            color = "blue"
-            status = "Pending"
-            break
-          case "declined_approval":
-            color = "orange"
-            status = "Declined"
-            break
-          default:
-            break
-        }
+    //     switch (row.original.state || "") {
+    //       case "approved":
+    //         color = "green"
+    //         status = "Approved"
+    //         break
+    //       case "pending":
+    //       case "pending_approval":
+    //       case "pending_update":
+    //         color = "blue"
+    //         status = "Pending"
+    //         break
+    //       case "declined_approval":
+    //         color = "orange"
+    //         status = "Declined"
+    //         break
+    //       default:
+    //         break
+    //     }
 
-        return <StatusBadge color={color as any}>{status}</StatusBadge>
-      },
-    }),
+    //     return <StatusBadge color={color as any}>{status}</StatusBadge>
+    //   },
+    // }),
     columnHelper.accessor("rating", {
       header: "Rating",
       cell: ({ getValue }) => {
@@ -145,7 +145,7 @@ export const FeraReviewListTable = () => {
         table={table}
         pagination
         navigateTo={(row) => `/reviews/${row.original.id}`}
-        filters={filters}
+        // filters={filters}
         count={meta?.total_count}
         search
         isLoading={isLoading}
