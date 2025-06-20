@@ -1,10 +1,11 @@
 import { HttpTypes } from "@medusajs/types"
-import { Container, Heading, Copy } from "@medusajs/ui"
+import { Container, Heading, Copy, StatusBadge } from "@medusajs/ui"
 import { createColumnHelper } from "@tanstack/react-table"
 import { _DataTable } from "../../../../../components/table/data-table"
 import { useTinyErpOrders, TinyErpOrder } from "../../hooks/useTinyErpOrders"
 import { useDataTable } from "../../../../../hooks/use-data-table"
 import { TotalCell } from "../../../../../components/table/table-cells/order/total-cell"
+import { useNavigate } from "react-router-dom"
 
 // Types for Tiny ERP order (adjust as needed based on actual API response)
 // type TinyErpOrder = { ... } // Now imported from useTinyErpOrders
@@ -19,6 +20,7 @@ export const TinyErpOrdersSection = ({
   customer,
 }: TinyErpOrdersSectionProps) => {
   const { data, isLoading } = useTinyErpOrders(customer?.email)
+  const navigate = useNavigate()
 
   console.dir({ data, email: customer?.email }, { depth: null })
   const columns = useColumns()
@@ -42,6 +44,9 @@ export const TinyErpOrdersSection = ({
         isLoading={isLoading}
         count={data?.orders?.length ?? 0}
         noRecords={{ message: "No Tiny ERP orders found" }}
+        navigateTo={(row) =>
+          `/customers/${customer.id}/tiny-erp-order/${row.original.id}`
+        }
       />
     </Container>
   )
@@ -50,6 +55,26 @@ export const TinyErpOrdersSection = ({
 const columnHelper = createColumnHelper<TinyErpOrder>()
 
 const useColumns = () => {
+  function getStatusColor(status: string) {
+    switch (status?.toLowerCase()) {
+      case "aberto":
+        return "grey"
+      case "aprovado":
+      case "preparando_envio":
+        return "orange"
+      case "faturado":
+      case "pronto_envio":
+      case "enviado":
+        return "blue"
+      case "entregue":
+        return "green"
+      case "nao_entregue":
+      case "cancelado":
+        return "red"
+      default:
+        return "blue"
+    }
+  }
   return [
     columnHelper.accessor("id", {
       header: "Order ID",
@@ -73,7 +98,11 @@ const useColumns = () => {
     }),
     columnHelper.accessor("situacao", {
       header: "Status",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <StatusBadge color={getStatusColor(info.getValue())}>
+          {info.getValue()}
+        </StatusBadge>
+      ),
     }),
     columnHelper.accessor("url_rastreamento", {
       header: "Tracking",

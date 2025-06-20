@@ -666,6 +666,11 @@ export const RouteMap: RouteObject[] = [
                     lazy: () =>
                       import("../../routes/customers/customer-edit-address"),
                   },
+                  {
+                    path: "tiny-erp-order/:orderId",
+                    lazy: () =>
+                      import("../../routes/tiny-erp-customer-order/[orderId]"),
+                  },
                 ],
               },
             ],

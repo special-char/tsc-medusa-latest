@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "react-router-dom"
+import { useLoaderData, useParams, useOutlet } from "react-router-dom"
 
 import { SingleColumnPageSkeleton } from "../../../components/common/skeleton"
 import { SingleColumnPage } from "../../../components/layout/pages"
@@ -13,6 +13,7 @@ import { TinyErpOrdersSection } from "./components/tiny-erp-customer-orders.tsx/
 
 export const CustomerDetail = () => {
   const { id } = useParams()
+  const outlet = useOutlet()
 
   const initialData = useLoaderData() as Awaited<
     ReturnType<typeof customerLoader>
@@ -29,6 +30,11 @@ export const CustomerDetail = () => {
 
   if (isError) {
     throw error
+  }
+
+  // If a child route is matched, render only the outlet (e.g., Tiny ERP order detail page)
+  if (outlet) {
+    return outlet
   }
 
   return (

@@ -89,3 +89,29 @@ export const useTinyErpOrders = (
     ...options,
   })
 }
+
+export const useTinyErpOrder = (
+  orderId: string | undefined,
+  options?: Omit<
+    UseQueryOptions<any, Error, any, QueryKey>,
+    "queryFn" | "queryKey"
+  >
+) => {
+  return useQuery({
+    queryKey: ["tiny-erp-order", orderId],
+    queryFn: async () => {
+      if (!orderId) {
+        throw new Error("No orderId provided")
+      }
+      const orderRes: any = await sdk.client.fetch(
+        `/admin/tiny-erp-orders/${orderId}`
+      )
+      if (!orderRes?.retorno?.pedido) {
+        throw new Error("Order not found")
+      }
+      return orderRes
+    },
+    enabled: !!orderId,
+    ...options,
+  })
+}
