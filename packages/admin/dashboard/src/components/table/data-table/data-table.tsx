@@ -74,12 +74,14 @@ export const _DataTable = <TData,>({
         "flex h-full flex-col overflow-hidden": layout === "fill",
       })}
     >
-      <MemoizedDataTableQuery
-        search={search}
-        orderBy={orderBy}
-        filters={filters}
-        prefix={prefix}
-      />
+      {(search || orderBy || filters || prefix) && (
+        <MemoizedDataTableQuery
+          search={search}
+          orderBy={orderBy}
+          filters={filters}
+          prefix={prefix}
+        />
+      )}
       <DataTableRoot
         table={table}
         count={count}
