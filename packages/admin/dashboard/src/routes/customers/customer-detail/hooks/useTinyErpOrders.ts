@@ -24,7 +24,7 @@ export const useTinyErpOrders = (
   >
 ) => {
   return useQuery({
-    queryKey: ["tiny-erp-orders", email],
+    queryKey: [`tiny-erp-customer-orders-${email}`],
     queryFn: async () => {
       if (!email) {
         console.debug("[TinyERP] No email provided, skipping fetch.")
@@ -98,7 +98,7 @@ export const useTinyErpOrder = (
   >
 ) => {
   return useQuery({
-    queryKey: ["tiny-erp-order", orderId],
+    queryKey: [`tiny-erp-customer-order-${orderId}`],
     queryFn: async () => {
       if (!orderId) {
         throw new Error("No orderId provided")

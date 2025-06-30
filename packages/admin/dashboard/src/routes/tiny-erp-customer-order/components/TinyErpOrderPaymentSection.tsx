@@ -1,4 +1,4 @@
-import { Container, Heading, StatusBadge, Text, Table } from "@medusajs/ui"
+import { Container, Heading, StatusBadge, Text } from "@medusajs/ui"
 
 export const TinyErpOrderPaymentSection = ({ order }: { order: any }) => {
   function getStatusColor(paymentMethod: string) {
@@ -23,20 +23,20 @@ export const TinyErpOrderPaymentSection = ({ order }: { order: any }) => {
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">
-        <Heading level="h2">Payment</Heading>
+        <Heading level="h2">Payment Info</Heading>
         <StatusBadge color={getStatusColor(order.forma_pagamento)}>
           {order.forma_pagamento}
         </StatusBadge>
       </div>
       <div className="grid grid-cols-1 gap-4 px-6 py-4 md:grid-cols-2">
-        <Text>
-          <b>Payment Terms:</b> {order.condicao_pagamento}
+        <Text className="text-ui-fg-subtle">
+          Payment Terms: {order.condicao_pagamento}
         </Text>
-        <Text>
-          <b>Payment Channel:</b> {order.meio_pagamento}
+        <Text className="text-ui-fg-subtle">
+          Payment Channel: {order.meio_pagamento}
         </Text>
       </div>
-      <div>
+      {/* <div>
         <div className="flex items-center justify-between px-6 py-4">
           <Heading level="h2">Installments</Heading>
         </div>
@@ -60,7 +60,7 @@ export const TinyErpOrderPaymentSection = ({ order }: { order: any }) => {
             ))}
           </Table.Body>
         </Table>
-      </div>
+      </div> */}
     </Container>
   )
 }

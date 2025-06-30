@@ -2,7 +2,6 @@ import { Container, Heading, Text, Copy } from "@medusajs/ui"
 
 export const TinyErpOrderCustomerSection = ({
   customer,
-  customerId,
 }: {
   customer: any
   customerId?: string
@@ -13,7 +12,12 @@ export const TinyErpOrderCustomerSection = ({
         <Heading level="h2">Customer</Heading>
       </div>
       <div className="divide-y">
-        <div className="px-6 py-4 text-base font-semibold">{customer.nome}</div>
+        <div className="flex items-center gap-x-1 px-6 py-4">
+          <Text size="small" className="text-ui-fg-subtle w-24">
+            Name
+          </Text>
+          <Text size="small">{customer.nome}</Text>
+        </div>
         <div className="flex items-center gap-x-1 px-6 py-4">
           <Text size="small" className="text-ui-fg-subtle w-24">
             CPF/CNPJ
@@ -27,15 +31,6 @@ export const TinyErpOrderCustomerSection = ({
           </Text>
           <Text size="small">{customer.fone}</Text>
           <Copy content={customer.fone} className="text-ui-fg-muted" />
-        </div>
-        <div className="px-6 py-4">
-          <Text size="small" className="text-ui-fg-subtle">
-            Address
-          </Text>
-          <div className="text-sm">
-            {customer.endereco}, {customer.numero} {customer.complemento},<br />
-            {customer.bairro}, {customer.cidade} - {customer.uf}, {customer.cep}
-          </div>
         </div>
       </div>
     </Container>

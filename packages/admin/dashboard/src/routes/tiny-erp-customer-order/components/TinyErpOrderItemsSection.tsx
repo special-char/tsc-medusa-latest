@@ -2,6 +2,7 @@ import { Container, Heading, Text } from "@medusajs/ui"
 import { _DataTable } from "../../../components/table/data-table/data-table"
 import { createColumnHelper } from "@tanstack/react-table"
 import { useDataTable } from "../../../hooks/use-data-table"
+import { TotalCell } from "../../../components/table/table-cells/order/total-cell"
 
 export const TinyErpOrderItemsSection = ({ order }: { order: any }) => {
   const columnHelper = createColumnHelper<any>()
@@ -23,8 +24,14 @@ export const TinyErpOrderItemsSection = ({ order }: { order: any }) => {
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor("valor_unitario", {
-      header: "Unit Price",
-      cell: (info) => `R$ ${info.getValue()}`,
+      header: () => (
+        <div className="flex h-full w-full items-center justify-end">
+          <span className="truncate">Unit Price</span>
+        </div>
+      ),
+      cell: (info) => (
+        <TotalCell currencyCode="BRL" total={Number(info.getValue())} />
+      ),
     }),
   ]
 
@@ -37,41 +44,71 @@ export const TinyErpOrderItemsSection = ({ order }: { order: any }) => {
   })
 
   return (
-    <Container className="divide-y p-0">
-      <div className="px-6 py-4">
-        <Heading level="h2">Items</Heading>
-      </div>
-      <div className="">
-        <_DataTable
-          columns={columns}
-          table={table}
-          pageSize={items.length || 10}
-          isLoading={false}
-          count={items.length}
-        />
-      </div>
-      <div className="grid grid-cols-1 gap-4 px-6 py-4 md:grid-cols-2">
-        <Text>
-          <b>Subtotal:</b> R$ {order.total_produtos}
-        </Text>
-        <Text>
-          <b>Discount:</b> R$ {order.valor_desconto}
-        </Text>
-        <Text>
-          <b>Freight:</b> R$ {order.valor_frete}
-        </Text>
-        <Text>
-          <b>Total:</b> R$ {order.total_pedido}
-        </Text>
-      </div>
-      {order.obs && (
+    <>
+      <Container className="divide-y p-0">
         <div className="px-6 py-4">
-          <Heading level="h3" className="mb-2">
-            Notes:
-          </Heading>
-          <Text>{order.obs}</Text>
+          <Heading level="h2">Items</Heading>
         </div>
-      )}
-    </Container>
+        <div className="">
+          <_DataTable
+            columns={columns}
+            table={table}
+            pageSize={items.length || 10}
+            isLoading={false}
+            count={items.length}
+          />
+        </div>
+      </Container>
+      <Container className="divide-y p-0">
+        <div className="flex items-center gap-x-1 px-6 py-4">
+          <Text size="small" className="text-ui-fg-subtle w-24">
+            Subtotal
+          </Text>
+          <TotalCell
+            currencyCode="BRL"
+            total={Number(order.total_produtos)}
+            align="left"
+          />
+        </div>
+        <div className="flex items-center gap-x-1 px-6 py-4">
+          <Text size="small" className="text-ui-fg-subtle w-24">
+            Discount
+          </Text>
+          <TotalCell
+            currencyCode="BRL"
+            total={Number(order.valor_desconto)}
+            align="left"
+          />
+        </div>
+        <div className="flex items-center gap-x-1 px-6 py-4">
+          <Text size="small" className="text-ui-fg-subtle w-24">
+            Freight
+          </Text>
+          <TotalCell
+            currencyCode="BRL"
+            total={Number(order.valor_frete)}
+            align="left"
+          />
+        </div>
+        <div className="flex items-center gap-x-1 px-6 py-4">
+          <Text size="small" className="text-ui-fg-subtle w-24">
+            Total
+          </Text>
+          <TotalCell
+            currencyCode="BRL"
+            total={Number(order.total_pedido)}
+            align="left"
+          />
+        </div>
+        {order.obs && (
+          <div className="px-6 py-4">
+            <Heading level="h3" className="mb-2">
+              Notes:
+            </Heading>
+            <Text className="text-ui-fg-subtle">{order.obs}</Text>
+          </div>
+        )}
+      </Container>
+    </>
   )
 }

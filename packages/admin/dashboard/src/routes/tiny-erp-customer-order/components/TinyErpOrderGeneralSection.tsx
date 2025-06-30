@@ -33,33 +33,24 @@ export const TinyErpOrderGeneralSection = ({ order }: { order: any }) => {
           {order.situacao}
         </StatusBadge>
       </div>
-      <div className="grid grid-cols-1 gap-4 px-6 py-4 md:grid-cols-2">
-        <Text>
-          <b>Order Number:</b> {order.numero}
+
+      <div className="flex items-center gap-x-1 px-6 py-4">
+        <Text size="small" className="text-ui-fg-subtle w-24">
+          Order Number
         </Text>
-        <Text>
-          <b>Created At:</b> {order.data_pedido}
+        <Text size="small">{order.numero}</Text>
+      </div>
+      <div className="flex items-center gap-x-1 px-6 py-4">
+        <Text size="small" className="text-ui-fg-subtle w-24">
+          Created At
         </Text>
-        <Text>
-          <b>Expected Date:</b> {order.data_prevista}
+        <Text size="small">{order.data_pedido}</Text>
+      </div>
+      <div className="flex items-center gap-x-1 px-6 py-4">
+        <Text size="small" className="text-ui-fg-subtle w-24">
+          Invoiced At
         </Text>
-        <Text>
-          <b>Invoiced At:</b> {order.data_faturamento}
-        </Text>
-        <Text>
-          <b>Tracking:</b>{" "}
-          {order.url_rastreamento ? (
-            <a
-              href={order.url_rastreamento}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {order.codigo_rastreamento}
-            </a>
-          ) : (
-            "N/A"
-          )}
-        </Text>
+        <Text size="small">{order.data_faturamento}</Text>
       </div>
     </Container>
   )
