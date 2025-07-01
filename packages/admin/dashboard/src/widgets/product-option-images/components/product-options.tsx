@@ -27,9 +27,14 @@ const ProductOptions = ({
             </Heading>
             <ul className="flex flex-wrap items-center gap-1">
               {option.values
-                ?.filter(
-                  (v, index, self) =>
-                    self.findIndex((val) => val.value === v.value) === index
+                // ?.filter(
+                //   (v, index, self) =>
+                //     self.findIndex((val) => val.value === v.value) === index
+                // )
+                ?.sort(
+                  (a, b) =>
+                    new Date(a.created_at ?? "").getTime() -
+                    new Date(b.created_at ?? "").getTime()
                 )
                 .map((uniqueVal) => (
                   <li key={uniqueVal.id}>

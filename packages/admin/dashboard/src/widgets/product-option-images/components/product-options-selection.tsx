@@ -34,7 +34,9 @@ const ProductOptionsSelection = ({
           <EditOptionvalueModal
             optionvalue={optionvalueToEdit}
             options={options}
-            onClose={() => setOptionvalueToEdit(undefined)}
+            onClose={() => {
+              setOptionvalueToEdit(undefined)
+            }}
           />
         )}
       </div>

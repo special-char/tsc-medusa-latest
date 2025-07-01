@@ -28,7 +28,10 @@ const ProductOptionImagesWidget = ({
         Option Values
       </Heading>
       {product_options ? (
-        <ProductOptionsSelection options={product_options} />
+        <ProductOptionsSelection
+          key={Math.random().toString()}
+          options={product_options}
+        />
       ) : (
         <p>No any option available</p>
       )}
