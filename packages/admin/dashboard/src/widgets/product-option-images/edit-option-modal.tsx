@@ -1,13 +1,13 @@
 import { useForm, Controller, SubmitHandler } from "react-hook-form"
 import { Button, Label } from "@medusajs/ui"
 import React, { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { AdminProductOption } from "@medusajs/types"
 import { sdk } from "../../lib/client"
 import CustomColorField from "../../components/custom/components/form/CustomColorField"
 import ImageUpload, {
   UploadedImage,
 } from "../../components/custom/components/form/ImageUpload"
+import { queryClient } from "../../lib/query-client"
 
 interface FormValues {
   color1: string | null
@@ -26,7 +26,7 @@ const EditOptionvalueModal: React.FC<Props> = ({
   optionvalue,
   options,
 }) => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const { control, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
@@ -106,7 +106,8 @@ const EditOptionvalueModal: React.FC<Props> = ({
       }
     }
 
-    navigate(0)
+    // navigate(0)
+    void queryClient.invalidateQueries({ queryKey: ["products-options"] })
   }
 
   return (
