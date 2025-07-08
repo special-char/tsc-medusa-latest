@@ -128,7 +128,12 @@ const Header = () => {
           )}
         >
           {fallback ? (
-            <Avatar variant="squared" size="xsmall" fallback={fallback} />
+            <Avatar
+              variant="squared"
+              size="xsmall"
+              fallback={fallback}
+              src="https://minio.liscosystems.com/lisco/lisco_logo.svg"
+            />
           ) : (
             <Skeleton className="h-6 w-6 rounded-md" />
           )}
@@ -151,7 +156,12 @@ const Header = () => {
         {isLoaded && (
           <DropdownMenu.Content className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-0">
             <div className="flex items-center gap-x-3 px-2 py-1">
-              <Avatar variant="squared" size="small" fallback={fallback} />
+              <Avatar
+                variant="squared"
+                size="small"
+                fallback={fallback}
+                src="https://minio.liscosystems.com/lisco/lisco_logo.svg"
+              />
               <div className="flex flex-col overflow-hidden">
                 <Text
                   size="small"
