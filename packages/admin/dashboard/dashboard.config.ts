@@ -33,7 +33,7 @@ const dashboardConfig: ConfigType = {
     productAdditionalDetails: true,
     productCategoryDetails: true,
     wishlist: false,
-    brand: true,
+    brand: false,
     blogs: false,
     faqs: false,
     giftCards: false,
