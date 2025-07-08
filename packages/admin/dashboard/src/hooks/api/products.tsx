@@ -284,7 +284,6 @@ export const useProduct = (
     queryFn: () => {
       return sdk.admin.product.retrieve(id, {
         ...query,
-        fields: "brand.*",
       })
     },
     queryKey: productsQueryKeys.detail(id, query),

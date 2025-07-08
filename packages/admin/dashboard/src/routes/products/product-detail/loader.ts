@@ -8,10 +8,10 @@ import { PRODUCT_DETAIL_FIELDS } from "./constants"
 const productDetailQuery = (id: string) => ({
   queryKey: productsQueryKeys.detail(id, { fields: PRODUCT_DETAIL_FIELDS }),
   queryFn: async () => {
-    const fields = PRODUCT_DETAIL_FIELDS.includes("brand")
-      ? PRODUCT_DETAIL_FIELDS
-      : PRODUCT_DETAIL_FIELDS + "+brand.*"
-    return sdk.admin.product.retrieve(id, { fields })
+    // const fields = PRODUCT_DETAIL_FIELDS.includes("brand")
+    //   ? PRODUCT_DETAIL_FIELDS
+    //   : PRODUCT_DETAIL_FIELDS + "*brand"
+    return sdk.admin.product.retrieve(id, { fields: PRODUCT_DETAIL_FIELDS })
   },
 })
 
