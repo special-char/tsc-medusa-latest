@@ -17,6 +17,7 @@ import { OrderSummarySection } from "./components/order-summary-section"
 import { DEFAULT_FIELDS } from "./constants"
 import { orderLoader } from "./loader"
 import OrderResendNotificationSection from "./components/order-resend-notification-section/order-resend-notification-section"
+import TinyErpOrderWidget from "../../../widgets/tiny-erp-order-details"
 
 export const OrderDetail = () => {
   const initialData = useLoaderData() as Awaited<ReturnType<typeof orderLoader>>
@@ -82,6 +83,7 @@ export const OrderDetail = () => {
         <ActiveOrderExchangeSection orderPreview={orderPreview!} />
         <ActiveOrderReturnSection orderPreview={orderPreview!} />
         <OrderGeneralSection order={order} />
+        <TinyErpOrderWidget order={order} />
         <OrderSummarySection order={order} />
         <OrderResendNotificationSection order={order} />
         <OrderPaymentSection order={order} />

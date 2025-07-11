@@ -6,6 +6,7 @@ import { PendingOrderGeneralSection } from "./components/pending-order-general-s
 import { PendingOrderSummarySection } from "./components/pending-order-summary-section"
 import { PendingOrderCustomerSection } from "./components/pending-order-customer-section"
 import { PendingOrderPaymentSection } from "./components/pending-order-payment-section"
+import TinyErpOrderWidget from "../../../widgets/tiny-erp-order-details"
 
 export const PendingOrderDetail = () => {
   const { id } = useParams()
@@ -43,6 +44,7 @@ export const PendingOrderDetail = () => {
         <div className="flex w-full flex-col items-start gap-x-4 gap-y-3 xl:grid xl:grid-cols-[minmax(0,_1fr)_440px]">
           <div className="flex w-full min-w-0 flex-col gap-y-3">
             <PendingOrderGeneralSection cart={cart} />
+            <TinyErpOrderWidget order={{ metadata: cart.metadata } as any} />
             <PendingOrderSummarySection cart={cart} />
             <PendingOrderPaymentSection cart={cart} />
           </div>
