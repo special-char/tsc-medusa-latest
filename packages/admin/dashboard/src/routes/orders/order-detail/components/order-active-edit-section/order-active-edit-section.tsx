@@ -61,11 +61,11 @@ export const OrderActiveEditSection = ({
   const { mutateAsync: cancelOrderEdit } = useCancelOrderEdit(order.id)
   const { mutateAsync: confirmOrderEdit } = useConfirmOrderEdit(order.id)
 
-  const isPending = orderPreview.order_change?.status === "pending"
+  const isPending = orderPreview?.order_change?.status === "pending"
 
   const [addedItems, removedItems] = useMemo(() => {
-    const added = []
-    const removed = []
+    const added: any[] = []
+    const removed: any[] = []
 
     const orderLookupMap = new Map(order.items!.map((i) => [i.id, i]))
 
@@ -100,17 +100,18 @@ export const OrderActiveEditSection = ({
       await confirmOrderEdit()
 
       toast.success(t("orders.edits.toast.confirmedSuccessfully"))
-    } catch (e) {
+    } catch (e: any) {
       toast.error(e.message)
     }
   }
 
   const onCancelOrderEdit = async () => {
     try {
+      // @ts-expect-error
       await cancelOrderEdit()
 
       toast.success(t("orders.edits.toast.canceledSuccessfully"))
-    } catch (e) {
+    } catch (e: any) {
       toast.error(e.message)
     }
   }

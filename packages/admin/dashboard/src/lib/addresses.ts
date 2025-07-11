@@ -42,6 +42,7 @@ export const getFormattedAddress = ({
     province,
     country,
     country_code,
+    metadata,
   } = address
 
   const name = [first_name, last_name].filter(Boolean).join(" ")
@@ -51,7 +52,6 @@ export const getFormattedAddress = ({
   if (name) {
     formattedAddress.push(name)
   }
-
   if (company) {
     formattedAddress.push(company)
   }
@@ -64,6 +64,11 @@ export const getFormattedAddress = ({
     formattedAddress.push(address_2)
   }
 
+  if (metadata?.number || metadata?.complement) {
+    formattedAddress.push(
+      [metadata?.number as string, metadata?.complement as string].join(", ")
+    )
+  }
   const cityProvincePostal = [city, province, postal_code]
     .filter(Boolean)
     .join(" ")

@@ -62,43 +62,68 @@ const Contact = ({ data }: { data: HttpTypes.AdminOrder }) => {
 
   const phone = data.shipping_address?.phone || data.billing_address?.phone
   const email = data.email || ""
+  const cpf = data.shipping_address?.metadata?.cpf as string
 
   return (
-    <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
-      <Text size="small" leading="compact" weight="plus">
-        {t("orders.customer.contactLabel")}
-      </Text>
-      <div className="flex flex-col gap-y-2">
-        <div className="grid grid-cols-[1fr_20px] items-start gap-x-2">
-          <Text
-            size="small"
-            leading="compact"
-            className="text-pretty break-all"
-          >
-            {email}
-          </Text>
-
-          <div className="flex justify-end">
-            <Copy content={email} className="text-ui-fg-muted" />
-          </div>
-        </div>
-        {phone && (
+    <>
+      <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
+        <Text size="small" leading="compact" weight="plus">
+          {t("orders.customer.contactLabel")}
+        </Text>
+        <div className="flex flex-col gap-y-2">
           <div className="grid grid-cols-[1fr_20px] items-start gap-x-2">
             <Text
               size="small"
               leading="compact"
               className="text-pretty break-all"
             >
-              {phone}
+              {email}
             </Text>
 
             <div className="flex justify-end">
               <Copy content={email} className="text-ui-fg-muted" />
             </div>
           </div>
-        )}
+          {phone && (
+            <div className="grid grid-cols-[1fr_20px] items-start gap-x-2">
+              <Text
+                size="small"
+                leading="compact"
+                className="text-pretty break-all"
+              >
+                {phone}
+              </Text>
+
+              <div className="flex justify-end">
+                <Copy content={email} className="text-ui-fg-muted" />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      {cpf && (
+        <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
+          <Text size="small" leading="compact" weight="plus">
+            CPF/CNPJ
+          </Text>
+          <div className="flex flex-col gap-y-2">
+            <div className="grid grid-cols-[1fr_20px] items-start gap-x-2">
+              <Text
+                size="small"
+                leading="compact"
+                className="text-pretty break-all"
+              >
+                {cpf}
+              </Text>
+
+              <div className="flex justify-end">
+                <Copy content={cpf} className="text-ui-fg-muted" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
