@@ -18,7 +18,7 @@ export function EditFreeGift({ prev = ".." }: { prev?: string }) {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: [`free-product-${id}`, "free-products"],
     queryFn: async () => {
       if (id)

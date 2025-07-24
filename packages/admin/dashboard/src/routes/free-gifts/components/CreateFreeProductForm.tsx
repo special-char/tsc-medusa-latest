@@ -119,7 +119,7 @@ const CreateFreeProductForm = ({
     mutationFn: async (formData: FreeProductBodyType) => {
       if (data) {
         const res = await sdk.client.fetch(`/admin/free-product/${data.id}`, {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
