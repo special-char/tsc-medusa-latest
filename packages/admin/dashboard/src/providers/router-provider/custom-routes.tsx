@@ -315,6 +315,31 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.freeGift
+    ? [
+        {
+          path: "/free-gifts",
+          errorElement: <ErrorBoundary />,
+          handle: {
+            breadcrumb: () => "Free Gifts",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/free-gifts/free-gift-list"),
+            },
+            {
+              path: "create",
+              lazy: () => import("../../routes/free-gifts/create-free-gift"),
+            },
+            {
+              path: ":id",
+              lazy: () => import("../../routes/free-gifts/edit-free-gift"),
+            },
+          ],
+        },
+      ]
+    : []),
   {
     path: "/pending-orders",
     errorElement: <ErrorBoundary />,

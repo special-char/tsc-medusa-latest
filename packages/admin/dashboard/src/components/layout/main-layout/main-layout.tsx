@@ -199,6 +199,15 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
           },
         ]
       : []),
+    ...(dashboardConfig?.featureFlags?.freeGift
+      ? [
+          {
+            icon: <Gift />,
+            label: "Free Gift",
+            to: "/free-gifts",
+          },
+        ]
+      : []),
     ...(dashboardConfig?.featureFlags?.digitalProducts
       ? [
           {

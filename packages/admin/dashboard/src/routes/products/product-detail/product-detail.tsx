@@ -18,6 +18,7 @@ import ProductAdditionalDetailsWidget from "../../../widgets/product-additional-
 import ProductSeoWidget from "./components/product-seo"
 import dashboardConfig from "../../../../dashboard.config"
 import ProductOptionImagesWidget from "../../../widgets/product-option-images/product-option-images"
+import GiftProduct from "../../../widgets/gift-product/gift-product"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -85,6 +86,7 @@ export const ProductDetail = () => {
         )}
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
+        <GiftProduct data={product} />
         <ProductSalesChannelSection product={product} />
         {/* TODO: TSC add this when added in new version */}
         {/* <ProductShippingProfileSection product={product} /> */}

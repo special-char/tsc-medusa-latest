@@ -22,6 +22,7 @@ type ConfigType = {
     vendors?: boolean
     productOptionImages?: boolean
     feraReview?: Boolean
+    freeGift?: Boolean
   }
 }
 
@@ -47,6 +48,7 @@ const dashboardConfig: ConfigType = {
     vendors: false,
     productOptionImages: true,
     feraReview: true,
+    freeGift: true, // Enable free gift feature flag
     // marketplace
     // restock
   },
