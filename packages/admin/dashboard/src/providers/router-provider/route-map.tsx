@@ -1,6 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
 import { Outlet, RouteObject, UIMatch } from "react-router-dom"
-
 import { t } from "i18next"
 import { ProtectedRoute } from "../../components/authentication/protected-route"
 import { MainLayout } from "../../components/layout/main-layout"
@@ -296,7 +295,7 @@ export const RouteMap: RouteObject[] = [
               },
             ],
           },
-          
+
           {
             path: "/amc",
             errorElement: <ErrorBoundary />,
@@ -665,6 +664,19 @@ export const RouteMap: RouteObject[] = [
                       import("../../routes/price-lists/price-list-prices-edit"),
                   },
                 ],
+              },
+            ],
+          },
+          {
+            path: "/shipping-charges",
+            errorElement: <ErrorBoundary />,
+            handle: {
+              breadcrumb: () => "Shipping Charges",
+            },
+            children: [
+              {
+                path: "",
+                lazy: () => import("../../routes/shipping-charges"),
               },
             ],
           },
