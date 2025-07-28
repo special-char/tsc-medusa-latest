@@ -2,18 +2,29 @@ import { FindParams, SelectParams } from "@medusajs/types"
 import { Client } from "../client"
 import { ClientHeaders } from "../types"
 
-export type ZipcodeType = {
-  CEPInicial: number
-  CEPFinal: number
-  UF: string
-  IBGEdoMunicípio: string
-  NomedoMunicípio: string
-  Base: string
-  Risco: string
-  Prazo: string
-  TipodeAtendimento: string
-  LocalidadeComercial: string
-  GeografiaComercial: string
+export interface Cepcode {
+  id: string
+  cep_initial: string
+  cep_final: string
+  uf: string
+  ibge_code: string
+  ibge_name: string
+  ibge_base: string
+  risk: string
+  time: string
+  service_type: string
+  commercial_location: string
+  commercial_geography: string
+  metadata?: Record<string, any> | null
+  created_at?: string
+  updated_at?: string
+}
+
+export interface CepcodesResponse {
+  cepcodes: Cepcode[]
+  count: number
+  limit: number
+  offset: number
 }
 
 export class Zipcode {
@@ -66,12 +77,9 @@ export class Zipcode {
   }
 
   async list(queryParams?: FindParams, headers?: ClientHeaders) {
-    return await this.client.fetch<{ data: ZipcodeType[]; count: number }>(
-      `/admin/zipcodes`,
-      {
-        query: queryParams,
-        headers,
-      }
-    )
+    return await this.client.fetch<CepcodesResponse>(`/admin/zipcodes`, {
+      query: queryParams,
+      headers,
+    })
   }
 }

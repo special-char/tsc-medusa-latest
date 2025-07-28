@@ -41,11 +41,11 @@ const useSettingRoutes = (): INavItem[] => {
           },
         ]
       : []),
-    ...(dashboardConfig?.featureFlags?.zipcode
+    ...(dashboardConfig?.featureFlags?.cepcode
       ? [
           {
-            label: "ZipCode",
-            to: "/settings/zipcode",
+            label: "CepCode",
+            to: "/settings/cepcode",
           },
         ]
       : []),

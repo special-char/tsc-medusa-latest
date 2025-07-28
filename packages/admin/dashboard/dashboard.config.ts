@@ -17,7 +17,7 @@ type ConfigType = {
     marketplace?: boolean
     restock?: boolean
     bulkBuy?: boolean
-    zipcode?: boolean
+    cepcode?: boolean
     redemption?: boolean
     vendors?: boolean
     productOptionImages?: boolean
@@ -43,7 +43,7 @@ const dashboardConfig: ConfigType = {
     digitalProducts: false,
     subscriptions: false,
     bulkBuy: false,
-    zipcode: true,
+    cepcode: true,
     redemption: false,
     vendors: false,
     productOptionImages: true,

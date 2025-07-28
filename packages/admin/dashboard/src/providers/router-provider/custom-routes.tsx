@@ -463,14 +463,14 @@ export const customProtectedSettingsRoutes: RouteObject[] = [
         },
       ]
     : []),
-  ...(dashboardConfig?.featureFlags?.zipcode
+  ...(dashboardConfig?.featureFlags?.cepcode
     ? [
         {
-          path: "zipcode",
+          path: "cepcode",
           errorElement: <ErrorBoundary />,
           element: <Outlet />,
           handle: {
-            breadcrumb: () => "Zipcode",
+            breadcrumb: () => "CepCode",
           },
           children: [
             {
