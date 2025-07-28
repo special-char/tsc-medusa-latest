@@ -1,49 +1,70 @@
 'use client'
-import { Container, Heading, Button, toast } from "@medusajs/ui"
-import { useState, useRef } from "react"
+import { Container, Heading, Button, toast, usePrompt } from "@medusajs/ui"
+import { useState, useRef, useCallback } from "react"
 import { FileUploader, FileUploaderRef, SampleDownloader, ShippingChargesTable, ShippingChargeData } from "./components"
-import { convertCsvToJson } from "./utils/csv-parser"
+import { parseShippingChargesCsv } from "./utils/csv-parser"
+import { useShippingCharges } from "./utils/use-shipping-charges"
 
 export const ShippingChargesList = () => {
-  const [csvData, setCsvData] = useState<ShippingChargeData[]>([])
-  const [csvColumns, setCsvColumns] = useState<string[]>([])
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [isProcessing, setIsProcessing] = useState<boolean>(false)
   const fileUploaderRef = useRef<FileUploaderRef>(null)
+  const prompt = usePrompt()
 
-  const handleFileSelection = (file: File) => {
+  const {
+    data,
+    columns,
+    isLoading,
+    submitData,
+    clearData,
+    hasData
+  } = useShippingCharges()
+
+  const handleFileSelection = useCallback((file: File) => {
     setSelectedFile(file)
-    setCsvData([])
-    setCsvColumns([])
-  }
+  }, [])
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!selectedFile) return
 
-    setIsProcessing(true)
     try {
       const text = await selectedFile.text()
-      const jsonData = await convertCsvToJson<ShippingChargeData>(text)
-      const columns = Object.keys(jsonData[0])
-      setCsvColumns(columns)
-      setCsvData(jsonData)
+      const jsonData = await parseShippingChargesCsv<ShippingChargeData>(text)
+
+      await submitData(jsonData)
+      setSelectedFile(null)
+      fileUploaderRef.current?.clearInput()
+
       toast.success(`Successfully loaded ${jsonData.length} shipping charge records`)
     } catch (error) {
-      console.error("Error processing CSV:", error)
       const errorMessage = error instanceof Error ? error.message : "Error processing CSV file"
-      toast.error(`CSV parsing failed: ${errorMessage}. Please check your file format.`)
-    } finally {
-      setIsProcessing(false)
+      toast.error(`Failed to submit shipping charges: ${errorMessage}`)
     }
-  }
+  }, [selectedFile, submitData])
 
-  const clearData = () => {
-    setCsvData([])
-    setCsvColumns([])
-    setSelectedFile(null)
-    fileUploaderRef.current?.clearInput()
-    toast.success("Shipping charges data cleared")
-  }
+  const handleClearData = useCallback(async () => {
+    const confirmed = await prompt({
+      title: "Are you sure?",
+      description: "Are you sure you want to delete all shipping charges? This action cannot be undone.",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    })
+
+    if (!confirmed) return
+
+    try {
+      await clearData()
+      setSelectedFile(null)
+      fileUploaderRef.current?.clearInput()
+      toast.success("Shipping charges data cleared")
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Error deleting shipping charges"
+      toast.error(`Failed to delete shipping charges: ${errorMessage}`)
+    }
+  }, [clearData, prompt])
+
+  const showFileUploader = !hasData
+  const showSubmitSection = selectedFile && !hasData
+  const showClearButton = hasData || selectedFile
 
   return (
     <Container className="divide-y p-0">
@@ -51,22 +72,29 @@ export const ShippingChargesList = () => {
         <Heading level="h2">Shipping Charges</Heading>
         <div className="flex items-center gap-2">
           <SampleDownloader />
-          {(csvData.length > 0 || selectedFile) && (
-            <Button variant="secondary" size="small" onClick={clearData}>
+          {showClearButton && (
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={handleClearData}
+              disabled={isLoading}
+            >
               Clear Data
             </Button>
           )}
         </div>
       </div>
 
-      <FileUploader
-        ref={fileUploaderRef}
-        onFileSelect={handleFileSelection}
-        selectedFile={selectedFile}
-        isProcessing={isProcessing}
-      />
+      {showFileUploader && (
+        <FileUploader
+          ref={fileUploaderRef}
+          onFileSelect={handleFileSelection}
+          selectedFile={selectedFile}
+          isProcessing={isLoading}
+        />
+      )}
 
-      {selectedFile && csvData.length === 0 && (
+      {showSubmitSection && (
         <div className="px-6 py-4 border-b">
           <div className="flex items-center justify-between">
             <div>
@@ -79,19 +107,19 @@ export const ShippingChargesList = () => {
             </div>
             <Button
               onClick={handleSubmit}
-              disabled={isProcessing}
+              disabled={isLoading}
               size="large"
             >
-              {isProcessing ? "Processing..." : "Submit"}
+              {isLoading ? "Processing..." : "Submit"}
             </Button>
           </div>
         </div>
       )}
 
       <ShippingChargesTable
-        data={csvData}
-        columns={csvColumns}
-        isLoading={isProcessing}
+        data={data}
+        columns={columns}
+        isLoading={isLoading}
       />
     </Container>
   )

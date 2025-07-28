@@ -1,36 +1,68 @@
-const EXPECTED_COLUMNS = ["Service Category", "Weight Slab", "Within City", "Within State", "Metro", "Rest of India"]
+interface CsvParserOptions {
+  requiredColumns?: string[]
+  validateColumns?: boolean
+}
 
-export const convertCsvToJson = <T extends Record<string, string>>(csvText: string): Promise<T[]> => {
+export const convertCsvToJson = <T extends Record<string, string>>(
+  csvText: string,
+  options: CsvParserOptions = {}
+): Promise<T[]> => {
+  const { requiredColumns = [], validateColumns = false } = options
+
   return new Promise((resolve, reject) => {
     try {
-      const lines = csvText.trim().split('\n')
+      const lines = csvText.trim().split('\n').filter(line => line.trim())
+
       if (lines.length < 2) {
         reject(new Error('CSV must have header and data rows'))
         return
       }
 
       const headers = parseCSVLine(lines[0])
-      if (headers.length !== EXPECTED_COLUMNS.length) {
-        reject(new Error(`Wrong CSV format. Expected columns: ${EXPECTED_COLUMNS.join(', ')}`))
-        return
-      }
 
-      const results: T[] = []
-      for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim()
-        if (line) {
-          const values = parseCSVLine(line)
-          const obj: Record<string, string> = {}
-          headers.forEach((header, index) => {
-            obj[header] = values[index] || ''
-          })
-          results.push(obj as T)
+      // Validate required columns if specified
+      if (validateColumns && requiredColumns.length > 0) {
+        const normalizedHeaders = headers.map(h => h.toLowerCase().trim())
+        const normalizedRequired = requiredColumns.map(col => col.toLowerCase().trim())
+
+        const missingColumns = normalizedRequired.filter(col =>
+          !normalizedHeaders.includes(col)
+        )
+
+        if (missingColumns.length > 0) {
+          reject(new Error(`Missing required columns: ${missingColumns.join(', ')}`))
+          return
         }
       }
 
-      results.length === 0 ? reject(new Error('No data rows found')) : resolve(results)
+      const results: T[] = []
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = parseCSVLine(lines[i])
+
+        // Skip rows with incorrect column count
+        if (values.length !== headers.length) {
+          continue
+        }
+
+        const row: Record<string, string> = {}
+        headers.forEach((header, index) => {
+          row[header.trim()] = values[index]?.trim() || ''
+        })
+
+        // Only include rows with at least one non-empty value
+        if (Object.values(row).some(value => value !== '')) {
+          results.push(row as T)
+        }
+      }
+
+      if (results.length === 0) {
+        reject(new Error('No valid data rows found'))
+      } else {
+        resolve(results)
+      }
     } catch (error) {
-      reject(error)
+      reject(error instanceof Error ? error : new Error('Failed to parse CSV'))
     }
   })
 }
@@ -39,30 +71,49 @@ const parseCSVLine = (line: string): string[] => {
   const result: string[] = []
   let current = ''
   let inQuotes = false
-  let i = 0
 
-  while (i < line.length) {
+  for (let i = 0; i < line.length; i++) {
     const char = line[i]
     const nextChar = line[i + 1]
 
     if (char === '"') {
       if (inQuotes && nextChar === '"') {
+        // Escaped quote
         current += '"'
-        i += 2
+        i++ // Skip next quote
       } else {
+        // Toggle quote state
         inQuotes = !inQuotes
-        i++
       }
     } else if (char === ',' && !inQuotes) {
-      result.push(current.trim())
+      // Field separator
+      result.push(current)
       current = ''
-      i++
     } else {
       current += char
-      i++
     }
   }
 
-  result.push(current.trim())
+  result.push(current)
   return result
+}
+
+// Constants for shipping charges
+export const SHIPPING_CHARGE_COLUMNS = [
+  "Service Category",
+  "Weight Slab",
+  "Within City",
+  "Within State",
+  "Metro",
+  "Rest of India"
+]
+
+// Helper function for shipping charges
+export const parseShippingChargesCsv = <T extends Record<string, string>>(
+  csvText: string
+): Promise<T[]> => {
+  return convertCsvToJson<T>(csvText, {
+    requiredColumns: SHIPPING_CHARGE_COLUMNS,
+    validateColumns: true
+  })
 } 
