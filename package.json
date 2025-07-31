@@ -75,8 +75,6 @@
   "dependencies": {
     "@changesets/changelog-github": "^0.4.8",
     "@changesets/cli": "^2.26.0",
-    "@types/node": "^24.1.0",
-    "csv-parser": "^3.2.0",
     "global": "^4.4.0",
     "import-from": "^3.0.0",
     "lodash": "^4.17.21",
