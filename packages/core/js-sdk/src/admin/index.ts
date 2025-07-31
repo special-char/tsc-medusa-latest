@@ -61,6 +61,7 @@ import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
 import { CreateOrder } from "./create-order"
 import { Banner } from "./banner"
+import { ShippingCharges } from "./shipping-charges"
 
 export class Admin {
   /**
@@ -316,9 +317,14 @@ export class Admin {
    */
   public googleCategory: GoogleCategory
   /**
-   * @tags createOrder
+   * @tags createOrder  
    */
   public createOrder: CreateOrder
+
+  /**
+   * @tags shippingCharges
+   */
+  public shippingCharges: ShippingCharges
 
   constructor(client: Client) {
     this.createOrder = new CreateOrder(client)
@@ -383,5 +389,6 @@ export class Admin {
     this.digitalProduct = new DigitalProduct(client)
     this.productOptionValue = new ProductOptionValue(client)
     this.banner = new Banner(client)
+    this.shippingCharges = new ShippingCharges(client)
   }
 }

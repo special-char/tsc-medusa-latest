@@ -22,6 +22,7 @@ import {
   SquareTwoStack,
   UsersSolid,
   DocumentText,
+  TruckFast,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import { Collapsible as RadixCollapsible } from "radix-ui"
@@ -202,95 +203,95 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
   const customCoreRoutes = [
     ...(dashboardConfig?.featureFlags?.digitalProducts
       ? [
-          {
-            icon: <PhotoSolid />,
-            label: "Digital Products",
-            to: "/digital-products",
-          },
-        ]
+        {
+          icon: <PhotoSolid />,
+          label: "Digital Products",
+          to: "/digital-products",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.giftCards
       ? [
-          // {
-          //   icon: <Gift />,
-          //   label: t("giftCards.domain"),
-          //   to: "/gift-cards",
-          // },
-          {
-            icon: <Gift />,
-            label: t("giftCards.domain"),
-            to: "/gift-cards",
-            items: [
-              {
-                label: "Bulk-Buy",
-                to: "/bulk-buy",
-              },
-            ],
-          },
-        ]
+        // {
+        //   icon: <Gift />,
+        //   label: t("giftCards.domain"),
+        //   to: "/gift-cards",
+        // },
+        {
+          icon: <Gift />,
+          label: t("giftCards.domain"),
+          to: "/gift-cards",
+          items: [
+            {
+              label: "Bulk-Buy",
+              to: "/bulk-buy",
+            },
+          ],
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.giftTemplates
       ? [
-          {
-            icon: <ListCheckbox />,
-            label: t("giftCards.giftTemplates"),
-            to: "/gift-templates",
-          },
-        ]
+        {
+          icon: <ListCheckbox />,
+          label: t("giftCards.giftTemplates"),
+          to: "/gift-templates",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.redemption
       ? [
-          {
-            icon: <SquareTwoStack />,
-            label: "Redemption",
-            to: "/redemption",
-          },
-        ]
+        {
+          icon: <SquareTwoStack />,
+          label: "Redemption",
+          to: "/redemption",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.vendors
       ? [
-          {
-            icon: <UsersSolid />,
-            label: "Vendors",
-            to: "/vendors",
-          },
-        ]
+        {
+          icon: <UsersSolid />,
+          label: "Vendors",
+          to: "/vendors",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.blogs
       ? [
-          {
-            icon: <Newspaper />,
-            label: "Blogs",
-            to: "/blogs",
-          },
-        ]
+        {
+          icon: <Newspaper />,
+          label: "Blogs",
+          to: "/blogs",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.faqs
       ? [
-          {
-            icon: <QuestionMark />,
-            label: "Faqs",
-            to: "/faqs",
-          },
-        ]
+        {
+          icon: <QuestionMark />,
+          label: "Faqs",
+          to: "/faqs",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.banner
       ? [
-          {
-            icon: <Newspaper />,
-            label: "Banner",
-            to: "/banner",
-          },
-        ]
+        {
+          icon: <Newspaper />,
+          label: "Banner",
+          to: "/banner",
+        },
+      ]
       : []),
     ...(dashboardConfig?.featureFlags?.notifications
       ? [
-          {
-            icon: <Envelope />,
-            label: t("notification.domain"),
-            to: "/notification",
-          },
-        ]
+        {
+          icon: <Envelope />,
+          label: t("notification.domain"),
+          to: "/notification",
+        },
+      ]
       : []),
   ]
 
@@ -374,6 +375,11 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
       icon: <DocumentText />,
       label: "Quote",
       to: "/quote",
+    },
+    {
+      icon: <TruckFast />,
+      label: "Shipping Charges",
+      to: "/shipping-charges",
     },
     ...customCoreRoutes,
   ]
