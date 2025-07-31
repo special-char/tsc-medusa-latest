@@ -3,12 +3,9 @@ import { Button } from "@medusajs/ui"
 
 const SAMPLE_CSV_DATA = [
   "Service Category,Weight Slab,Within City,Within State,Metro,Rest of India",
-  "Standard - Dox (Surface/Air),Up to 50 Gms,22,35,50,70",
-  "Standard - Non Dox,By Surface 1000 GMS,45,55,65,75",
-  "Standard - Non Dox,Addl 1000 GMS,0,0,120,140",
-  "Fast Track - Dox - Surface Mode,Up to 100 Gms,300,300,350,350",
-  "Fast Track - Dox - Air Mode,Up to 100 Gms,300,300,350,350",
-  "Fast Track - Non Dox,By Surface 1000 GMS,300,300,350,350",
+  "Standard - Dox (Surface/Air),0 - 50,22,35,50,70",
+  "Fast Track - Dox - Surface Mode,50 - 100,300,300,350,350",
+  "Fast Track - Dox - Air Mode,50 - 100,300,300,350,350",
 ]
 
 export const SampleDownloader = () => {

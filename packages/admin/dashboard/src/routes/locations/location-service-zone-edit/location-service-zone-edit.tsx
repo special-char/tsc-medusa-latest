@@ -5,6 +5,7 @@ import { json, useParams } from "react-router-dom"
 import { RouteDrawer } from "../../../components/modals"
 import { useStockLocation } from "../../../hooks/api/stock-locations"
 import { EditServiceZoneForm } from "./components/edit-region-form"
+import { HttpTypes } from "@medusajs/types"
 
 export const LocationServiceZoneEdit = () => {
   const { t } = useTranslation()
@@ -37,7 +38,9 @@ export const LocationServiceZoneEdit = () => {
       </RouteDrawer.Header>
       {serviceZone && (
         <EditServiceZoneForm
-          zone={serviceZone}
+          zone={serviceZone as HttpTypes.AdminServiceZone & {
+            metadata: Record<string, any>
+          }}
           fulfillmentSetId={fset_id!}
           locationId={location_id!}
         />

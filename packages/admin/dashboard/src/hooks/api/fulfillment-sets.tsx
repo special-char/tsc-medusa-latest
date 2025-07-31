@@ -117,7 +117,7 @@ export const useUpdateFulfillmentSetServiceZone = (
     UseMutationOptions<
       HttpTypes.AdminFulfillmentSetResponse,
       FetchError,
-      HttpTypes.AdminUpdateFulfillmentSetServiceZone,
+      HttpTypes.AdminUpdateFulfillmentSetServiceZone | any,
       QueryKey
     >,
     "mutationFn"
