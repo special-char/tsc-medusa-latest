@@ -29,7 +29,7 @@ const formSchema = {
     validation: {},
   },
   product_aspect_ratio: {
-    label: "Product aspect-ratio",
+    label: "Product card layout",
     fieldType: "select",
     props: {
       placeholder: "Select aspect ratio",
