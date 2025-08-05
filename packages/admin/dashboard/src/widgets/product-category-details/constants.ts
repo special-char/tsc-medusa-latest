@@ -11,10 +11,10 @@ export const aspectRatioOptions = [
     label: "Full cover image",
     value: "2/3",
   },
-  {
-    label: "Regular",
-    value: "3/4",
-  },
+  // {
+  //   label: "Regular",
+  //   value: "3/4",
+  // },
   // {
   // 	label: "Video (16:9)",
   // 	value: "16/9",
