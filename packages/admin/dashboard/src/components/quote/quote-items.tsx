@@ -6,6 +6,7 @@ import {
 import { Badge, Text } from "@medusajs/ui";
 import { useMemo } from "react";
 import { Amount } from "./amount";
+import { Link } from "react-router-dom";
 
 export const QuoteItem = ({
   item,
@@ -29,14 +30,12 @@ export const QuoteItem = ({
     >
       <div className="flex items-start gap-x-4">
         <div>
-          <Text
-            size="small"
-            leading="compact"
-            weight="plus"
-            className="text-ui-fg-base"
+          <Link
+            to={`/products/${item.product_id}`}
+            className="text-blue-400 hover:underline"
           >
-            {item.title}
-          </Text>
+            {item.product_title} - {item.title}
+          </Link>
 
           {item.variant_sku && (
             <div className="flex items-center gap-x-1">

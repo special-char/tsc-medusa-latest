@@ -24,6 +24,7 @@ export type AdminQuote = {
   draft_order: AdminOrder;
   cart: StoreCart;
   customer: AdminCustomer
+  metadata: Record<string, any>
 };
 
 export interface QuoteQueryParams extends FindParams { }
