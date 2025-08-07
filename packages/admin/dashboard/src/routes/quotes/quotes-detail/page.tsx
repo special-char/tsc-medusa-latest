@@ -116,7 +116,7 @@ export const QuoteDetails = () => {
 
   return (
     <div className="flex flex-col gap-y-3">
-      <div className="flex flex-col gap-x-4 lg:flex-row xl:items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_35%] gap-4">
         <div className="flex w-full flex-col gap-y-3">
           {quote.status === "accepted" &&
             quote.draft_order.payment_status == "captured" && (
@@ -234,25 +234,44 @@ export const QuoteDetails = () => {
           </Container>
         </div>
 
-        <div className="mt-2 flex w-full max-w-[100%] flex-col gap-y-3 xl:mt-0 xl:max-w-[400px]">
+        <div className="">
           <Container className="divide-y p-0">
             <div className="flex items-center justify-between px-6 py-4">
               <Heading level="h2">Customer</Heading>
             </div>
 
-            <div className="text-ui-fg-subtle grid grid-cols-2 items-start px-6 py-4">
+            <div className="text-ui-fg-subtle flex justify-between p-4">
               <Text size="small" weight="plus" leading="compact">
                 Email
               </Text>
 
               <Link
-                className="text-pretty text-sm text-blue-500"
+                className="text-pretty text-sm text-blue-400"
                 to={`/customers/${quote.draft_order?.customer?.id}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 {quote.draft_order?.customer?.email}
               </Link>
             </div>
+
+            {quote?.metadata?.phone && (
+              <div className="text-ui-fg-subtle flex justify-between p-4">
+                <Text size="small" weight="plus" leading="compact">
+                  Phone
+                </Text>
+                <Link to={`tel:${quote.metadata.phone}`} className="text-blue-400 hover:underline text-sm">{quote.metadata.phone}</Link>
+              </div>
+            )}
+            {quote?.metadata?.message && (
+              <div className="text-ui-fg-subtle flex flex-col p-4">
+                <Text size="small" weight="plus" leading="compact" className="mb-1">
+                  Message
+                </Text>
+                <Text size="small" className="break-words whitespace-pre-line max-h-40 overflow-auto">
+                  {quote?.metadata?.message}
+                </Text>
+              </div>
+            )}
           </Container>
         </div>
       </div>
