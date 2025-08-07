@@ -14,6 +14,7 @@ import { VariantPricesSection } from "./components/variant-prices-section"
 import { VARIANT_DETAIL_FIELDS } from "./constants"
 import { variantLoader } from "./loader"
 import { VariantTinyErpId } from "./components/variant-tiny-erp-id"
+import { VariantCrossSell } from "./components/variant-cross-sell"
 
 export const ProductVariantDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -79,6 +80,7 @@ export const ProductVariantDetail = () => {
       <TwoColumnPage.Sidebar>
         <VariantPricesSection variant={variant} />
         <VariantTinyErpId variant={variant} />
+        <VariantCrossSell variant={variant} />
       </TwoColumnPage.Sidebar>
     </TwoColumnPage>
   )

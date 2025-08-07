@@ -55,7 +55,7 @@ export function VariantTinyErpId({ variant }: VariantGeneralSectionProps) {
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center gap-2 px-6 py-4">
-        <Heading>Tiny Erp Variation Id</Heading>
+        <Heading level="h2">Tiny Erp Variation Id</Heading>
       </div>
 
       <div className="px-6 py-4">
