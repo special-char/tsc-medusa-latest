@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom"
 import DynamicForm from "../form/DynamicForm"
 import { SeoDetailsTypes } from "../.."
 import { sdk } from "../../../../../../../lib/client"
-import { useRouteModal } from "../../../../../../../components/modals"
+import React from "react"
 
 type Props = {
   product: any
-  productSeo: SeoDetailsTypes
+  productSeo?: SeoDetailsTypes
 }
 type SchemaField = {
   label: string
@@ -202,16 +202,14 @@ const SeoForm = ({ product, productSeo }: Props) => {
       metaImage: productSeo?.metaImage || "",
       metaSocial:
         Array.isArray(productSeo?.metaSocial) &&
-        productSeo?.metaSocial.length > 0
-          ? [
-              ...productSeo?.metaSocial.map((item: any) => ({
-                ...item,
-                socialNetwork: item?.socialNetwork || "Facebook",
-                title: item?.title || "",
-                description: item?.description || "",
-                image: item?.image || "",
-              })),
-            ]
+        productSeo?.metaSocial?.length > 0
+          ? productSeo.metaSocial.map((item: any) => ({
+              ...item,
+              socialNetwork: item?.socialNetwork || "Facebook",
+              title: item?.title || "",
+              description: item?.description || "",
+              image: item?.image || "",
+            }))
           : undefined,
       keywords: productSeo?.keywords,
       metaRobots: productSeo?.metaRobots,

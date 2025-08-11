@@ -1,6 +1,6 @@
 import SeoDetails from "./components/seo/SeoDetails"
 import SeoForm from "./components/seo/SeoForm"
-import { Button, Container, FocusModal } from "@medusajs/ui"
+import { Button, Container, FocusModal, Heading } from "@medusajs/ui"
 
 import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { useEffect, useState } from "react"
@@ -48,9 +48,9 @@ const ProductSeoWidget = ({ product: data }: { product: any }) => {
   }, [])
 
   return (
-    <Container>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
-        <h3 className="text-xlarge font-bold">Product SEO: {data.title}</h3>
+    <Container className="divide-y p-0" aria-hidden>
+      <div className="flex items-center justify-between gap-4 px-6 py-4">
+        <Heading level="h2">Product SEO</Heading>
         <div className="flex items-center gap-4">
           <FocusModal modal>
             <FocusModal.Trigger asChild>

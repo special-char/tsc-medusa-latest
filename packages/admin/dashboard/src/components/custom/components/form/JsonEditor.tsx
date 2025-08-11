@@ -10,14 +10,13 @@ type JsonEditorFieldProps = {
 
 const JsonEditor: React.FC<JsonEditorFieldProps> = ({ onChange, value }) => {
   const { theme } = useTheme()
-  console.log({ theme })
 
   return (
     <Container>
       <MonacoEditor
         height="250px"
         language="json"
-        theme={theme === "dark" ? "vs-dark" : "light"}
+        theme={theme !== "dark" ? "light" : "vs-dark"}
         value={value}
         onChange={onChange}
         onMount={(editor, monaco) => {
@@ -26,7 +25,7 @@ const JsonEditor: React.FC<JsonEditorFieldProps> = ({ onChange, value }) => {
           }, 300)
 
           editor.onDidFocusEditorText(() => {
-            //for new line on enter, as it was not working because enter key event is prevented by harsh bhai for not submitting form.
+            // for new line on enter, as it was not working because enter key event is prevented by harsh bhai for not submitting form.
             editor.addCommand(monaco.KeyCode.Enter, () => {
               editor.trigger("keyboard", "type", { text: "\n" })
             })

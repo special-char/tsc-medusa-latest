@@ -1,103 +1,126 @@
+import { Heading, Text } from "@medusajs/ui"
 import { SeoDetailsTypes } from "../.."
 import CustomImage from "./CustomImage"
+import { PropsWithChildren } from "react"
+
+const CommonCell = ({
+  children,
+  label,
+}: PropsWithChildren & { label: string }) => {
+  return (
+    <div className="grid grid-cols-2 gap-4 px-6 py-4">
+      <Text
+        size="small"
+        leading="compact"
+        weight="plus"
+        className="text-ui-fg-base"
+      >
+        {label}
+      </Text>
+      {children}
+    </div>
+  )
+}
+const Cell = ({ label, value }: { label: string; value?: string | null }) => {
+  return (
+    <CommonCell label={label}>
+      <Text size="small">{value || "-"}</Text>
+    </CommonCell>
+  )
+}
+const ImageCell = ({ label, url }: { label: string; url?: string | null }) => {
+  return (
+    <CommonCell label={label}>
+      {url && url !== "null" ? (
+        <CustomImage src={url} />
+      ) : (
+        <Text size="small">-</Text>
+      )}
+    </CommonCell>
+  )
+}
+const LinkCell = ({ label, url }: { label: string; url?: string | null }) => {
+  return (
+    <CommonCell label={label}>
+      {url ? (
+        <a
+          target="_blank"
+          href={url}
+          className="txt-compact-small whitespace-pre-line  text-pretty font-sans font-normal text-blue-500 underline"
+          rel="noreferrer"
+        >
+          {url}
+        </a>
+      ) : (
+        <Text size="small">-</Text>
+      )}
+    </CommonCell>
+  )
+}
+const JsonCell = ({
+  label,
+  value,
+}: {
+  label: string
+  value?: Record<string, any> | null
+}) => {
+  return (
+    <CommonCell label={label}>
+      {value ? (
+        <pre className="txt-compact-small whitespace-pre-line text-pretty font-sans font-normal">
+          {JSON.stringify(value, null, 2)}
+        </pre>
+      ) : (
+        <Text size="small">-</Text>
+      )}
+    </CommonCell>
+  )
+}
 
 const SeoDetails = ({ productSeo }: { productSeo: SeoDetailsTypes }) => {
   return (
-    <div className="overflow-scroll rounded-md border p-4">
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Name:</span>
-        <span className="inter-base-regular text-grey-50">
-          {productSeo?.metaTitle}
-        </span>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Desc:</span>
-        <span className="inter-base-regular text-grey-50">
-          {productSeo?.metaDescription && productSeo.metaDescription.length > 10
-            ? productSeo.metaDescription.slice(0, 10) + "..."
-            : productSeo?.metaDescription}
-        </span>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Image:</span>
-        {productSeo?.metaImage && productSeo?.metaImage !== "null" && (
-          <CustomImage src={productSeo?.metaImage} />
-        )}
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Keywords:</span>
-        <span className="inter-base-regular text-grey-50">
-          {productSeo?.keywords && productSeo.keywords.length > 15
+    <div className="divide-y">
+      <Cell label="Name" value={productSeo?.metaTitle} />
+      <Cell
+        label="Desc"
+        value={
+          productSeo?.metaDescription && productSeo.metaDescription.length > 10
+            ? productSeo.metaDescription.slice(0, 20) + "..."
+            : productSeo?.metaDescription
+        }
+      />
+      <ImageCell label="Image" url={productSeo?.metaImage} />
+      <Cell
+        label="Keywords"
+        value={
+          productSeo?.keywords && productSeo.keywords.length > 15
             ? productSeo.keywords.slice(0, 15) + "..."
-            : productSeo?.keywords}
-        </span>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Robots:</span>
-        <span className="inter-base-regular text-grey-50">
-          {productSeo?.metaRobots && productSeo.metaRobots.length > 15
+            : productSeo?.keywords
+        }
+      />
+      <Cell
+        label="Robots"
+        value={
+          productSeo?.metaRobots && productSeo.metaRobots.length > 15
             ? productSeo.metaRobots.slice(0, 15) + "..."
-            : productSeo?.metaRobots}
-        </span>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Structured Data:</span>
-        <pre className="inter-base-regular text-grey-50">
-          {JSON.stringify(productSeo?.structuredData, null, 2)}
-        </pre>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Feed Data:</span>
-        <pre className="inter-base-regular text-grey-50">
-          {JSON.stringify(productSeo?.feedData, null, 2)}
-        </pre>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Viewport:</span>
-        <span className="inter-base-regular text-grey-50">
-          {productSeo?.metaViewport}
-        </span>
-      </p>
-      <p className="grid grid-cols-[1fr_1fr] gap-4">
-        <span className="font-bold">Canonical URL:</span>
-        <a
-          target="_blank"
-          href={productSeo?.canonicalURL ?? "#"}
-          className="inter-base-regular text-blue-500 underline"
-          rel="noreferrer"
-        >
-          {productSeo?.canonicalURL}
-        </a>
-      </p>
+            : productSeo?.metaRobots
+        }
+      />
+      <JsonCell label="Structured Data" value={productSeo?.structuredData} />
+      <JsonCell label="Feed Data" value={productSeo?.feedData} />
+      <Cell label="Viewport" value={productSeo?.metaViewport} />
+      <LinkCell label="Canonical URL" url={productSeo?.canonicalURL} />
       {productSeo?.metaSocial?.length > 0 && (
         <>
-          <p className="text-large my-4 font-bold">Product Seo Social</p>
+          <Heading level="h3">Product Seo Social</Heading>
           <div className="divide-y rounded-md border p-4">
             {productSeo?.metaSocial.map((item) => {
               return (
                 <div className="overflow-auto py-2" key={item.id}>
-                  <p className="grid grid-cols-[1fr_1fr] gap-4">
-                    <span className="font-bold">Network</span>
-                    <span className="inter-base-regular text-grey-50">
-                      {item.socialNetwork}
-                    </span>
-                  </p>
-                  <p className="grid grid-cols-[1fr_1fr] gap-4">
-                    <span className="font-bold">Name</span>
-                    <span className="inter-base-regular text-grey-50">
-                      {item.title}
-                    </span>
-                  </p>
-                  <p className="grid grid-cols-[1fr_1fr] gap-4">
-                    <span className="font-bold">Description</span>
-                    <span className="inter-base-regular text-grey-50">
-                      {item.description}
-                    </span>
-                  </p>
-                  <p className="grid grid-cols-[1fr_1fr] gap-4">
-                    <span className="font-bold">Image</span>
-                    {item.image && <CustomImage src={item.image} />}
-                  </p>
+                  <Cell label="Network" value={item.socialNetwork} />
+                  <Cell label="Name" value={item.title} />
+                  <Cell label="Description" value={item.description} />
+                  <ImageCell label="Image" url={item.image} />
                 </div>
               )
             })}
