@@ -1,4 +1,4 @@
-import { Button, Container, Input, Label, toast } from "@medusajs/ui"
+import { Button, Container, Heading, Input, Label, toast } from "@medusajs/ui"
 import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useUpdateProductCategory } from "../../../../../hooks/api"
@@ -50,7 +50,7 @@ export const CategoryDisplayName = ({
           control={form.control}
           render={({ field }) => (
             <div className="space-y-2">
-              <Label>Display Name</Label>
+              <Heading level="h2">Display Name</Heading>
               <Input {...field} />
             </div>
           )}
