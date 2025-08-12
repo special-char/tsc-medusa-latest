@@ -61,6 +61,7 @@ import { CategorySeo } from "./category-seo"
 import { GoogleCategory } from "./google-category"
 import { OrganizeProduct } from "./organize-product"
 import { PendingOrder } from "./pending-order"
+import { CategoryFilterOption } from "./category-filter"
 
 export class Admin {
   /**
@@ -282,6 +283,11 @@ export class Admin {
   public zipcode: Zipcode
 
   /**
+   * @tags categoryFilterOption
+   */
+  public categoryFilterOption: CategoryFilterOption
+
+  /**
    * @tags product variant images
    */
   public productVariantImages: ProductVariantImages
@@ -375,6 +381,7 @@ export class Admin {
     this.brand = new Brand(client)
     this.wishlist = new Wishlist(client)
     // custom sdk client
+    this.categoryFilterOption = new CategoryFilterOption(client)
     this.zipcode = new Zipcode(client)
     this.productVariantImages = new ProductVariantImages(client)
     this.productAdditionalDetails = new ProductAdditionalDetails(client)

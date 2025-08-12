@@ -4,7 +4,6 @@ import { CategoryGeneralSection } from "./components/category-general-section"
 import { CategoryOrganizeSection } from "./components/category-organize-section"
 import { CategoryProductSection } from "./components/category-product-section"
 import { categoryLoader } from "./loader"
-
 import { TwoColumnPageSkeleton } from "../../../components/common/skeleton"
 import { TwoColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
@@ -12,6 +11,7 @@ import ProductCategoryWidget from "../../../widgets/product-category-details/pro
 import dashboardConfig from "../../../../dashboard.config"
 import CategorySeoWidget from "./components/category-seo"
 import { CategoryDisplayName } from "./components/category-display-name/category-display-name"
+import { CategoryFilterOption } from "./components/category-filter-option"
 
 export const CategoryDetail = () => {
   const { id } = useParams()
@@ -67,6 +67,7 @@ export const CategoryDetail = () => {
       <TwoColumnPage.Sidebar>
         <CategoryOrganizeSection category={product_category} />
         <CategoryDisplayName category={product_category} />
+        <CategoryFilterOption category={product_category} />
         {dashboardConfig?.featureFlags?.categorySeo && (
           <CategorySeoWidget category={product_category} />
         )}
