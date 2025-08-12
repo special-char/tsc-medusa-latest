@@ -37,6 +37,22 @@ export const CategoryFilterOption = ({
     resolver: zodResolver(CategoryFilterSchema),
   })
 
+  // Update form values when filterGroups are loaded to ensure all are initially checked
+  useEffect(() => {
+    if (filterGroups.length > 0) {
+      const allTitles = filterGroups.map(group => group.title)
+      const currentSelected = form.getValues("selected_categories")
+
+      // If no categories are currently selected, select all
+      if (currentSelected.length === 0) {
+        form.setValue("selected_categories", allTitles, {
+          shouldValidate: true,
+          shouldDirty: false,
+        })
+      }
+    }
+  }, [filterGroups, form])
+
   const { mutateAsync, isPending } = useUpdateProductCategory(category.id)
 
   useEffect(() => {
