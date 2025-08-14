@@ -9,9 +9,6 @@ export const QuoteCreate = () => {
     defaultValues: {
       region_id: "",
       customer_id: "",
-      quantity: "",
-      variant_id: "",
-      unit_price: "",
       valid_till: "",
     },
     mode: "onChange",
@@ -20,19 +17,10 @@ export const QuoteCreate = () => {
   })
   const navigate = useNavigate()
   const { mutate } = useCreateQuote()
-  const { mutateAsync: updateItem } = useUpdateQuoteItemId()
   const onSubmit = async (data: any) => {
-    const reqData = {
-      region_id: data.region_id,
-      customer_id: data.customer_id,
-      quantity: Number(data.quantity),
-      variant_id: data.variant_id,
-      valid_till: new Date(data.valid_till),
-      unit_price: Number(data.unit_price),
-    }
 
     try {
-      mutate(reqData, {
+      mutate(data, {
         onSuccess: async (response: any) => {
           try {
             // await updateItem({

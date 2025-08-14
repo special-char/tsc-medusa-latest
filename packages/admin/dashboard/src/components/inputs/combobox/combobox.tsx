@@ -287,6 +287,7 @@ const ComboboxImpl = <T extends Value = string>(
               </Text>
             </div>
           )}
+
           <PrimitiveCombobox
             autoSelect
             ref={comboboxRef}

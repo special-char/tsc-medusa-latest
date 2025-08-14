@@ -335,7 +335,7 @@ const Header = ({
               {
                 label:
                   orderPreview?.order_change?.id &&
-                  orderPreview?.order_change?.exchange_id
+                    orderPreview?.order_change?.exchange_id
                     ? t("orders.exchanges.manage")
                     : t("orders.exchanges.create"),
                 to: `/orders/${order.id}/exchanges`,
@@ -350,7 +350,7 @@ const Header = ({
               {
                 label:
                   orderPreview?.order_change?.id &&
-                  orderPreview?.order_change?.claim_id
+                    orderPreview?.order_change?.claim_id
                     ? t("orders.claims.manage")
                     : t("orders.claims.create"),
                 to: `/orders/${order.id}/claims`,
@@ -427,9 +427,8 @@ const Item = ({
         </div>
 
         <div
-          className={`grid ${
-            hasPrinterCategory ? "grid-cols-4" : "grid-cols-3"
-          }  items-center gap-x-4`}
+          className={`grid ${hasPrinterCategory ? "grid-cols-4" : "grid-cols-3"
+            }  items-center gap-x-4`}
         >
           <div className="flex items-center gap-x-2">
             <div className="flex items-center justify-end gap-x-4">
@@ -905,8 +904,7 @@ const ReturnBreakdown = ({
             <ArrowDownRightMini className="text-ui-fg-muted" />
             <Text size="small">
               {t(
-                `orders.returns.${
-                  isRequested ? "returnRequestedInfo" : "returnReceivedInfo"
+                `orders.returns.${isRequested ? "returnRequestedInfo" : "returnReceivedInfo"
                 }`,
                 {
                   requestedItemsCount:
@@ -1097,7 +1095,7 @@ const Total = ({ order }: { order: AdminOrder }) => {
           weight="plus"
         >
           {getStylizedAmount(
-            order.summary.pending_difference || 0,
+            order.total || 0,
             order.currency_code
           )}
         </Text>

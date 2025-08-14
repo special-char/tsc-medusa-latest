@@ -96,10 +96,8 @@ export const QuoteItem = ({
 
 export const QuoteItems = ({
   order,
-  preview,
 }: {
   order: AdminOrder;
-  preview: AdminOrderPreview;
 }) => {
   const itemsMap = useMemo(() => {
     return new Map(order.items.map((item) => [item.id, item]));
@@ -107,7 +105,7 @@ export const QuoteItems = ({
 
   return (
     <div>
-      {preview.items?.map((item) => {
+      {order.items?.map((item) => {
         return (
           <QuoteItem
             key={item.id}
