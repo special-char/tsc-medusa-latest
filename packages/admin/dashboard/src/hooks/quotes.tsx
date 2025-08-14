@@ -209,6 +209,12 @@ export const useUpdateQuote = (
   id: string,
   options?: UseMutationOptions<AdminQuoteResponse, FetchError, {
     valid_till: string;
+    promotion: string;
+    variants: {
+      variant_id: string;
+      quantity: number;
+      unit_price: number;
+    }[]
   }>
 ) => {
   const queryClient = useQueryClient();

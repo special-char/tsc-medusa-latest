@@ -79,8 +79,8 @@ export function ManageItem({
           <div className="text-ui-fg-subtle txt-small mr-2 flex flex-shrink-0">
             <Amount
               currencyCode={currencyCode}
-              amount={item.total}
-              originalAmount={originalItem?.total}
+              amount={item.subtotal}
+              originalAmount={originalItem?.subtotal}
             />
           </div>
         </div>

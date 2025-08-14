@@ -11,7 +11,6 @@ import {
 } from "@medusajs/ui"
 import { ReactNode, useEffect, useMemo, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { useOrderPreview } from "../../../hooks/order-preview"
 import { useQuote, useRejectQuote, useSendQuote } from "../../../hooks/quotes"
 import { QuoteItems } from "../../../components/quote/quote-items"
 import { formatAmount } from "../../../components/quote/utils"
@@ -27,10 +26,9 @@ export const QuoteDetails = () => {
     fields: "*draft_order.customer",
   })
 
-  const { order: preview, isLoading: isPreviewLoading } = useOrderPreview(
-    quote?.draft_order_id!,
+  const { quote: preview, isLoading: isPreviewLoading } = useQuote(
+    quote?.id!,
     {},
-    { enabled: !!quote?.draft_order_id }
   )
 
   const prompt = usePrompt()
@@ -114,6 +112,8 @@ export const QuoteDetails = () => {
     throw "preview not found"
   }
 
+  const isTotalSame = (quote.draft_order.summary as any)
+    ?.original_order_total as number === quote.draft_order.total
   return (
     <div className="flex flex-col gap-y-3">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_35%] gap-4">
@@ -144,9 +144,9 @@ export const QuoteDetails = () => {
                 {quote.status}
               </span>
             </div>
-            <QuoteItems order={quote.draft_order} preview={preview!} />
+            <QuoteItems order={quote.draft_order} />
             {/* <TotalsBreakdown order={quote.draft_order} /> */}
-            <CostBreakdown order={quote.draft_order} preview={preview!} />
+            <CostBreakdown order={quote.draft_order} />
             <div className=" flex flex-col gap-y-2 px-6 py-4">
               <div className="text-ui-fg-base flex items-center justify-between">
                 <Text
@@ -155,11 +155,11 @@ export const QuoteDetails = () => {
                   size="small"
                   leading="compact"
                 >
-                  Original Total
+                  Original Quote Total
                 </Text>
                 <Text
                   weight="plus"
-                  className="text-ui-fg-subtle"
+                  className={`text-ui-fg-subtle ${isTotalSame ? "" : "line-through"}`}
                   size="small"
                   leading="compact"
                 >
@@ -189,7 +189,7 @@ export const QuoteDetails = () => {
                 >
                   {formatAmount(
                     // (preview!.summary as any).current_order_total,
-                    quote.draft_order.original_total,
+                    quote.draft_order.total,
                     quote.draft_order.currency_code
                   )}
                 </Text>
@@ -311,10 +311,8 @@ const Cost = ({
 
 const CostBreakdown = ({
   order,
-  preview,
 }: {
   order: AdminOrder & { region?: AdminRegion | null }
-  preview: AdminOrder & { region?: AdminRegion | null }
 }) => {
   const { t } = useTranslation()
   const [isTaxOpen, setIsTaxOpen] = useState(false)
@@ -350,7 +348,7 @@ const CostBreakdown = ({
             ? "orders.summary.itemTotal"
             : "orders.summary.itemSubtotal"
         )}
-        value={getLocaleAmount(preview.item_subtotal, order.currency_code)}
+        value={getLocaleAmount(order.item_subtotal, order.currency_code)}
       />
 
       {isShippingOpen && (
@@ -402,6 +400,18 @@ const CostBreakdown = ({
         }
       />
 
+      {automaticTaxesOn ? <Cost
+        label={
+          automaticTaxesOn
+            ? "Discount Tax Total"
+            : "orders.summary.discountSubtotal"
+        }
+        value={
+          order.discount_tax_total > 0
+            ? `${getLocaleAmount(order.discount_tax_total, order.currency_code)}`
+            : "-"
+        }
+      /> : <></>}
       <>
         <div className="flex justify-between">
           <div
@@ -428,7 +438,7 @@ const CostBreakdown = ({
 
           <div className="text-right">
             <Text size="small" leading="compact">
-              {getLocaleAmount(order.tax_total, order.currency_code)}
+              {getLocaleAmount(order.original_item_tax_total, order.currency_code)}
             </Text>
           </div>
         </div>
