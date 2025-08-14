@@ -1,4 +1,3 @@
-import { defineWidgetConfig } from "@medusajs/admin-sdk"
 import { Container, Heading } from "@medusajs/ui"
 import {
   DetailWidgetProps,
@@ -10,8 +9,8 @@ const ProductCategoryWidget = ({
   data,
 }: DetailWidgetProps<AdminProductCategory>) => {
   return (
-    <Container className="p-0 divide-y">
-      <Heading level="h2" className="font-sans font-medium h2-core px-6 py-4">
+    <Container className="divide-y p-0">
+      <Heading level="h2" className="h2-core px-6 py-4 font-sans font-medium">
         Additional Data for Category - {data.name}
       </Heading>
 
@@ -21,10 +20,5 @@ const ProductCategoryWidget = ({
     </Container>
   )
 }
-
-// The widget's configurations
-export const config = defineWidgetConfig({
-  zone: "product_category.details.after",
-})
 
 export default ProductCategoryWidget

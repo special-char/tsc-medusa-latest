@@ -56,3 +56,17 @@ export const aspectRatioOptions = [
   // 	value: "210/297",
   // },
 ]
+export const optionsAspectRatio = [
+  {
+    label: "Square",
+    value: "square",
+  },
+  {
+    label: "Round",
+    value: "round",
+  },
+  {
+    label: "Rectangle",
+    value: "rectangle",
+  },
+]

@@ -8,6 +8,8 @@ type ProductCategoryDetailsType = {
   media?: { url?: string; file: File }[]
   thumbnail?: { url?: string; file: File }
   variant_as_product?: boolean
+  options_aspect_ratio?: string
+  metadata?: Record<string, any>
 }
 
 export class ProductCategoryDetails {
@@ -52,6 +54,9 @@ export class ProductCategoryDetails {
 
     if (body?.product_aspect_ratio && body?.product_aspect_ratio !== "") {
       formData.append("product_aspect_ratio", body?.product_aspect_ratio)
+    }
+    if (body?.options_aspect_ratio && body?.options_aspect_ratio !== "") {
+      formData.append("options_aspect_ratio", body?.options_aspect_ratio)
     }
 
     if (body?.product_bg_color && body?.product_bg_color !== "") {
