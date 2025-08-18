@@ -22,6 +22,7 @@ import {
   VariantHeader,
 } from "../../../components/table/table-cells/product/variant-cell"
 import { HttpTypes } from "@medusajs/types"
+import { StatusCell } from "../../../components/table/table-cells/common/status-cell"
 
 const columnHelper = createColumnHelper<HttpTypes.AdminProduct>()
 
@@ -52,6 +53,18 @@ export const useProductTableColumns = () => {
       columnHelper.accessor("status", {
         header: () => <ProductStatusHeader />,
         cell: ({ row }) => <ProductStatusCell status={row.original.status} />,
+      }),
+      columnHelper.accessor("is_giftcard", {
+        header: () => (
+          <div className="flex h-full w-full items-center">
+            <span>Gift Product</span>
+          </div>
+        ),
+        cell: ({ row }) => (
+          <StatusCell color={row.original.is_giftcard ? "green" : "grey"}>
+            {row.original.is_giftcard ? "Gift" : "Normal"}
+          </StatusCell>
+        ),
       }),
     ],
     []

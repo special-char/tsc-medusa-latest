@@ -34,7 +34,7 @@ export const ProductListTable = () => {
   const { products, count, isLoading, isError, error } = useProducts(
     {
       ...searchParams,
-      is_giftcard: false,
+      // is_giftcard: false,
     },
     {
       initialData,
