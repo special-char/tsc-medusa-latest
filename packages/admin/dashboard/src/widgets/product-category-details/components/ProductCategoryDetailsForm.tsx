@@ -2,7 +2,7 @@ import { FieldValues, useForm } from "react-hook-form"
 import { AdminProductCategory } from "@medusajs/framework/types"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { aspectRatioOptions, optionsAspectRatio } from "../constants"
+import { aspectRatioOptions } from "../constants"
 import DynamicForm from "../../../components/custom/components/form/DynamicForm"
 import { sdk } from "../../../lib/client"
 import { toast } from "@medusajs/ui"
@@ -37,15 +37,15 @@ const formSchema = {
     },
     validation: {},
   },
-  options_aspect_ratio: {
-    label: "Options layout",
-    fieldType: "select",
-    props: {
-      placeholder: "Select Option Layout",
-      options: optionsAspectRatio,
-    },
-    validation: {},
-  },
+  // options_aspect_ratio: {
+  //   label: "Options layout",
+  //   fieldType: "select",
+  //   props: {
+  //     placeholder: "Select Option Layout",
+  //     options: optionsAspectRatio,
+  //   },
+  //   validation: {},
+  // },
   product_bg_color: {
     label: "Product Background Color",
     fieldType: "color-picker",
@@ -66,7 +66,7 @@ type ExtendedProductCategory = AdminProductCategory & {
     product_aspect_ratio: string
     product_bg_color?: string | null
     variant_as_product: boolean
-    options_aspect_ratio?: string | null
+    // options_aspect_ratio?: string | null
     metadata?: Record<string, any>
   }
 }
@@ -102,7 +102,7 @@ const ProductCategoryDetailsForm = ({
           url: item,
         })) ?? null,
       product_aspect_ratio: data?.category_details?.product_aspect_ratio || "",
-      options_aspect_ratio: data?.category_details?.options_aspect_ratio || "",
+      // options_aspect_ratio: data?.category_details?.options_aspect_ratio || "",
       product_bg_color: data?.category_details?.product_bg_color || "",
       variant_as_product: data?.category_details?.variant_as_product || false,
     },
@@ -112,7 +112,7 @@ const ProductCategoryDetailsForm = ({
     form.reset({
       variant_as_product: data?.category_details?.variant_as_product || false,
       product_aspect_ratio: data?.category_details?.product_aspect_ratio,
-      options_aspect_ratio: data?.category_details?.options_aspect_ratio,
+      // options_aspect_ratio: data?.category_details?.options_aspect_ratio,
       product_bg_color: data?.category_details?.product_bg_color || "",
       thumbnail: data?.category_details?.thumbnail
         ? {
