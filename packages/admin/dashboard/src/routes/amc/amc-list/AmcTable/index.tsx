@@ -76,7 +76,7 @@ export function AmcListTable() {
     <Container className="p-0">
       <DataTable instance={table}>
         <DataTable.Toolbar className="flex items-center justify-between">
-          <Heading>AMC</Heading>
+          <Heading>Annual Maintenance Contract</Heading>
           <Button size="small" variant="secondary" asChild>
             <Link to="create">Create</Link>
           </Button>
