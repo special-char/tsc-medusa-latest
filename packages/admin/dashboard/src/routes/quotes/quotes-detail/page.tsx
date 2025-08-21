@@ -26,10 +26,6 @@ export const QuoteDetails = () => {
     fields: "*draft_order.customer",
   })
 
-  const { quote: preview, isLoading: isPreviewLoading } = useQuote(
-    quote?.id!,
-    {},
-  )
 
   const prompt = usePrompt()
   const { mutateAsync: rejectQuote, isPending: isRejectingQuote } =
@@ -102,14 +98,6 @@ export const QuoteDetails = () => {
 
   if (isLoading || !quote) {
     return <></>
-  }
-
-  if (isPreviewLoading) {
-    return <></>
-  }
-
-  if (!isPreviewLoading && !preview) {
-    throw "preview not found"
   }
 
   const isTotalSame = (quote.draft_order.summary as any)
@@ -247,10 +235,10 @@ export const QuoteDetails = () => {
 
               <Link
                 className="text-pretty text-sm text-blue-400"
-                to={`/customers/${quote.draft_order?.customer?.id}`}
+                to={`/customers/${quote?.customer?.id}`}
                 onClick={(e) => e.stopPropagation()}
               >
-                {quote.draft_order?.customer?.email}
+                {quote?.customer?.email}
               </Link>
             </div>
 
