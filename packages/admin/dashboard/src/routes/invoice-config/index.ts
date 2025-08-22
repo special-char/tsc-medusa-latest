@@ -1,0 +1,1 @@
+export { InvoiceConfigPage as Component } from "./invoice-config"

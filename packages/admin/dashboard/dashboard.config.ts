@@ -25,11 +25,13 @@ type ConfigType = {
     productHighlights?: boolean
     createOrder?: boolean
     variantWarrantySection?: boolean
+    invoiceConfig?: boolean
   }
 }
 
 const dashboardConfig: ConfigType = {
   featureFlags: {
+    invoiceConfig: true,
     banner: true,
     productSeo: true,
     categorySeo: true,
