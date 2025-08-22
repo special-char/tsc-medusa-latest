@@ -25,6 +25,14 @@ const useSettingRoutes = (): INavItem[] => {
   const { t } = useTranslation()
 
   const customSettingRoutes = [
+    ...(dashboardConfig?.featureFlags?.invoiceConfig  
+      ? [
+          {
+            label: "Invoice Config",
+            to: "/settings/invoice-config",
+          },
+        ]
+      : []),
     ...(dashboardConfig?.featureFlags?.brand
       ? [
           {
