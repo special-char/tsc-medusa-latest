@@ -1,6 +1,6 @@
 "use client"
 
-import { Checkbox, Container, Label, Button, toast, Heading } from "@medusajs/ui"
+import { Checkbox, Container, Button, toast, Heading } from "@medusajs/ui"
 import { Controller, useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { z } from "zod"
@@ -32,26 +32,27 @@ export const CategoryFilterOption = ({
 
   const form = useForm<CategoryFilterSchemaType>({
     defaultValues: {
-      selected_categories: (category.metadata?.selected_categories || []) as string[],
+      selected_categories: (category.metadata?.selected_categories ||
+        []) as string[],
     },
     resolver: zodResolver(CategoryFilterSchema),
   })
 
-  // Update form values when filterGroups are loaded to ensure all are initially checked
-  useEffect(() => {
-    if (filterGroups.length > 0) {
-      const allTitles = filterGroups.map(group => group.title)
-      const currentSelected = form.getValues("selected_categories")
+  // // Update form values when filterGroups are loaded to ensure all are initially checked
+  // useEffect(() => {
+  //   if (filterGroups.length > 0) {
+  //     const allTitles = filterGroups.map((group) => group.title)
+  //     const currentSelected = form.getValues("selected_categories")
 
-      // If no categories are currently selected, select all
-      if (currentSelected.length === 0) {
-        form.setValue("selected_categories", allTitles, {
-          shouldValidate: true,
-          shouldDirty: false,
-        })
-      }
-    }
-  }, [filterGroups, form])
+  //     // If no categories are currently selected, select all
+  //     if (currentSelected.length === 0) {
+  //       form.setValue("selected_categories", allTitles, {
+  //         shouldValidate: true,
+  //         shouldDirty: false,
+  //       })
+  //     }
+  //   }
+  // }, [filterGroups, form])
 
   const { mutateAsync, isPending } = useUpdateProductCategory(category.id)
 
@@ -103,15 +104,19 @@ export const CategoryFilterOption = ({
                   return (
                     <label
                       key={title}
-                      className="flex items-center space-x-3 p-3 rounded-lg border cursor-pointer"
+                      className="flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
                     >
                       <Checkbox
                         checked={isChecked}
-                        onCheckedChange={(checked) =>
-                          checked
-                            ? field.onChange([...field.value, title])
-                            : field.onChange(field.value.filter((v) => v !== title))
-                        }
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            field.onChange([...field.value, title])
+                          } else {
+                            field.onChange(
+                              field.value.filter((v) => v !== title)
+                            )
+                          }
+                        }}
                       />
                       <span className="text-sm">{title}</span>
                     </label>
@@ -121,13 +126,18 @@ export const CategoryFilterOption = ({
             )}
           />
         ) : (
-          <p className="text-sm text-gray-500 py-8 text-center">
+          <p className="py-8 text-center text-sm text-gray-500">
             No categories available for filtering
           </p>
         )}
 
         <div className="flex justify-end pt-4">
-          <Button size="small" type="submit" isLoading={isPending} disabled={loading}>
+          <Button
+            size="small"
+            type="submit"
+            isLoading={isPending}
+            disabled={loading}
+          >
             Save
           </Button>
         </div>
