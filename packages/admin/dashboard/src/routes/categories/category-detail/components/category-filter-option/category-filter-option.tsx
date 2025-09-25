@@ -1,6 +1,13 @@
 "use client"
 
-import { Checkbox, Container, Button, toast, Heading } from "@medusajs/ui"
+import {
+  Checkbox,
+  Container,
+  Button,
+  toast,
+  Heading,
+  Label,
+} from "@medusajs/ui"
 import { Controller, useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { z } from "zod"
@@ -10,6 +17,7 @@ import { AdminProductCategory } from "@medusajs/types"
 import { getVariantsByCategoryHandle } from "../../../../../lib/category-filters"
 import { useTranslation } from "react-i18next"
 import { Spinner } from "@medusajs/icons"
+import CustomToggleButton from "../../../../../components/custom/components/form/CustomToggleButton"
 
 interface FilterGroup {
   title: string
@@ -18,6 +26,7 @@ interface FilterGroup {
 
 const CategoryFilterSchema = z.object({
   selected_categories: z.array(z.string()),
+  priceFilter: z.boolean().default(false),
 })
 type CategoryFilterSchemaType = z.infer<typeof CategoryFilterSchema>
 
@@ -34,6 +43,7 @@ export const CategoryFilterOption = ({
     defaultValues: {
       selected_categories: (category.metadata?.selected_categories ||
         []) as string[],
+      priceFilter: Boolean(category.metadata?.priceFilter) || false,
     },
     resolver: zodResolver(CategoryFilterSchema),
   })
@@ -71,20 +81,23 @@ export const CategoryFilterOption = ({
     fetchCategoryFilters()
   }, [category.handle])
 
-  const handleSubmit = form.handleSubmit(({ selected_categories }) => {
-    mutateAsync(
-      {
-        metadata: {
-          ...category.metadata,
-          selected_categories,
+  const handleSubmit = form.handleSubmit(
+    ({ selected_categories, priceFilter }) => {
+      mutateAsync(
+        {
+          metadata: {
+            ...category.metadata,
+            selected_categories,
+            priceFilter,
+          },
         },
-      },
-      {
-        onSuccess: () => toast.success(t("categories.edit.successToast")),
-        onError: (error) => toast.error(error.message),
-      }
-    )
-  })
+        {
+          onSuccess: () => toast.success(t("categories.edit.successToast")),
+          onError: (error) => toast.error(error.message),
+        }
+      )
+    }
+  )
 
   return (
     <Container>
@@ -94,37 +107,49 @@ export const CategoryFilterOption = ({
         {loading ? (
           <Spinner />
         ) : filterGroups.length > 0 ? (
-          <Controller
-            name="selected_categories"
-            control={form.control}
-            render={({ field }) => (
-              <div className="flex flex-col gap-2">
-                {filterGroups.map(({ title }) => {
-                  const isChecked = field.value.includes(title)
-                  return (
-                    <label
-                      key={title}
-                      className="flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
-                    >
-                      <Checkbox
-                        checked={isChecked}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            field.onChange([...field.value, title])
-                          } else {
-                            field.onChange(
-                              field.value.filter((v) => v !== title)
-                            )
-                          }
-                        }}
-                      />
-                      <span className="text-sm">{title}</span>
-                    </label>
-                  )
-                })}
-              </div>
-            )}
-          />
+          <div className="flex flex-col gap-4">
+            <Controller
+              name="selected_categories"
+              control={form.control}
+              render={({ field }) => (
+                <div className="flex flex-col gap-2">
+                  {filterGroups.map(({ title }) => {
+                    const isChecked = field.value.includes(title)
+                    return (
+                      <label
+                        key={title}
+                        className="flex cursor-pointer items-center space-x-3 rounded-lg border p-3"
+                      >
+                        <Checkbox
+                          checked={isChecked}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              field.onChange([...field.value, title])
+                            } else {
+                              field.onChange(
+                                field.value.filter((v) => v !== title)
+                              )
+                            }
+                          }}
+                        />
+                        <span className="text-sm">{title}</span>
+                      </label>
+                    )
+                  })}
+                </div>
+              )}
+            />
+            <div>
+              <Label htmlFor="priceFilter">
+                <Heading level="h3">Price Filter</Heading>
+              </Label>
+              <Controller
+                name="priceFilter"
+                control={form.control}
+                render={({ field }) => <CustomToggleButton {...field} />}
+              />
+            </div>
+          </div>
         ) : (
           <p className="py-8 text-center text-sm text-gray-500">
             No categories available for filtering
