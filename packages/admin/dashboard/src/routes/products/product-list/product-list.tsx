@@ -1,5 +1,6 @@
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
+import RevalidateProductsInStorefrontWidget from "../../../widgets/revalidate-products"
 import { ProductListTable } from "./components/product-list-table"
 
 export const ProductList = () => {
@@ -12,6 +13,7 @@ export const ProductList = () => {
         before: getWidgets("product.list.before"),
       }}
     >
+      <RevalidateProductsInStorefrontWidget />
       <ProductListTable />
     </SingleColumnPage>
   )
