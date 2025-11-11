@@ -1,13 +1,20 @@
 import { PencilSquare, Trash } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
-import { Container, Heading, StatusBadge, usePrompt } from "@medusajs/ui"
+import {
+  Button,
+  Container,
+  Heading,
+  StatusBadge,
+  usePrompt,
+} from "@medusajs/ui"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { SectionRow } from "../../../../../components/common/section"
 import { useDashboardExtension } from "../../../../../extensions"
 import { useDeleteProduct } from "../../../../../hooks/api/products"
+import { MEDUSA_STOREFRONT_URL } from "../../../../../lib/storefront"
 
 const productStatusColor = (status: string) => {
   switch (status) {
@@ -70,6 +77,14 @@ export const ProductGeneralSection = ({
       <div className="flex items-center justify-between px-6 py-4">
         <Heading>{product.title}</Heading>
         <div className="flex items-center gap-x-4">
+          <Link
+            to={`${MEDUSA_STOREFRONT_URL}/products/${product.handle}?preview=true`}
+            target="_blank"
+          >
+            <Button variant="secondary" size="small">
+              Preview
+            </Button>
+          </Link>
           <StatusBadge color={productStatusColor(product.status)}>
             {t(`products.productStatus.${product.status}`)}
           </StatusBadge>

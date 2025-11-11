@@ -23,17 +23,17 @@ const RevalidateProductsInStorefrontWidget = () => {
   }, [])
 
   return (
-    <Container className="divide-y p-0">
-      <div className="flex items-center justify-between px-6 py-4">
+    <Container className="divide-y">
+      <div className="flex items-center justify-between">
         <Heading level="h2">Sync Cahced Products</Heading>
+        <Button
+          variant="secondary"
+          isLoading={loading}
+          onClick={handleSyncProducts}
+        >
+          Sync
+        </Button>
       </div>
-      <Button
-        variant="primary"
-        isLoading={loading}
-        onClick={handleSyncProducts}
-      >
-        Sync
-      </Button>
     </Container>
   )
 }
