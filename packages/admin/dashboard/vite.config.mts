@@ -33,6 +33,10 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       open: true,
+      cors: {
+        origin: JSON.stringify(STOREFRONT_URL), // allow only this origin
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // allowed HTTP methods
+      }
     },
   }
 })
