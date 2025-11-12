@@ -50,6 +50,11 @@ const formSchema = {
     fieldType: "toggle",
     validation: {},
   },
+  isLongImage: {
+    label: "Product Grid Image Long View",
+    fieldType: "toggle",
+    validation: {},
+  },
 }
 
 const getProductAdditionalDetails = async (id: string) => {
@@ -78,6 +83,7 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
       additional_details_content:
         data?.additional_details?.additional_details_content || "",
       grid_view: data?.additional_details?.grid_view || false,
+      isLongImage: product?.metadata?.isLongImage || false,
     },
   })
 
@@ -107,6 +113,17 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
             grid_view: data?.grid_view,
           }
         )
+
+      const responseUpdateMetadata = await sdk.admin.product.update(
+        product.id,
+        {
+          metadata: {
+            ...product.metadata,
+            isLongImage: data?.isLongImage,
+          },
+        }
+      )
+
       // const json = await response.json()
 
       // notify.success("Done", "success");
@@ -137,6 +154,7 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
       additional_details_content:
         data?.additional_details?.additional_details_content || "",
       grid_view: data?.additional_details?.grid_view || false,
+      isLongImage: product?.metadata?.isLongImage || false,
     })
   }, [data])
 
