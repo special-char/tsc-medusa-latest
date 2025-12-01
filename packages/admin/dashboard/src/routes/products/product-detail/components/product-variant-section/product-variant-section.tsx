@@ -8,6 +8,8 @@ import {
   createDataTableCommandHelper,
   createDataTableFilterHelper,
   DataTableAction,
+  Switch,
+  toast,
   Tooltip,
   usePrompt,
 } from "@medusajs/ui"
@@ -22,6 +24,7 @@ import { useDataTableDateFilters } from "../../../../../components/data-table/ho
 import {
   useDeleteVariantLazy,
   useProductVariants,
+  useUpdateProductVariant,
 } from "../../../../../hooks/api/products"
 import { useQueryParams } from "../../../../../hooks/use-query-params"
 import { PRODUCT_VARIANT_IDS_KEY } from "../../../common/constants"
@@ -137,6 +140,51 @@ export const ProductVariantSection = ({
 
 const columnHelper =
   createDataTableColumnHelper<HttpTypes.AdminProductVariant>()
+
+const SwitchDraftToggle = ({
+  variant,
+  product,
+  isDraft,
+}: {
+  variant: HttpTypes.AdminProductVariant
+  product: HttpTypes.AdminProduct
+  isDraft: boolean
+}) => {
+  const { t } = useTranslation()
+  const { mutateAsync: updateVariant, isPending } = useUpdateProductVariant(
+    product.id,
+    variant.id
+  )
+
+  const handleToggle = async (checked: boolean) => {
+    await updateVariant(
+      {
+        metadata: {
+          ...variant.metadata,
+          isDraft: checked,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success(t("products.variant.edit.success"))
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      }
+    )
+  }
+  return (
+    <Switch
+      checked={isDraft}
+      onCheckedChange={handleToggle}
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+      disabled={isPending}
+    />
+  )
+}
 
 const useColumns = (product: HttpTypes.AdminProduct) => {
   const { t } = useTranslation()
@@ -343,6 +391,17 @@ const useColumns = (product: HttpTypes.AdminProduct) => {
             </div>
           )
         },
+      }),
+      columnHelper.display({
+        id: "isDraft",
+        header: "Draft",
+        cell: (props) => (
+          <SwitchDraftToggle
+            variant={props.row.original}
+            product={product}
+            isDraft={Boolean(props.row.original.metadata?.isDraft)}
+          />
+        ),
       }),
       columnHelper.action({
         actions: getActions,
