@@ -1,4 +1,10 @@
-import { Buildings, Component, PencilSquare, Trash } from "@medusajs/icons"
+import {
+  Buildings,
+  Component,
+  DotsSix,
+  PencilSquare,
+  Trash,
+} from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import {
   Badge,
@@ -122,6 +128,11 @@ export const ProductVariantSection = ({
                   label: t("products.editPrices"),
                   to: `prices`,
                   icon: <PencilSquare />,
+                },
+                {
+                  label: "Variant Sequence",
+                  to: `variants/sequence`,
+                  icon: <DotsSix />,
                 },
                 {
                   label: t("inventory.stock.action"),

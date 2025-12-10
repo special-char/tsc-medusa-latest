@@ -70,8 +70,6 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
   // const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate()
 
-  console.log({ data })
-
   const form = useForm<FieldValues>({
     defaultValues: {
       additional_description:
@@ -88,8 +86,6 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
   })
 
   const onSubmit = async (data: FieldValues) => {
-    console.log({ data })
-
     // setLoading(true)
 
     try {

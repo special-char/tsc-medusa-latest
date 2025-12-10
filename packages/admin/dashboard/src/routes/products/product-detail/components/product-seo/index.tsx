@@ -39,7 +39,6 @@ const fetchProductWithSeo = async (
 const ProductSeoWidget = ({ product: data }: { product: any }) => {
   const [productSeo, setProductSeo] = useState<SeoDetailsTypes>()
 
-  console.log({ data })
   useEffect(() => {
     fetchProductWithSeo(data.id).then((res) => {
       setProductSeo(res.data)

@@ -16,7 +16,6 @@ export const ProductOrganizationSection = ({
 }: ProductOrganizationSectionProps) => {
   const { t } = useTranslation()
   const { getDisplays } = useDashboardExtension()
-  console.log({ product })
 
   return (
     <Container className="divide-y p-0">
