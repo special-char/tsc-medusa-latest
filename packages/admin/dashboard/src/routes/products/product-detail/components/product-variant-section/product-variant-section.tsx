@@ -168,6 +168,17 @@ const SwitchDraftToggle = ({
   )
 
   const handleToggle = async (checked: boolean) => {
+    // Check if this variant is the default variant
+    const isDefaultVariant = product.metadata?.default_variant === variant.id
+
+    // Prevent marking default variant as draft
+    if (checked && isDefaultVariant) {
+      toast.error("Cannot draft default variant", {
+        description: "You cannot set the default variant to draft",
+      })
+      return
+    }
+
     await updateVariant(
       {
         metadata: {

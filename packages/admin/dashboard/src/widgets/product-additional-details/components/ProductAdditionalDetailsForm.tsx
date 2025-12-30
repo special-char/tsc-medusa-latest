@@ -138,8 +138,6 @@ const ProductAdditionalDetailsForm = ({ product }: Props) => {
   }
 
   useEffect(() => {
-    console.log(data)
-
     form.reset({
       additional_description:
         data?.additional_details?.additional_description ||
