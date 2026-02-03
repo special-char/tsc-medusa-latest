@@ -21,6 +21,7 @@ import ProductOptionImagesWidget from "../../../widgets/product-option-images/pr
 import GiftProduct from "../../../widgets/gift-product/gift-product"
 import { ProductDefaultVariantSection } from "./components/product-default-variant-section"
 import { ProductPromotionalSection } from "./components/product-promotional-section"
+import { ProductTieredPricingSection } from "./components/product-tiered-pricing-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -75,6 +76,7 @@ export const ProductDetail = () => {
         <ProductMediaSection product={product} />
         <ProductOptionSection product={product} />
         <ProductVariantSection product={product} />
+        <ProductTieredPricingSection product={product} />
         {dashboardConfig?.featureFlags?.productVariantImages && (
           <>
             <ProductVariantImagesWidget data={product} />
