@@ -57,6 +57,8 @@ export const PriceListPricesForm = ({
             variants[variant.id] = {
               currency_prices: {},
               region_prices: {},
+              min_quantity: null,
+              max_quantity: null,
             }
             return variants
           }, {} as PriceListCreateProductVariantsSchema),

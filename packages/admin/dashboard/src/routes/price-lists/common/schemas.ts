@@ -15,6 +15,12 @@ export const PriceListRulesSchema = z.object({
 
 const PriceListCreateCurrencyPriceSchema = z.object({
   amount: z.string().or(z.number()).optional(),
+  min_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
+  max_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
 })
 
 export type PriceListCreateCurrencyPrice = z.infer<
@@ -23,6 +29,12 @@ export type PriceListCreateCurrencyPrice = z.infer<
 
 const PriceListCreateRegionPriceSchema = z.object({
   amount: z.string().or(z.number()).optional(),
+  min_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
+  max_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
 })
 
 export type PriceListCreateRegionPriceSchema = z.infer<
@@ -32,6 +44,12 @@ export type PriceListCreateRegionPriceSchema = z.infer<
 const PriceListCreateProductVariantSchema = z.object({
   currency_prices: z.record(PriceListCreateCurrencyPriceSchema.optional()),
   region_prices: z.record(PriceListCreateRegionPriceSchema.optional()),
+  min_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
+  max_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
 })
 
 export type PriceListCreateProductVariantSchema = z.infer<
@@ -59,6 +77,12 @@ export type PriceListCreateProductsSchema = z.infer<
 export const PriceListUpdateCurrencyPriceSchema = z.object({
   amount: z.string().or(z.number()).optional(),
   id: z.string().nullish(),
+  min_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
+  max_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
 })
 
 export type PriceListUpdateCurrencyPrice = z.infer<
@@ -68,6 +92,12 @@ export type PriceListUpdateCurrencyPrice = z.infer<
 export const PriceListUpdateRegionPriceSchema = z.object({
   amount: z.string().or(z.number()).optional(),
   id: z.string().nullish(),
+  min_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
+  max_quantity: z.preprocess((val) => {
+    return val === "" || val === 0 ? null : val
+  }, z.coerce.number().int().optional().nullable()),
 })
 
 export type PriceListUpdateRegionPrice = z.infer<

@@ -89,6 +89,8 @@ const extractPricesFromVariants = (
       ...(priceType === "region" ? { rules: { region_id: id } } : {}),
       currency_code: currencyCode,
       variant_id: variantId,
+      min_quantity: price.min_quantity ?? variant.min_quantity ?? null,
+      max_quantity: price.max_quantity ?? variant.max_quantity ?? null,
     }
   }
 

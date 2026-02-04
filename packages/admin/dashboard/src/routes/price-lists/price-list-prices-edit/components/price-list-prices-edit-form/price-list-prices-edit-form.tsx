@@ -44,7 +44,6 @@ export const PriceListPricesEditForm = ({
   const { handleSuccess, setCloseOnEscape } = useRouteModal()
 
   const initialValue = useRef(initRecord(priceList, products))
-
   const form = useForm<z.infer<typeof PricingProductPricesSchema>>({
     defaultValues: {
       products: initialValue.current,
@@ -141,6 +140,8 @@ function initRecord(
         [regionId]: {
           amount: price.amount.toString(),
           id: price.id,
+          min_quantity: price.min_quantity,
+          max_quantity: price.max_quantity,
         },
       }
     } else {
@@ -149,6 +150,8 @@ function initRecord(
         [price.currency_code]: {
           amount: price.amount.toString(),
           id: price.id,
+          min_quantity: price.min_quantity,
+          max_quantity: price.max_quantity,
         },
       }
     }
@@ -178,6 +181,8 @@ type PriceObject = {
   regionId?: string
   amount: number
   id?: string | null
+  min_quantity?: number | null
+  max_quantity?: number | null
 }
 
 function convertToPriceArray(
@@ -186,10 +191,13 @@ function convertToPriceArray(
 ) {
   const prices: PriceObject[] = []
 
-  const regionCurrencyMap = regions.reduce((map, region) => {
-    map[region.id] = region.currency_code
-    return map
-  }, {} as Record<string, string>)
+  const regionCurrencyMap = regions.reduce(
+    (map, region) => {
+      map[region.id] = region.currency_code
+      return map
+    },
+    {} as Record<string, string>
+  )
 
   for (const [_productId, product] of Object.entries(data || {})) {
     const { variants } = product || {}
@@ -197,6 +205,18 @@ function convertToPriceArray(
     for (const [variantId, variant] of Object.entries(variants || {})) {
       const { currency_prices: currencyPrices, region_prices: regionPrices } =
         variant || {}
+
+      // Get the variant-level quantity from the first available price
+      const firstCurrencyPrice = Object.values(currencyPrices || {})[0]
+      const firstRegionPrice = Object.values(regionPrices || {})[0]
+
+      // Use currency price if it exists (even if null), otherwise fall back to region price
+      const variantMinQuantity = firstCurrencyPrice
+        ? firstCurrencyPrice.min_quantity ?? null
+        : firstRegionPrice?.min_quantity ?? null
+      const variantMaxQuantity = firstCurrencyPrice
+        ? firstCurrencyPrice.max_quantity ?? null
+        : firstRegionPrice?.max_quantity ?? null
 
       for (const [currencyCode, currencyPrice] of Object.entries(
         currencyPrices || {}
@@ -210,6 +230,8 @@ function convertToPriceArray(
             currencyCode,
             amount: castNumber(currencyPrice.amount),
             id: currencyPrice.id,
+            min_quantity: variantMinQuantity,
+            max_quantity: variantMaxQuantity,
           })
         }
       }
@@ -227,6 +249,8 @@ function convertToPriceArray(
             currencyCode: regionCurrencyMap[regionId],
             amount: castNumber(regionPrice.amount),
             id: regionPrice.id,
+            min_quantity: variantMinQuantity,
+            max_quantity: variantMaxQuantity,
           })
         }
       }
@@ -247,15 +271,21 @@ function comparePrices(initialPrices: PriceObject[], newPrices: PriceObject[]) {
   const pricesToCreate: HttpTypes.AdminCreatePriceListPrice[] = []
   const pricesToDelete: string[] = []
 
-  const initialPriceMap = initialPrices.reduce((map, price) => {
-    map[createMapKey(price)] = price
-    return map
-  }, {} as Record<string, (typeof initialPrices)[0]>)
+  const initialPriceMap = initialPrices.reduce(
+    (map, price) => {
+      map[createMapKey(price)] = price
+      return map
+    },
+    {} as Record<string, (typeof initialPrices)[0]>
+  )
 
-  const newPriceMap = newPrices.reduce((map, price) => {
-    map[createMapKey(price)] = price
-    return map
-  }, {} as Record<string, (typeof newPrices)[0]>)
+  const newPriceMap = newPrices.reduce(
+    (map, price) => {
+      map[createMapKey(price)] = price
+      return map
+    },
+    {} as Record<string, (typeof newPrices)[0]>
+  )
 
   const keys = new Set([
     ...Object.keys(initialPriceMap),
@@ -271,7 +301,13 @@ function comparePrices(initialPrices: PriceObject[], newPrices: PriceObject[]) {
         pricesToDelete.push(newPrice.id)
       }
 
-      if (initialPrice.amount !== newPrice.amount && newPrice.id) {
+      // Check if any field changed
+      const hasChanged =
+        initialPrice.amount !== newPrice.amount ||
+        initialPrice.min_quantity !== newPrice.min_quantity ||
+        initialPrice.max_quantity !== newPrice.max_quantity
+
+      if (hasChanged && newPrice.id) {
         pricesToUpdate.push({
           id: newPrice.id,
           variant_id: newPrice.variantId,
@@ -280,6 +316,8 @@ function comparePrices(initialPrices: PriceObject[], newPrices: PriceObject[]) {
             ? { region_id: newPrice.regionId }
             : undefined,
           amount: newPrice.amount,
+          min_quantity: newPrice.min_quantity || null,
+          max_quantity: newPrice.max_quantity || null,
         })
       }
     }
@@ -290,6 +328,8 @@ function comparePrices(initialPrices: PriceObject[], newPrices: PriceObject[]) {
         currency_code: newPrice.currencyCode,
         rules: newPrice.regionId ? { region_id: newPrice.regionId } : undefined,
         amount: newPrice.amount,
+        min_quantity: newPrice.min_quantity || null,
+        max_quantity: newPrice.max_quantity || null,
       })
     }
 
