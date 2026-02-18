@@ -23,6 +23,7 @@ import {
   UsersSolid,
   Star,
   BellAlert,
+  DocumentText,
 } from "@medusajs/icons"
 import { Avatar, DropdownMenu, Text, clx } from "@medusajs/ui"
 import { Collapsible as RadixCollapsible } from "radix-ui"
@@ -191,6 +192,15 @@ const useCoreRoutes = (): Omit<INavItem, "pathname">[] => {
   const { t } = useTranslation()
 
   const customCoreRoutes = [
+    ...(dashboardConfig?.featureFlags?.feeds
+      ? [
+          {
+            icon: <DocumentText />,
+            label: "Feeds",
+            to: "/feeds",
+          },
+        ]
+      : []),
     ...(dashboardConfig?.featureFlags?.restock
       ? [
           {

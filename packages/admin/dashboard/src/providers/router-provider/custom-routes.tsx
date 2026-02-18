@@ -390,6 +390,23 @@ export const customProtectedRoutes: RouteObject[] = [
         },
       ]
     : []),
+  ...(dashboardConfig?.featureFlags?.feeds
+    ? [
+        {
+          path: "/feeds",
+          errorElement: <ErrorBoundary />,
+          handle: {
+            breadcrumb: () => "Product Feeds",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/feeds"),
+            },
+          ],
+        },
+      ]
+    : []),
 ]
 
 export const customPublicRoutes: RouteObject[] = []
