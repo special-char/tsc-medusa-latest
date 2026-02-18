@@ -373,6 +373,23 @@ export const customProtectedRoutes: RouteObject[] = [
       },
     ],
   },
+  ...(dashboardConfig?.featureFlags?.restock
+    ? [
+        {
+          path: "/restock-subscriptions",
+          errorElement: <ErrorBoundary />,
+          handle: {
+            breadcrumb: () => "Restock Subscribers",
+          },
+          children: [
+            {
+              path: "",
+              lazy: () => import("../../routes/restock-subscriptions"),
+            },
+          ],
+        },
+      ]
+    : []),
 ]
 
 export const customPublicRoutes: RouteObject[] = []

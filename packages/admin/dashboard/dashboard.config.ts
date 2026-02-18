@@ -47,8 +47,9 @@ const dashboardConfig: ConfigType = {
     redemption: false,
     vendors: false,
     productOptionImages: true,
-    feraReview: true,
+    feraReview: false,
     freeGift: true, // Enable free gift feature flag
+    restock: true,
     // marketplace
     // restock
   },

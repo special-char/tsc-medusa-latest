@@ -62,6 +62,7 @@ import { GoogleCategory } from "./google-category"
 import { OrganizeProduct } from "./organize-product"
 import { PendingOrder } from "./pending-order"
 import { CategoryFilterOption } from "./category-filter"
+import { RestockSubscription } from "./restock-subscription"
 
 export class Admin {
   /**
@@ -326,6 +327,10 @@ export class Admin {
    * @tags orders
    */
   public pendingOrder: PendingOrder
+  /**
+   * @tags restock_subscription
+   */
+  public restockSubscription: RestockSubscription
 
   constructor(client: Client) {
     this.faq = new Faq(client)
@@ -391,5 +396,6 @@ export class Admin {
     this.productOptionValue = new ProductOptionValue(client)
     this.organizeProduct = new OrganizeProduct(client)
     this.pendingOrder = new PendingOrder(client)
+    this.restockSubscription = new RestockSubscription(client)
   }
 }
