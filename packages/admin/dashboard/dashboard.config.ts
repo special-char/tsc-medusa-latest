@@ -23,6 +23,7 @@ type ConfigType = {
     productOptionImages?: boolean
     feraReview?: Boolean
     freeGift?: Boolean
+    feeds?: boolean
   }
 }
 
@@ -50,6 +51,7 @@ const dashboardConfig: ConfigType = {
     feraReview: false,
     freeGift: true, // Enable free gift feature flag
     restock: true,
+    feeds: true,
     // marketplace
     // restock
   },
