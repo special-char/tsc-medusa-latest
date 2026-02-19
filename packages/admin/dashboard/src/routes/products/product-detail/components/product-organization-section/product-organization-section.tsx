@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { SectionRow } from "../../../../../components/common/section"
 import { useDashboardExtension } from "../../../../../extensions"
+import dashboardConfig from "../../../../../../dashboard.config"
 
 type ProductOrganizationSectionProps = {
   product: HttpTypes.AdminProduct | any
@@ -88,17 +89,19 @@ export const ProductOrganizationSection = ({
             : undefined
         }
       />
-      <SectionRow
-        title={"Brand"}
-        value={
-          product.brand?.name ? (
-            <OrganizationTag
-              label={product.brand.name}
-              to={`/brands/${product.brand.id}`}
-            />
-          ) : undefined
-        }
-      />
+      {dashboardConfig?.featureFlags?.brand && (
+        <SectionRow
+          title={"Brand"}
+          value={
+            product.brand?.name ? (
+              <OrganizationTag
+                label={product.brand.name}
+                to={`/brands/${product.brand.id}`}
+              />
+            ) : undefined
+          }
+        />
+      )}
       <SectionRow
         title={"Google Category"}
         value={

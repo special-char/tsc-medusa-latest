@@ -13,6 +13,7 @@ import { CategoryCombobox } from "../../../../../common/components/category-comb
 import { ProductCreateSchemaType } from "../../../../types"
 import CustomSearchableSelect from "../../../../../../../components/custom/components/form/CustomSearchableSelect"
 import { useQuery } from "@tanstack/react-query"
+import dashboardConfig from "../../../../../../../../dashboard.config"
 
 type ProductCreateOrganizationSectionProps = {
   form: UseFormReturn<ProductCreateSchemaType>
@@ -265,27 +266,29 @@ export const ProductCreateOrganizationSection = ({
         />
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Form.Field
-          control={form.control}
-          name="brand_id"
-          render={({ field }) => {
-            return (
-              <Form.Item>
-                <Form.Label optional>{"Brand"}</Form.Label>
-                <Form.Control>
-                  <Combobox
-                    {...field}
-                    options={brands.options}
-                    searchValue={brands.searchValue}
-                    onSearchValueChange={brands.onSearchValueChange}
-                    fetchNextPage={brands.fetchNextPage}
-                  />
-                </Form.Control>
-                <Form.ErrorMessage />
-              </Form.Item>
-            )
-          }}
-        />
+        {dashboardConfig?.featureFlags?.brand && (
+          <Form.Field
+            control={form.control}
+            name="brand_id"
+            render={({ field }) => {
+              return (
+                <Form.Item>
+                  <Form.Label optional>{"Brand"}</Form.Label>
+                  <Form.Control>
+                    <Combobox
+                      {...field}
+                      options={brands.options}
+                      searchValue={brands.searchValue}
+                      onSearchValueChange={brands.onSearchValueChange}
+                      fetchNextPage={brands.fetchNextPage}
+                    />
+                  </Form.Control>
+                  <Form.ErrorMessage />
+                </Form.Item>
+              )
+            }}
+          />
+        )}
         {googleCategories && (
           <Form.Field
             control={form.control}

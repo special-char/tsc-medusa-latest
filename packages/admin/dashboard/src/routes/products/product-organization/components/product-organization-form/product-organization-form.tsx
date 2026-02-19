@@ -19,6 +19,7 @@ import { CategoryCombobox } from "../../../common/components/category-combobox"
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import CustomSearchableSelect from "../../../../../components/custom/components/form/CustomSearchableSelect"
+import dashboardConfig from "../../../../../../dashboard.config"
 
 type ProductOrganizationFormProps = {
   product: HttpTypes.AdminProduct | any
@@ -248,28 +249,30 @@ export const ProductOrganizationForm = ({
                 )
               }}
             />
-            <Form.Field
-              control={form.control}
-              name="brand_id"
-              render={({ field }) => {
-                return (
-                  <Form.Item>
-                    <Form.Label optional>{"Brand"}</Form.Label>
-                    <Form.Control>
-                      <Combobox
-                        {...field}
-                        multiple={false}
-                        options={brands.brands.map((brand: any) => ({
-                          label: brand.name,
-                          value: brand.id,
-                        }))}
-                      />
-                    </Form.Control>
-                    <Form.ErrorMessage />
-                  </Form.Item>
-                )
-              }}
-            />
+            {dashboardConfig?.featureFlags?.brand && (
+              <Form.Field
+                control={form.control}
+                name="brand_id"
+                render={({ field }) => {
+                  return (
+                    <Form.Item>
+                      <Form.Label optional>{"Brand"}</Form.Label>
+                      <Form.Control>
+                        <Combobox
+                          {...field}
+                          multiple={false}
+                          options={brands.brands.map((brand: any) => ({
+                            label: brand.name,
+                            value: brand.id,
+                          }))}
+                        />
+                      </Form.Control>
+                      <Form.ErrorMessage />
+                    </Form.Item>
+                  )
+                }}
+              />
+            )}
             {googleCategories && (
               <Form.Field
                 control={form.control}

@@ -21,6 +21,7 @@ import ProductOptionImagesWidget from "../../../widgets/product-option-images/pr
 import GiftProduct from "../../../widgets/gift-product/gift-product"
 import { ProductDefaultVariantSection } from "./components/product-default-variant-section"
 import { ProductPromotionalSection } from "./components/product-promotional-section"
+import { ProductCardSection } from "./components/product-card-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -96,6 +97,7 @@ export const ProductDetail = () => {
         <ProductAttributeSection product={product} />
         <ProductDefaultVariantSection product={product} />
         <ProductPromotionalSection product={product} />
+        <ProductCardSection product={product} />
         {dashboardConfig?.featureFlags?.productSeo && (
           <ProductSeoWidget product={product} />
         )}
