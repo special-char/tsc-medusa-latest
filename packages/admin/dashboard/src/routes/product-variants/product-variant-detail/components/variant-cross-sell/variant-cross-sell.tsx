@@ -2,7 +2,6 @@ import { Button, Container, Heading, Label, toast } from "@medusajs/ui"
 import { useFieldArray, useForm, Controller } from "react-hook-form"
 import { useComboboxData } from "../../../../../hooks/use-combobox-data"
 import { sdk } from "../../../../../lib/client"
-import { Combobox } from "../../../../../components/inputs/combobox"
 import { useMemo, useCallback } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { AdminProductVariant } from "@medusajs/types"
@@ -157,20 +156,32 @@ export function VariantCrossSell({
                     control={control}
                     name={`cross_sell.${index}.variant_id`}
                     rules={{ required: "Variant is required" }}
-                    render={({ field }) => (
-                      // <Combobox
-                      //   {...field}
-                      //   options={comboboxOptions}
-                      //   searchValue={variantList.searchValue}
-                      //   onSearchValueChange={variantList.onSearchValueChange}
-                      // />
-                      <CustomSearchableSelect
-                        {...field}
-                        options={comboboxOptions}
-                        displayCount={100}
-                        placeholder="Search variant"
-                      />
-                    )}
+                    render={({ field: { value, ...fieldProps } }) => {
+                      // Find the label for the current value (which is an ID)
+                      const selectedOption = comboboxOptions.find(
+                        (opt) => opt.value === value
+                      )
+                      const displayValue = selectedOption
+                        ? selectedOption.label
+                        : value
+                      console.log("fieldProps", value, comboboxOptions)
+                      return (
+                        // <Combobox
+                        //   {...field}
+                        //   options={comboboxOptions}
+                        //   searchValue={variantList.searchValue}
+                        //   onSearchValueChange={variantList.onSearchValueChange}
+                        // />
+                        <CustomSearchableSelect
+                          {...fieldProps}
+                          key={`${displayValue}-${value}`}
+                          value={displayValue}
+                          options={comboboxOptions}
+                          displayCount={100}
+                          placeholder="Search variant"
+                        />
+                      )
+                    }}
                   />
                 </div>
                 <Button
@@ -193,7 +204,9 @@ export function VariantCrossSell({
             </Button>
           </div>
 
-          <Button type="submit">Save Changes</Button>
+          <Button type="submit" isLoading={isPending}>
+            Save Changes
+          </Button>
         </form>
       </div>
     </Container>
