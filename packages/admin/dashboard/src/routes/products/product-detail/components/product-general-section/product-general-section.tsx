@@ -16,6 +16,7 @@ import { useDashboardExtension } from "../../../../../extensions"
 import { useDeleteProduct } from "../../../../../hooks/api/products"
 import { MEDUSA_STOREFRONT_URL } from "../../../../../lib/storefront"
 import RevalidateProductDetailInStorefrontWidget from "../../../../../widgets/revalidate-product-detail"
+import RevalidateMeilisearchProduct from "../revalidate-meilisearch-product"
 
 const productStatusColor = (status: string) => {
   switch (status) {
@@ -87,6 +88,7 @@ export const ProductGeneralSection = ({
             </Button>
           </Link>
           <RevalidateProductDetailInStorefrontWidget handle={product?.handle} />
+          <RevalidateMeilisearchProduct productId={product.id} />
           <StatusBadge color={productStatusColor(product.status)}>
             {t(`products.productStatus.${product.status}`)}
           </StatusBadge>

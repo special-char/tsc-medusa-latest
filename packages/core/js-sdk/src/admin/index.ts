@@ -13,6 +13,7 @@ import { FulfillmentProvider } from "./fulfillment-provider"
 import { FulfillmentSet } from "./fulfillment-set"
 import { InventoryItem } from "./inventory-item"
 import { Invite } from "./invite"
+import { Meilisearch } from "./meilisearch"
 import { Notification } from "./notification"
 import { Order } from "./order"
 import { OrderEdit } from "./order-edit"
@@ -181,6 +182,10 @@ export class Admin {
    * @tags inventory
    */
   public inventoryItem: InventoryItem
+  /**
+   * @tags meilisearch
+   */
+  public meilisearch: Meilisearch
   /**
    * @tags notification
    */
@@ -361,6 +366,7 @@ export class Admin {
     this.shippingOption = new ShippingOption(client)
     this.shippingProfile = new ShippingProfile(client)
     this.inventoryItem = new InventoryItem(client)
+    this.meilisearch = new Meilisearch(client)
     this.notification = new Notification(client)
     this.order = new Order(client)
     this.orderEdit = new OrderEdit(client)
