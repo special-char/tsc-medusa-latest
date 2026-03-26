@@ -1,5 +1,6 @@
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
+import RevalidateChatbotProductsWidget from "../../../widgets/revalidate-chatbot-products"
 import RevalidateProductsInStorefrontWidget from "../../../widgets/revalidate-products"
 import { ProductListTable } from "./components/product-list-table"
 
@@ -14,6 +15,7 @@ export const ProductList = () => {
       }}
     >
       <RevalidateProductsInStorefrontWidget />
+      <RevalidateChatbotProductsWidget />
       <ProductListTable />
     </SingleColumnPage>
   )
