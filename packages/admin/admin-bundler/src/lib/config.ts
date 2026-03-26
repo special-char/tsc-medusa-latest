@@ -18,8 +18,6 @@ export async function getViteConfig(
 
   const backendUrl = options.backendUrl ?? ""
   const storefrontUrl = options.storefrontUrl ?? ""
-  const chatbotUrl = options.chatbotUrl ?? ""
-  const xSyncToken = options.xSyncToken ?? ""
 
   const baseConfig: InlineConfig = {
     root,
@@ -45,8 +43,6 @@ export async function getViteConfig(
       __BASE__: JSON.stringify(options.path),
       __BACKEND_URL__: JSON.stringify(backendUrl),
       __STOREFRONT_URL__: JSON.stringify(storefrontUrl),
-      __CHATBOT_URL__: JSON.stringify(chatbotUrl),
-      __X_SYNC_TOKEN__: JSON.stringify(xSyncToken),
     },
     server: {
       fs: {

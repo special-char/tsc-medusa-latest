@@ -63,6 +63,7 @@ import { OrganizeProduct } from "./organize-product"
 import { PendingOrder } from "./pending-order"
 import { CategoryFilterOption } from "./category-filter"
 import { RestockSubscription } from "./restock-subscription"
+import { Chatbot } from "./chatbot"
 
 export class Admin {
   /**
@@ -277,6 +278,10 @@ export class Admin {
    * @tags wishlist
    */
   public wishlist: Wishlist
+  /**
+   * @tags chatbot
+   */
+  public chatbot: Chatbot
 
   /**
    * @tags zipcode
@@ -397,5 +402,6 @@ export class Admin {
     this.organizeProduct = new OrganizeProduct(client)
     this.pendingOrder = new PendingOrder(client)
     this.restockSubscription = new RestockSubscription(client)
+    this.chatbot = new Chatbot(client)
   }
 }

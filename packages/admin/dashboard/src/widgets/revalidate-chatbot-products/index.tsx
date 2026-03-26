@@ -1,6 +1,6 @@
 import { Button, Container, Heading, toast } from "@medusajs/ui"
 import { useCallback, useState } from "react"
-import { chatbotUrl, xSyncToken } from "../../lib/client"
+import { sdk } from "../../lib/client"
 
 const RevalidateChatbotProductsWidget = () => {
   const [loading, setLoading] = useState(false)
@@ -8,23 +8,12 @@ const RevalidateChatbotProductsWidget = () => {
   const handleSyncProducts = useCallback(async () => {
     setLoading(true)
     try {
-      const response = await fetch(`${chatbotUrl}/admin/sync-products`, {
-        method: "POST",
-        headers: {
-          "x-sync-token": xSyncToken,
-        },
-      })
+      const data = await sdk.admin.chatbot.sync()
 
-      const data = await response.json()
-
-      if (response.ok) {
-        toast.success(data.message || "Sync started")
-      } else {
-        toast.error(data.detail || "An error occurred")
-      }
-    } catch (error) {
+      toast.success(data.message || "Sync started")
+    } catch (error: any) {
       console.error("Error syncing chatbot products:", error)
-      toast.error("Failed to connect to the chatbot API")
+      toast.error(error.message || "Failed to trigger chatbot sync")
     } finally {
       setLoading(false)
     }

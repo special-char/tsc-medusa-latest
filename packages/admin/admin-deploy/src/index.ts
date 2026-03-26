@@ -15,8 +15,6 @@ async function build() {
       backendUrl: "https://yogateria.medusajs.app",
       storefrontUrl: "https://test.yogateria.com.br",
       // storefrontUrl: "https://yogateria-storefront.vercel.app",
-      chatbotUrl: "http://j1107siiainx8tdly8ib6e8m.62.72.13.4.sslip.io",
-      xSyncToken: "kCk8I5dZdQYUCJRoJgW6rcn2owhpMENEkaBbzDkFr/4=",
       sources,
       outDir,
       vite: undefined,
