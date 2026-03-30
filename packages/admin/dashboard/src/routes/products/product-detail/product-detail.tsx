@@ -22,6 +22,7 @@ import GiftProduct from "../../../widgets/gift-product/gift-product"
 import { ProductDefaultVariantSection } from "./components/product-default-variant-section"
 import { ProductPromotionalSection } from "./components/product-promotional-section"
 import { ProductCardSection } from "./components/product-card-section"
+import { VariantAsProductSection } from "./components/variant-as-product-section"
 
 export const ProductDetail = () => {
   const initialData = useLoaderData() as Awaited<
@@ -98,6 +99,7 @@ export const ProductDetail = () => {
         <ProductDefaultVariantSection product={product} />
         <ProductPromotionalSection product={product} />
         <ProductCardSection product={product} />
+        <VariantAsProductSection product={product} />
         {dashboardConfig?.featureFlags?.productSeo && (
           <ProductSeoWidget product={product} />
         )}
