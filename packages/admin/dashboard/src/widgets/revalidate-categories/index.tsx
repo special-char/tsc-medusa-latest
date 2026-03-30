@@ -2,23 +2,23 @@ import { Button, Container, Heading } from "@medusajs/ui"
 import { useCallback, useState } from "react"
 import { storefrontUrl } from "../../lib/client"
 
-const RevalidateProductsInStorefrontWidget = () => {
+const RevalidateCategoriesInStorefrontWidget = () => {
   const [loading, setLoading] = useState(false)
 
-  const handleSyncProducts = useCallback(async () => {
+  const handleSyncCategories = useCallback(async () => {
     setLoading(true)
     try {
       await fetch(`${storefrontUrl}/api/revalidate`, {
         method: "POST",
         body: JSON.stringify({
-          tags: ["products", "custom-products", "custom-variant"],
+          tags: ["categories"],
         }),
         headers: {
           "Content-Type": "application/json",
         },
       })
     } catch (error) {
-      console.error("Error revalidating products:", error)
+      console.error("Error revalidating categories:", error)
     } finally {
       setLoading(false)
     }
@@ -27,11 +27,11 @@ const RevalidateProductsInStorefrontWidget = () => {
   return (
     <Container className="divide-y">
       <div className="flex items-center justify-between">
-        <Heading level="h2">Sync Cahced Products</Heading>
+        <Heading level="h2">Sync Cached Categories</Heading>
         <Button
           variant="secondary"
           isLoading={loading}
-          onClick={handleSyncProducts}
+          onClick={handleSyncCategories}
         >
           Sync
         </Button>
@@ -40,4 +40,4 @@ const RevalidateProductsInStorefrontWidget = () => {
   )
 }
 
-export default RevalidateProductsInStorefrontWidget
+export default RevalidateCategoriesInStorefrontWidget

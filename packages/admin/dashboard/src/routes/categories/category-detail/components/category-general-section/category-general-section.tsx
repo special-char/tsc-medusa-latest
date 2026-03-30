@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { ActionMenu } from "../../../../../components/common/action-menu"
 import { useDeleteProductCategoryAction } from "../../../common/hooks/use-delete-product-category-action"
 import { getIsActiveProps, getIsInternalProps } from "../../../common/utils"
+import RevalidateCategoryDetailInStorefrontWidget from "../../../../../widgets/revalidate-category-detail"
 
 type CategoryGeneralSectionProps = {
   category: HttpTypes.AdminProductCategory
@@ -25,6 +26,10 @@ export const CategoryGeneralSection = ({
       <div className="flex items-center justify-between px-6 py-4">
         <Heading>{category.name}</Heading>
         <div className="flex items-center gap-x-4">
+          <RevalidateCategoryDetailInStorefrontWidget
+            id={category.id}
+            handle={category.handle}
+          />
           <div className="flex items-center gap-x-2">
             <StatusBadge color={activeProps.color}>
               {activeProps.label}

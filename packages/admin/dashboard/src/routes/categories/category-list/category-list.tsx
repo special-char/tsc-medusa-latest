@@ -1,5 +1,6 @@
 import { SingleColumnPage } from "../../../components/layout/pages"
 import { useDashboardExtension } from "../../../extensions"
+import RevalidateCategoriesInStorefrontWidget from "../../../widgets/revalidate-categories"
 import { CategoryListTable } from "./components/category-list-table"
 
 export const CategoryList = () => {
@@ -13,6 +14,7 @@ export const CategoryList = () => {
       }}
       hasOutlet
     >
+      <RevalidateCategoriesInStorefrontWidget />
       <CategoryListTable />
     </SingleColumnPage>
   )
